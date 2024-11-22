@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "About Us";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AboutUs.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container1">
+        <div class="layer-1">
+            <div class="layer-1-content">
+                <div class="layer-1-left-side">
+                    <div class="layer-1-left-side-content">
+                        <h1>About Us</h1>
+                        <p>BrainBurst aims to make learning engaging and effective for everyone. Through innovative quiz-making and dynamic flashcards, BrainBurst helps individuals unlock their potential and achieve their educational goals.</p>
+                        <button class="learn-more-button" onclick="location.href='@Url.Action("LearnMore", "Home")'">Learn More</button>
+                    </div>
+                </div>
+                <div class="layer-1-right-side">
+                    <img src="~/Assets/AboutUs/aboutus2 1.png" alt="About Us" />
+                </div>
+            </div>
+        </div>
+        <div class="layer-2">
+            <h2 class="layer-2-title">Our Mission & Vision</h2>
+            <table class="layer-2-box-container">
+                <tr class="layer-2-top-box">
+                    <td class="mission">
+                        <img src="~/Assets/AboutUs/mission 1.png" alt="mission logo">
+                    </td>
+                    <td class="vision">
+                        <img src="~/Assets/AboutUs/vision 1.png" alt="vision logo">
+                    </td>
+                </tr>
+                <tr class="layer-2-bottom-box">
+                    <td>
+                        <p>BrainBurst is dedicated to making learning engaging and effective for everyone. Through innovative quiz-making and dynamic flashcards, we empower individuals to unlock their full potential and achieve their educational goals.</p>
+                    </td>
+                    <td>
+                        <p>BrainBurst aims to become the leading platform for personalized learning, enabling users of all ages to enhance their knowledge and skills in a fun, efficient, and meaningful way.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="layer-3">
+            <div class="layer-3-title">
+                <h1>Our Story</h1>
+            </div>
+            <div class="layer-3-text">
+                <p>BrainBurst began as a school project with a simple goal: to make learning more engaging and effective. Our team, driven by a shared passion for education and technology, turned this project into a powerful platform that helps learners of all ages unlock their potential. We provide innovative tools like a quiz maker and dynamic flashcards to support personalized learning and knowledge retention.</p>
+            </div>
+        </div>
+        <div class="layer-4">
+            <div class="layer-4-title-box">
+                <p class="layer-4-title">Meet Our Team!</p>
+            </div>
+            <div class="layer-4-top">
+                <div class="layer-4-top-left-box">
+                    <div class="name-box">
+                        <p class="name">CJ</p>
+                    </div>
+                    <div class="content">
+                        <img class="profile" src="~/Assets/AboutUs/cj.png" alt="">
+                        <p class="description">Name: Christian Jay H. Lamadora <br>
+                            Role: Researcher <br>
+                            Email: clamadora.a12345597@umak.edu.ph <br>
+                            Contact No.: 09298086187 </p>
+                    </div>
+                </div>
+                <div class="layer-4-top-right-box">
+                        <div class="name-box">
+                            <p class="name">Yort</p>
+                        </div>
+                        <div class="content">
+                            <img class="profile" src="~/Assets/AboutUs/yort.png" alt="">
+                            <p class="description">Name: Troy Michael E. Camarillo <br>
+                                Role: Frontend Developer  <br>
+                                Email: troymichael20040909@gmail.com <br>
+                                Contact No.: 09669752017 </p>
+                        </div>
+                </div>
+            </div>
+            <div class="layer-4-bottom">
+                <div class="layer-4-top-left-box">
+                    <div class="name-box">
+                        <p class="name">Nardz</p>
+                    </div>
+                    <div class="content">
+                        <img class="profile" src="~/Assets/AboutUs/nards.png" alt="">
+                        <p class="description">Name: Christian Paul C. Narido <br>
+                            Role: Project Manager <br>
+                            Email: Cnarido78@gmail.com <br>
+                            Contact No.: 09464160007</p>
+                    </div>
+                </div>
+                <div class="layer-4-top-right-box">
+                        <div class="name-box">
+                            <p class="name">Mots</p>
+                        </div>
+                        <div class="content">
+                            <img class="profile" src="~/Assets/AboutUs/nards.png" alt="">
+                            <p class="description">Name: Bernard Joseph Motea <br>
+                                Role: Backend Developer<br>
+                                Email: bmotea.a12345572@umak.edu.ph <br>
+                                Contact No.:09812874895</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

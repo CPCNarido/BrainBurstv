@@ -18,6 +18,26 @@ namespace UsersApp.Controllers
         {
             return View();
         }
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+        public IActionResult flash_card_maker_manual()
+        {
+            return View();
+        }
+        public IActionResult Terms()
+        {
+            return View();
+        }
+        public IActionResult Join()
+        {
+            return View();
+        }
         
 
 

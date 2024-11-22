@@ -1,6 +1,56 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Privacy.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="privacy-contents">
+        <div class="privacy-title">
+            <div class="privacy-title-text">
+                Privacy Policy
+            </div>
+        </div>
+        <div class="privacy-text-container">
+            <div class="privacy-text">
+                <div class="privacy-last-updated">
+                    Last Update: November 14, 2024
+                </div>
+                <div class="privacy-intro">
+                    <b>At BrainBurst, </b>
+                    we respect your privacy and are committed to protecting your 
+                    persona information. This privacy policy explains how we collect, use, and 
+                    safeguard your data when you use our website. By using BrainBurst,  
+                    you agree to the terms of this policy.
+                </div>
+                <div class="privacy-list">
+                    <b>1. Information We Collect</b> We collect information when you register for an account or interact with our website. This information may include:<br>
+                    <ul>
+                        <li>Account Information: Your email address, adn other registration details.</li>
+                        <li>Usage Data: Information about how you interact with the website, including quiz and flashcard usage, and site navigation patterns.</li>
+                    </ul>
+                    <b>2. How We Use Your Information: </b> The information we collect is used to:<br />
+                    <ul>
+                        <li>Provide, personalize, and improve your experience on BrainBurst</li>
+                        <li>Communicate with you regarding your account and updates to our services.</li>
+                        <li>Track your progress and performance within the platform.</li>
+                    </ul>
+                    <b>3. Data Retention:</b>We retain your personal information only for as long as necessary to fulfill the purpose outlined in the Privacy Policy or as required by law.<br />
+                    <b>4. Sharing of Information: </b>We do not sell or share your personal information with third parties. We may share your information with trusted service providers who assist us in operating the website, provided they agree to keep your information confidential.
+                    <b>5. Security:</b>We use reasonable security measures to protect your data including encryption, firewalls, and secure access protocols. However, no method of data transmission or storage is 100% secure , and we cannot guarantee the absolute security of your information. <br />
+                    <b>6. Your Rights:</b>You have the rights to access, correct, or delete your personal information at any time. If you wish to exercise these rights or have any concerns about your data, please contact us at [Email].
+                    <b>7. Changes to this Privacy Policy: </b> We reserve the right to update this Privacy Policy at any time. Any changes will be effective immediately upon posting the revised policy on the website. Continued use of BrainBurst after any changes constitutes your acceptance of the updated policy.
+                    <b>8. Contact Us:</b> If you have any questions or concerns about this Privacy Policy, please contact us at [Email]
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

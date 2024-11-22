@@ -1,0 +1,277 @@
+* {
+    font-family: 'Rum Raisin', sans-serif;
+}
+.container1 {
+    width: 100%;
+    background-color: #FFFDC1;
+}
+
+.layer-1 {
+    display: flex;
+    justify-content: space-between;
+    height: 600px;
+    width: 100%;
+    background-color: #2B550E;
+}
+
+.layer-1-content{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 110px;
+}
+
+.layer-1-left-side
+{
+    width: 50%;
+    align-items: center;
+}
+
+.layer-1-left-side-content{
+    margin-left: 210px;
+    width: 70%;
+}
+
+.layer-1-left-side-content h1 {
+    font-size: 70px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    color: #FFFDC1;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+}
+
+.layer-1-left-side-content p {
+    font-size: 32px;
+    color: #F5D059;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.6), 
+        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+}
+
+.layer-1-right-side
+{
+    width: 50%;
+}
+
+.layer-1-right-side img
+{
+    width: 650px;
+    margin-left: 90px;
+}
+
+.learn-more-button {
+    background-color: #FFFDC1;
+    color: #2B550E;
+    font-size: 36px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    width: 242px;
+    height: 62px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.learn-more-button:hover {
+    background-color: #2B550E;
+    color: #FFFDC1;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+}
+.layer-2 {
+    height: auto; /* Allow content to determine the height */
+    width: 100%;
+    text-align: center;
+    background-color: #FFFDC1;
+    margin-bottom: 150px;
+}
+
+.layer-2-title {
+    font-size: 70px; /* Responsive font size based on viewport width */
+    margin-bottom: 50px;
+    margin-top: 150px;
+    color: #FFFDC1;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+}
+
+.layer-2-box-container {
+    width: 80%; /* Responsive width */
+    margin: 0 auto;
+    background-color: #F5D059;
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-radius: 20px; /* Adds rounded corners */
+    overflow: hidden; /* Ensures content stays within the rounded corners */
+    table-layout: auto; /* Allow column widths to adjust dynamically */
+    resize: both; /* Allow resizing of the table */
+}
+
+.layer-2-box-container td {
+    border: 2px solid #5C4C20; /* Adds table borders */
+    vertical-align: middle; /* Centers content vertically in the cells */
+    width: 50%; /* Each cell takes 50% of the table width */
+    height: auto; /* Allow the height to adjust dynamically */
+}
+
+.layer-2-box-container .mission img,
+.layer-2-box-container .vision img {
+    width: 100px; /* Make images fill the cell */
+}
+
+.layer-2-top-box {
+    height: 100px; /* Allow content to determine height */
+}
+
+/* Optional: Set minimum and maximum sizes for better control */
+.layer-2-box-container {
+    width: 1000px;
+}
+
+.layer-2-bottom-box {
+    height: 300px; /* Allow content to determine height */
+    font-size: 28px;
+    width: 90%;
+    color: #FFFDC1;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.6), 
+        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+}
+
+.layer-3{
+    height: 500px;
+    width: 100%;
+    background-color: #2B550E;
+    padding-top: 2%;
+}
+
+.layer-3-title{
+    text-align: center;
+}
+
+.layer-3-title h1{
+    font-size: 90px; /* Responsive font size based on viewport width */
+    margin-bottom: 50px;
+    color: #FFFDC1;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+}
+
+.layer-3-text{
+    text-align: center;
+    margin-top: 50px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 32px;
+    color: #F5D059;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.6), 
+        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+}
+
+.layer-4 {
+    width: 100%;
+    height: 1470px ;
+    background-color: #FFFDC1; /* Optional background for the layer */
+    margin-top: 150px;
+}
+
+.layer-4-title-box {
+    width: 480px;
+    height: 80px;
+    background-color: #F5D059;
+    border-radius: 20px;
+    border: 1px solid black; /* Thicker border for a polished look */
+    display: flex; /* Centers content inside the title box */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+    margin: 0 auto; /* Centers horizontally */
+}
+
+.layer-4-top, .layer-4-bottom{
+    display: flex;
+    justify-content:center;
+    gap: 100px;
+    margin-top: 100px;
+}
+
+.layer-4-title {
+    font-size: 60px; /* Adjusted size for readability */
+    font-weight: bold; /* Makes the text stand out */
+    color: #FFFDC1; /* Matches border color for consistency */
+    text-align: center;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+}
+
+.layer-4-top-left-box,.layer-4-top-right-box {
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 550px;
+    background-color: #F5D059;
+    padding-top: 30px;
+}
+
+.name-box{
+    width: 450px;
+    height: 60px;
+    background-color: #FFFDC1;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.name{
+    font-size: 45px;
+    color: #FFFDC1;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+}
+
+.content{
+    width: 90%;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5D059;
+    gap: 30px;
+}
+
+.profile{
+    width: 130px;
+    height: 130px !important;
+}
+
+.description{
+    width: 100%;
+    font-size: 24px ;
+    color: #FFFDC1;
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.6), 
+        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+}
