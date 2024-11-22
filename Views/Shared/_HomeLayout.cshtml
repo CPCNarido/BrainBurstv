@@ -20,44 +20,29 @@
                     <img src="/Assets/darker logo.png" class="Logo">
                 </a>
             </div>
-            @if (ViewData["Title"]?.ToString() == "Login Page")
-            {
-                <div class="nav-container">
-                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">JOIN A GAME!</button>
-                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">SIGN UP</button>
-                </div>
-            }
-            else if (ViewData["Title"]?.ToString() == "Signup Page")
-            {
-                <div class="nav-container">
-                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">JOIN A GAME!</button>
-                    <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
-                </div>
-            }
-            else if (ViewData["Title"]?.ToString() == "Homepage")
+            @if (ViewData["Title"]?.ToString() == "Homepage")
             {
 
-                    @if (ViewData["UserName"] != null)
-                    {   
-                        <a href="@Url.Action("AccountEdit", "Account")" class="profile-container">
-                            <div class="profile-container">
-                                <div class="UserProfile">
-                                    <div class="Profile"></div>
-                                    <div class="credentials">
-                                        <div class="name">@ViewData["Username"]</div>
-                                        <div class="usertype">@ViewData["Role"]</div>
-                                    </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("AccountEdit", "Account")" class="profile-container">
+                        <div class="profile-container">
+                            <div class="UserProfile">
+                                <div class="Profile"></div>
+                                <div class="credentials">
+                                    <div class="name">@ViewData["Username"]</div>
+                                    <div class="usertype">@ViewData["Role"]</div>
                                 </div>
                             </div>
-                        </a>
-
-                    }
-                    else
-                    {
-                        <div class="nav-container">
-                            <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
                         </div>
-                    }
+                    </a>
+                }
+                else
+                {
+                    <div class="nav-container">
+                        <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
+                    </div>
+                }
 
             }
             else if (ViewData["Title"]?.ToString() == "Join Page")

@@ -1,8 +1,117 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+        ViewData["Title"] = "Homepage";
+        Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+    </head>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <body>
+        <div class="hero-container">
+            <div class="heroimage">
+                <span class="Hero-text">Welcome to BrainBurst – Your<br> Ultimate Quiz and Flashcard<br> Maker!</span>
+                <span class="Hero-text1">Elevate Your Educational Adventure:<br> Interactive Quizzes and Flashcards to Inspire<br>Your Mind!</span>
+                <a href="@Url.Action("Login", "Account")" class="join">Join Us Now!</a>
+            </div>
+            <div class="b">
+                <div class="con">
+                    <h1>What can you do with <br>BrainBurst?</h1>
+                    <img src="../Assets/Homepage/nagiisip.png" class="char">
+                </div>
+            </div>
+            <div class="c1">
+
+                <div class="right">
+                    <div class="Right-content">
+                        <span class="title">Flashcard Creation</span>
+                        <span class="description">Create or let AI generate custom<br> flashcards tailored to your learning<br> needs for an effective study<br> experience.</span>
+                        <button class="lets-go">Let's Go!</button>
+                    </div>
+                </div>
+                <div class="left1">
+                    <div class="image2"> </div>
+                </div>
+            </div>
+            <div class="ghost1">
+
+            </div>
+            <div class="c">
+                <div class="left">
+                    <div class="image2"> </div>
+                </div>
+
+                <div class="right1">
+                    <div class="Right-content">
+                        <span class="title">Flashcard Creation</span>
+                        <span class="description">Create or let AI generate custom<br> flashcards tailored to your learning<br> needs for an effective study<br> experience.</span>
+                        <button class="lets-go">Let's Go!</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="b">
+                <div class="con">
+                    <h1>What do they say about <br>us?</h1>
+                    <img src="../Assets/Homepage/say.png" class="char1">
+                </div>
+            </div>
+            
+
+            <div class="review-section-container">
+                <div class="preview-left-container">
+                    <button class="preview-left" onclick="moveLeft()">
+                        <img src="../Assets/Homepage/preview-left.png" class="preview-left-logo">
+                    </button>
+                </div>
+
+
+                <div class="middle-container">
+                    <div class="review-wrapper">
+                        <div class="review-container"></div>
+                        <div class="review-container"></div>
+                        <div class="review-container"></div>
+                        <div class="review-container"></div>
+                        <div class="review-container"></div>
+                    </div>
+                </div>
+
+
+                <div class="preview-right-container">
+                    <button class="preview-right" onclick="moveRight()">
+                        <img src="../Assets/Homepage/right.png" class="preview-left-logo">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    <script>
+    let currentIndex = 0;
+
+    function moveRight() {
+        const reviewWrapper = document.querySelector('.review-wrapper');
+        const reviewContainers = document.querySelectorAll('.review-container');
+        const totalItems = reviewContainers.length;
+        const visibleItems = 3;
+
+        if (currentIndex < totalItems - visibleItems) {
+            currentIndex++;
+            const offset = -currentIndex * (100 / visibleItems);
+            reviewWrapper.style.transform = `translateX(${offset}%)`;
+        }
+    }
+
+    function moveLeft() {
+        const reviewWrapper = document.querySelector('.review-wrapper');
+        if (currentIndex > 0) {
+            currentIndex--;
+            const offset = -currentIndex * (100 / 3);
+            reviewWrapper.style.transform = `translateX(${offset}%)`;
+        }
+    }
+</script>
+</html>
