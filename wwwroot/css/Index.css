@@ -1,0 +1,307 @@
+html,body{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+
+
+.hero-container{
+    width: 100%;
+
+}
+.heroimage{
+    background-image: url('../Assets/Homepage/HeroImg.png');
+    background-size: cover;
+    width: 100%;
+    height:755px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Hero-text{
+    color: #FFFDC1;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 5;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.Hero-text1{
+    color: #F5D059;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 3;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.join{
+    border-radius: 15px;
+    border: 1px solid var(--black-100, #000);
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 430px;
+    height: 96px;
+    flex-shrink: 0;
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 5;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 58px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.b{
+    background-image: url('../Assets/Homepage/b1.png');
+    background-size: cover;
+    width: 100%;
+    height:416px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.con{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+
+}
+
+.con h1{
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: rgba(230, 205, 181, 0.04);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 96px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.char{
+    display: flex;
+    align-items: baseline;
+    margin-bottom: -50px;
+}
+.char1{
+    display: flex;
+    align-items: baseline;
+    margin-bottom: -90px;
+}
+.c{
+    border: 3px solid var(--black-100, #000);
+    background: #9FDB5D;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 568px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center     ;
+    gap: 8%;
+}
+
+.c1{
+    border: 3px solid var(--black-100, #000);
+    background: #9FDB5D;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 568px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center     ;
+    gap: 6%;
+}
+
+.left{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+}
+.left1{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-content{
+    width: 65%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.Right-content{
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title{
+    color: #2B550E;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: rgba(230, 205, 181, 0.04);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 65px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.description{
+    color: #FFFEEB;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: #7A7312;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.lets-go{
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 5;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 310px;
+    height: 75px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 1px solid var(--black-100, #000);
+    background: #F6D97B;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.image{
+    background-image: url('../Assets/Homepage/BRAINBURST.png');
+    width: 595px;
+    height: 376px;
+    flex-shrink: 0;
+}
+.right{
+    width: 50%;
+    display: flex;
+    align-items: end;
+}
+
+.right1{
+    width: 50%;
+}
+.ghost1{
+    background-image: url('../Assets/Homepage/b1.png');
+    width: 100%;
+    height: 198px;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.image2{
+    background-image: url('../Assets/Homepage/image2.png');
+    width: 595px;
+    height: 376px;
+    flex-shrink: 0;
+}
+
+.review-section-container{
+    border: 3px solid var(--black-100, #000);
+    background: #9FDB5D;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 568px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.preview-right-container.preview-left-container{
+ width: 10%;
+ height: 100%;
+}
+.review-container{
+    border-radius: 20px;
+    border: 1px solid var(--black-100, #000);
+    background: #F6D97B;
+    width: 534px;
+    height: 404px;
+    flex-shrink: 0;
+}
+.middle-container{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.preview-left,.preview-right{
+    width: 132px;
+    height: 239px;
+    all: unset;
+
+}
+
+
+
+.review-wrapper{
+    display: flex;
+    flex-direction: row;
+    transition: transform 0.5s;
+    gap: 4%;
+    width: 100%;
+}
+
+

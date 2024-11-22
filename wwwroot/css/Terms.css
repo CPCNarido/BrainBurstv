@@ -1,0 +1,80 @@
+body {
+    font-family: 'Rum Raisin', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.terms-contents {
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    height: 100%;
+}
+
+.terms-title {
+    text-align: center;
+    margin-bottom: 100px;
+    font-size: 50px;
+}
+
+.terms-title-text {
+    font-family: 'Rum Raisin', sans-serif;
+    font-size: 70px;
+    font-weight: bold;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    background-color: #F5D059;
+    border: 1px solid #000;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+}
+
+.terms-text-container {
+    margin-top: 20px;
+    width: 80%;
+    border: 3px solid #000;
+    border-radius: 20px;
+    padding: 2% 5%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+    font-size: 1.2em;
+    background-color: #FFFDC1;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.terms-text {
+    font-size: 1em;
+    line-height: 1.8;
+    font-size: 24px;
+}
+
+/* Specific Spacing for Each Section Inside terms-text */
+.terms-last-updated {
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.terms-intro, .terms-list {
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+/* Adding spacing between list items */
+.terms-list {
+    margin-bottom: 20px;
+}
+
+.terms-list div {
+    margin-bottom: 10px; /* Space between each list item */
+}
+
+/* Spacing for each prohibited item (a, b, c...) */
+.terms-list b {
+    display: block;
+    margin-left: 15px;
+    margin-bottom: 5px;
+}

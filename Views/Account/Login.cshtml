@@ -1,0 +1,64 @@
+﻿@using UsersApp.ViewModels;
+@model LoginViewModel 
+
+@{ 
+    ViewData["Title"] = "Login Page"; 
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Login</title>
+        <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="/css/Login.css" />
+        <link rel="stylesheet" href="/css/Header.css" />
+    </head>
+    <body>
+        <div class="content-Wrapper">
+            <div class="content1">
+                <div class="sidebar">
+                    <img src="/Assets/LoginSignup/SidebarLogo.png" alt="Sidebar Logo" />
+                </div>
+                <div class="fill">
+                    <div class="log"><h1>Login</h1></div>
+                    <form asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="userinput">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="email-form" placeholder="Please enter your Email."/>
+                            <span asp-validation-for="Email" class="text-danger" ></span>
+                        </div>
+                        <div class="passinput">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input asp-for="Password" class="pass-form" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="forgot">
+                            <a asp-controller="Account" asp-action="VerifyEmail" class="text-decoration-none">
+                                Forgot password?
+                            </a>
+                        </div>
+                        
+                        <div class="">
+                            <label class="form-check-label">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                @Html.DisplayNameFor(a=> a.RememberMe)
+                            </label>
+                        </div>
+                        <div class="submit">
+                            <button type="submit" class="submit-button">Login</button>
+                        </div>
+                        @if (ViewData["LoginFailed"] != null) {
+                        <div class="alert alert-danger" role="alert">
+                            Incorrect credentials. Please try again.
+                        </div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }
+    </body>
+</html>

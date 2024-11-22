@@ -1,0 +1,276 @@
+body{
+    overflow-x: hidden;
+}
+header {
+    background: 
+        url('/Assets/HeaderBg.png'),
+        linear-gradient(90deg, #8DD63E 22%, #A9CD49 42%, #C6C454 62%);
+    height: 136px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.logo-container, .nav-container {
+    width: 50%;
+    height: 100%;
+
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    gap: 2%;
+}
+
+.Logo{
+    height: 194px;
+    width: 253px;
+}
+
+.NavItem{
+    margin-right: 20px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.Join, .Sign {
+    background: none; /* Removes the background color */
+    border: none; /* Removes the border */
+    outline: none; /* Removes the outline */
+    color: inherit; /* Ensures the text color is inherited */
+    font: inherit; /* Ensures the font style is inherited */
+    cursor: pointer; /* Changes the cursor to a pointer */
+    font-family: "Rum Raisin", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    font-size: 36px;
+}
+
+.profile-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    padding-right: 1%;
+}
+
+.UserProfile{
+    width: 350px;
+    height: 101px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 5px solid #FFF;
+    background: rgba(255, 255, 255, 0.00);
+    display: flex;
+    align-items: center;
+    padding: 1%;
+    gap: 5%;
+
+}
+
+.Profile{
+    width: 68px;
+    height: 75px;
+    flex-shrink: 0;
+    border-radius: 90px;
+    border: 3px solid rgb(255, 255, 255);
+    background: url('/Assets/PlaceHolders/User.jpg') lightgray 50% / cover no-repeat;
+}
+
+
+.name,.usertype{
+    color: #0B0B0B;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+}
+
+/*for footer*/
+
+.Footer{
+    border: 2px solid var(--black-100, #000);
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 380px;
+    flex-shrink: 0;
+    padding: 1%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+Header {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    background-color: #FFFDC1;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.content {
+    height: 1000px;
+    width: 100%;
+    background-color: aqua;
+}
+
+
+/* For footer*/
+.upfoot{
+    width: 100%;
+    height:60%;
+    display: flex;
+    flex-direction: row;
+}
+.downfoot{
+    width: 100%;
+    height:40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 1%;
+}
+.Footlogo{
+    width: 30%;
+    height: 80%;
+    display: flex;
+    gap:0;
+    padding: 0;
+
+}
+
+.logo1{
+    width: 395px;
+    height: 213px;;
+}
+.info{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 3%;
+    padding: 2%;
+    justify-content: center ;
+
+
+}
+.ghost{
+    width: 30%;
+    height: 100%;
+}
+
+.information h1,.Legal h1{
+    font-family: "Rum Raisin", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    color: white;
+    color: var(--black-100, #000);
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 1;
+    -webkit-text-stroke-color: var(--black-100, #000);
+    font-size: 40px;
+    opacity: 0.7;
+    line-height: normal;
+    text-align: center;
+}
+
+.object{
+    width: 1px;
+    height: 230px;
+    background: #000;
+    margin-left: 1%;
+}
+
+.information,.Legal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    margin-top: 10%;
+    gap: 0;
+}
+.Legal{
+    width: 400px;
+}
+.information{
+    width: 350px;
+}
+.FooterTerms h1,.Footerprivacy h1,.FooterAbout h1,.FooterContact h1{
+    font-family: "Rum Raisin", sans-serif;
+    color: var(--black-100, #000);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 0;
+
+}
+.FooterTerms,.Footerprivacy,.FooterAbout,.FooterContact{
+    background: none; /* Removes the background color */
+    border: none; /* Removes the border */
+    outline: none; /* Removes the outline */
+    color: inherit; /* Ensures the text color is inherited */
+    font: inherit; /* Ensures the font style is inherited */
+    cursor: pointer; /* Changes the cursor to a pointer */ 
+}
+
+
+.rights h1{
+    color: var(--black-100, #000);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    opacity: 0.8;
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+    
+}
+.rights{
+    padding-left: 2%;
+    width: 50%;
+}
+.socials{
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 2%;
+    gap: 2%;
+    
+}
+
+
+

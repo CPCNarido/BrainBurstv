@@ -1,0 +1,131 @@
+﻿@using UsersApp.ViewModels;
+@model RegisterViewModel;
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Header.css">
+    <link rel="stylesheet" href="/css/Signup.css">
+</head>
+<body>
+    <div class="content1">
+        <div class="sidebar">
+            <img src="/Assets/LoginSignup/SidebarLogo.png" alt="Sidebar Logo">
+        </div>
+        <div class="fill">
+            <div class="log"><h1>Signup</h1></div>
+            <form asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
+                <div class="userinput1">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="email-form" placeholder="Please enter your Name." />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="userinput">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="email-form" placeholder="Please enter your username." />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="passinput">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="pass-form" placeholder="Please enter your password.">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="passinput">
+                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                    <input asp-for="ConfirmPassword" class="pass-form" placeholder="Please re-enter your password.">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="roleinput">
+                    <label for="Role">Role:</label>
+                    <select asp-for="Role" class="custom-dropdown">
+                        <option value="">Select a role</option>
+                        <option value="Student">Student</option>
+                        <option value="Professor">Professor</option>
+                    </select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+                <div class="termsinput">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <label for="termsCheckbox">I accept the <a href="#" id="termsLink">terms and conditions</a></label>
+                </div>
+                <div class="submit">
+                    <button id="signupButton" type="submit" class="submit-button" disabled>Signup</button>
+                </div>
+                @if (ViewData["LoginFailed"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        Incorrect credentials. Please try again.
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <div class="top">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Terms and Conditions</h2>
+            </div>
+            <div class="wrapper1">
+                <div id="termsContent" style="height: 90%; overflow-y: scroll;" class="termscontents">
+                <p>Lorem ipsum odor amet, consectetuer adipiscing elit. Accumsan felis rhoncus dapibus viverra </p>
+                <p>quis bibendum. Habitasse mollis bibendum suscipit vestibulum malesuada integer vehicula </p>
+                <p>scelerisque. Ridiculus sodales sodales; vulputate orci eleifend est ullamcorper. Vestibulum </p>
+                <p>natoque id ipsum, vitae vivamus suscipit porta tortor torquent. Pulvinar blandit ut fames </p>
+                <p>cursus consectetur. Venenatis nec risus vestibulum tincidunt rutrum neque arcu lacinia.</p>
+
+                <p>Sodales scelerisque netus suspendisse quam bibendum consectetur phasellus. Dui taciti </p>
+                <p>tortor est interdum laoreet pharetra habitant montes. Sapien tempor leo netus at ornare </p>
+                <p>dictumst rutrum ante adipiscing. Congue vel inceptos vehicula justo facilisi inceptos. </p>
+                <p>Curabitur proin duis aliquet elit congue facilisi parturient, condimentum malesuada. Lacus </p>
+                <p>nec magna posuere risus vulputate. Gravida faucibus nec pretium ultricies neque integer. </p>
+                <p>Phasellus ornare dolor quisque curae sem.</p>
+            </div>
+    </div>
+
+
+    <script>        
+        document.getElementById('acceptTerms').addEventListener('change', function(event) {
+            // Show the modal when the checkbox is clicked
+            document.getElementById('termsModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Disable background scrolling
+        });
+
+        // Function to enable or disable the signup button based on checkbox state
+        function acceptTerms() {
+            var checkbox = document.getElementById('acceptTerms');
+            var signupButton = document.getElementById('signupButton');
+            signupButton.disabled = !checkbox.checked;
+        }
+
+        function termsLink(){
+            acceptTerms();
+        }
+
+        // Listen to checkbox changes to update signup button state
+        document.getElementById('acceptTerms').addEventListener('change', acceptTerms);
+
+        // Function to close the modal
+        function closeModal() {
+            var modal = document.getElementById('termsModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable background scrolling
+        }
+
+        // Add click event to close button in the modal
+        document.querySelector('.close').addEventListener('click', closeModal);
+    </script>
+</body>
+</html>
