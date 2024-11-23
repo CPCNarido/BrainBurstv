@@ -6,27 +6,25 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UsersApp.Controllers
 {
-    public class FlashCards : Controller
+    public class QuizCreationController : Controller
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
 
-        public FlashCards(SignInManager<Users> signInManager, UserManager<Users> userManager)
+        public QuizCreationController(SignInManager<Users> signInManager, UserManager<Users> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
         }
 
-        public IActionResult Flash_Card_Maker_Manual()
+        public IActionResult Quiz_Creation_Ai()
         {
             return View();
         }
-
-        public IActionResult Flash_Card_Maker_Ai()
+        public IActionResult Quiz_Creation_Manual()
         {
             return View();
         }
-
 
     }
 }
