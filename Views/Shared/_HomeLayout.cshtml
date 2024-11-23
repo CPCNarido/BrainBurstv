@@ -1,5 +1,4 @@
-﻿
-@inject IHttpContextAccessor HttpContextAccessor
+﻿@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
@@ -20,98 +19,59 @@
                     <img src="/Assets/darker logo.png" class="Logo">
                 </a>
             </div>
-            @if (ViewData["Title"]?.ToString() == "Homepage")
+            @if (User.Identity.IsAuthenticated)
             {
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a href="@Url.Action("AccountEdit", "Account")" class="profile-container">
-                        <div class="profile-container">
-                            <div class="UserProfile">
-                                <div class="Profile"></div>
-                                <div class="credentials">
-                                    <div class="name">@ViewData["Username"]</div>
-                                    <div class="usertype">@ViewData["Role"]</div>
-                                </div>
+                <a href="@Url.Action("AccountEdit", "Account")" class="profile-container">
+                    <div class="profile-container">
+                        <div class="UserProfile">
+                            <div class="Profile"></div>
+                            <div class="credentials">
+                                <div class="name">@ViewData["Username"]</div>
+                                <div class="usertype">@ViewData["Role"]</div>
                             </div>
                         </div>
-                    </a>
-                }
-                else
-                {
-                    <div class="nav-container">
-                        <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
                     </div>
-                }
-
+                </a>
             }
-            else if (ViewData["Title"]?.ToString() == "Join Page")
+            else
             {
-                <div class="profile-container">
-                    <div class="UserProfile">
-                        <div class="Profile"></div>
-                        <div class="credentials">
-                            <div class="name">Christian Narido</div>
-                            <div class="usertype">Professor</div>
-                        </div>
-                    </div>
-                </div>
-            }
-            else if (ViewData["Title"]?.ToString() == "Flashcard Maker Manual")
-            {
-                <div class="profile-container">
-                    <div class="UserProfile">
-                        <div class="Profile"></div>
-                        <div class="credentials">
-                            <div class="name">Christian Narido</div>
-                            <div class="usertype">Professor</div>
-                        </div>
-                    </div>
+                <div class="nav-container">
+                    <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
                 </div>
             }
         </header>
-            <main role="main" class="container">
-                @RenderBody()
-            </main>
-
-        @if (ViewData["Title"]?.ToString() == "Homepage" || ViewData["Title"]?.ToString() == "Join Page" || ViewData["Title"]?.ToString() == "Flashcard Maker Manual"|| ViewData["Title"]?.ToString() == "Terms and Conditions"|| ViewData["Title"]?.ToString() == "Privacy Policy")
-        {
-            <footer class="Footer">
-                <div class="upfoot">
-                    <div class="Footlogo">
-                        <img src="/Assets/Footer.png" class="logo1">
+        <main role="main" class="container">
+            @RenderBody()
+        </main>
+        <footer class="Footer">
+            <div class="upfoot">
+                <div class="Footlogo">
+                    <img src="/Assets/Footer.png" class="logo1">
+                </div>
+                <div class="info">
+                    <div class="information">
+                        <h1>Information</h1>
+                        <button class="FooterAbout" onclick="location.href='@Url.Action("AboutUs", "Home")'"><h1>ABOUT US</h1></button>
+                        <button class="FooterContact"><h1>CONTACT US</h1></button>
                     </div>
-
-                    <div class="info">
-                        <div class="information">
-                            <h1>Information</h1>
-                            <button class="FooterAbout" onclick="location.href='@Url.Action("AboutUs", "Home")'"><h1>ABOUT US</h1></button>
-                            <button class="FooterContact"><h1>CONTACT US</h1></button>
-                        </div>
-                        <div class="object">
-
-                        </div>
-                        <div class="Legal">
-                            <h1>Legal</h1>
-                            <button class="FooterTerms" onclick="location.href='@Url.Action("Terms", "Home")'"><h1>TERMS AND CONDITIONS</h1></button>
-                            <button class="Footerprivacy" onclick="location.href='@Url.Action("Privacy", "Home")'"><h1>PRIVACY POLICY</h1></button>
-                        </div>
-                    </div>
-
-                    <div class="ghost">
-
+                    <div class="object"></div>
+                    <div class="Legal">
+                        <h1>Legal</h1>
+                        <button class="FooterTerms" onclick="location.href='@Url.Action("Terms", "Home")'"><h1>TERMS AND CONDITIONS</h1></button>
+                        <button class="Footerprivacy" onclick="location.href='@Url.Action("Privacy", "Home")'"><h1>PRIVACY POLICY</h1></button>
                     </div>
                 </div>
-                <div class="downfoot">
-                    <div class="rights"><h1>All rights reserved.</h1><br><h1>2024.BrainBurst</h1></div>
-                    <div class="socials">
-                        <img src="/Assets/Socials/Facebook.png" class="facebook">
-                        <img src="/Assets/Socials/Twitter.png" class="twitter">
-                        <img src="/Assets/Socials/Instagram.png" class="instagram">
-                    </div>
+                <div class="ghost"></div>
+            </div>
+            <div class="downfoot">
+                <div class="rights"><h1>All rights reserved.</h1><br><h1>2024.BrainBurst</h1></div>
+                <div class="socials">
+                    <img src="/Assets/Socials/Facebook.png" class="facebook">
+                    <img src="/Assets/Socials/Twitter.png" class="twitter">
+                    <img src="/Assets/Socials/Instagram.png" class="instagram">
                 </div>
-            </footer>
-        }
+            </div>
+        </footer>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
