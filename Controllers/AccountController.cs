@@ -25,6 +25,7 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
@@ -150,8 +151,57 @@ namespace UsersApp.Controllers
                 return View(model);
             }
         }
+        public async Task<IActionResult>  AccountEdit()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+            return View();
+        }
 
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> EditUsername(AccountEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    // Directly set the FullName property
+                    user.FullName = model.NewUsername;
+
+                    // Update the user in the database
+                    var updateResult = await userManager.UpdateAsync(user);
+
+                    if (updateResult.Succeeded)
+                    {
+                        // Optionally refresh the user's session
+                        await signInManager.SignOutAsync();
+                        await signInManager.SignInAsync(user, isPersistent: false);
+
+                        return RedirectToAction("AccountEdit");
+                    }
+                    else
+                    {
+                        // Handle errors from the update attempt
+                        foreach (var error in updateResult.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "User not found.");
+                }
+            }
+
+            return View("AccountEdit", model);
+        }
+      
+    public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");

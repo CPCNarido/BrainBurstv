@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UsersApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace UsersApp.Controllers
 {
@@ -9,13 +10,23 @@ namespace UsersApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UserManager<Users> userManager;
+
+
+        public HomeController(ILogger<HomeController> logger,UserManager<Users> userManager)
         {
             _logger = logger;
+            this.userManager = userManager;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
         public IActionResult AboutUs()

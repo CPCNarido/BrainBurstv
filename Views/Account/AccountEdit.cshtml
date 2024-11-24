@@ -1,0 +1,82 @@
+@model UsersApp.ViewModels.AccountEditViewModel
+
+@{
+    ViewData["Title"] = "Flashcard Maker Manual";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="SideBar">
+        <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png" id="Home">Home</button>
+        <button class="LibraryButton" onclick="showSection('Library')"><img src="../Assets/AccountEdit/folder 1.png" id="">Library</button>
+        <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
+        <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
+    </div>
+
+    <div class="Content">
+        <div class="Home section" id="Home" style="display: block;">
+            <h1>Account Settings</h1>
+            <div class="personal-info">Personal Information</div>
+            <div class="personal-container">
+                <div class="userprofile">
+
+                </div>
+                <div class="userdetails-container">
+                    <div class="username">
+                        <h1>Username</h1>
+                        <div class="name">
+                            <form asp-action="EditUsername" method="post">
+                                <input type="hidden" asp-for="Email" />
+                                <input asp-for="NewUsername" class="form-control" />
+                                <span asp-validation-for="NewUsername" class="text-danger"></span>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="Email">
+
+                    </div>
+                </div>
+            </div>
+            <div class="security-privacy"></div>
+            <div class="security-container"></div>
+            <div class="Logout"></div>
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="Library section" id="Library" style="display: none;">
+            hi1
+        </div>
+
+        <div class="Flashcards section" id="Flashcards" style="display: none;">
+            hi2
+        </div>
+
+        <div class="Quiz section" id="Quiz" style="display: none;">
+            hi3
+        </div>
+    </div>
+
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            var sections = document.getElementsByClassName('section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.display = 'none';
+            }
+
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
