@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersApp.Models;
 using UsersApp.ViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
+using System.Net.Mail;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace UsersApp.Controllers
 {
@@ -10,11 +14,16 @@ namespace UsersApp.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
+        private readonly ILogger<AccountController> _logger;
+        private readonly IConfiguration _configuration;
+        private static string otpCode;
 
-        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager)
+        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<AccountController> logger, IConfiguration configuration)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _logger = logger;
+            _configuration = configuration;
         }
 
         public IActionResult Login()
@@ -25,7 +34,6 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
@@ -85,25 +93,70 @@ namespace UsersApp.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
+        private async Task SendOtpEmail(string email, string otp)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await userManager.FindByNameAsync(model.Email);
+                var smtpSettings = _configuration.GetSection("Smtp");
+                var smtpClient = new SmtpClient(smtpSettings["Host"])
+                {
+                    Port = int.Parse(smtpSettings["Port"]),
+                    Credentials = new NetworkCredential(smtpSettings["Username"], smtpSettings["Password"]),
+                    EnableSsl = bool.Parse(smtpSettings["EnableSsl"])
+                };
 
-                if(user == null)
+                using var mailMessage = new MailMessage
                 {
-                    ModelState.AddModelError("", "Something is wrong!");
-                    return View(model);
-                }
-                else
-                {
-                    return RedirectToAction("ChangePassword","Account", new {username = user.UserName});
-                }
+                    From = new MailAddress(_configuration["Smtp:From"], "BrainBurst Support"),
+                    Subject = "BrainBurst - Password Reset OTP",
+                    Body = $@"
+                        <h2>Password Reset Request</h2>
+                        <p>Your OTP code is: <strong>{otp}</strong></p>
+                        <p>This code will expire in 5 minutes.</p>
+                        <p>If you didn't request this, please ignore this email.</p>",
+                    IsBodyHtml = true,
+                };
+                mailMessage.To.Add(email);
+
+                _logger.LogInformation("Attempting to send email to {Email}", email);
+                await smtpClient.SendMailAsync(mailMessage);
+                _logger.LogInformation("Email sent successfully to {Email}", email);
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to send email to {Email}. Error: {Message}", email, ex.Message);
+                throw new Exception($"Failed to send OTP email: {ex.Message}");
+            }
+        }
+
+        private string GenerateOtp()
+        {
+            var random = new Random();
+            return random.Next(100000, 999999).ToString();
+        }
+
+[HttpPost]
+public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var user = await userManager.FindByNameAsync(model.Email);
+
+        if (user == null)
+        {
+            ModelState.AddModelError("", "Something is wrong!");
             return View(model);
         }
+        else
+        {
+            var otp = GenerateOtp();
+            HttpContext.Session.SetString("OtpCode", otp);
+            await SendOtpEmail(user.Email, otp);
+            return RedirectToAction("VerifyOtp", new { username = user.UserName });
+        }
+    }
+    return View(model);
+}
 
         public IActionResult ChangePassword(string username)
         {
@@ -111,16 +164,16 @@ namespace UsersApp.Controllers
             {
                 return RedirectToAction("VerifyEmail", "Account");
             }
-            return View(new ChangePasswordViewModel { Email= username });
+            return View(new ChangePasswordViewModel { Email = username });
         }
 
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await userManager.FindByNameAsync(model.Email);
-                if(user != null)
+                if (user != null)
                 {
                     var result = await userManager.RemovePasswordAsync(user);
                     if (result.Succeeded)
@@ -130,7 +183,6 @@ namespace UsersApp.Controllers
                     }
                     else
                     {
-
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError("", error.Description);
@@ -151,12 +203,14 @@ namespace UsersApp.Controllers
                 return View(model);
             }
         }
-        public async Task<IActionResult>  AccountEdit()
+
+        public async Task<IActionResult> AccountEdit()
         {
             if (User.Identity.IsAuthenticated)
             {
                 var user = await userManager.GetUserAsync(User);
                 ViewData["Username"] = user.FullName;
+                ViewData["Email"] = user.Email;
                 ViewData["Role"] = user.Role;
             }
             return View();
@@ -167,10 +221,12 @@ namespace UsersApp.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
+
                 if (user != null)
                 {
                     // Directly set the FullName property
                     user.FullName = model.NewUsername;
+                    user.Email = model.NewEmail;
 
                     // Update the user in the database
                     var updateResult = await userManager.UpdateAsync(user);
@@ -200,11 +256,74 @@ namespace UsersApp.Controllers
 
             return View("AccountEdit", model);
         }
-      
-    public async Task<IActionResult> Logout()
+
+        [HttpGet]
+        public IActionResult VerifyOtp(string username)
+        {
+            return View(new VerifyOtpViewModel { Username = username });
+        }
+
+[HttpPost]
+public IActionResult VerifyOtp(VerifyOtpViewModel model)
+{
+    _logger.LogInformation("Verifying OTP for user: {Username}", model.Username);
+
+    if (ModelState.IsValid)
+    {
+        var storedOtp = HttpContext.Session.GetString("OtpCode");
+        _logger.LogInformation("Model state is valid. Provided OTP: {Otp}, Expected OTP: {ExpectedOtp}", model.Otp, storedOtp);
+
+        if (model.Otp == storedOtp)
+        {
+            _logger.LogInformation("OTP is correct. Redirecting to ChangePassword.");
+            return RedirectToAction("ChangePassword", new { username = model.Username });
+        }
+        else
+        {
+            _logger.LogWarning("OTP is incorrect.");
+            ModelState.AddModelError("", "OTP is incorrect.");
+        }
+    }
+    else
+    {
+        _logger.LogWarning("Model state is invalid.");
+    }
+
+    return View(model);
+}
+
+        public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    await signInManager.SignOutAsync();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "User not found.");
+            }
+
+            return View("AccountEdit");
         }
     }
 }

@@ -1,0 +1,18 @@
+@model UsersApp.ViewModels.VerifyOtpViewModel
+
+@{
+    ViewData["Title"] = "Verify OTP";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h2>Verify OTP</h2>
+
+<form asp-action="VerifyOtp" method="post">
+    <div class="form-group">
+        <label asp-for="Otp"></label>
+        <input asp-for="Otp" class="form-control" />
+        <span asp-validation-for="Otp" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="Username" />
+    <button type="submit" class="btn btn-primary">Verify OTP</button>
+</form>

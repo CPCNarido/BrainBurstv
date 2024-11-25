@@ -27,6 +27,11 @@ namespace UsersApp.Controllers
             return View();
         }
 
+        public IActionResult FlashCardStudyMode()
+        {
+            return View();
+        }
+
 
     }
 }
