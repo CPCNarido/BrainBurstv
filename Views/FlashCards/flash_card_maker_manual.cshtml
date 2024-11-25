@@ -70,12 +70,12 @@
                 const question = formData.get(`questions[${index}].Question`);
                 const answer = formData.get(`questions[${index}].Answer`);
                 const image = formData.get(`questions[${index}].Image`);
-                data.questions.push({ question, answer, picture: image });
+                data.questions.push({ questionText: question, answerText: answer, picture: image });
             });
 
             const jsonData = JSON.stringify(data);
 
-            fetch('/Flashcard/SaveFlashcard', {
+            fetch('/FlashCards/SaveFlashcard', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,6 +84,7 @@
             }).then(response => {
                 if (response.ok) {
                     alert('Flashcard saved successfully!');
+                    window.location.href = '/Home/Index'; // Redirect to index page
                 } else {
                     alert('Failed to save flashcard.');
                 }

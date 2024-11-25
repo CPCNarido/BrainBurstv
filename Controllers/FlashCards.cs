@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;
+using System.Threading.Tasks;
+using UsersApp.Data;
 using UsersApp.Models;
 using UsersApp.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -12,11 +14,13 @@ namespace UsersApp.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
+        private readonly AppDbContext _context;
 
-        public FlashCards(SignInManager<Users> signInManager, UserManager<Users> userManager)
+        public FlashCards(SignInManager<Users> signInManager, UserManager<Users> userManager, AppDbContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _context = context;
         }
 
         public IActionResult Flash_Card_Maker_Manual()
@@ -35,19 +39,15 @@ namespace UsersApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveFlashcard([FromBody] Flashcard flashcard)
+        public async Task<IActionResult> SaveFlashcard([FromBody] Flashcard flashcard)
         {
             if (flashcard == null)
             {
                 return BadRequest("Invalid flashcard data.");
             }
 
-            // Save the flashcard data (e.g., to a database or a file)
-            // For demonstration, we'll save it to a JSON file
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "flashcards.json");
-            var jsonData = JsonConvert.SerializeObject(flashcard, Formatting.Indented);
-
-            System.IO.File.WriteAllText(filePath, jsonData);
+            _context.Flashcards.Add(flashcard);
+            await _context.SaveChangesAsync();
 
             return Ok("Flashcard saved successfully.");
         }
