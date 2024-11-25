@@ -1,0 +1,131 @@
+*{
+    font-family: 'Rum Raisin', sans-serif;
+}
+
+body {
+    font-family: 'Rum Raisin', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container1 {
+    width: 100%;
+    height: 630px;
+    background-color: #fff;
+}
+
+.flash-card-container {
+    display: flex;
+    background-color: pink;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+
+.left-side{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+hr{
+    height: 1px;
+    background-color: black;
+}
+.top-box{
+    width: 355px;
+    height: 180px;
+    justify-content: space-between;
+    background-color: #F5D059;
+    border: 1.5px solid black;
+    border-radius: 20px;
+}
+
+.bottom-box{
+    width: 355px;
+    height: 180px;
+    justify-content: space-between;
+    background-color: #FFFDC1;
+    border: 1.5px solid black;
+    border-radius: 20px;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 30px;
+    height: 50px;
+}
+
+.title-text{
+    font-size: 36px;
+    color: #2B550E;
+}
+.image img{
+    width: 40px;
+    height: 40px;
+}
+
+.description{
+    font-size: 18px;
+    color: #2B550E;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.right-side{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flash-card-box {
+    display: flex;
+    flex-direction: column; /* Allows content to stack vertically */
+    justify-content: space-between; /* Space between text and button */
+    align-items: center; /* Center content horizontally */
+    padding: 20px; /* Add padding for better spacing */
+    width: 600px;
+    height: 300px;
+    background-color: #FFFDC1;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.flash-card-content {
+    flex: 1; /* Takes the available space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 32px;
+    width: 100%; /* Ensure it spans the container's width */
+}
+
+.flip-flash-card-button {
+    align-self: flex-end; /* Aligns the button to the bottom-right */
+    margin-top: auto; /* Pushes it to the bottom */
+    margin-right: 10px; /* Optional, for spacing from the edge */
+}
+
+.next-item-button{
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.previous img {
+    width: 40px;
+    height: 40px;
+}
+
+.next img{
+    width: 40px;
+    height: 40px;
+}

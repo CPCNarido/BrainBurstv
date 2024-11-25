@@ -1,0 +1,107 @@
+@model List<YourNamespace.Models.Flashcard>
+
+@{
+    ViewData["Title"] = "Flashcard Study Mode";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/FlashCardStudyMode.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container1">
+        <div class="flash-card-container">
+            <div class="left-side">
+                <div class="top-box">
+                    <div class="study-mode">
+                        <div class="title">
+                            <div class="title-image">
+                                <div class="image">
+                                    <img src="~/Assets/FlashCardStudyMode/Group 343.png" alt="flashcard-study-mode" />
+                                </div>
+                            </div>
+                            <div class="title-text">
+                                <p>Study Mode</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <p>Flip the flashcard to see the answer in an instant, no pressure! It’s like getting a sneak peek without the suspense.</p>
+                    </div>
+                </div>
+                <div class="bottom-box">
+                    <div class="answer-mode">
+                        <div class="title">
+                            <div class="title-image">
+                                <div class="image">
+                                    <img src="~/Assets/FlashCardStudyMode/Clip path group-1.png" alt="flashcard-study-mode" />
+                                </div>
+                            </div>
+                            <div class="title-text">
+                                <p>Answer Mode</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="description">
+                        <p>Test your knowledge by answering the question first. Then, flip the card to reveal the correct answer and see how well you did!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-side">
+                <div class="flash-card-box">
+                    <div class="flash-card-content" id="flashcard-content">
+                        <p id="flashcard-question">@Model.FirstOrDefault()?.Question ?? "No flashcards available."</p>
+                        <p id="flashcard-answer" style="display:none;">@Model.FirstOrDefault()?.Answer</p>
+                    </div>
+                    <div class="flip-flash-card-button">
+                        <button onclick="flipCard()">Flip Card</button>
+                    </div>
+                </div>
+                <div class="next-item-button">
+                    <button class="previous" onclick="navigateFlashcard(-1)">
+                        <img src="~/Assets/FlashCardStudyMode/arrow 3.png" alt="">
+                    </button>
+                    <div class="flash-card-number">
+                        <p id="flashcard-number">1/@Model.Count</p>
+                    </div>
+                    <button class="next" onclick="navigateFlashcard(1)">
+                        <img src="~/Assets/FlashCardStudyMode/arrow 4.png" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFlashcardIndex = 0;
+        const flashcards = @Html.Raw(Json.Serialize(Model));
+
+        function flipCard() {
+            const answer = document.getElementById("flashcard-answer");
+            answer.style.display = answer.style.display === "none" ? "block" : "none";
+        }
+
+        function navigateFlashcard(direction) {
+            currentFlashcardIndex += direction;
+            if (currentFlashcardIndex < 0) {
+                currentFlashcardIndex = 0;
+            } else if (currentFlashcardIndex >= flashcards.length) {
+                currentFlashcardIndex = flashcards.length - 1;
+            }
+
+            const flashcard = flashcards[currentFlashcardIndex];
+            document.getElementById("flashcard-question").innerText = flashcard.Question;
+            document.getElementById("flashcard-answer").innerText = flashcard.Answer;
+            document.getElementById("flashcard-answer").style.display = "none";
+            document.getElementById("flashcard-number").innerText = `${currentFlashcardIndex + 1}/${flashcards.length}`;
+        }
+    </script>
+</body>
+</html>
