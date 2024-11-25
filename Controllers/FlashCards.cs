@@ -12,14 +12,10 @@ namespace UsersApp.Controllers
 {
     public class FlashCards : Controller
     {
-        private readonly SignInManager<Users> signInManager;
-        private readonly UserManager<Users> userManager;
         private readonly AppDbContext _context;
 
-        public FlashCards(SignInManager<Users> signInManager, UserManager<Users> userManager, AppDbContext context)
+        public FlashCards(AppDbContext context)
         {
-            this.signInManager = signInManager;
-            this.userManager = userManager;
             _context = context;
         }
 
