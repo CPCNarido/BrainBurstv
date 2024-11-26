@@ -14,19 +14,42 @@ namespace UsersApp.Controllers
     public class FlashCards : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<Users> userManager;
+        private readonly ILogger<FlashCards> _logger;
 
-        public FlashCards(AppDbContext context)
+
+        public FlashCards(AppDbContext context, UserManager<Users> userManager, ILogger<FlashCards> logger)
         {
+            this.userManager = userManager;
+            _logger = logger;
             _context = context;
         }
 
-        public IActionResult Flash_Card_Maker_Manual()
+        public async Task<IActionResult> flash_card_maker_ai()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
 
-        public IActionResult Flash_Card_Maker_Ai()
+        public async Task<IActionResult> flash_card_maker_manual()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
 

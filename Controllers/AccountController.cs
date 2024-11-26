@@ -146,6 +146,8 @@ namespace UsersApp.Controllers
             return random.Next(100000, 999999).ToString();
         }
 
+        
+
         [HttpPost]
         public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
         {

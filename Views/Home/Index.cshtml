@@ -13,7 +13,12 @@
             <div class="heroimage">
                 <span class="Hero-text">Welcome to BrainBurst – Your<br> Ultimate Quiz and Flashcard<br> Maker!</span>
                 <span class="Hero-text1">Elevate Your Educational Adventure:<br> Interactive Quizzes and Flashcards to Inspire<br>Your Mind!</span>
-                <a href="@Url.Action("Login", "Account")" class="join">Join Us Now!</a>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a href="@Url.Action("Register", "Account")" class="join">Sign Up</a>
+            }else{
+                <a href="@Url.Action("Join", "Home")" class="join">Join Quiz Now!!</a>
+            }
             </div>
             <div class="b">
                 <div class="con">
@@ -25,9 +30,13 @@
 
                 <div class="right">
                     <div class="Right-content">
-                        <span class="title">Flashcard Creation</span>
-                        <span class="description">Create or let AI generate custom<br> flashcards tailored to your learning<br> needs for an effective study<br> experience.</span>
-                        <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'">Let's Go!</button>
+                        <span class="title">Quiz Creation & Participation</span>
+                        <span class="description">Create custom quizzes or let AI<br> generate them instantly. Join <br>quizzes by code for easy,<br> interactive learning.</span>
+                        <div class="button-container">
+                            <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'">Generate with A.I</button>
+                            <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'">Create Manually</button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="left1">
@@ -46,7 +55,10 @@
                     <div class="Right-content">
                         <span class="title">Flashcard Creation</span>
                         <span class="description">Create or let AI generate custom<br> flashcards tailored to your learning<br> needs for an effective study<br> experience.</span>
-                        <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'">Let's Go!</button>
+                        <div class="button-container">
+                            <button class="lets-go" onclick="location.href='@Url.Action("flash_card_maker_ai", "Flashcards")'">Generate with A.I</button>
+                            <button class="lets-go" onclick="location.href='@Url.Action("flash_card_maker_manual", "Flashcards")'">Create Manually</button>
+                        </div>
                     </div>
                 </div>
             </div>
