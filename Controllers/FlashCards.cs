@@ -92,5 +92,47 @@ namespace UsersApp.Controllers
                 return Ok("Flashcard saved succesfsully.");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFlashcards(int flashcardId)
+        {
+            var questions = await _context.Questions
+                .Where(q => q.FlashcardId == flashcardId)
+                .Select(q => new
+                {
+                    q.Id,
+                    q.QuestionText,
+                    q.AnswerText
+                })
+                .ToListAsync();
+
+            if (questions == null || !questions.Any())
+                return NotFound("No questions found for this flashcard.");
+
+            return Json(questions);
+        }
+
+        public IActionResult GetFlashcardQuestions(int flashcardId)
+        {
+            var questions = _context.Questions
+                                     .Where(q => q.FlashcardId == flashcardId)
+                                     .Select(q => new 
+                                     {
+                                         q.QuestionText,
+                                         q.AnswerText
+                                     })
+                                     .ToList();
+
+            return Json(questions);
+        }
+
+        [HttpGet]
+public IActionResult TestFlashcard()
+{
+    var questions = _context.Questions.Take(10).ToList();
+    return Json(questions); // Return JSON response
+}
+
+
     }
 }
