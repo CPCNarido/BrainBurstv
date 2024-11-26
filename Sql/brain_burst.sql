@@ -150,6 +150,35 @@ INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
 ('20241122044535_InitialCreate', '8.0.6');
 
 --
+-- Table structure for table `flashcards`
+--
+
+CREATE TABLE `flashcards` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `Title` varchar(255) NOT NULL,
+  `Description` text NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `QuestionText` text NOT NULL,
+  `AnswerText` text NOT NULL,
+  `ImageQuestionPath` varchar(255),
+  `ImageAnswerPath` varchar(255),
+  `FlashcardId` int NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Questions_FlashcardId` (`FlashcardId`),
+  CONSTRAINT `FK_Questions_Flashcards_FlashcardId` FOREIGN KEY (`FlashcardId`) REFERENCES `flashcards` (`Id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
 -- Indexes for dumped tables
 --
 
@@ -242,6 +271,13 @@ ALTER TABLE `aspnetuserroles`
 --
 ALTER TABLE `aspnetusertokens`
   ADD CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+  ADD CONSTRAINT `FK_Questions_Flashcards_FlashcardId` FOREIGN KEY (`FlashcardId`) REFERENCES `flashcards` (`Id`) ON DELETE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
