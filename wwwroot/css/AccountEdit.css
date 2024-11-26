@@ -71,9 +71,12 @@
     margin-left: 5%;
 }
 
-.personal-info,.personal-container,.security-privacy,.security-container{
+.personal-info,.personal-container,.personal-container1,.security-privacy,.security-container{
     margin-left: 5%;
     margin-top: 2%;
+}
+.personal-container2{
+    margin-left: 5%;
 }
 
 
@@ -85,6 +88,10 @@
     font-weight: 400;
     line-height: normal;
 
+}
+
+.Logout1{
+    margin-left: 2%;
 }
 
 .personal-info{
@@ -111,6 +118,63 @@
     flex-direction: row;
 }
 
+.personal-container1,.personal-container2{
+    width: 857px;
+    height: 156px;
+    flex-shrink: 0;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    display: flex;
+    flex-direction: row;
+}
+
+.personal-container1{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.personal-container2{
+    border-bottom-left-radius: 20px;
+    border-top: none;
+    border-bottom-right-radius: 20px;
+}
+
+.description{
+    width: 651px;
+    height: 156px;
+}
+
+.button-container{
+    width: 400px;
+    height: 156px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.description h1{
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;    
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #5C4C20;
+    margin-left: 10%;
+}
+
+.description p{
+    color: rgba(43, 85, 14, 0.80);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 13%;
+}
+
+
 .userprofile{
     width: 273px;
     height: 270px;
@@ -132,6 +196,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    
 }
 .username,.Email{
     width: 100%;
@@ -168,16 +233,19 @@
     padding: 5%;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 100%;
 }
 #drop-area {
     border: 2px dashed #ccc;
     border-radius: 20px;
-    width: 80%;
-    height: 85%;
+    margin-left: 27px;
+    width: 70%;
+    height:90%;
     padding: 20px;
     text-align: center;
+    flex-direction: column;
     display: flex;
     align-items: center;
     justify-content: center;

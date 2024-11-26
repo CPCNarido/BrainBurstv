@@ -24,7 +24,14 @@
                 <a href="@Url.Action("AccountEdit", "Account")" class="profile-container">
                     <div class="profile-container">
                         <div class="UserProfile">
-                            <div class="Profile"></div>
+                        <div>
+                            @if (ViewData["FilePath"] != null){
+                                <img src="@ViewData["FilePath"]" class="Profile" alt="User Profile">
+                            }else{
+                                <img src="/profile_images/default.png" class="Profile" alt="User Profile">
+                            }
+
+                        </div>
                             <div class="credentials">
                                 <div class="name">@ViewData["Username"]</div>
                                 <div class="usertype">@ViewData["Role"]</div>
