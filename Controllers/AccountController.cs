@@ -17,13 +17,15 @@ namespace UsersApp.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly IConfiguration _configuration;
         private static string otpCode;
+        private readonly IWebHostEnvironment environment; // for managing file paths
 
-        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<AccountController> logger, IConfiguration configuration)
+        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<AccountController> logger, IConfiguration configuration, IWebHostEnvironment environment)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             _logger = logger;
             _configuration = configuration;
+            this.environment = environment;
         }
 
         public IActionResult Login()
@@ -37,7 +39,6 @@ namespace UsersApp.Controllers
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -66,6 +67,7 @@ namespace UsersApp.Controllers
                     FullName = model.Name,
                     Email = model.Email,
                     UserName = model.Email,
+                    FilePath = "/profile_images/default.png",
                     Role = model.Role
                 };
 
@@ -135,28 +137,28 @@ namespace UsersApp.Controllers
             return random.Next(100000, 999999).ToString();
         }
 
-[HttpPost]
-public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
-{
-    if (ModelState.IsValid)
-    {
-        var user = await userManager.FindByNameAsync(model.Email);
-
-        if (user == null)
+        [HttpPost]
+        public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
         {
-            ModelState.AddModelError("", "Something is wrong!");
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Something is wrong!");
+                    return View(model);
+                }
+                else
+                {
+                    var otp = GenerateOtp();
+                    HttpContext.Session.SetString("OtpCode", otp);
+                    await SendOtpEmail(user.Email, otp);
+                    return RedirectToAction("VerifyOtp", new { username = user.UserName });
+                }
+            }
             return View(model);
         }
-        else
-        {
-            var otp = GenerateOtp();
-            HttpContext.Session.SetString("OtpCode", otp);
-            await SendOtpEmail(user.Email, otp);
-            return RedirectToAction("VerifyOtp", new { username = user.UserName });
-        }
-    }
-    return View(model);
-}
 
         public IActionResult ChangePassword(string username)
         {
@@ -204,58 +206,118 @@ public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UploadProfileImage(IFormFile profileImage)
+        {
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                // Define the path to save the profile image in wwwroot/profile_images
+                var uploadsFolder = Path.Combine(environment.WebRootPath, "profile_images");
+
+                // Ensure the directory exists
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Save the file with a unique name to avoid conflicts
+                var fileName = $"{User.Identity.Name}_{Path.GetFileName(profileImage.FileName)}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Save the image locally
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profileImage.CopyToAsync(fileStream);
+                }
+
+                // Update FilePath in the database with the relative path
+                var user = await userManager.GetUserAsync(User);
+                user.FilePath = $"/profile_images/{fileName}";  // Store relative path
+                await userManager.UpdateAsync(user);
+
+                return RedirectToAction("AccountEdit"); // Adjust redirect as needed
+            }
+
+            return View("AccountSettings"); // Return to settings page if the upload fails
+        }
+        
+
+
         public async Task<IActionResult> AccountEdit()
         {
             if (User.Identity.IsAuthenticated)
             {
                 var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
                 ViewData["Username"] = user.FullName;
-                ViewData["Email"] = user.Email;
                 ViewData["Role"] = user.Role;
             }
+
             return View();
         }
 
-        public async Task<IActionResult> EditUsername(AccountEditViewModel model)
+[HttpPost]
+public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
+{
+    // Retrieve the logged-in user's information
+    var user = await userManager.GetUserAsync(User);
+    if (user == null)
+    {
+        _logger.LogWarning("No user is currently logged in.");
+        ModelState.AddModelError("", "No user is logged in. Please log in and try again.");
+        return View("AccountEdit", model);
+    }
+
+    // Log the process start
+    _logger.LogInformation("Starting account edit process for user ID: {UserId}", user.Id);
+
+    // Check if the model is valid, particularly for NewUsername
+    if (!ModelState.IsValid)
+    {
+        _logger.LogWarning("Model state is invalid for user ID: {UserId}", user.Id);
+        return View("AccountEdit", model);
+    }
+
+    try
+    {
+        // Update the FullName field with the new username
+        user.FullName = model.NewUsername;
+        var updateResult = await userManager.UpdateAsync(user);
+
+        if (!updateResult.Succeeded)
         {
-            if (ModelState.IsValid)
+            // Log each error returned by UpdateAsync
+            foreach (var error in updateResult.Errors)
             {
-                var user = await userManager.FindByEmailAsync(model.Email);
-
-                if (user != null)
-                {
-                    // Directly set the FullName property
-                    user.FullName = model.NewUsername;
-                    user.Email = model.NewEmail;
-
-                    // Update the user in the database
-                    var updateResult = await userManager.UpdateAsync(user);
-
-                    if (updateResult.Succeeded)
-                    {
-                        // Optionally refresh the user's session
-                        await signInManager.SignOutAsync();
-                        await signInManager.SignInAsync(user, isPersistent: false);
-
-                        return RedirectToAction("AccountEdit");
-                    }
-                    else
-                    {
-                        // Handle errors from the update attempt
-                        foreach (var error in updateResult.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "User not found.");
-                }
+                _logger.LogError("Error updating user ID: {UserId}: {Error}", user.Id ,error.Description);
+                ModelState.AddModelError("", error.Description);
             }
-
             return View("AccountEdit", model);
         }
+
+        // Log success and redirect
+        _logger.LogInformation("Successfully updated account details for user ID: {UserId}", user.Id);
+        TempData["SuccessMessage"] = "Account details updated successfully.";
+        return RedirectToAction("AccountEdit", "Account");
+    }
+
+    catch (Exception ex)
+    {
+        // Log any general exception
+        _logger.LogError(ex, "An unexpected error occurred while updating account for user ID: {UserId}", user.Id);
+        ModelState.AddModelError("", "An unexpected error occurred. Please try again later.");
+    }
+
+    // Log that we're returning the view with errors if something failed
+    _logger.LogInformation("Returning to AccountEdit view with errors for user ID: {UserId}", user.Id);
+    return View("AccountEdit", model);
+}
+
+
+
+
+
 
         [HttpGet]
         public IActionResult VerifyOtp(string username)
@@ -263,34 +325,34 @@ public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
             return View(new VerifyOtpViewModel { Username = username });
         }
 
-[HttpPost]
-public IActionResult VerifyOtp(VerifyOtpViewModel model)
-{
-    _logger.LogInformation("Verifying OTP for user: {Username}", model.Username);
-
-    if (ModelState.IsValid)
-    {
-        var storedOtp = HttpContext.Session.GetString("OtpCode");
-        _logger.LogInformation("Model state is valid. Provided OTP: {Otp}, Expected OTP: {ExpectedOtp}", model.Otp, storedOtp);
-
-        if (model.Otp == storedOtp)
+        [HttpPost]
+        public IActionResult VerifyOtp(VerifyOtpViewModel model)
         {
-            _logger.LogInformation("OTP is correct. Redirecting to ChangePassword.");
-            return RedirectToAction("ChangePassword", new { username = model.Username });
-        }
-        else
-        {
-            _logger.LogWarning("OTP is incorrect.");
-            ModelState.AddModelError("", "OTP is incorrect.");
-        }
-    }
-    else
-    {
-        _logger.LogWarning("Model state is invalid.");
-    }
+            _logger.LogInformation("Verifying OTP for user: {Username}", model.Username);
 
-    return View(model);
-}
+            if (ModelState.IsValid)
+            {
+                var storedOtp = HttpContext.Session.GetString("OtpCode");
+                _logger.LogInformation("Model state is valid. Provided OTP: {Otp}, Expected OTP: {ExpectedOtp}", model.Otp, storedOtp);
+
+                if (model.Otp == storedOtp)
+                {
+                    _logger.LogInformation("OTP is correct. Redirecting to ChangePassword.");
+                    return RedirectToAction("ChangePassword", new { username = model.Username });
+                }
+                else
+                {
+                    _logger.LogWarning("OTP is incorrect.");
+                    ModelState.AddModelError("", "OTP is incorrect.");
+                }
+            }
+            else
+            {
+                _logger.LogWarning("Model state is invalid.");
+            }
+
+            return View(model);
+        }
 
         public async Task<IActionResult> Logout()
         {

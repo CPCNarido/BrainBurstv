@@ -93,7 +93,6 @@ body {
     flex-shrink: 0;
     border-radius: 90px;
     border: 3px solid rgb(255, 255, 255);
-    background: url('/Assets/PlaceHolders/User.jpg') lightgray 50% / cover no-repeat;
 }
 
 

@@ -27,54 +27,66 @@
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <div id="drop-area">
-                            <form class="my-form">
+                        <form asp-action="UploadProfileImage" method="post" enctype="multipart/form-data">
+                            <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
                                 <p>Drag and drop a picture here or click to upload</p>
-                                <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
                                 <label class="button" for="fileElem">Select a file</label>
-                            </form>
-                        </div>  
-                    </div>
-                        <button class="removeButton" id="removeButton" style="display: none;"></button>
+                            </div>  
+                            <button type="submit" class="btn btn-primary">Upload Image</button>
+                        </form>
                         <div id="gallery"></div>
+                    </div>
                 </div>
 
                 <div class="userdetails-container">
-                    <form asp-action="EditUsername" method="post">
-                    <div class="username">
-                        <h1>Username</h1>
-                        <div class="name">
-                                <input type="hidden" asp-for="Email" />
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]"/>
+                     <form asp-action="AccountEdit" method="post">
+                        <div class="username">
+                            <h1>Username</h1>
+                            <div class="name">
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="changepassword">Save Username</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="Email">
-                        <h1>Email</h1>
-                        <div class="name">
-                            <input type="hidden" asp-for="Email" />
-                            <input asp-for="NewEmail" class="fullname" placeholder="@ViewData["Email"]"/>
-                            <span asp-validation-for="NewEmail" class="text-danger"></span>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
                     </form>
                 </div>
             </div>
-            <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
+
+            <div class="personal-info">Security and Privacy</div>
+    
+            <div class="personal-container1">
+                <div class="description">
+                    <h1>Change Password</h1>
+                    <p>Change your password!!!!!!!!!!!!!</p>
+                </div>
+                <div class="button-container">
+                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
+                </div>
+            </div>
+            <div class="personal-container2">
+                <div class="description">
+                    <h1>Delete Account</h1>
+                    <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
+                </div>
+                <div class="button-container">
+                    <div class="Logout">
+                        <form asp-action="DeleteAccount" method="post">
+                            <button type="submit" class="deleteaccount">Delete Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            
 
 
-            <div class="Logout">
+            <div class="Logout1">
                 <form asp-action="Logout" method="post">
                     <button type="submit" class="changepassword">Logout</button>
                 </form>
             </div>
-            <div class="Logout">
-                <form asp-action="DeleteAccount" method="post">
-                    <button type="submit" class="deleteaccount">Delete Account</button>
-                </form>
-            </div>
+
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -93,80 +105,53 @@
     </div>
 
 
-    <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            var sections = document.getElementsByClassName('section');
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].style.display = 'none';
-            }
+<script>
+    function handleDragOver(event) {
+        event.preventDefault(); // Prevent default to allow drop
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.add('highlight');
+    }
 
-            // Show the selected section
-            document.getElementById(sectionId).style.display = 'block';
+    function handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.remove('highlight');
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.remove('highlight');
+
+        const files = event.dataTransfer.files;
+        if (files.length) {
+            document.getElementById('fileElem').files = files; // Assign the dropped files to the input
+            handleFiles(files); // Preview the file
         }
-    </script>
+    }
 
-    <script>
-        let dropArea = document.getElementById('drop-area');
+    function handleFiles(files) {
+        files = [...files];
+        previewFile(files[0]);
+    }
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        dropArea.addEventListener('drop', handleDrop, false);
-
-        function handleDrop(e) {
-            let dt = e.dataTransfer;
-            let files = dt.files;
-            handleFiles(files);
-        }
-
-        function handleFiles(files) {
-            files = [...files];
-            files.forEach(uploadFile);
-            files.forEach(previewFile);
-        }
-
-        function uploadFile(file) {
-            let url = '/upload';
-            let formData = new FormData();
-            formData.append('file', file);
-
-            fetch(url, {
-                method: 'POST',
-                body: formData
-            })
-            .then(() => { /* Done. Inform the user */ })
-            .catch(() => { /* Error. Inform the user */ });
-        }
-
-        function previewFile(file) {
-            document.getElementById('drop-area').style.display = 'none';
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = function() {
+    function previewFile(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function () {
             let img = document.createElement('img');
             img.src = reader.result;
             img.classList.add('uploaded-image');
 
-            let removeButton = document.getElementById('removeButton');
-            removeButton.style.display = 'block';
-            removeButton.onclick = function() {
-                removeButton.style.display = 'none';
-                img.remove();
-                document.getElementById('drop-area').style.display = 'block';
-            };
-
             let gallery = document.getElementById('gallery');
             gallery.innerHTML = ''; // Clear any existing images
             gallery.appendChild(img);
-            }
-        }
-        </script>
+
+            // Hide the drop area when an image is previewed
+            document.getElementById('drop-area').style.display = 'none';
+        };
+    }
+</script>
+
 </body>
 </html>
