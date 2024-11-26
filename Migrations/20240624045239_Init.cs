@@ -30,6 +30,7 @@ namespace UsersApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(255)", nullable: true),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role= table.Column<string>(type: "nvarchar(255)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
