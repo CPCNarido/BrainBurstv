@@ -31,8 +31,17 @@ namespace UsersApp.Controllers
 
             return View();
         }
-        public IActionResult AboutUs()
+        public async Task<IActionResult> AboutUs()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
         public IActionResult ContactUs()

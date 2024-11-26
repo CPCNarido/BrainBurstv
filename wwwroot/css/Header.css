@@ -96,6 +96,12 @@ body {
 }
 
 
+.nameglobal,.usertypeglobal{
+    color: #0B0B0B;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+}
 .name,.usertype{
     color: #0B0B0B;
     font-family: "Rum Raisin", sans-serif;
