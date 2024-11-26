@@ -123,6 +123,7 @@
         $("#prev-button").click(function () {
             if (currentIndex > 0) {
                 currentIndex--;
+                $(".flash-card-content").removeClass("flipped");
                 displayQuestion();
                 updatePagination();
             }
@@ -132,6 +133,7 @@
         $("#next-button").click(function () {
             if (currentIndex < questions.length - 1) {
                 currentIndex++;
+                $(".flash-card-content").removeClass("flipped");
                 displayQuestion();
                 updatePagination();
             }

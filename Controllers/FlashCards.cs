@@ -127,11 +127,11 @@ namespace UsersApp.Controllers
         }
 
         [HttpGet]
-public IActionResult TestFlashcard()
-{
-    var questions = _context.Questions.Take(10).ToList();
-    return Json(questions); // Return JSON response
-}
+        public IActionResult TestFlashcard()
+        {
+            var questions = _context.Questions.Take(10).ToList();
+            return Json(questions); // Return JSON response
+        }
 
 
     }
