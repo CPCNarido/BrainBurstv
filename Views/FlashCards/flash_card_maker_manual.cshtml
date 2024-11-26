@@ -46,7 +46,7 @@
                             <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
                         </div>
                         <div class="image-upload-question">
-                            <input type="text" name="questions[0].Image" placeholder="Enter image link here..." />
+                            <input type="text" name="questions[0].Picture" placeholder="Enter image link here..." />
                         </div>
                     </div>
                 </div>
@@ -55,42 +55,43 @@
     </div>
     <script>
         function submitForm() {
-            const form = document.getElementById('flashcard-form');
-            const formData = new FormData(form);
-            const data = {
-                title: formData.get('flashcardTitle'),
-                description: formData.get('flashcardDescription'),
-                questions: []
-            };
+        const form = document.getElementById('flashcard-form');
+        const formData = new FormData(form);
 
-            const questions = document.querySelectorAll('.quiz-box');
-            questions.forEach((questionBox, index) => {
-                const question = formData.get(`questions[${index}].Question`);
-                const answer = formData.get(`questions[${index}].Answer`);
-                const image = formData.get(`questions[${index}].Image`);
-                data.questions.push({ questionText: question, answerText: answer, picture: image });
-            });
+        // Collect data from the form
+        const data = {
+            title: formData.get('flashcardTitle'),
+            description: formData.get('flashcardDescription'),
+            questions: []
+        };
 
-            const jsonData = JSON.stringify(data);
+        const questions = document.querySelectorAll('.quiz-box');
+        questions.forEach((questionBox, index) => {
+            const question = formData.get(`questions[${index}].Question`);
+            const answer = formData.get(`questions[${index}].Answer`);
+            const image = formData.get(`questions[${index}].Picture`);
+            data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: image });
+        });
 
-            fetch('/FlashCards/SaveFlashcard', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: jsonData
-            }).then(response => {
-                if (response.ok) {
-                    alert('Flashcard saved successfully!');
-                    window.location.href = '/Home/Index'; // Redirect to index page
-                } else {
-                    alert('Failed to save flashcard.');
-                }
-            }).catch(error => {
-                console.error('Error:', error);
+        // Append the JSON data to FormData
+        formData.append('jsonData', JSON.stringify(data));
+
+        // Send the form data with fetch
+        fetch('/FlashCards/SaveFlashcard', {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                alert('Flashcard saved successfully!');
+                window.location.href = '/Home/Index'; // Redirect to index page
+            } else {
                 alert('Failed to save flashcard.');
-            });
-        }
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save flashcard.');
+        });
+    }
     </script>
 </body>
 </html>

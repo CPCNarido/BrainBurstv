@@ -15,7 +15,7 @@ namespace UsersApp.Models
         public int Id { get; set; }
         public string QuestionText { get; set; }
         public string AnswerText { get; set; }
-        public string Picture { get; set; }
+        public string ImageQuestionPath { get; set; }
         public int FlashcardId { get; set; }
     }
 }
