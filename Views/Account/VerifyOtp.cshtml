@@ -4,15 +4,23 @@
     ViewData["Title"] = "Verify OTP";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
+<link rel="stylesheet" href="/css/Login.css" />
 
-<h2>Verify OTP</h2>
-
-<form asp-action="VerifyOtp" method="post">
-    <div class="form-group">
-        <label asp-for="Otp"></label>
-        <input asp-for="Otp" class="form-control" />
-        <span asp-validation-for="Otp" class="text-danger"></span>
+<div class="content-wrapper">
+    <div class="Fill">
+        <div class="log1"><h1>Verify Otp</h1></div>
+        <div class="HAI">
+            <form asp-action="VerifyOtp" method="post">
+                <div class="userinput">
+                    <label asp-for="Otp"></label>
+                    <input asp-for="Otp" class="email-form" />
+                    <span asp-validation-for="Otp" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Username" />
+                <button type="submit" class="submit-button">Verify OTP</button>
+            </form>
+        </div>
     </div>
-    <input type="hidden" asp-for="Username" />
-    <button type="submit" class="btn btn-primary">Verify OTP</button>
-</form>
+</div>
+
+

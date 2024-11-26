@@ -33,7 +33,7 @@
                                 <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
                                 <label class="button" for="fileElem">Select a file</label>
                             </div>  
-                            <button type="submit" class="btn btn-primary">Upload Image</button>
+                            <button type="submit" class="Upload">Upload Image</button>
                         </form>
                         <div id="gallery"></div>
                     </div>
@@ -142,6 +142,7 @@
             let img = document.createElement('img');
             img.src = reader.result;
             img.classList.add('uploaded-image');
+            document.querySelector('.Upload').style.display = 'block';
 
             let gallery = document.getElementById('gallery');
             gallery.innerHTML = ''; // Clear any existing images

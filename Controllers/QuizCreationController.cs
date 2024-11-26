@@ -10,19 +10,41 @@ namespace UsersApp.Controllers
     {
         private readonly SignInManager<Users> signInManager;
         private readonly UserManager<Users> userManager;
+        private readonly ILogger<QuizCreationController> _logger;
 
-        public QuizCreationController(SignInManager<Users> signInManager, UserManager<Users> userManager)
+
+
+        public QuizCreationController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<QuizCreationController> logger)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            _logger = logger;
         }
 
-        public IActionResult Quiz_Creation_Ai()
+        public async Task<IActionResult> Quiz_Creation_Ai()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
-        public IActionResult Quiz_Creation_Manual()
+        public async Task<IActionResult> Quiz_Creation_Manual()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
 

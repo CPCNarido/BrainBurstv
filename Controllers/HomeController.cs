@@ -70,8 +70,17 @@ namespace UsersApp.Controllers
 
             return View();
         }
-        public IActionResult Join()
+        public async Task<IActionResult> Join()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
             return View();
         }
         
