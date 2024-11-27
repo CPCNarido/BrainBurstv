@@ -190,5 +190,85 @@ private string SaveQuizToJsonFile(Dictionary<int, string> questions, Dictionary<
     System.IO.File.WriteAllText(filePath, json);
     return filePath;
 }
+
+[HttpPost]
+public async Task<IActionResult> GenerateContent1([FromForm] string gradeLevel, [FromForm] string topic)
+{
+    var prompt = $@"
+    Create a quiz for grade {gradeLevel} on the topic of {topic}. 
+    Make each question have 4 choices and display the question followed by the choices.
+    Use the following format:
+    **Question 1:**
+    What is the capital of France?
+    Choices:
+    a) Berlin
+    b) Madrid
+    c) Paris
+    d) Rome
+    Answer: c) Paris
+    ";
+
+    var requestBody = new
+    {
+        contents = new[]
+        {
+            new
+            {
+                role = "user",
+                parts = new[]
+                {
+                    new { text = prompt }
+                }
+            }
+        },
+        systemInstruction = new
+        {
+            role = "user",
+            parts = new[]
+            {
+                new { text = "this is a system instruction" }
+            }
+        },
+        generationConfig = new
+        {
+            temperature = 1,
+            topK = 40,
+            topP = 0.95,
+            maxOutputTokens = 8192,
+            responseMimeType = "text/plain"
+        }
+    };
+
+    var client = _httpClientFactory.CreateClient();
+    var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+
+    var response = await client.PostAsync("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDBHjHy7n50Ak50zusGAAuQapvMTjZOs9c", content);
+    var responseContent = await response.Content.ReadAsStringAsync();
+
+    // Log the response for debugging
+    _logger.LogInformation($"AI Response: {responseContent}");
+
+    // Parse the response content to extract questions, choices, and answers
+    var questions = ParseQuizContent(responseContent, out var choices, out var answers);
+
+    // Save the parsed data into a JSON file
+    var questionsDict = questions.Select((q, index) => new { q, index })
+                                 .ToDictionary(x => x.index + 1, x => x.q);
+    var choicesDict = choices.Select((c, index) => new { c, index })
+                             .ToDictionary(x => x.index + 1, x => x.c);
+    var jsonFilePath = SaveQuizToJsonFile(questionsDict, choicesDict);
+
+    // Save the JSON file path and correct answers to the database
+    var quiz = new Quiz
+    {
+        GradeLevel = gradeLevel,
+        Topic = topic,
+        JsonFilePath = jsonFilePath,
+        CorrectAnswers = JsonSerializer.Serialize(answers)
+    };
+    _context.Quizzes.Add(quiz);
+    await _context.SaveChangesAsync();
+    return RedirectToAction("ViewQuizzes", "QuizCreation");
+}
     }
 }
