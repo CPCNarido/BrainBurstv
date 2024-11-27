@@ -109,68 +109,68 @@ private List<string> ParseQuizContent(string content, out List<List<string>> cho
     choices = new List<List<string>>();
     answers = new List<string>();
 
-    // Split the response into individual question blocks
-    var questionBlocks = content.Split(new[] { "Question" }, StringSplitOptions.None);
-
-    foreach (var block in questionBlocks)
+    try
     {
-        if (block.Trim().Length > 0)
+        var jsonResponse = JsonSerializer.Deserialize<JsonElement>(content);
+        var candidates = jsonResponse.GetProperty("candidates");
+
+        foreach (var candidate in candidates.EnumerateArray())
         {
-            try
+            var parts = candidate.GetProperty("content").GetProperty("parts");
+            foreach (var part in parts.EnumerateArray())
             {
-                // Split the question block into question and choices
-                var parts = block.Split(new[] { "Choices:" }, StringSplitOptions.None);
-                if (parts.Length > 0)
+                var text = part.GetProperty("text").GetString();
+
+                if (string.IsNullOrWhiteSpace(text))
+                    continue;
+
+                // Now process the plain text content
+                var questionBlocks = text.Split(new[] { "**Question" }, StringSplitOptions.None);
+
+                foreach (var block in questionBlocks)
                 {
-                    var question = parts[0].Trim(); // Get the question text
-                    questions.Add(question);
-
-                    var choicesAndAnswer = parts.Length > 1 ? parts[1] : string.Empty;
-                    var choiceAnswerParts = choicesAndAnswer.Split(new[] { "Answer:" }, StringSplitOptions.None);
-
-                    // Handle the choices
-                    var choiceLines = choiceAnswerParts[0].Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                    var choiceList = new List<string>();
-
-                    foreach (var line in choiceLines)
+                    if (block.Trim().Length > 0)
                     {
-                        var trimmedLine = line.Trim();
-                        if (!string.IsNullOrEmpty(trimmedLine))
+                        var blockParts = block.Split(new[] { "Choices:" }, StringSplitOptions.None);
+                        if (blockParts.Length > 0)
                         {
-                            choiceList.Add(trimmedLine);
+                            questions.Add(blockParts[0].Trim()); // Get the question text
+
+                            // Process choices
+                            var choicesAndAnswer = blockParts.Length > 1 ? blockParts[1] : string.Empty;
+                            var choiceAnswerParts = choicesAndAnswer.Split(new[] { "Answer:" }, StringSplitOptions.None);
+
+                            var choiceLines = choiceAnswerParts[0]
+                                .Trim()
+                                .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            var choiceList = choiceLines.Select(line => line.Trim())
+                                                        .Where(line => !string.IsNullOrEmpty(line))
+                                                        .ToList();
+
+                            while (choiceList.Count < 4) // Add placeholders if fewer than 4 choices
+                            {
+                                choiceList.Add("No choice provided.");
+                            }
+                            choices.Add(choiceList);
+
+                            // Process answer
+                            var answer = choiceAnswerParts.Length > 1 ? choiceAnswerParts[1].Trim() : "No answer provided.";
+                            answers.Add(answer.Split(')').FirstOrDefault()?.Trim() ?? "No answer provided.");
                         }
-                    }
-
-                    // Add default choices if less than 4
-                    while (choiceList.Count < 4)
-                    {
-                        choiceList.Add("No choice provided.");
-                    }
-                    choices.Add(choiceList);
-
-                    // Handle the answer
-                    var answer = choiceAnswerParts.Length > 1 ? choiceAnswerParts[1].Trim() : string.Empty;
-                    if (string.IsNullOrEmpty(answer))
-                    {
-                        answers.Add("No answer provided.");
-                    }
-                    else
-                    {
-                        // Extract only the answer letter (e.g., "c)")
-                        var answerLetter = answer.Split(')')[0].Trim();
-                        answers.Add(answerLetter);
                     }
                 }
             }
-            catch (Exception e)
-            {
-                _logger.LogError($"Error processing block: {e}");
-            }
         }
+    }
+    catch (Exception e)
+    {
+        _logger.LogError($"Error parsing quiz content: {e.Message}");
     }
 
     return questions;
 }
+
 
 private string SaveQuizToJsonFile(Dictionary<int, string> questions, Dictionary<int, List<string>> choices)
 {
