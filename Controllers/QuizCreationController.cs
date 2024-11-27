@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using UsersApp.Data; // Add this line
+using UsersApp.Data;
 using UsersApp.Models;
-using UsersApp.ViewModels; // Add this line if you have a ViewModels namespace
+using UsersApp.ViewModels;
 using System.Text.Json;
-
 
 namespace UsersApp.Controllers
 {
@@ -30,21 +29,25 @@ namespace UsersApp.Controllers
 
         public async Task<IActionResult> ViewQuizzes()
         {
-            var quizzes = await _context.Quizzes
-                .Select(q => new Quiz
-                {
-                    Id = q.Id,
-                    GradeLevel = q.GradeLevel ?? string.Empty,
-                    Topic = q.Topic ?? string.Empty,
-                    JsonFilePath = q.JsonFilePath ?? string.Empty,
-                    CorrectAnswers = q.CorrectAnswers ?? string.Empty
-                })
-                .ToListAsync();
-
+            var quizzes = await _context.Quizzes.ToListAsync();
             return View(quizzes);
         }
 
         public async Task<IActionResult> ViewQuizDetails(int id)
+        {
+            var quiz = await _context.Quizzes.FindAsync(id);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+            var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
+
+            return View(quizDetails);
+        }
+
+        public async Task<IActionResult> TakeQuiz(int id)
         {
             var quiz = await _context.Quizzes.FindAsync(id);
             if (quiz == null)

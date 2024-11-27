@@ -1,0 +1,151 @@
+@model UsersApp.ViewModels.QuizDetailsViewModel
+
+@{
+    ViewData["Title"] = "Take Quiz";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Quiz</title>
+    <style>
+        .flashcard {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+        .question {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .choice {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect-answer {
+            color: red;
+            font-weight: bold;
+        }
+        .timer {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        const questions = @Html.Raw(Json.Serialize(Model.Questions.Values.ToList()));
+        const choices = @Html.Raw(Json.Serialize(Model.Choices.Values.ToList()));
+        const answers = @Html.Raw(Json.Serialize(Model.Choices.Values.Select(c => c.Last()).ToList()));
+
+        function showQuestion(index) {
+            const flashcard = document.getElementById('flashcard');
+            const questionElement = document.getElementById('question');
+            const choicesElement = document.getElementById('choices');
+            const resultElement = document.getElementById('result');
+            const timerElement = document.getElementById('timer');
+
+            if (index >= questions.length) {
+                flashcard.innerHTML = `<strong>Quiz Completed!</strong><br>Your score is ${score} out of ${questions.length}.`;
+                return;
+            }
+
+            questionElement.innerHTML = `<strong>Question:</strong> ${questions[index]}`;
+            choicesElement.innerHTML = '';
+            resultElement.innerHTML = '';
+            timerElement.innerHTML = 'Time left: 10 seconds';
+
+            for (let i = 0; i < 4; i++) {
+                const choice = document.createElement('button');
+                choice.className = 'choice';
+                choice.innerHTML = choices[index][i].trim();
+                choice.onclick = () => checkAnswer(choice, choices[index][i].trim());
+                choicesElement.appendChild(choice);
+            }
+
+            startTimer();
+        }
+
+        function startTimer() {
+            let timeLeft = 10;
+            const timerElement = document.getElementById('timer');
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.innerHTML = `Time left: ${timeLeft} seconds`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    checkAnswer();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selectedChoice = null, selectedValue = null) {
+            clearInterval(timer);
+            const resultElement = document.getElementById('result');
+            const flashcard = document.getElementById('flashcard');
+
+            if (selectedChoice) {
+                if (selectedValue === answers[currentQuestionIndex].trim()) {
+                    resultElement.innerHTML = `<span class="correct-answer">Correct! The answer is ${answers[currentQuestionIndex].trim()}.</span>`;
+                    flashcard.style.backgroundColor = 'lightgreen';
+                    score++;
+                } else {
+                    resultElement.innerHTML = `<span class="incorrect-answer">Incorrect. The correct answer is ${answers[currentQuestionIndex].trim()}.</span>`;
+                    flashcard.style.backgroundColor = 'lightcoral';
+                    selectedChoice.style.backgroundColor = 'lightcoral';
+                }
+                // Highlight the correct answer
+                document.querySelectorAll('.choice').forEach(choice => {
+                    if (choice.innerHTML === answers[currentQuestionIndex].trim()) {
+                        choice.style.backgroundColor = 'lightgreen';
+                    }
+                });
+            } else {
+                resultElement.innerHTML = `<span class="incorrect-answer">Time's up! The correct answer is ${answers[currentQuestionIndex].trim()}.</span>`;
+                flashcard.style.backgroundColor = 'lightcoral';
+            }
+
+            currentQuestionIndex++;
+            setTimeout(() => {
+                flashcard.style.backgroundColor = 'white';
+                showQuestion(currentQuestionIndex);
+            }, 2000);
+        }
+
+        window.onload = function() {
+            showQuestion(currentQuestionIndex);
+        }
+    </script>
+</head>
+<body>
+    <div class="flashcard" id="flashcard">
+        <div class="timer" id="timer"></div>
+        <div class="question" id="question"></div>
+        <div class="choices" id="choices"></div>
+        <div id="result"></div>
+    </div>
+</body>
+</html>
