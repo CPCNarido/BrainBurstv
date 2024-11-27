@@ -12,7 +12,7 @@ namespace UsersApp.Data
 
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<Question> Questions { get; set; }
-
+        public DbSet<Quiz> Quizzes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,5 +24,7 @@ namespace UsersApp.Data
                 .HasForeignKey(q => q.FlashcardId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
+
+        
     }
 }

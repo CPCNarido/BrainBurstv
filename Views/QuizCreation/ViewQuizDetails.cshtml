@@ -1,0 +1,31 @@
+@model UsersApp.ViewModels.QuizDetailsViewModel
+
+@{
+    ViewData["Title"] = "Quiz Details";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ViewQuizDetails.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container1">
+        <h1>Quiz Details</h1>
+        @foreach (var question in Model.Questions)
+        {
+            <div class="question">
+                <h2>Question @question.Key</h2>
+                <p>@question.Value</p>
+                <ul>
+                    @foreach (var choice in Model.Choices[question.Key])
+                    {
+                        <li>@choice</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</body>
+</html>

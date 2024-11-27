@@ -66,6 +66,9 @@ html,body{
     font-weight: 400;
     line-height: normal;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .b{
@@ -216,7 +219,7 @@ html,body{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    width: 310px;
+    width: 400px;
     height: 75px;
     flex-shrink: 0;
     border-radius: 15px;

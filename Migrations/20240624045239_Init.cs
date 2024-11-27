@@ -32,7 +32,7 @@ namespace UsersApp.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FilePath = table.Column<string>(type: "nvarchar(255)", nullable: true),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role= table.Column<string>(type: "nvarchar(255)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(255)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -159,6 +159,22 @@ namespace UsersApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Quizzes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GradeLevel = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    Topic = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    JsonFilePath = table.Column<string>(type: "nvarchar(255)", nullable: true),
+                    CorrectAnswers = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quizzes", x => x.Id);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -222,6 +238,9 @@ namespace UsersApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Quizzes");
         }
     }
 }
