@@ -29,6 +29,7 @@
                         <td>@quiz.Topic</td>
                         <td>
                             <a href="@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.Id })">View Details</a>
+                            <a href="@Url.Action("TakeQuiz", "QuizCreation", new { id = quiz.Id })">Take Quiz</a>
                         </td>
                     </tr>
                 }
