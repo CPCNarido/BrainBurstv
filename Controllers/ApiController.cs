@@ -109,8 +109,8 @@ private List<string> ParseQuizContent(string content, out List<List<string>> cho
     choices = new List<List<string>>();
     answers = new List<string>();
 
-    // Split the response into individual questions
-    var questionBlocks = content.Split(new[] { "**Question" }, StringSplitOptions.None);
+    // Split the response into individual question blocks
+    var questionBlocks = content.Split(new[] { "Question" }, StringSplitOptions.None);
 
     foreach (var block in questionBlocks)
     {
@@ -118,13 +118,20 @@ private List<string> ParseQuizContent(string content, out List<List<string>> cho
         {
             try
             {
+                // Split the question block into question and choices
                 var parts = block.Split(new[] { "Choices:" }, StringSplitOptions.None);
-                var question = parts[0].Trim();
-                if (parts.Length > 1)
+                if (parts.Length > 0)
                 {
-                    var choiceAnswer = parts[1].Split(new[] { "Answer:" }, StringSplitOptions.None);
-                    var choiceLines = choiceAnswer[0].Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var question = parts[0].Trim(); // Get the question text
+                    questions.Add(question);
+
+                    var choicesAndAnswer = parts.Length > 1 ? parts[1] : string.Empty;
+                    var choiceAnswerParts = choicesAndAnswer.Split(new[] { "Answer:" }, StringSplitOptions.None);
+
+                    // Handle the choices
+                    var choiceLines = choiceAnswerParts[0].Trim().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     var choiceList = new List<string>();
+
                     foreach (var line in choiceLines)
                     {
                         var trimmedLine = line.Trim();
@@ -133,23 +140,27 @@ private List<string> ParseQuizContent(string content, out List<List<string>> cho
                             choiceList.Add(trimmedLine);
                         }
                     }
-                    if (choiceAnswer.Length > 1)
+
+                    // Add default choices if less than 4
+                    while (choiceList.Count < 4)
                     {
-                        var answer = choiceAnswer[1].Trim();
-                        answers.Add(answer);
+                        choiceList.Add("No choice provided.");
                     }
-                    else
+                    choices.Add(choiceList);
+
+                    // Handle the answer
+                    var answer = choiceAnswerParts.Length > 1 ? choiceAnswerParts[1].Trim() : string.Empty;
+                    if (string.IsNullOrEmpty(answer))
                     {
                         answers.Add("No answer provided.");
                     }
-                    choices.Add(choiceList);
+                    else
+                    {
+                        // Extract only the answer letter (e.g., "c)")
+                        var answerLetter = answer.Split(')')[0].Trim();
+                        answers.Add(answerLetter);
+                    }
                 }
-                else
-                {
-                    choices.Add(new List<string> { "No choices provided." });
-                    answers.Add("No answer provided.");
-                }
-                questions.Add(question);
             }
             catch (Exception e)
             {
@@ -158,17 +169,9 @@ private List<string> ParseQuizContent(string content, out List<List<string>> cho
         }
     }
 
-    // Ensure each question has exactly 4 choices
-    for (int i = 0; i < choices.Count; i++)
-    {
-        if (choices[i].Count != 4)
-        {
-            choices[i] = new List<string> { "No choices provided.", "No choices provided.", "No choices provided.", "No choices provided." };
-        }
-    }
-
     return questions;
 }
+
 private string SaveQuizToJsonFile(Dictionary<int, string> questions, Dictionary<int, List<string>> choices)
 {
     var quizData = new
