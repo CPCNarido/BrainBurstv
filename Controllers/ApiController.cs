@@ -24,10 +24,10 @@ namespace UsersApp.Controllers
         }
 
 [HttpPost]
-public async Task<IActionResult> GenerateContent([FromForm] string gradeLevel, [FromForm] string topic)
+public async Task<IActionResult> GenerateContent([FromForm] string gradeLevel, [FromForm] string topic, [FromForm] string Items, [FromForm] string QuizDescription)
 {
     var prompt = $@"
-    Create a quiz for grade {gradeLevel} on the topic of {topic}. 
+    Create a {Items} items quiz for grade {gradeLevel}with the topic of {topic}, the quiz is as follows{QuizDescription}. 
     Make each question have 4 choices and display the question followed by the choices.
     Use the following format:
     **Question 1:**
@@ -90,7 +90,8 @@ public async Task<IActionResult> GenerateContent([FromForm] string gradeLevel, [
                              .ToDictionary(x => x.index + 1, x => x.c);
     var jsonFilePath = SaveQuizToJsonFile(questionsDict, choicesDict);
 
-    // Save the JSON file path and correct answers to the database
+    // Save the JSON
+        // Save the JSON file path and correct answers to the database
     var quiz = new Quiz
     {
         GradeLevel = gradeLevel,

@@ -29,7 +29,17 @@ namespace UsersApp.Controllers
 
         public async Task<IActionResult> ViewQuizzes()
         {
-            var quizzes = await _context.Quizzes.ToListAsync();
+            var quizzes = await _context.Quizzes
+                .Select(q => new Quiz
+                {
+                    Id = q.Id,
+                    GradeLevel = q.GradeLevel ?? string.Empty,
+                    Topic = q.Topic ?? string.Empty,
+                    JsonFilePath = q.JsonFilePath ?? string.Empty,
+                    CorrectAnswers = q.CorrectAnswers ?? string.Empty
+                })
+                .ToListAsync();
+
             return View(quizzes);
         }
 

@@ -11,8 +11,63 @@
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container1">
-        <form method="post" action="/Api/GenerateContent">
+    <div class="quizmaker">
+        <div class="left-container">
+            <div class="labelss"><h1>AI Quiz Generator</h1></div>
+
+            <div class="inputs">
+                <input type="text" id="QuizTitle" name="QuizTitle" class="QuizTitle" placeholder="Enter Quiz Title..." required />
+                <input type="text" id="QuizDescription" name="QuizDescription" class="QuizDescription" placeholder="Enter Quiz Description..." required />
+            </div>
+
+            <div class="descriptions">
+                <p>
+                    Transform your quizzes effortlessly with BrainBurst’s AI Quiz Generator. Create engaging, tailored quizzes in seconds, perfect for any subject or audience.
+                </p>
+            </div>
+        </div>
+
+        <div class="right-container">
+            <form method="post" action="/Api/GenerateContent">
+            <div class="input-container">
+                <div class="topic">
+                    <div class="gradeobject">Topic</div>
+                    <input type="text" id="topic" name="topic" class="topic-container" placeholder="Enter topic..." required />
+                </div>
+                <div class="gradelevel">
+                    <div class="gradeobject">Grade Level</div>
+                    <select id="gradeLevel" name="gradeLevel" class="dropdown" required>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Highschool">Highschool</option>
+                        <option value="College">College</option>
+                    </select>
+                </div>
+                <div class="items">
+                    <div class="gradeobject">Items</div>
+                    <div class="items-input-container">
+                        <input type="number" id="Items" name="Items" min="1" max="50" class="items-input" value="50" oninput="document.getElementById('difficultyRange').value = this.value" />
+                    </div>
+                </div>
+                <div class="quizdescription">
+                    <div class="gradeobject1">Quiz Description</div>
+                    <textarea id="QuizDescription" name="QuizDescription" class="quizdescription-input" placeholder="Enter the details of the quiz that you wanted us to create......."></textarea>
+                </div>
+                <div class="formatter">
+                    <button type="submit" class="generate">Generate Quiz</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+        @* 
             <div class="form-group">
                 <label for="gradeLevel">Grade Level</label>
                 <input type="text" id="gradeLevel" name="gradeLevel" class="form-control" placeholder="Enter grade level..." required />
@@ -24,7 +79,7 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Generate Quiz</button>
             </div>
-        </form>
-    </div>
+        </form> *@
+
 </body>
 </html>
