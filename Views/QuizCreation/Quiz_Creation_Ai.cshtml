@@ -1,3 +1,5 @@
+@model UsersApp.ViewModels.QuizCreationViewModel
+
 @{
     ViewData["Title"] = "Quiz Creator Ai";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
@@ -11,40 +13,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="quizmaker">
-        <div class="left-container">
-            <div class="labelss"><h1>AI Quiz Generator</h1></div>
+    <div class="wrapp">
+        <div class="quizmaker">
+            <div class="left-container">
+                <div class="labelss"><h1>AI Quiz Generator</h1></div>
 
-            <div class="inputs">
-                <input type="text" id="QuizTitle" name="QuizTitle" class="QuizTitle" placeholder="Enter Quiz Title..." required />
-                <input type="text" id="QuizDescription" name="QuizDescription" class="QuizDescription" placeholder="Enter Quiz Description..." required />
+                <div class="inputs">
+                    <input type="text" id="QuizTitle" name="QuizTitle" class="QuizTitle" placeholder="Enter Quiz Title..." required />
+                    <input type="text" id="QuizDescription" name="QuizDescription" class="QuizDescription" placeholder="Enter Quiz Description..." required />
+                </div>
+
+                <div class="descriptions">
+                    <p>
+                        Transform your quizzes effortlessly with BrainBurst’s AI Quiz Generator. Create engaging, tailored quizzes in seconds, perfect for any subject or audience.
+                    </p>
+                </div>
             </div>
 
-            <div class="descriptions">
-                <p>
-                    Transform your quizzes effortlessly with BrainBurst’s AI Quiz Generator. Create engaging, tailored quizzes in seconds, perfect for any subject or audience.
-                </p>
-            </div>
-        </div>
-
-        <div class="right-container">
-            <form method="post" action="/Api/GenerateContent">
-            <div class="input-container">
-                <div class="topic">
-                    <div class="gradeobject">Topic</div>
-                    <input type="text" id="topic" name="topic" class="topic-container" placeholder="Enter topic..." required />
-                </div>
-                <div class="gradelevel">
-                    <div class="gradeobject">Grade Level</div>
-                    <select id="gradeLevel" name="gradeLevel" class="dropdown" required>
-                        <option value="Elementary">Elementary</option>
-                        <option value="Highschool">Highschool</option>
-                        <option value="College">College</option>
-                    </select>
-                </div>
-                <div class="items">
-                    <div class="gradeobject">Items</div>
-                    <div class="items-input-container">
+            <div class="right-container">
+                <form method="post" action="/Api/GenerateContent">
+                    <div class="input-container">
+                        <div class="topic">
+                            <div class="gradeobject">Topic</div>
+                            <input type="text" id="topic" name="topic" class="topic-container" placeholder="Enter topic..." required />
+                        </div>
+                        <div class="gradelevel">
+                            <div class="gradeobject">Grade Level</div>
+                            <select id="gradeLevel" name="gradeLevel" class="dropdown" required>
+                                <option value="Elementary">Elementary</option>
+                                <option value="Highschool">Highschool</option>
+                                <option value="College">College</option>
+                            </select>
+                        </div>
+                        <div class="items">
+                            <div class="gradeobject">Items</div>
+                            <div class="items-input-container">
                         <input type="number" id="Items" name="Items" min="1" max="50" class="items-input" value="50" oninput="document.getElementById('difficultyRange').value = this.value" />
                     </div>
                 </div>
@@ -60,26 +63,52 @@
         </div>
     </div>
 
+        <div class="quiz-library" id="quiz-library">
+            <div class="labelll">Recent Quizzes</div>
+            <div class="quizzes-container">
+            @foreach (var quiz in Model.Quizzes)
+            {
+            <button class="quiz-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.Id })'">
+                <h1>@quiz.Topic</h1>
+                <h2>@quiz.GradeLevel</h2>
 
-
-
-
-
-
-
-        @* 
-            <div class="form-group">
-                <label for="gradeLevel">Grade Level</label>
-                <input type="text" id="gradeLevel" name="gradeLevel" class="form-control" placeholder="Enter grade level..." required />
+            </button>
+            }
             </div>
-            <div class="form-group">
-                <label for="topic">Topic</label>
-                <input type="text" id="topic" name="topic" class="form-control" placeholder="Enter topic..." required />
+
+
+            <div class="pagination">
+
+                <a href="@(Model.CurrentPage > 1 ? Url.Action("Quiz_Creation_Ai", new { page = Model.CurrentPage - 1 }) + "#quiz-library" : "#")" 
+                class="pagination-prev @(Model.CurrentPage <= 1 ? "disabled" : "")">
+                    <img src="/Assets/QuizCreation/Prev.png" />
+                </a>
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <a href="@Url.Action("Quiz_Creation_Ai", new { page = i })#quiz-library" 
+                    class="pagination-number @(i == Model.CurrentPage ? "active" : "")">
+                        @i
+                    </a>
+                }
+
+                <a href="@(Model.CurrentPage < Model.TotalPages ? Url.Action("Quiz_Creation_Ai", new { page = Model.CurrentPage + 1 }) + "#quiz-library" : "#")" 
+                class="pagination-next @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+                    <img src="/Assets/QuizCreation/Next.png" />
+                </a>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Generate Quiz</button>
-            </div>
-        </form> *@
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

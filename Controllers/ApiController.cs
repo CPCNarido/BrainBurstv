@@ -101,7 +101,7 @@ public async Task<IActionResult> GenerateContent([FromForm] string gradeLevel, [
     };
     _context.Quizzes.Add(quiz);
     await _context.SaveChangesAsync();
-    return RedirectToAction("ViewQuizzes", "QuizCreation");
+return RedirectToAction("ViewQuizDetails", "QuizCreation", new { id = quiz.Id });
 }
 
 private List<string> ParseQuizContent(string content, out List<List<string>> choices, out List<string> answers)
