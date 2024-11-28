@@ -78,27 +78,31 @@ namespace UsersApp.Controllers
                 await _context.SaveChangesAsync();
 
                 // Handle file uploads
-                foreach (var file in form.Files)
-                {
-                    if (file.Length > 0)
-                    {
-                        // Process the file (e.g., save it to the server or database)
-                        var filePath = Path.Combine("wwwroot/uploads", file.FileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
+                // foreach (var file in form.Files)
+                // {
+                //     if (file.Length > 0)
+                //     {
+                //         // Process the file (e.g., save it to the server or database)
+                //         var filePath = Path.Combine("wwwroot/uploads", file.FileName);
+                //         using (var stream = new FileStream(filePath, FileMode.Create))
+                //         {
+                //             await file.CopyToAsync(stream);
+                //         }
 
-                        // Assuming you want to store the file path in the flashcard object
-                        var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
-                        flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
-                    }
-                }
+                //         // Assuming you want to store the file path in the flashcard object
+                //         var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
+                //         flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
+                //     }
+                // }
 
                 // Set the FlashcardId for each question
                 foreach (var question in flashcard.Questions)
                 {
                     question.FlashcardId = flashcard.Id;
+                    if (string.IsNullOrWhiteSpace(question.ImageQuestionPath))
+                    {
+                        question.ImageQuestionPath = null;
+                    }
                     _context.Questions.Add(question); // Add each question to the context
                 }
 
