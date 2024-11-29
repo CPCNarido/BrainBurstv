@@ -86,6 +86,35 @@ namespace UsersApp.Controllers
             return View(quizDetails);
         }
 
+                [HttpPost]
+        public async Task<IActionResult> UpdateQuiz(int id, QuizDetailsViewModel model)
+        {
+            var quiz = await _context.Quizzes.FindAsync(id);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            // Update quiz details
+            var questions = model.Questions.ToDictionary(q => q.Key, q => q.Value);
+            var choices = model.Choices.ToDictionary(c => c.Key, c => c.Value.ToList());
+
+            var quizData = new QuizDetailsViewModel
+            {
+                Questions = questions,
+                Choices = choices,
+                Timer = model.Timer
+            };
+
+            var json = JsonSerializer.Serialize(quizData);
+            System.IO.File.WriteAllText(quiz.JsonFilePath, json);
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("ViewQuizDetails", new { id = quiz.Id });
+        }
+
         public async Task<IActionResult> TakeQuiz(int id)
         {
             var quiz = await _context.Quizzes.FindAsync(id);
