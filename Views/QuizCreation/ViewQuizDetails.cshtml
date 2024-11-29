@@ -18,12 +18,12 @@
             <div class="question">
                 <h2>Question @question.Key</h2>
                 <p>@question.Value</p>
-                <ul>
                     @foreach (var choice in Model.Choices[question.Key])
                     {
-                        <li>@choice</li>
+                        <div class="choices"> 
+                            @choice
+                        </div>
                     }
-                </ul>
             </div>
         }
     </div>
