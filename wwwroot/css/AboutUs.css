@@ -14,20 +14,19 @@
     background-color: #2B550E;
 }
 
-.layer-1-content{
+.layer-1-content {
     display: flex;
     justify-content: space-between;
     width: 100%;
     margin-top: 110px;
 }
 
-.layer-1-left-side
-{
+.layer-1-left-side {
     width: 50%;
     align-items: center;
 }
 
-.layer-1-left-side-content{
+.layer-1-left-side-content {
     margin-left: 110px; /* Adjusted from 210px to 50px */
     width: 70%;
 }
@@ -37,46 +36,62 @@
     margin-bottom: -10px;
     color: #FFFDC1;
     text-shadow: 
-    5px 5px 0px #5C4C20,   /* Right Down */
-    -5px -5px 0px #5C4C20,  /* Left Up */
-    -5px 5px 0px #5C4C20,   /* Left Down */
-    5px -5px 0px #5C4C20,   /* Right Up */
-    5px 0px 0px #5C4C20,    /* Right */
-    -5px 0px 0px #5C4C20,   /* Left */
-    0px 5px 0px #5C4C20,    /* Down */
-    0px -5px 0px #5C4C20,   /* Up */
-    6px 6px 0px #5C4C20,    /* Right Down - extra */
-    -6px -6px 0px #5C4C20,  /* Left Up - extra */
-    -6px 6px 0px #5C4C20,   /* Left Down - extra */
-    6px -6px 0px #5C4C20,   /* Right Up - extra */
-    6px 0px 0px #5C4C20,    /* Right - extra */
-    -6px 0px 0px #5C4C20,   /* Left - extra */
-    0px 6px 0px #5C4C20,    /* Down - extra */
-    0px -6px 0px #5C4C20;   /* Up - extra */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
     font-family: "Rum Raisin";
     font-size: 70px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
 .layer-1-left-side-content p {
+    flex-shrink: 0;
     font-size: 32px;
     color: #F5D059;
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.6), 
-        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
+    -webkit-text-stroke-color: #5C4C20;
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
-.layer-1-right-side
-{
+.layer-1-right-side {
     width: 50%;
 }
 
-.layer-1-right-side img
-{
+.layer-1-right-side img {
     width: 650px;
     margin-left: 50px;
 }
@@ -100,8 +115,9 @@
     box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35);
     cursor: pointer;
 }
+
 .layer-2 {
-    height: auto; /* Allow content to determine the height */
+    height: 570px;
     width: 100%;
     text-align: center;
     margin-bottom: 150px;
@@ -109,7 +125,103 @@
 
 .layer-2-title {
     margin-bottom: 50px;
-    margin-top: 150px;
+    margin-top: 100px;
+    color: #FFFDC1;
+    font-family: "Rum Raisin";
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-shadow: 
+        3px 3px 0px #5C4C20,   /* Right Down */
+        -3px -3px 0px #5C4C20,  /* Left Up */
+        -3px 3px 0px #5C4C20,   /* Left Down */
+        3px -3px 0px #5C4C20,   /* Right Up */
+        3px 0px 0px #5C4C20,    /* Right */
+        -3px 0px 0px #5C4C20,   /* Left */
+        0px 3px 0px #5C4C20,    /* Down */
+        0px -3px 0px #5C4C20,   /* Up */
+        4px 4px 0px #5C4C20,    /* Right Down - extra */
+        -4px -4px 0px #5C4C20,  /* Left Up - extra */
+        -4px 4px 0px #5C4C20,   /* Left Down - extra */
+        4px -4px 0px #5C4C20,   /* Right Up - extra */
+        4px 0px 0px #5C4C20,    /* Right - extra */
+        -4px 0px 0px #5C4C20,   /* Left - extra */
+        0px 4px 0px #5C4C20,    /* Down - extra */
+        0px -4px 0px #5C4C20;   /* Up - extra */
+}
+
+.layer-2-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    width: 40%;
+    height: 400px;
+    background-color: #F5D059;
+    border-radius: 20px;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-bottom: 50px;
+    padding-top: 20px;
+}
+
+.layer-2-content .mission, .layer-2-content .vision {
+    width: 45%;
+    text-align: center;
+}
+
+.mission-logo{
+    position: relative;
+    top: 15px; 
+    width: 90px;
+}
+.vision-logo {
+    position: relative;
+    top: 5px; 
+    width: 90px;
+}
+
+.layer-2-content p {
+    text-shadow: 
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
+    font-family: "Rum Raisin";
+    font-size: 24px;
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
+    color: #FFFDC1;
+   
+}
+
+.layer-3 {
+    height: 500px;
+    width: 100%;
+    background-color: #2B550E;
+    padding-top: 2%;
+}
+
+.layer-3-title {
+    text-align: center;
+}
+
+.layer-3-title h1 {
+    font-size: 70px; /* Responsive font size based on viewport width */
+    margin-bottom: 50px;
     color: #FFFDC1;
     text-shadow: 
         5px 5px 0px #5C4C20,   /* Right Down */
@@ -128,91 +240,11 @@
         -6px 0px 0px #5C4C20,   /* Left - extra */
         0px 6px 0px #5C4C20,    /* Down - extra */
         0px -6px 0px #5C4C20;   /* Up - extra */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
-    font-family: "Rum Raisin";
-    font-size: 70px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.layer-2-box-container {
-    width: 80%; /* Responsive width */
-    margin: 0 auto;
-    background-color: #F5D059;
-    border-collapse: collapse;
-    border: 1px solid black;
-    border-radius: 20px; /* Adds rounded corners */
-    overflow: hidden; /* Ensures content stays within the rounded corners */
-    table-layout: auto; /* Allow column widths to adjust dynamically */
-    resize: both; /* Allow resizing of the table */
-}
-
-.layer-2-box-container td {
-    border: 2px solid #5C4C20; /* Adds table borders */
-    vertical-align: middle; /* Centers content vertically in the cells */
-    width: 50%; /* Each cell takes 50% of the table width */
-    height: auto; /* Allow the height to adjust dynamically */
-}
-
-.layer-2-box-container .mission img,
-.layer-2-box-container .vision img {
-    width: 100px; /* Make images fill the cell */
-}
-
-.layer-2-top-box {
-    height: 100px; /* Allow content to determine height */
-}
-
-/* Optional: Set minimum and maximum sizes for better control */
-.layer-2-box-container {
-    width: 1000px;
-}
-
-.layer-2-bottom-box {
-    height: 300px; /* Allow content to determine height */
-    font-size: 28px;
-    width: 90%;
-    color: #FFFDC1;
-    text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.6), 
-        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
-}
-
-.layer-2-bottom-box p {
-    font-size: 28px;
-    color: #FFFDC1;
-    text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
     -webkit-font-smoothing: antialiased; /* Improve font smoothing */
     -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
-.layer-3{
-    height: 500px;
-    width: 100%;
-    background-color: #2B550E;
-    padding-top: 2%;
-}
-
-.layer-3-title{
-    text-align: center;
-}
-
-.layer-3-title h1{
-    font-size: 90px; /* Responsive font size based on viewport width */
-    margin-bottom: 50px;
-    color: #FFFDC1;
-    text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
-}
-
-.layer-3-text{
+.layer-3-text {
     text-align: center;
     margin-top: 50px;
     width: 80%;
@@ -221,36 +253,55 @@
     font-size: 32px;
     color: #F5D059;
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.6), 
-        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
 .layer-4 {
     width: 100%;
-    height: 1470px ;
-    background-color: #FFFDC1; /* Optional background for the layer */
-    margin-top: 150px;
+    height: 1000px;
+    background-color: #2B550E; /* Optional background for the layer */
+    padding-top: 50px; /* Add padding to create space */
+    padding-bottom: 50px; /* Add padding to create space */
+    margin-top: 100px; /* Increase margin-top to create more space */
+    margin-bottom: 100px;
 }
 
 .layer-4-title-box {
     width: 480px;
     height: 80px;
-    background-color: #F5D059;
+    background-color: #89B752;
     border-radius: 20px;
     border: 1px solid black; /* Thicker border for a polished look */
     display: flex; /* Centers content inside the title box */
     align-items: center;
     justify-content: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
-    margin: 0 auto; /* Centers horizontally */
+    margin: 50px auto; /* Adds 50px margin to create space */
 }
 
-.layer-4-top, .layer-4-bottom{
+.layer-4-top, .layer-4-bottom {
     display: flex;
-    justify-content:center;
+    justify-content: center;
     gap: 100px;
     margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .layer-4-title {
@@ -259,21 +310,37 @@
     color: #FFFDC1; /* Matches border color for consistency */
     text-align: center;
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
+    -webkit-stroke-color: #5C4C20;
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
-.layer-4-top-left-box,.layer-4-top-right-box {
+.layer-4-top-left-box, .layer-4-top-right-box {
     height: 300px;
     border: 1px solid black;
     border-radius: 20px;
     width: 550px;
-    background-color: #F5D059;
+    background-color: #89B752;
     padding-top: 30px;
 }
 
-.name-box{
+.name-box {
     width: 450px;
     height: 60px;
     background-color: #FFFDC1;
@@ -287,16 +354,32 @@
     margin-bottom: 50px;
 }
 
-.name{
+.name {
     font-size: 45px;
     color: #FFFDC1;
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
     -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
-.content{
+.content {
     width: 90%;
     height: 100px;
     margin-left: auto;
@@ -304,21 +387,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #F5D059;
+    background-color: #89B752;
     gap: 30px;
 }
 
-.profile{
+.profile {
     width: 130px;
     height: 130px !important;
+    border-radius: 50%; /* Make the image circular */
+    border: 1px solid #000000; /* Optional: Add a border */
 }
 
-.description{
+.description {
     width: 100%;
-    font-size: 24px ;
+    font-size: 24px;
     color: #FFFDC1;
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.6), 
-        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
+    margin-left: 20px; /* Add margin to create space */
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
+
+
