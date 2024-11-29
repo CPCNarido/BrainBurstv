@@ -7,5 +7,6 @@ namespace UsersApp.ViewModels
         public Dictionary<int, string> Questions { get; set; }
         public Dictionary<int, List<string>> Choices { get; set; }
         public Dictionary<int, int> Timer { get; set; }
+            public int Id { get; set; }
     }
 }

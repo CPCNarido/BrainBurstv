@@ -11,52 +11,75 @@
     <link rel="stylesheet" href="~/css/ViewQuizDetails.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Toggle edit mode
-            $(document).on('click', '.edit-question', function() {
-                var questionDiv = $(this).closest('.question');
-                questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', false);
-                questionDiv.find('.edit-question').hide();
-                questionDiv.find('.save-question').show();
-            });
+$(document).ready(function () {
+    // Counter for total number of questions
+    let questionCount = $('.question').length;
 
-            // Save question
-            $(document).on('click', '.save-question', function() {
-                var questionDiv = $(this).closest('.question');
-                questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', true);
-                questionDiv.find('.edit-question').show();
-                questionDiv.find('.save-question').hide();
-            });
+    // Toggle edit mode
+    $(document).on('click', '.edit-question', function () {
+        var questionDiv = $(this).closest('.question');
+        questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', false);
+        questionDiv.find('.edit-question').hide();
+        questionDiv.find('.save-question').show();
+    });
 
-            // Add new question
-            $('#add-question').click(function() {
-                var questionCount = $('.question').length + 1;
-                var newQuestion = `
-                    <div class="question">
-                        <h2>Question ${questionCount}</h2>
-                        <textarea class="question-text" name="Questions[${questionCount}]" placeholder="Enter question text..." disabled></textarea>
-                        <div class="choices">
-                            <input type="text" class="choice" name="Choices[${questionCount}][0]" placeholder="Choice 1" disabled />
-                            <input type="text" class="choice" name="Choices[${questionCount}][1]" placeholder="Choice 2" disabled />
-                            <input type="text" class="choice" name="Choices[${questionCount}][2]" placeholder="Choice 3" disabled />
-                            <input type="text" class="choice" name="Choices[${questionCount}][3]" placeholder="Choice 4" disabled />
-                        </div>
-                        <div class="timer-container">
-                            <input type="number" class="timer-input" name="Timers[${questionCount}]" placeholder="Set timer (minutes)" disabled />
-                        </div>
-                        <button type="button" class="edit-question">Edit Question</button>
-                        <button type="button" class="save-question" style="display:none;">Save Question</button>
-                        <button type="button" class="delete-question">Delete Question</button>
+    // Save question
+    $(document).on('click', '.save-question', function () {
+        var questionDiv = $(this).closest('.question');
+        questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', true);
+        questionDiv.find('.edit-question').show();
+        questionDiv.find('.save-question').hide();
+    });
+
+    // Add new question
+    $('#add-question').click(function () {
+        questionCount++; // Increment the global question count
+
+        const newQuestion = `
+            <div class="question">
+                <div class="top">
+                    <h1>Question ${questionCount}</h1>
+                    <div class="buttonss">
+                        <input type="number" class="timer-input" name="Timers[${questionCount}][1]" placeholder="Set timer (minutes)" disabled />
+                        <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
+                        <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
+                        <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="Delete"></button>
                     </div>
-                `;
-                $('.questions-container').append(newQuestion);
-            });
+                </div>
+                <div class="bot">
+                    <textarea class="question-text" name="Questions[${questionCount}][1]" placeholder="Enter question text..." disabled></textarea>
+                    <div class="choices">
+                        <input type="text" class="choice" name="Choices[${questionCount}][1][0]" placeholder="Choice 1" disabled />
+                        <input type="text" class="choice" name="Choices[${questionCount}][1][1]" placeholder="Choice 2" disabled />
+                        <input type="text" class="choice" name="Choices[${questionCount}][1][2]" placeholder="Choice 3" disabled />
+                        <input type="text" class="choice" name="Choices[${questionCount}][1][3]" placeholder="Choice 4" disabled />
+                    </div>
+                </div>
+            </div>
+        `;
 
-            // Delete question
-            $(document).on('click', '.delete-question', function() {
-                $(this).closest('.question').remove();
+        // Append the new question to the questions-container
+        $('.questions-container').append(newQuestion);
+    });
+
+    // Delete question
+    $(document).on('click', '.delete-question', function () {
+        $(this).closest('.question').remove();
+
+        // Update question numbering after deletion
+        questionCount = 0; // Reset count to recalculate
+        $('.question').each(function (index) {
+            questionCount = index + 1; // Update questionCount sequentially
+            $(this).find('h1').text(`Question ${questionCount}`);
+            $(this).find('.timer-input').attr('name', `Timers[${questionCount}][1]`);
+            $(this).find('.question-text').attr('name', `Questions[${questionCount}][1]`);
+            $(this).find('.choice').each(function (choiceIndex) {
+                $(this).attr('name', `Choices[${questionCount}][1][${choiceIndex}]`);
             });
         });
+    });
+});
+
     </script>
 </head>
 <body>
@@ -67,26 +90,34 @@
                 @foreach (var question in Model.Questions)
                 {
                     <div class="question">
-                        <h2>Question @question.Key</h2>
-                        <textarea class="question-text" name="Questions[@question.Key]" disabled>@question.Value</textarea>
-                        <div class="choices">
-                            @foreach (var choice in Model.Choices[question.Key])
-                            {
-                                <input type="text" class="choice" name="Choices[@question.Key][]" value="@choice" disabled />
-                            }
+                        <div class="top">
+                            <h1>Question @question.Key</h1>
+                            <div class="buttonss">
+                                <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (minutes)" disabled />
+                                <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png">Edit</button>
+                                <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png">Save</button>
+                                <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="" srcset=""></button>
+                            </div>
                         </div>
-                        <div class="timer-container">
-                            <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (minutes)" disabled />
+                        <div class="bot">
+                            <textarea class="question-text" name="Questions[@question.Key]" disabled>@question.Value</textarea>
+                            <div class="choices">
+                                @foreach (var choice in Model.Choices[question.Key])
+                                {
+                                    <input type="text" class="choice" name="Choices[@question.Key][]" value="@choice" disabled />
+                                }
+                            </div>
                         </div>
-                        <button type="button" class="edit-question">Edit Question</button>
-                        <button type="button" class="save-question" style="display:none;">Save Question</button>
-                        <button type="button" class="delete-question">Delete Question</button>
                     </div>
                 }
             </div>
-            <button type="button" id="add-question">Add Question</button>
-            <button type="submit" class="save-quiz">Save Quiz</button>
+            <button type="button" id="add-question" class="add"><img src="/Assets/QuizCreation/addquiz.png"></button>
+            <div class="finalization">
+                <button type="submit" class="save-quiz">Save Quiz</button>
+            </div>
+
         </form>
+        <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.Id })'">practice</button>
     </div>
 </body>
 </html>

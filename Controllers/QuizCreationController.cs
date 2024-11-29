@@ -74,6 +74,7 @@ namespace UsersApp.Controllers
 
         public async Task<IActionResult> ViewQuizDetails(int id)
         {
+            
             var quiz = await _context.Quizzes.FindAsync(id);
             if (quiz == null)
             {
