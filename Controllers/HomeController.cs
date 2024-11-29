@@ -98,6 +98,11 @@ namespace UsersApp.Controllers
             return View();
         }
 
+        public IActionResult Review()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
