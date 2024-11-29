@@ -71,7 +71,7 @@ body {
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     text-align: center; /* Center text within the button */
-    top: 2px; /* Move the text by 2px vertically */
+    top: 3px; /* Move the text by 2px vertically */
     left: 2px; /* Move the text by 2px to the right */
 }
 
@@ -306,6 +306,7 @@ Header {
     width: 150px; /* Ensure the container matches the background size */
     height: 30px; /* Reduce the height of the container */
     top: -25px; /* Move the buttons up by 20px */
+    left: 25px; /* Move the buttons 10px to the right */
 }
 
 .button-background {
