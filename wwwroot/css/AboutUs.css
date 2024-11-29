@@ -28,19 +28,37 @@
 }
 
 .layer-1-left-side-content{
-    margin-left: 210px;
+    margin-left: 110px; /* Adjusted from 210px to 50px */
     width: 70%;
 }
 
 .layer-1-left-side-content h1 {
-    font-size: 70px;
     margin-top: -10px;
     margin-bottom: -10px;
     color: #FFFDC1;
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    5px 5px 0px #5C4C20,   /* Right Down */
+    -5px -5px 0px #5C4C20,  /* Left Up */
+    -5px 5px 0px #5C4C20,   /* Left Down */
+    5px -5px 0px #5C4C20,   /* Right Up */
+    5px 0px 0px #5C4C20,    /* Right */
+    -5px 0px 0px #5C4C20,   /* Left */
+    0px 5px 0px #5C4C20,    /* Down */
+    0px -5px 0px #5C4C20,   /* Up */
+    6px 6px 0px #5C4C20,    /* Right Down - extra */
+    -6px -6px 0px #5C4C20,  /* Left Up - extra */
+    -6px 6px 0px #5C4C20,   /* Left Down - extra */
+    6px -6px 0px #5C4C20,   /* Right Up - extra */
+    6px 0px 0px #5C4C20,    /* Right - extra */
+    -6px 0px 0px #5C4C20,   /* Left - extra */
+    0px 6px 0px #5C4C20,    /* Down - extra */
+    0px -6px 0px #5C4C20;   /* Up - extra */
     -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+    font-family: "Rum Raisin";
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .layer-1-left-side-content p {
@@ -60,7 +78,7 @@
 .layer-1-right-side img
 {
     width: 650px;
-    margin-left: 90px;
+    margin-left: 50px;
 }
 
 .learn-more-button {
@@ -72,11 +90,12 @@
     text-decoration: none;
     width: 242px;
     height: 62px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    outline: none; /* Remove default outline */
+    border: none; /* Remove border */
 }
 
 .learn-more-button:hover {
-    background-color: #2B550E;
+    background-color: #F5D059;
     color: #FFFDC1;
     box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35);
     cursor: pointer;
@@ -85,19 +104,36 @@
     height: auto; /* Allow content to determine the height */
     width: 100%;
     text-align: center;
-    background-color: #FFFDC1;
     margin-bottom: 150px;
 }
 
 .layer-2-title {
-    font-size: 70px; /* Responsive font size based on viewport width */
     margin-bottom: 50px;
     margin-top: 150px;
     color: #FFFDC1;
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
     -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+    font-family: "Rum Raisin";
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .layer-2-box-container {
@@ -142,6 +178,17 @@
         2px 2px 4px rgba(0, 0, 0, 0.6), 
         -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
     -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
+}
+
+.layer-2-bottom-box p {
+    font-size: 28px;
+    color: #FFFDC1;
+    text-shadow: 
+        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
+        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
+    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
 .layer-3{

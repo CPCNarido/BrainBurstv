@@ -21,7 +21,7 @@
     top: -20px; /* Adjusted to raise the text up further */
     left: 5px;
     z-index: 2; /* Ensure it is in front of the rectangle */
-    margin-bottom: 20px; /* Adjust as needed */
+    margin-top: -400px; /* Adjust as needed */
 }
 
 .contact-us-text h1 {
