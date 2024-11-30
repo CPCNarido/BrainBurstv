@@ -52,12 +52,10 @@
 
             function startTimer(minutes) {
                 clearInterval(timer);
-                let timeLeft = minutes * 60; // Convert minutes to seconds
+                let timeLeft = Math.ceil(minutes * 60); // Convert minutes to seconds and round up
                 timer = setInterval(() => {
+                    $('#timer').text(`Time left: ${timeLeft} secs`);
                     timeLeft--;
-                    let minutes = Math.floor(timeLeft / 60);
-                    let seconds = timeLeft % 60;
-                    $('#timer').text(`Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         showQuestion(++currentQuestionIndex); // Move to the next question
@@ -73,10 +71,10 @@
                 // Check if the selected choice is correct
                 let correctChoiceIndex = correctAnswers[currentQuestionIndex + 1]; // Correct answers use 1-based indexing
                 if (selectedChoiceIndex === correctChoiceIndex) {
-                    $(this).css('background-color', 'green');
+                    $(this).addClass('correct');
                     score++;
                 } else {
-                    $(this).css('background-color', 'red');
+                    $(this).addClass('incorrect');
                 }
 
                 // Move to the next question after a short delay

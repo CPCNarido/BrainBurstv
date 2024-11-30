@@ -118,54 +118,71 @@ namespace UsersApp.Controllers
         }
         
 
-    public async Task<IActionResult> TakeQuiz(int id)
+public async Task<IActionResult> TakeQuiz(int id)
+{
+    try
     {
-        try
+        // Attempt to find the quiz in the database
+        var quiz = await _context.Quizzes.FindAsync(id);
+        if (quiz == null)
         {
-            // Attempt to find the quiz in the database
-            var quiz = await _context.Quizzes.FindAsync(id);
-            if (quiz == null)
+            _logger.LogError($"Quiz with ID {id} not found.");
+            return NotFound($"Quiz with ID {id} not found.");
+        }
+
+        // Read quiz data from the file
+        var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+        
+        // Deserialize the quiz data into the view model
+        var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
+        if (quizDetails == null)
+        {
+            _logger.LogError($"Failed to deserialize quiz data from file: {quiz.JsonFilePath}");
+            return BadRequest("Failed to load quiz details.");
+        }
+
+        // Deserialize the CorrectAnswers from the database
+        var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+        var correctAnswersDict = new Dictionary<int, int>();
+
+        for (int i = 0; i < correctAnswersList.Count; i++)
+        {
+            correctAnswersDict[i + 1] = correctAnswersList[i] switch
             {
-                _logger.LogError($"Quiz with ID {id} not found.");
-                return NotFound($"Quiz with ID {id} not found.");
-            }
-
-            // Read quiz data from the file
-            var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
-            
-            // Deserialize the quiz data into the view model
-            var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
-
-            if (quizDetails == null)
-            {
-                _logger.LogError($"Failed to deserialize quiz data from file: {quiz.JsonFilePath}");
-                return BadRequest("Failed to load quiz details.");
-            }
-
-            // Successfully loaded quiz details, assign the quiz ID
-            quizDetails.Id = id;
-
-            return View(quizDetails);
+                "a" => 0,
+                "b" => 1,
+                "c" => 2,
+                "d" => 3,
+                _ => -1
+            };
         }
-        catch (FileNotFoundException ex)
-        {
-            // Log specific error if the quiz JSON file is not found
-            _logger.LogError(ex, $"Quiz JSON file not found at the path: {ex.FileName}");
-            return NotFound("Quiz data file not found.");
-        }
-        catch (JsonException ex)
-        {
-            // Log error if there is an issue deserializing the quiz data
-            _logger.LogError(ex, "Error deserializing quiz data.");
-            return BadRequest("Failed to deserialize quiz data.");
-        }
-        catch (Exception ex)
-        {
-            // Log any unexpected errors
-            _logger.LogError(ex, "An unexpected error occurred while loading the quiz.");
-            return StatusCode(500, "An unexpected error occurred.");
-        }
+
+        quizDetails.CorrectAnswers = correctAnswersDict;
+
+        // Successfully loaded quiz details, assign the quiz ID
+        quizDetails.Id = id;
+
+        return View(quizDetails);
     }
+    catch (FileNotFoundException ex)
+    {
+        // Log specific error if the quiz JSON file is not found
+        _logger.LogError(ex, $"Quiz JSON file not found at the path: {ex.FileName}");
+        return NotFound("Quiz data file not found.");
+    }
+    catch (JsonException ex)
+    {
+        // Log error if there is an issue deserializing the quiz data
+        _logger.LogError(ex, "Error deserializing quiz data.");
+        return BadRequest("Failed to deserialize quiz data.");
+    }
+    catch (Exception ex)
+    {
+        // Log any unexpected errors
+        _logger.LogError(ex, "An unexpected error occurred while loading the quiz.");
+        return StatusCode(500, "An unexpected error occurred.");
+    }
+}
 
     }
 }
