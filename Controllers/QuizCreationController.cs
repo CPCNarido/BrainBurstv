@@ -70,5 +70,15 @@ namespace UsersApp.Controllers
         {
             return View();
         }   
+
+        public async Task<IActionResult> Quiz_Creation_Multiple_Choice()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Quiz_Creation_Fill_In_The_Blanks()
+        {
+            return View();
+        }
     }
 }

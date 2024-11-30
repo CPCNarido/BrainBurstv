@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Quiz Creator True Or False";
+    ViewData["Title"] = "Quiz Creator Multiple Choice";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 <html>
@@ -34,11 +34,21 @@
                         <div class="answer-title">
                             Answer:
                         </div>
-                        <div class="true">
-                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="True" required /> True
+                        <div class="option">
+                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="A" required /> A
+                            <input type="text" name="questions[${questionIndex - 1}].Options[A]" placeholder="Option A" required />
                         </div>
-                        <div class="false">
-                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="False" required /> False
+                        <div class="option">
+                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="B" required /> B
+                            <input type="text" name="questions[${questionIndex - 1}].Options[B]" placeholder="Option B" required />
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="C" required /> C
+                            <input type="text" name="questions[${questionIndex - 1}].Options[C]" placeholder="Option C" required />
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="D" required /> D
+                            <input type="text" name="questions[${questionIndex - 1}].Options[D]" placeholder="Option D" required />
                         </div>
                     </div>
                     <div class="delete-question-button">
@@ -62,8 +72,13 @@
                     box.dataset.index = index + 1;
                     box.querySelector('.question-number-text').textContent = index + 1;
                     box.querySelector('.question input').name = `questions[${index}].Question`;
-                    box.querySelector('.true input').name = `questions[${index}].Answer`;
-                    box.querySelector('.false input').name = `questions[${index}].Answer`;
+                    box.querySelectorAll('.option input[type="radio"]').forEach((input, optionIndex) => {
+                        input.name = `questions[${index}].Answer`;
+                    });
+                    box.querySelectorAll('.option input[type="text"]').forEach((input, optionIndex) => {
+                        const optionLetter = String.fromCharCode(65 + optionIndex); // A, B, C, D
+                        input.name = `questions[${index}].Options[${optionLetter}]`;
+                    });
                 });
                 questionIndex = questionBoxes.length;
             }
@@ -82,10 +97,9 @@
 <body>
     <div class="container1">
         <div class="quiz-title">
-            Quiz Creator True Or False
+            Quiz Creator Multiple Choice
         </div>
         <form id="quiz-form">
-        
             <!-- Quiz Container -->
             <div id="quiz-container">
                 <div class="question-box" data-index="1">
@@ -99,11 +113,21 @@
                         <div class="answer-title">
                             Answer:
                         </div>
-                        <div class="true">
-                            <input type="radio" name="questions[0].Answer" value="True" required /> True
+                        <div class="option">
+                            <input type="radio" name="questions[0].Answer" value="A" required /> A
+                            <input type="text" name="questions[0].Options[A]" placeholder="Option A" required />
                         </div>
-                        <div class="false">
-                            <input type="radio" name="questions[0].Answer" value="False" required /> False
+                        <div class="option">
+                            <input type="radio" name="questions[0].Answer" value="B" required /> B
+                            <input type="text" name="questions[0].Options[B]" placeholder="Option B" required />
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="questions[0].Answer" value="C" required /> C
+                            <input type="text" name="questions[0].Options[C]" placeholder="Option C" required />
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="questions[0].Answer" value="D" required /> D
+                            <input type="text" name="questions[0].Options[D]" placeholder="Option D" required />
                         </div>
                     </div>
                     <div class="delete-question-button">
@@ -124,7 +148,6 @@
                     Save
                 </button>
             </div>
-            
         </form>
     </div>  
 </body>
