@@ -21,24 +21,32 @@
                     Our team is dedicated to providing the support you need and ensuring your experience with us is exceptional.
                     </p>
                 </div>
-                <div class="star-background">
-                    <div class="stars" id="star-rating-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="230" height="35" viewBox="0 0 230 35" fill="none">
-                            <path d="M18.8118 0L23.0353 12.0922L36.7029 12.0922L25.6456 19.5656L29.8691 31.6578L18.8118 24.1844L7.7545 31.6578L11.978 19.5656L0.920715 12.0922L14.5883 12.0922L18.8118 0Z" fill="#FFFDC1" onclick="setRating(1, this.parentElement)" />
-                            <path d="M66.3743 0L70.5978 12.0922L84.2654 12.0922L73.2081 19.5656L77.4316 31.6578L66.3743 24.1844L55.317 31.6578L59.5405 19.5656L48.4832 12.0922L62.1508 12.0922L66.3743 0Z" fill="#FFFDC1" onclick="setRating(2, this.parentElement)" />
-                            <path d="M116.066 0L120.289 12.0922L133.957 12.0922L122.899 19.5656L127.123 31.6578L116.066 24.1844L105.008 31.6578L109.232 19.5656L98.1746 12.0922L111.842 12.0922L116.066 0Z" fill="#FFFDC1" onclick="setRating(3, this.parentElement)" />
-                            <path d="M163.628 0L167.852 12.0922L181.519 12.0922L170.462 19.5656L174.685 31.6578L163.628 24.1844L152.571 31.6578L156.794 19.5656L145.737 12.0922L159.405 12.0922L163.628 0Z" fill="#FFFDC1" onclick="setRating(4, this.parentElement)" />
-                            <path d="M211.189 0L215.412 12.0922L229.08 12.0922L218.023 19.5656L222.246 31.6578L211.189 24.1844L200.131 31.6578L204.355 19.5656L193.298 12.0922L206.965 12.0922L211.189 0Z" fill="#FFFDC1" onclick="setRating(5, this.parentElement)" />
-                        </svg>
+                <form method="post" action="/Home/SubmitReview">
+                    <div class="star-background">
+                        <div class="stars" id="star-rating-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="230" height="35" viewBox="0 0 230 35" fill="none">
+                                <path d="M18.8118 0L23.0353 12.0922L36.7029 12.0922L25.6456 19.5656L29.8691 31.6578L18.8118 24.1844L7.7545 31.6578L11.978 19.5656L0.920715 12.0922L14.5883 12.0922L18.8118 0Z" fill="#FFFDC1" onclick="setRating(1, this.parentElement)" />
+                                <path d="M66.3743 0L70.5978 12.0922L84.2654 12.0922L73.2081 19.5656L77.4316 31.6578L66.3743 24.1844L55.317 31.6578L59.5405 19.5656L48.4832 12.0922L62.1508 12.0922L66.3743 0Z" fill="#FFFDC1" onclick="setRating(2, this.parentElement)" />
+                                <path d="M116.066 0L120.289 12.0922L133.957 12.0922L122.899 19.5656L127.123 31.6578L116.066 24.1844L105.008 31.6578L109.232 19.5656L98.1746 12.0922L111.842 12.0922L116.066 0Z" fill="#FFFDC1" onclick="setRating(3, this.parentElement)" />
+                                <path d="M163.628 0L167.852 12.0922L181.519 12.0922L170.462 19.5656L174.685 31.6578L163.628 24.1844L152.571 31.6578L156.794 19.5656L145.737 12.0922L159.405 12.0922L163.628 0Z" fill="#FFFDC1" onclick="setRating(4, this.parentElement)" />
+                                <path d="M211.189 0L215.412 12.0922L229.08 12.0922L218.023 19.5656L222.246 31.6578L211.189 24.1844L200.131 31.6578L204.355 19.5656L193.298 12.0922L206.965 12.0922L211.189 0Z" fill="#FFFDC1" onclick="setRating(5, this.parentElement)" />
+                            </svg>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" value="0">
                     </div>
-                    <input type="hidden" id="rating" name="rating" value="0">
-                </div>
-                <div class="feedback-textbox">
-                    <textarea placeholder="Share your thoughts and help us improve!"></textarea>
-                </div>
-                <div class="send-review-button">
-                    <button type="button">Send Review</button>
-                </div>
+                    <div class="feedback-textbox">
+                        <textarea name="feedback" placeholder="Share your thoughts and help us improve!"></textarea>
+                    </div>
+                    <div class="send-review-button">
+                        <button type="submit">Send Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal" id="reviewModal">
+            <div class="modal-content">
+                <p id="modalMessage"></p>
             </div>
         </div>
 
@@ -57,6 +65,28 @@
                 const stars = starContainer.querySelectorAll("path");
                 stars.forEach(star => star.classList.remove("selected"));
             }
+
+            function showModal(message) {
+                document.getElementById("modalMessage").innerText = message;
+                const modal = document.getElementById("reviewModal");
+                modal.style.display = "block";
+                setTimeout(closeModal, 2000); // Close modal after 2 seconds
+            }
+
+            function closeModal() {
+                document.getElementById("reviewModal").style.display = "none";
+            }
+
+            document.querySelector("form").addEventListener("submit", function(event) {
+                event.preventDefault();
+                // Simulate form submission
+                const success = true; // Change this based on actual submission result
+                if (success) {
+                    showModal("Your review has been submitted successfully!");
+                } else {
+                    showModal("There was an error submitting your review. Please try again.");
+                }
+            });
         </script>
     </body>
 </html>
