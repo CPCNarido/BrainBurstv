@@ -1,0 +1,115 @@
+* {
+    font-family: 'Rum Raisin', sans-serif;
+}
+
+body {
+    font-family: 'Rum Raisin', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container1 {
+    width: 100%;
+    height: 630px;
+}
+
+.header-bg {
+    width: 100%;
+    background-color: #F5D059;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.type-of-question select {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F5D059;
+    font-family: inherit;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.right-side {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.points select,
+.time select {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F5D059;
+    font-family: inherit;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.save button {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    width: 100px;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #FFFDC1;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.save button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.save button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.layer-1 {
+    width: 100%;
+    height: 400px;
+    margin-top: 30px;
+}
+
+.question-box {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 284px;
+}
+
+.question-box input {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #D4FC79;
+    font-size: 32px;
+    text-align: center;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.question-box input::placeholder {
+    font-size: 32px;
+    text-align: center;
+    opacity: 0.7;
+}

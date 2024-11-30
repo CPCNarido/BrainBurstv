@@ -5,320 +5,161 @@
 .container1 {
     padding: 20px;
     margin-top: 20px;
-    width: 1700px;
-}
-
-/* General Styling for the Title Section */
-/* General Styling for the Title Section */
-.title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px;
-    padding: 10px;
-}
-
-/* Styling for the Title Text */
-.title-text {
-    font-size: 48px;
-    font-weight: bold;
-    text-align: center;
-    color: #2B550E;
-    background-color: #F5D059;
-    border: 1px solid black;
-    border-radius: 20px;
-    padding: 30px;
-    margin-bottom: 20px;
-}
-
-/* Header Buttons Container */
-.header-button {
-    display: flex;
-    gap: 15px; /* Space between buttons */
-}
-
-/* Button Styling */
-.button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #F5D059; /* Yellow background */
-    color: #2B550E; /* Dark green text */
-    font-size: 40px;
-    border: 1px solid #2B550E; /* Green border */
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.button2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #FFFDC1; /* Pale yellow background */
-    color: #2B550E; /* Dark green text */
-    font-size: 40px;
-    border: 1px solid #2B550E; /* Green border */
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.button:hover, .button2:hover {
-    background-color: #E5C049; /* Slightly darker yellow on hover */
-    border-color: #A68C27; /* Darker border on hover */
-}
-
-/* Resizable Images Inside Buttons */
-.button img, .button2 img {
-    width: 100px; /* Consistent size for icons */
-    height: 100px;
-    margin-right: 10px; /* Space between image and text */
-    transition: transform 0.3s ease; /* Smooth scaling on hover */
-}
-
-.button img:hover, .button2 img:hover {
-    transform: scale(1.1); /* Slight zoom effect */
-}
-
-
-.form-1 {
-    margin-top: 80px;
-    display: flex;
-}
-
-.form-group,
-.form-1,
-.form-2 {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.form-control1 {
     width: 100%;
-    padding: 10px 20px;
-    background-color: #F5D059;
-    color: #155724;
-    border: 1px solid #000;
-    border-radius: 20px;
-    height: 100px;
-    font-size: 30px;
-    box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: 500px;
 }
 
-.form-control {
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #F5D059;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    color: #155724;
-    border: 1px solid #000;
-    border-radius: 20px;
-    font-size: 30px;
-    box-sizing: border-box;
-    resize: vertical;
-}
-
-.form-control1::placeholder,
-.form-control::placeholder {
-    color: #155724;
-    font-size: 40px;
-    opacity: 0.7;
-}
-
-.form-control1:focus,
-.form-control:focus {
-    border-color: #007bff;
-    background-color: #F5D059;
-    outline: none;
-}
-
-.form-1,
-.form-2 {
-    padding: 5px;
-}
-
-.quiz-box {
-    border: 1px solid black;
-    border-radius: 30px;
-    background-color: #8DD63E;
+.quiz-maker-container{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20px;
-    margin-bottom: 2%;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 670px;
+    background-color: #8DD63E;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 20px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 400px;
 }
 
-.quiz-box-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.title{
+    background-color: #F5D059;
+    width: 300px;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+.title-text{
+    font-size: 24px;
+    color: #2B550E;
+    text-align: center;
 }
 
-/* Styling for the question number */
-.question-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em;
-    height: 50px;
-    width: 50px;
+.quiz-name input{
+    margin-top: 10px;
+    background-color: #FFFDC1;
+    width: 100%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-name input::placeholder{
+    font-size: 16px;
+    padding-left: 20px;
+    opacity: 0.7;
+}
+
+.desc-title{
+    margin-top: 10px;
+    background-color: #F5D059;
+    width: 300px;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.desc-title-text{
+    font-size: 24px;
+    color: #2B550E;
+    text-align: center;
+}
+
+.quiz-desc input{
+    margin-top: 10px;
+    background-color: #FFFDC1;
+    width: 100%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-desc input::placeholder{
+    font-size: 16px;
+    padding-left: 20px;
+    opacity: 0.7;
+}
+
+.quiz-type {
+    margin: 10px 0;
+}
+
+.quiz-type select {
+    padding: 5px;
+    font-size: 16px;
     border: 1px solid black;
     border-radius: 10px;
     background-color: #F5D059;
-    font-weight: bold;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: inherit;
 }
 
-/* Container for text design buttons */
-.text-designer{
-    display: flex;
-    margin-left: 70px;
-    gap: 10px;
+.quiz-type select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.grade-level {
+    margin: 10px 0;
 }
 
-.text-designer-make-word-bold-button,.text-designer-make-word-italic-button,.text-designer-make-word-underline-button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px; /* Match question-number height */
-    width: 50px; /* Match question-number width */
-    border: 2px solid black; /* Match question-number border */
-    background-color: #F5D059; /* Match question-number background color */
-    cursor: pointer;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 0;
-    box-sizing: border-box;
-}
-.question-arranger-button-move-down-button,.question-arranger-button-delete-question-button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px; /* Match question-number height */
-    width: 50px; /* Match question-number width */
-    background-color: #F5D059; /* Match question-number background color */
-    cursor: pointer;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.question-arranger-button-delete-question-button:hover,
-.question-arranger-button-move-down-button:hover{
-    background-color: #E5C049; /* Slightly darker background on hover */
-}
-
-/* Arranger container to align buttons side by side */
-.question-arranger {
-    display: flex;
-    gap: 5px; /* Space between arranger buttons */
-}
-
-/* Resizable images inside buttons */
-.question-text-design-button img,
-.question-arranger-button img {
-    width: 120%; /* Adjust this value for desired icon size */
-    height: 120%;
-    object-fit: contain; /* Maintains aspect ratio */
-}
-
-.quiz-box{
-    display: flex;
-}
-
-.quiz-box-bottom { 
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-    gap: 100px; /* Reduced gap for a closer fit */
-    padding: 10px;
-}
-
-.question-box input, .answer-box input {
-    padding: 10px;
-    width: 550px;
-    height: 100px;
-    font-size: 24px;
+.grade-level select {
+    padding: 5px;
+    font-size: 16px;
     border: 1px solid black;
-    background-color: #FFFDC1;
-    border-radius: 5px;
-    box-sizing: border-box; /* Ensures padding is included in width */
-}
-
-.upload-button:hover {
-    background-color: #E5C049; /* Slightly darker background on hover */
-}
-
-.upload-button img {
-    width: 160px !important;/* Set default width */
-    height: 160px !important; /* Set default height */
-}
-/* Styling for file input (hidden) */
-.file-input {
-    display: none; /* Hides the actual file input field */
-}
-
-.upload-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 120px; /* Adjust button width */
-    height: 120px; /* Adjust button height */
-    background-color: #FFFDC1; /* Optional background */
-    border-radius: 10px; /* Rounded corners */
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.upload-button img {
-    width: 80px; /* Icon size */
-    height: 80px;
-    transition: transform 0.3s ease;
-}
-
-.upload-button:hover img {
-    transform: scale(1.1); /* Zoom-in effect on hover */
-}
-
-.upload-button:hover {
-    border-color: #888;
-    transform: scale(1.05); /* Slightly grow the button */
-}
-
-
-.add-question-button button {
-    border: 1px solid black;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: #F5D059;
-    padding: 20px;
-    height: 250px; /* Button height */
-    width: 100%; /* Button width */
+    font-family: inherit;
+}
+
+.grade-level select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.difficulty {
+    margin: 10px 0;
+}
+
+.difficulty select {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #F5D059;
+    font-family: inherit;
+}
+
+.difficulty select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.submit-button{
     display: flex;
-    margin-top: 70px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer; /* Pointer on hover */
+    justify-content: flex-end;
+    margin-top: 20px;
 }
 
-.add-question-button button:hover {
-    background-color: #E5C049; /* Slightly darker background on hover */
+.submit-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
 }
 
-.add-question-button img {
-    max-width: 80%; /* Makes the image resizable within the button */
-    max-height: 80%; /* Ensures the image doesn't overflow the button */
-    object-fit: contain; /* Maintains aspect ratio */
+.submit-button button:hover {
+    background-color: #0056b3;
 }
-
-

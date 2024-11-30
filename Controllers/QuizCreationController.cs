@@ -60,5 +60,15 @@ namespace UsersApp.Controllers
 
             return View(quizDetails);
         }
+        
+        public async Task<IActionResult> Quiz_Creation_Manual()
+        {
+            return View();
+        }  
+
+        public async Task<IActionResult> Quiz_Creation_True_Or_False()
+        {
+            return View();
+        }   
     }
 }

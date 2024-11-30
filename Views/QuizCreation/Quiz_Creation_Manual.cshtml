@@ -12,232 +12,62 @@
 </head>
 <body>
     <div class="container1">
-        <!-- Main Form for Saving Flashcards -->
-        <form method="post" action="/Flashcard/SaveFlashcard" id="flashcard-form">
-            <div class="title">
-                <div class="title-text">CREATE NEW FLASHCARDS!</div>
-                <!-- Save and Practice Buttons -->
-                <div class="header-button">
-                    <button type="submit" class="button" name="action" value="save">
-                        <img src="~/Assets/floppy 3.png" alt="Save Icon">
-                        SAVE
-                    </button>
-                    <button type="submit" class="button2" name="action" value="practice">
-                        <img src="/Assets/practice symbol 1.png" alt="Practice Icon">
-                        PRACTICE
-                    </button>
-                </div>
-            </div>
-            <!-- Flashcard Title and Description -->
-            <div class="form-1">
-                <input type="text" id="flashcardTitle" name="flashcardTitle" class="form-control1" placeholder="Enter flashcard title..." required />
-            </div>
-            <div class="form-2">
-                <textarea id="flashcardDescription" name="flashcardDescription" class="form-control" rows="4" placeholder="Enter flashcard description..." required></textarea>
-            </div>
-
-            <hr style="height: 3px; background-color: black; border: none; margin-top: 50px; margin-bottom: 50px;" />
-
-            <!-- Quiz Container -->
-            <div id="quiz-container">
-                <div class="quiz-box" data-index="1">
-                    <div class="quiz-box-top">
-                        <div class="question-number">
-                            <div class="question-number-text">1</div>
-                        </div>
-                        <div class="text-designer">
-                            <button type="button" class="text-designer-make-word-bold-button">
-                                <img src="../Assets/bold 1.png" alt="Bold Icon">
-                            </button>
-                            <button type="button" class="text-designer-make-word-italic-button">
-                                <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
-                            </button>
-                            <button type="button" class="text-designer-make-word-underline-button">
-                                <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
-                            </button>
-                        </div>
-                        <div class="question-arranger">
-                            <button type="button" class="question-arranger-button-move-down-button">
-                                <img src="../Assets/FlashCardMakerManual/arrange 1.png" alt="Move Down Icon">
-                            </button>
-                            <button type="button" class="question-arranger-button-delete-question-button">
-                                <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
-                            </button>
-                        </div>
-                    </div>
-                    <hr style="height: 3px; background-color: black; border: none;"/>
-                    <div class="quiz-box-bottom">
-                        <div class="image-upload-question">
-                            <input type="file" id="image-upload-question-0" name="questions[0].ImageQuestion" accept="image/*" class="file-input" />
-                            <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-question-0')">
-                                <img src="../Assets/image insert 5.png" alt="Upload Icon" />
-                            </button>
-                        </div>
-                        <div class="question-box">
-                            <input type="text" name="questions[0].Question" placeholder="Enter question here..." required />
-                        </div>
-                        <div class="answer-box">
-                            <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
-                        </div>
-                        <div class="image-upload-answer">
-                            <input type="file" id="image-upload-answer-0" name="questions[0].ImageAnswer" accept="image/*" class="file-input" />
-                            <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-0')">
-                                <img src="../Assets/image insert 5.png" alt="Upload Icon" />
-                            </button>
-                        </div>
+        <div class="quiz-maker-container">
+            <form method="post" action="/Quiz/Create">
+                <div class="title">
+                    <div class="title-text">
+                        Create Your Quiz!
                     </div>
                 </div>
-            </div>
-
-            <!-- Add Question Button -->
-            <div class="add-question-button">
-                <button type="button" id="add-question-button">
-                    <img src="~/Assets/FlashCardMakerManual/add symbol 2.png" alt="Add Icon">
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-        const quizContainer = document.getElementById('quiz-container');
-        const addQuestionButton = document.getElementById('add-question-button');
-        let questionCount = 1;
-
-        // Add new question
-        addQuestionButton.addEventListener('click', function () {
-            questionCount++;
-
-            const newQuizBox = document.createElement('div');
-            newQuizBox.classList.add('quiz-box');
-            newQuizBox.dataset.index = questionCount;
-
-            newQuizBox.innerHTML = `
-                <div class="quiz-box-top">
-                    <div class="question-number">
-                        <div class="question-number-text">${questionCount}</div>
-                    </div>
-                    <div class="text-designer">
-                        <button type="button" class="text-designer-make-word-bold-button">
-                            <img src="../Assets/bold 1.png" alt="Bold Icon">
-                        </button>
-                        <button type="button" class="text-designer-make-word-italic-button">
-                            <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
-                        </button>
-                        <button type="button" class="text-designer-make-word-underline-button">
-                            <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
-                        </button>
-                    </div>
-                    <div class="question-arranger">
-                        <button type="button" class="question-arranger-button-move-down-button">
-                            <img src="../Assets/FlashCardMakerManual/arrange 1.png" alt="Move Down Icon">
-                        </button>
-                        <button type="button" class="question-arranger-button-delete-question-button">
-                            <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
-                        </button>
+                <div class="quiz-name">
+                    <input type="text" id="quiz-name" name="quizName" placeholder="Enter Quiz Name......" />
+                </div>
+                <div class="desc-title">
+                    <div class="desc-title-text">
+                        Add Quiz Description!
                     </div>
                 </div>
-                <div class="quiz-box-bottom">
-                    <div class="image-upload-question">
-                        <input type="file" id="image-upload-question-${questionCount - 1}" name="questions[${questionCount - 1}].ImageQuestion" accept="image/*" class="file-input" />
-                        <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-question-${questionCount - 1}')">
-                            <img src="../Assets/image insert 5.png" alt="Upload Icon" />
-                        </button>
-                    </div>
-                    <div class="question-box">
-                        <input type="text" name="questions[${questionCount - 1}].Question" placeholder="Enter question here..." required />
-                    </div>
-                    <div class="answer-box">
-                        <input type="text" name="questions[${questionCount - 1}].Answer" placeholder="Enter answer here..." required />
-                    </div>
-                    <div class="image-upload-answer">
-                        <input type="file" id="image-upload-answer-${questionCount - 1}" name="questions[${questionCount - 1}].ImageAnswer" accept="image/*" class="file-input" />
-                        <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-${questionCount - 1}')">
-                            <img src="../Assets/image insert 5.png" alt="Upload Icon" />
-                        </button>
-                    </div>
+                <div class="quiz-desc">
+                    <input id="quiz-desc" name="quizDesc" placeholder="Enter Quiz Description"></input>
                 </div>
-            `;
-
-            quizContainer.appendChild(newQuizBox);
-            updateQuestionNumbers();
-        });
-
-        // Trigger file input for image upload
-        function triggerFileInput(inputId) {
-            const fileInput = document.getElementById(inputId);
-            if (fileInput) {
-                fileInput.click();
-            }
-        }
-
-        // Update question numbers dynamically
-        function updateQuestionNumbers() {
-            const quizBoxes = quizContainer.querySelectorAll('.quiz-box');
-            quizBoxes.forEach((quizBox, index) => {
-                const questionNumber = quizBox.querySelector('.question-number-text');
-                questionNumber.textContent = index + 1;
-                quizBox.dataset.index = index + 1; // Update the data index as well
-            });
-        }
-
-        // Handle Move Down functionality using event delegation
-        document.addEventListener('click', (event) => {
-            if (event.target.closest('.question-arranger-button-move-down-button')) {
-                const quizBox = event.target.closest('.quiz-box');
-                const nextSibling = quizBox.nextElementSibling;
-
-                if (nextSibling) {
-                    quizContainer.insertBefore(nextSibling, quizBox);
-                    updateQuestionNumbers();
-                }
-            }
-
-            // Handle text formatting
-            const target = event.target.closest('button');
-            if (target?.classList.contains('text-designer-make-word-bold-button')) {
-                formatText(target, 'bold');
-            } else if (target?.classList.contains('text-designer-make-word-italic-button')) {
-                formatText(target, 'italic');
-            } else if (target?.classList.contains('text-designer-make-word-underline-button')) {
-                formatText(target, 'underline');
-            }
-
-            // Handle Delete Question functionality
-            if (event.target.closest('.question-arranger-button-delete-question-button')) {
-                const quizBox = event.target.closest('.quiz-box');
-                quizBox.remove();
-                updateQuestionNumbers();  // Recalculate and update question numbers after deletion
-            }
-        });
-
-        function formatText(button, style) {
-            const quizBox = button.closest('.quiz-box');
-            const questionInput = quizBox.querySelector('.question-box input');
-            const answerInput = quizBox.querySelector('.answer-box input');
-
-            // Check which input field is actives
-            const activeInput = document.activeElement;
-            if (activeInput === questionInput || activeInput === answerInput) {
-                const start = activeInput.selectionStart;
-                const end = activeInput.selectionEnd;
-
-                if (start !== end) {
-                    const selectedText = activeInput.value.substring(start, end);
-                    const formattedText = wrapText(selectedText, style);
-                    activeInput.setRangeText(formattedText, start, end, 'end');
-                }
-            }
-        }
-
-        function wrapText(text, style) {
-            const tags = {
-                bold: '**',
-                italic: '*',
-                underline: '__',
-            };
-            return `${tags[style]}${text}${tags[style]}`;
-        }
-    </script>
+                <div class="quiz-type">
+                    <select id="quiz-type" name="quizType">
+                        <option value="" disabled selected>Type of Quiz</option>
+                        <option value="1">Multiple Choice</option>
+                        <option value="2">True/False</option>
+                        <option value="3">Fill in the Blank</option>
+                    </select>
+                </div>
+                <div class="grade-level">
+                    <select id="grade-level" name="gradeLevel">
+                        <option value="" disabled selected>Grade Level</option>
+                        <option value="1">1st Grade</option>
+                        <option value="2">2nd Grade</option>
+                        <option value="3">3rd Grade</option>
+                        <option value="4">4th Grade</option>
+                        <option value="5">5th Grade</option>
+                        <option value="6">6th Grade</option>
+                        <option value="7">7th Grade</option>
+                        <option value="8">8th Grade</option>
+                        <option value="9">9th Grade</option>
+                        <option value="10">10th Grade</option>
+                        <option value="11">11th Grade</option>
+                        <option value="12">12th Grade</option>
+                    </select>
+                </div>
+                <div class="difficulty">
+                    <select id="difficulty" name="difficulty">
+                        <option value="" disabled selected>Select Difficulty</option>
+                        <option value="1">Easy</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Hard</option>
+                    </select>
+                </div>
+                <div class="submit-button">
+                    <button type="submit">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>  
 </body>
 </html>
