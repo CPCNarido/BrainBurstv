@@ -213,6 +213,7 @@
     width: 100%;
     background-color: #2B550E;
     padding-top: 2%;
+    margin-top: 50px;
 }
 
 .layer-3-title {
@@ -279,8 +280,8 @@
     background-color: #2B550E; /* Optional background for the layer */
     padding-top: 50px; /* Add padding to create space */
     padding-bottom: 50px; /* Add padding to create space */
-    margin-top: 100px; /* Increase margin-top to create more space */
-    margin-bottom: 100px;
+    margin-top: 200px; /* Increase margin-top to create more space */
+    margin-bottom: 200px;
 }
 
 .layer-4-title-box {
