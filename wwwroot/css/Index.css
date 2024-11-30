@@ -222,6 +222,18 @@ html,body{
     text-align: center;
 }
 
+.description3{
+    color: #FFFEEB;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: #7A7312;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 .lets-go{
     color: #2B550E;
     text-align: center;
