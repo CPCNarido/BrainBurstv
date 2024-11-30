@@ -22,6 +22,10 @@
                         <img src="~/Assets/floppy 3.png" alt="Save Icon">
                         SAVE
                     </button>
+                    <button type="button" class="button2" name="action" value="practice" onclick="practiceMode(event)">
+                        <img src="/Assets/practice symbol 1.png" alt="Practice Icon">
+                        PRACTICE
+                    </button>
                 </div>
             </div>
             <!-- Flashcard Title and Description -->
@@ -46,7 +50,8 @@
                             <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
                         </div>
                         <div class="image-upload-question">
-                            <input type="text" name="questions[0].Picture" placeholder="Enter image link here..." />
+                            <input type="file" name="questions[0].ImageFile" accept="image/*" onchange="previewImage(event, 0)" />
+                            <img id="preview-0" src="" alt="Image Preview" style="display:none; max-width: 100px; max-height: 100px;" />
                         </div>
                     </div>
                 </div>
@@ -79,13 +84,79 @@
                         <input type="text" name="questions[${newIndex}].Answer" placeholder="Enter answer here..." required />
                     </div>
                     <div class="image-upload-question">
-                        <input type="text" name="questions[${newIndex}].Picture" placeholder="Enter image link here..." />
+                        <input type="file" name="questions[${newIndex}].ImageFile" accept="image/*" onchange="previewImage(event, ${newIndex})" />
+                        <img id="preview-${newIndex}" src="" alt="Image Preview" style="display:none; max-width: 100px; max-height: 100px;" />
                     </div>
                 </div>
             `;
 
             quizContainer.appendChild(newQuizBox);
         });
+
+        function previewImage(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(`preview-${index}`);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function practiceMode(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            const form = document.getElementById('flashcard-form');
+            const formData = new FormData(form);
+
+            // Collect data from the form
+            const data = {
+                title: formData.get('flashcardTitle'),
+                description: formData.get('flashcardDescription'),
+                questions: []
+            };
+
+            const questions = document.querySelectorAll('.quiz-box');
+            const promises = [];
+
+            questions.forEach((questionBox, index) => {
+                const question = formData.get(`questions[${index}].Question`);
+                const answer = formData.get(`questions[${index}].Answer`);
+                const imageFile = formData.get(`questions[${index}].ImageFile`);
+
+                const questionData = { questionText: question, answerText: answer, imageQuestionPath: null };
+
+                if (imageFile) {
+                    const reader = new FileReader();
+                    const promise = new Promise((resolve, reject) => {
+                        reader.onload = function(event) {
+                            questionData.imageQuestionPath = event.target.result;
+                            resolve();
+                        };
+                        reader.onerror = function(event) {
+                            reject(event);
+                        };
+                        reader.readAsDataURL(imageFile);
+                    });
+                    promises.push(promise);
+                }
+
+                data.questions.push(questionData);
+            });
+
+            Promise.all(promises).then(() => {
+                // Store data in localStorage
+                localStorage.setItem('flashcardData', JSON.stringify(data));
+
+                // Redirect to practice page
+                window.location.href = '/FlashCards/Practice';
+            }).catch(error => {
+                console.error('Error processing images:', error);
+                alert('Failed to process images.');
+            });
+        }
 
         function submitForm() {
             const form = document.getElementById('flashcard-form');
@@ -99,11 +170,33 @@
             };
 
             const questions = document.querySelectorAll('.quiz-box');
+            const savedData = JSON.parse(localStorage.getItem('flashcardData')) ?? null;
             questions.forEach((questionBox, index) => {
                 const question = formData.get(`questions[${index}].Question`);
                 const answer = formData.get(`questions[${index}].Answer`);
-                const image = formData.get(`questions[${index}].Picture`);
-                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: image });
+                let imageBase64 = null;
+
+                if (savedData && savedData.questions && savedData.questions[index]) {
+                    imageBase64 = savedData.questions[index].imageQuestionPath;
+                }
+
+                if (imageBase64) {
+                    const byteString = atob(imageBase64.split(',')[1]);
+                    const mimeString = imageBase64.split(',')[0].split(':')[1].split(';')[0];
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([ab], { type: mimeString });
+                    formData.append(`questions[${index}].ImageFile`, blob, `image-${index}.png`);
+                } else {
+                    const imageFile = formData.get(`questions[${index}].ImageFile`);
+                    if (imageFile) {
+                        formData.append(`questions[${index}].ImageFile`, imageFile);
+                    }
+                }
+                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: null });
             });
 
             // Append the JSON data to FormData
@@ -115,8 +208,12 @@
                 body: formData
             }).then(response => {
                 if (response.ok) {
+                    localStorage.removeItem("flashcardData")
+                    form.reset();
+
                     alert('Flashcard saved successfully!');
-                    window.location.href = '/Home/Index'; // Redirect to index page
+                    window.location.reload()
+                    // window.location.href = '/Home/Index'; // Redirect to index page
                 } else {
                     alert('Failed to save flashcard.');
                 }
@@ -125,6 +222,30 @@
                 alert('Failed to save flashcard.');
             });
         }
+
+        document.querySelector('button[name="action"][value="practice"]').addEventListener('click', practiceMode);
+
+        // Populate form with data from localStorage if available
+        window.onload = function() {
+            const flashcardData = JSON.parse(localStorage.getItem('flashcardData'));
+            if (flashcardData) {
+                document.getElementById('flashcardTitle').value = flashcardData.title;
+                document.getElementById('flashcardDescription').value = flashcardData.description;
+
+                flashcardData.questions.forEach((questionData, index) => {
+                    if (index > 0) {
+                        document.getElementById('add-question-button').click();
+                    }
+                    document.querySelector(`input[name="questions[${index}].Question"]`).value = questionData.questionText;
+                    document.querySelector(`input[name="questions[${index}].Answer"]`).value = questionData.answerText;
+                    if (questionData.imageQuestionPath) {
+                        const img = document.getElementById(`preview-${index}`);
+                        img.src = questionData.imageQuestionPath;
+                        img.style.display = 'block';
+                    }
+                });
+            }
+        };
     </script>
 </body>
 </html>

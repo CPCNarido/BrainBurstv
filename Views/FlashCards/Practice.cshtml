@@ -1,0 +1,74 @@
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Practice Flashcard";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Retrieve flashcard data from localStorage
+            let flashcardData = JSON.parse(localStorage.getItem('flashcardData'));
+            if (!flashcardData) {
+                alert('No flashcard data found.');
+                window.location.href = '/FlashCards/FlashCardMakerManual';
+                return;
+            }
+
+            let questions = flashcardData.questions;
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            function showQuestion(index) {
+                if (index >= questions.length) {
+                    $('#quiz-container').html(`<strong>Practice Completed! Your score: ${score}/${questions.length}</strong><br><a href="/FlashCards/Flash_Card_Maker_Manual">Go Back</a>`);
+                    return;
+                }
+
+                // Display the current question
+                $('#question').text(questions[index].questionText);
+                $('#flashcard-image').attr('src', questions[index].imageQuestionPath).show();
+
+                // Clear previous answer and show input box
+                $('#answer-input').val('');
+                $('#answer-feedback').text('');
+            }
+
+            // Handle answer submission
+            $('#submit-answer').click(function() {
+                let userAnswer = $('#answer-input').val().trim();
+                let correctAnswer = questions[currentQuestionIndex].answerText;
+
+                if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                    $('#answer-feedback').text('Correct!').css('color', 'green');
+                    score++;
+                } else {
+                    $('#answer-feedback').text(`Incorrect! The correct answer is: ${correctAnswer}`).css('color', 'red');
+                }
+
+                // Move to the next question after a short delay
+                setTimeout(() => {
+                    showQuestion(++currentQuestionIndex);
+                }, 2000);
+            });
+
+            // Display the first question on page load
+            showQuestion(currentQuestionIndex);
+        });
+    </script>
+</head>
+<body>
+    <div id="quiz-container">
+        <div id="question"></div>
+        <img src="" alt="" id="flashcard-image">
+        <input type="text" id="answer-input" placeholder="Enter your answer here..." />
+        <button id="submit-answer">Submit Answer</button>
+        <div id="answer-feedback"></div>
+    </div>
+</body>
+</html>
