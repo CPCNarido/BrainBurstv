@@ -36,6 +36,7 @@ body {
     padding-right: 2%;
     padding-bottom: 2%;
     gap: 2%;
+    margin-right: 25px; /* Add space for the rightmost part near the image */
 }
 
 .Logo{
@@ -50,18 +51,28 @@ body {
     text-decoration: none;
 }
 
-.Join, .Sign {
+.Join, .Sign, .Login {
     background: none; /* Removes the background color */
     border: none; /* Removes the border */
     outline: none; /* Removes the outline */
-    color: inherit; /* Ensures the text color is inherited */
+    color: #2B550E; /* Update text color */
     font: inherit; /* Ensures the font style is inherited */
     cursor: pointer; /* Changes the cursor to a pointer */
     font-family: "Rum Raisin", sans-serif;
     font-weight: 400;
     font-style: normal;
-    color: white;
-    font-size: 36px;
+    font-size: 24px; /* Reduce text size */
+    position: relative;
+    z-index: 2; /* Ensure the button text is above the background */
+    padding: 0; /* Remove padding */
+    width: 100%; /* Ensure the button takes full width of the container */
+    height: 100%; /* Ensure the button takes full height of the container */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: center; /* Center text within the button */
+    top: 3px; /* Move the text by 2px vertically */
+    left: 2px; /* Move the text by 2px to the right */
 }
 
 .profile-container{
@@ -283,6 +294,32 @@ Header {
     padding-right: 2%;
     gap: 2%;
     
+}
+
+.button-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; /* Ensure the button container is above the background */
+    margin-right: 25px; /* Reduce space between each button */
+    width: 150px; /* Ensure the container matches the background size */
+    height: 30px; /* Reduce the height of the container */
+    top: -25px; /* Move the buttons up by 20px */
+    left: 25px; /* Move the buttons 10px to the right */
+}
+
+.button-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 30px; /* Reduce the height of the background */
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 4px solid #2B550E;
+    background: #FFFDC1;
+    z-index: 0; /* Ensure the background is behind the button */
 }
 
 

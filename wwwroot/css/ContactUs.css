@@ -16,31 +16,72 @@
 }
 
 .contact-us-text {
-    width: 50%;
+    width: 40%;
+    position: relative;
+    top: -20px; /* Adjusted to raise the text up further */
+    left: 5px;
+    z-index: 2; /* Ensure it is in front of the rectangle */
+    margin-top: -400px; /* Adjust as needed */
 }
 
 .contact-us-text h1 {
-    font-size: 70px; /* Adjust font size as needed */
-    font-family: 'Rum Raisin', sans-serif; /* Font family */
-    font-weight: bold;
-    color: #FFFDC1; /* Text color */
+    color: #FFFDC1;
+    -webkit-text-stroke-width: 8px;
+    -webkit-text-stroke-color: transparent; /* Make stroke color transparent */
     text-shadow: 
-        3px 3px 6px rgba(0, 0, 0, 0.7), /* Intense shadow effect */
-        -3px -3px 6px rgba(0, 0, 0, 0.7); /* Optional for a glowing effect */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke */
-    margin: 0;
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
+    font-family: "Rum Raisin";
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: -30px; /* Adjusted to reduce space between h1 and p */
 }
 
 .contact-us-text p {
-    font-size: 32px; /* Adjust font size */
-    font-family: 'Rum Raisin', sans-serif;
-    color: #F5D059; /* Text color */
+    width: 518px;
+    height: 114px;
+    flex-shrink: 0;
+    color: #FFFDC1;
     text-shadow: 
-        2px 2px 4px rgba(0, 0, 0, 0.6), 
-        -2px -2px 4px rgba(0, 0, 0, 0.6); /* Adds a subtler glow */
-    -webkit-text-stroke: 1px #5C4C20; /* Adds stroke for paragraphs */
-    line-height: 1.6; /* Adds spacing between lines */
-    margin: 10px 0 0 0;
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
+    -webkit-text-stroke-width: 3;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .contact-box {
@@ -53,6 +94,7 @@
     border: 2px solid black;
     border-radius: 30px;
     background-color: #FFFDC1;
+    margin-top: -200px; /* Adjusted to raise the contact box up further */
 }
 
 .contact-item {
@@ -78,6 +120,7 @@
     margin: 0;
     text-align: left;
     flex-grow: 1;
+    color:#2B550E;
 }
 
 .contact-item:hover {

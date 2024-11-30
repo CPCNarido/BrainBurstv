@@ -51,47 +51,80 @@
                     </div>
                 </div>
             </div>
+            <div class="add-question-button">
+                <button type="button" id="add-question-button">
+                    <img src="~/Assets/FlashCardMakerManual/add symbol 2.png" alt="Add Icon">
+                </button>
+            </div>
         </form>
     </div>
     <script>
+        document.getElementById('add-question-button').addEventListener('click', function() {
+            const quizContainer = document.getElementById('quiz-container');
+            const quizBoxes = document.querySelectorAll('.quiz-box');
+            const newIndex = quizBoxes.length;
+
+            const newQuizBox = document.createElement('div');
+            newQuizBox.className = 'quiz-box';
+            newQuizBox.setAttribute('data-index', newIndex + 1);
+            newQuizBox.innerHTML = `
+                <div class="quiz-box-top">
+                    <div class="question-number">
+                        <div class="question-number-text">${newIndex + 1}</div>
+                    </div>
+                    <div class="question-box">
+                        <input type="text" name="questions[${newIndex}].Question" placeholder="Enter question here..." required />
+                    </div>
+                    <div class="answer-box">
+                        <input type="text" name="questions[${newIndex}].Answer" placeholder="Enter answer here..." required />
+                    </div>
+                    <div class="image-upload-question">
+                        <input type="text" name="questions[${newIndex}].Picture" placeholder="Enter image link here..." />
+                    </div>
+                </div>
+            `;
+
+            quizContainer.appendChild(newQuizBox);
+        });
+
         function submitForm() {
-        const form = document.getElementById('flashcard-form');
-        const formData = new FormData(form);
+            const form = document.getElementById('flashcard-form');
+            const formData = new FormData(form);
 
-        // Collect data from the form
-        const data = {
-            title: formData.get('flashcardTitle'),
-            description: formData.get('flashcardDescription'),
-            questions: []
-        };
+            // Collect data from the form
+            const data = {
+                title: formData.get('flashcardTitle'),
+                description: formData.get('flashcardDescription'),
+                questions: []
+            };
 
-        const questions = document.querySelectorAll('.quiz-box');
-        questions.forEach((questionBox, index) => {
-            const question = formData.get(`questions[${index}].Question`);
-            const answer = formData.get(`questions[${index}].Answer`);
-            const image = formData.get(`questions[${index}].Picture`);
-            data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: image });
-        });
+            const questions = document.querySelectorAll('.quiz-box');
+            questions.forEach((questionBox, index) => {
+                const question = formData.get(`questions[${index}].Question`);
+                const answer = formData.get(`questions[${index}].Answer`);
+                const image = formData.get(`questions[${index}].Picture`);
+                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: image });
+            });
 
-        // Append the JSON data to FormData
-        formData.append('jsonData', JSON.stringify(data));
+            // Append the JSON data to FormData
+            formData.append('jsonData', JSON.stringify(data));
 
-        // Send the form data with fetch
-        fetch('/FlashCards/SaveFlashcard', {
-            method: 'POST',
-            body: formData
-        }).then(response => {
-            if (response.ok) {
-                alert('Flashcard saved successfully!');
-                window.location.href = '/Home/Index'; // Redirect to index page
-            } else {
+            // Send the form data with fetch
+            fetch('/FlashCards/SaveFlashcard', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    alert('Flashcard saved successfully!');
+                    window.location.href = '/Home/Index'; // Redirect to index page
+                } else {
+                    alert('Failed to save flashcard.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
                 alert('Failed to save flashcard.');
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-            alert('Failed to save flashcard.');
-        });
-    }
+            });
+        }
     </script>
 </body>
 </html>

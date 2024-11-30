@@ -1,0 +1,197 @@
+.container1 {
+    width: 100%;
+    background-color: #FFFDC1;
+}
+
+.back-ground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 650px;
+    gap: 100px;
+    width: 100%;
+    background-image: url(../Assets/ContactUs/contact.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.review-text {
+    width: 50%;
+    position: relative;
+    top: -70px;
+    left: 5px;
+    z-index: 2; /* Ensure it is in front of the rectangle */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+.review-text h1 {
+    color: #FFFDC1;
+    -webkit-text-stroke-width: 8px;
+    -webkit-text-stroke-color: transparent; /* Make stroke color transparent */
+    text-shadow: 
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
+    font-family: "Rum Raisin";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.review-text p {
+    width: 264px;
+    height: 130px;
+    flex-shrink: 0;
+    color: #FFFDC1;
+    text-shadow: 
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
+    -webkit-text-stroke-width: 3;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.background-rectangle{
+    width: 847px;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #2B550E;
+    background: #2B550E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    left: 50%;
+    top:50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.star-background {
+    width: 264px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    border: 1px solid #2B550E;
+    background: #2B550E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    left: 25%; /* Adjust as needed to position a bit to the left */
+    top: 65%; /* Adjust as needed to position under the review text */
+    position: absolute;
+    z-index: 1; /* Ensure it is behind the text */
+}
+.stars {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.stars path.selected {
+    fill: #FFD700; /* Gold color for selected stars */
+}
+
+.feedback-textbox {
+    position: absolute;
+    top: 44%; /* Adjust as needed */
+    left: 63%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 3; /* Ensure it is in front of other elements */
+}
+
+.feedback-textbox textarea {
+    width: 370px;
+    height: 205px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    border: 1px solid #2B550E;
+    background: #FFFDC1;
+    padding: 10px;
+    font-family: "Rum Raisin";
+    font-size: 16px;
+    resize: none;
+    outline: none; /* Remove default outline */
+}
+
+.feedback-textbox textarea:focus {
+    outline: 2px solid #2B550E; /* Add green outline on focus */
+}
+
+.send-review-button {
+    position: absolute;
+    top: 68%; /* Adjust as needed */
+    right: 25%; /* Position it at the right corner */
+    transform: translateY(-50%);
+    z-index: 3; /* Ensure it is in front of other elements */
+}
+
+.send-review-button button {
+    background-color: #F5D059; /* Updated background color */
+    color: #2B550E; /* Updated text color */
+    border-radius: 10px; /* Updated border radius */
+    padding: 10px 20px;
+    font-family: "Rum Raisin";
+    font-size: 16px;
+    cursor: pointer;
+    width: 150px;
+    height: 38.66px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    outline: none; /* Remove default outline */
+    border: none; /* Remove border */
+}
+
+.send-review-button button:focus,
+.send-review-button button:active {
+    outline: 2px solid #2B550E; /* Change focus and active outline to green */
+}
+
+.send-review-button button:hover {
+    background-color: #FFFDC1;
+    color: #2B550E;
+}
+
+
+
+
