@@ -107,7 +107,8 @@ CREATE TABLE `aspnetusers` (
   `TwoFactorEnabled` bit(1) NOT NULL,
   `LockoutEnd` datetime DEFAULT NULL,
   `LockoutEnabled` bit(1) NOT NULL,
-  `AccessFailedCount` int NOT NULL
+  `AccessFailedCount` int NOT NULL,
+  PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -178,6 +179,20 @@ CREATE TABLE `questions` (
   CONSTRAINT `FK_Questions_Flashcards_FlashcardId` FOREIGN KEY (`FlashcardId`) REFERENCES `flashcards` (`Id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
+-- Table structure for table `reviews`
+CREATE TABLE `reviews` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `UserId` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `Rating` int NOT NULL,
+  `Feedback` text NOT NULL,
+  `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Id`),
+  KEY `IX_Reviews_UserId` (`UserId`),
+  CONSTRAINT `FK_Reviews_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -221,9 +236,9 @@ ALTER TABLE `aspnetuserroles`
 -- Indexes for table `aspnetusers`
 --
 ALTER TABLE `aspnetusers`
-  ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `UserNameIndex` (`NormalizedUserName`),
-  ADD KEY `EmailIndex` (`NormalizedEmail`);
+  ADD KEY `EmailIndex` (`NormalizedEmail`),
+  ADD KEY `IX_AspNetUsers_Id` (`Id`);
 
 --
 -- Indexes for table `aspnetusertokens`
