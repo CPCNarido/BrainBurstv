@@ -1,5 +1,7 @@
 @model UsersApp.ViewModels.QuizDetailsViewModel
 
+@using System.Text.Json
+
 @{
     ViewData["Title"] = "Take Quiz";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
@@ -12,28 +14,45 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            let timers = @Html.Raw(Json.Serialize(Model.Timer));
+            // Serialize model data for JavaScript use
+            let quizId = @Html.Raw(JsonSerializer.Serialize(Model.Id));
+            let timers = @Html.Raw(JsonSerializer.Serialize(Model.Timer ?? new Dictionary<int, int>()));
+            let questions = @Html.Raw(JsonSerializer.Serialize(Model.Questions));
+            let choices = @Html.Raw(JsonSerializer.Serialize(Model.Choices));
+            let correctAnswers = @Html.Raw(JsonSerializer.Serialize(Model.CorrectAnswers ?? new Dictionary<int, int>()));
+            
+            console.log("Quiz ID:", quizId);
+            console.log("Timers:", timers);
+            console.log("Questions:", questions);
+            console.log("Choices:", choices);
+            console.log("Correct Answers:", correctAnswers);
+
             let currentQuestionIndex = 0;
             let timer;
+            let score = 0;
 
             function showQuestion(index) {
-                if (index >= Object.keys(timers).length) {
-                    $('#quiz-container').html('<strong>Quiz Completed!</strong>');
+                if (index >= Object.keys(questions).length) {
+                    $('#quiz-container').html(`<strong>Quiz Completed! Your score: ${score}/${Object.keys(questions).length}</strong>`);
                     return;
                 }
 
-                $('#question').text(Model.Questions[index + 1]);
+                // Display the current question
+                $('#question').text(questions[index + 1]); // Questions use 1-based indexing
+
+                // Render choices for the question
                 $('#choices').empty();
-                Model.Choices[index + 1].forEach((choice, i) => {
-                    $('#choices').append(`<button class="choice">${choice}</button>`);
+                choices[index + 1].forEach((choice, i) => {
+                    $('#choices').append(`<button class="choice" data-index="${i}">${choice}</button>`);
                 });
 
-                startTimer(timers[index + 1]);
+                // Start the timer for the current question
+                startTimer(timers[index + 1] || 0.1667); // Default to 10 seconds if no timer is specified
             }
 
             function startTimer(minutes) {
                 clearInterval(timer);
-                let timeLeft = minutes * 60;
+                let timeLeft = minutes * 60; // Convert minutes to seconds
                 timer = setInterval(() => {
                     timeLeft--;
                     let minutes = Math.floor(timeLeft / 60);
@@ -41,11 +60,32 @@
                     $('#timer').text(`Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
                     if (timeLeft <= 0) {
                         clearInterval(timer);
-                        showQuestion(++currentQuestionIndex);
+                        showQuestion(++currentQuestionIndex); // Move to the next question
                     }
                 }, 1000);
             }
 
+            // Handle choice selection
+            $(document).on('click', '.choice', function() {
+                let selectedChoiceIndex = $(this).data('index');
+                console.log(`Selected choice index: ${selectedChoiceIndex}`);
+
+                // Check if the selected choice is correct
+                let correctChoiceIndex = correctAnswers[currentQuestionIndex + 1]; // Correct answers use 1-based indexing
+                if (selectedChoiceIndex === correctChoiceIndex) {
+                    $(this).css('background-color', 'green');
+                    score++;
+                } else {
+                    $(this).css('background-color', 'red');
+                }
+
+                // Move to the next question after a short delay
+                setTimeout(() => {
+                    showQuestion(++currentQuestionIndex);
+                }, 1000);
+            });
+
+            // Display the first question on page load
             showQuestion(currentQuestionIndex);
         });
     </script>
