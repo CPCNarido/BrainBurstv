@@ -36,7 +36,6 @@ body {
     padding-right: 2%;
     padding-bottom: 2%;
     gap: 2%;
-    margin-right: 25px; /* Add space for the rightmost part near the image */
 }
 
 .Logo{
@@ -65,7 +64,7 @@ body {
     position: relative;
     z-index: 2; /* Ensure the button text is above the background */
     padding: 0; /* Remove padding */
-    width: 100%; /* Ensure the button takes full width of the container */
+    width: 15%; /* Ensure the button takes full width of the container */
     height: 100%; /* Ensure the button takes full height of the container */
     display: flex;
     justify-content: center; /* Center horizontally */
