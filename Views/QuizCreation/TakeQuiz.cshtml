@@ -15,7 +15,7 @@
     <script>
         $(document).ready(function() {
             // Serialize model data for JavaScript use
-            let quizId = @Html.Raw(JsonSerializer.Serialize(Model.Id));
+            let quizId = @Html.Raw(JsonSerializer.Serialize(Model.QuizId));
             let timers = @Html.Raw(JsonSerializer.Serialize(Model.Timer ?? new Dictionary<int, int>()));
             let questions = @Html.Raw(JsonSerializer.Serialize(Model.Questions));
             let choices = @Html.Raw(JsonSerializer.Serialize(Model.Choices));
@@ -52,10 +52,10 @@
 
             function startTimer(minutes) {
                 clearInterval(timer);
-                let timeLeft = Math.ceil(minutes * 60); // Convert minutes to seconds and round up
+                let timeLeft = minutes * 60; // Convert minutes to seconds
                 timer = setInterval(() => {
-                    $('#timer').text(`Time left: ${timeLeft} secs`);
                     timeLeft--;
+                    $('#timer').text(`Time left: ${timeLeft} secs`);
                     if (timeLeft <= 0) {
                         clearInterval(timer);
                         showQuestion(++currentQuestionIndex); // Move to the next question
@@ -71,10 +71,10 @@
                 // Check if the selected choice is correct
                 let correctChoiceIndex = correctAnswers[currentQuestionIndex + 1]; // Correct answers use 1-based indexing
                 if (selectedChoiceIndex === correctChoiceIndex) {
-                    $(this).addClass('correct');
+                    $(this).css('background-color', 'green');
                     score++;
                 } else {
-                    $(this).addClass('incorrect');
+                    $(this).css('background-color', 'red');
                 }
 
                 // Move to the next question after a short delay
