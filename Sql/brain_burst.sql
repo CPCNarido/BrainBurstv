@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 23, 2024 at 08:29 AM
+-- Generation Time: Nov 30, 2024 at 02:01 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -92,6 +92,7 @@ CREATE TABLE `aspnetuserroles` (
 
 CREATE TABLE `aspnetusers` (
   `Id` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `FilePath` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `FullName` longtext NOT NULL,
   `Role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `UserName` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
@@ -107,192 +108,77 @@ CREATE TABLE `aspnetusers` (
   `TwoFactorEnabled` bit(1) NOT NULL,
   `LockoutEnd` datetime DEFAULT NULL,
   `LockoutEnabled` bit(1) NOT NULL,
-  `AccessFailedCount` int NOT NULL,
-  PRIMARY KEY (`Id`)
+  `AccessFailedCount` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `aspnetusers`
 --
 
-INSERT INTO `aspnetusers` (`Id`, `FullName`, `Role`, `UserName`, `NormalizedUserName`, `Email`, `NormalizedEmail`, `EmailConfirmed`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`, `PhoneNumber`, `PhoneNumberConfirmed`, `TwoFactorEnabled`, `LockoutEnd`, `LockoutEnabled`, `AccessFailedCount`) VALUES
-('3cbea362-2a1f-4dd7-8a25-5deb959a397a', 'christin', 'Professor', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEIbM3iW/Vw8qE6//UHgLi0xP7qGh1Cev5jpk3nRcISgWGj/dDsHUx1XC4KlE/ciudA==', 'FXDOTX5NLPJQZ4IUO3I3XXHHYJ56XPA7', 'aedf9d85-7ee3-4cac-af72-fcaeffb79ef5', NULL, b'0', b'0', NULL, b'1', 0);
+INSERT INTO `aspnetusers` (`Id`, `FilePath`, `FullName`, `Role`, `UserName`, `NormalizedUserName`, `Email`, `NormalizedEmail`, `EmailConfirmed`, `PasswordHash`, `SecurityStamp`, `ConcurrencyStamp`, `PhoneNumber`, `PhoneNumberConfirmed`, `TwoFactorEnabled`, `LockoutEnd`, `LockoutEnabled`, `AccessFailedCount`) VALUES
+('885efb3e-8e0f-4593-b855-6489a1fd5279', '/profile_images/default.png', 'christin', 'Student', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEMBJmoWj9jrfvWV27qWPR3/pDj4HAaOFKiAam1gRLkj6vqPfFJedeJjan7mjLojDbA==', '3IUZVKXHLIPTJAXSP2SIHT2XHY2IWZIS', 'a3e33865-3896-4a6c-9c4f-1b0fba355737', NULL, b'0', b'0', NULL, b'1', 0),
+('e5dac1ad-8550-4075-be0d-664f8f9cb15b', '/profile_images/default.png', 'Christian Paul Narido', 'Professor', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEAWtxybUTmZV8qrG6l3eoVkUpAf7lKUpAFiwcqi1u0We9QSWmYPIEeGm0OJpRAzEhQ==', 'I3DEKBMNZNLEZCKH2MCGKDO7B6YWQ3W3', '4af7d812-5320-4b8d-84ae-d0d1b6cbf3b0', NULL, b'0', b'0', NULL, b'1', 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aspnetusertokens`
+-- Table structure for table `quizzes`
 --
 
-CREATE TABLE `aspnetusertokens` (
-  `UserId` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `LoginProvider` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `Name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `Value` longtext
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `__efmigrationshistory`
---
-
-CREATE TABLE `__efmigrationshistory` (
-  `MigrationId` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `ProductVersion` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+CREATE TABLE `quizzes` (
+  `QuizId` int NOT NULL,
+  `GradeLevel` varchar(50) NOT NULL,
+  `Topic` varchar(100) NOT NULL,
+  `CorrectAnswers` text NOT NULL,
+  `JsonFilePath` text NOT NULL,
+  `UserId` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `__efmigrationshistory`
+-- Dumping data for table `quizzes`
 --
 
-INSERT INTO `__efmigrationshistory` (`MigrationId`, `ProductVersion`) VALUES
-('20240624045239_Init', '8.0.6'),
-('20241122044535_InitialCreate', '8.0.6');
-
---
--- Table structure for table `flashcards`
---
-
-CREATE TABLE `flashcards` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Title` varchar(255) NOT NULL,
-  `Description` text NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `questions`
---
-
-CREATE TABLE `questions` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `QuestionText` text NOT NULL,
-  `AnswerText` text NOT NULL,
-  `ImageQuestionPath` varchar(255),
-  `ImageAnswerPath` varchar(255),
-  `FlashcardId` int NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `IX_Questions_FlashcardId` (`FlashcardId`),
-  CONSTRAINT `FK_Questions_Flashcards_FlashcardId` FOREIGN KEY (`FlashcardId`) REFERENCES `flashcards` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
--- Table structure for table `reviews`
-CREATE TABLE `reviews` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `UserId` varchar(450) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `Rating` int NOT NULL,
-  `Feedback` text NOT NULL,
-  `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`Id`),
-  KEY `IX_Reviews_UserId` (`UserId`),
-  CONSTRAINT `FK_Reviews_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `quizzes` (`QuizId`, `GradeLevel`, `Topic`, `CorrectAnswers`, `JsonFilePath`, `UserId`) VALUES
+(1, 'College', 'OOP(OBJECT ORIENTED PROGRAMMING)', '[]', 'wwwroot\\quizzes\\da728939-07bc-4e5f-851a-cc274b28a599.json', 'e5dac1ad-8550-4075-be0d-664f8f9cb15b'),
+(2, 'College', 'OOP(OBJECT ORIENTED PROGRAMMING)', '[]', 'wwwroot\\quizzes\\a6998741-939f-4675-af70-511dcc6d9ac7.json', 'e5dac1ad-8550-4075-be0d-664f8f9cb15b'),
+(3, 'College', 'OOP(OBJECT ORIENTED PROGRAMMING)', '[\"d\",\"d\",\"b\",\"a\",\"d\",\"d\",\"b\",\"a\",\"a\",\"b\"]', 'wwwroot\\quizzes\\c2087c14-77e1-46b6-a93d-63ecd49005b0.json', 'e5dac1ad-8550-4075-be0d-664f8f9cb15b');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `aspnetroleclaims`
---
-ALTER TABLE `aspnetroleclaims`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_AspNetRoleClaims_RoleId` (`RoleId`);
-
---
--- Indexes for table `aspnetroles`
---
-ALTER TABLE `aspnetroles`
-  ADD PRIMARY KEY (`Id`),
-  ADD UNIQUE KEY `RoleNameIndex` (`NormalizedName`);
-
---
--- Indexes for table `aspnetuserclaims`
---
-ALTER TABLE `aspnetuserclaims`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `IX_AspNetUserClaims_UserId` (`UserId`);
-
---
--- Indexes for table `aspnetuserlogins`
---
-ALTER TABLE `aspnetuserlogins`
-  ADD PRIMARY KEY (`LoginProvider`,`ProviderKey`),
-  ADD KEY `IX_AspNetUserLogins_UserId` (`UserId`);
-
---
--- Indexes for table `aspnetuserroles`
---
-ALTER TABLE `aspnetuserroles`
-  ADD PRIMARY KEY (`UserId`,`RoleId`),
-  ADD KEY `IX_AspNetUserRoles_RoleId` (`RoleId`);
-
---
 -- Indexes for table `aspnetusers`
 --
 ALTER TABLE `aspnetusers`
-  ADD UNIQUE KEY `UserNameIndex` (`NormalizedUserName`),
-  ADD KEY `EmailIndex` (`NormalizedEmail`),
-  ADD KEY `IX_AspNetUsers_Id` (`Id`);
+  ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `aspnetusertokens`
+-- Indexes for table `quizzes`
 --
-ALTER TABLE `aspnetusertokens`
-  ADD PRIMARY KEY (`UserId`,`LoginProvider`,`Name`);
+ALTER TABLE `quizzes`
+  ADD PRIMARY KEY (`QuizId`),
+  ADD KEY `UserId` (`UserId`);
 
 --
--- Indexes for table `__efmigrationshistory`
+-- AUTO_INCREMENT for dumped tables
 --
-ALTER TABLE `__efmigrationshistory`
-  ADD PRIMARY KEY (`MigrationId`);
+
+--
+-- AUTO_INCREMENT for table `quizzes`
+--
+ALTER TABLE `quizzes`
+  MODIFY `QuizId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `aspnetroleclaims`
+-- Constraints for table `quizzes`
 --
-ALTER TABLE `aspnetroleclaims`
-  ADD CONSTRAINT `FK_AspNetRoleClaims_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `aspnetroles` (`Id`) ON DELETE CASCADE;
-
---
--- Constraints for table `aspnetuserclaims`
---
-ALTER TABLE `aspnetuserclaims`
-  ADD CONSTRAINT `FK_AspNetUserClaims_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
-
---
--- Constraints for table `aspnetuserlogins`
---
-ALTER TABLE `aspnetuserlogins`
-  ADD CONSTRAINT `FK_AspNetUserLogins_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
-
---
--- Constraints for table `aspnetuserroles`
---
-ALTER TABLE `aspnetuserroles`
-  ADD CONSTRAINT `FK_AspNetUserRoles_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `aspnetroles` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_AspNetUserRoles_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
-
---
--- Constraints for table `aspnetusertokens`
---
-ALTER TABLE `aspnetusertokens`
-  ADD CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE;
-
---
--- Constraints for table `questions`
---
-ALTER TABLE `questions`
-  ADD CONSTRAINT `FK_Questions_Flashcards_FlashcardId` FOREIGN KEY (`FlashcardId`) REFERENCES `flashcards` (`Id`) ON DELETE CASCADE;
-
+ALTER TABLE `quizzes`
+  ADD CONSTRAINT `quizzes_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
