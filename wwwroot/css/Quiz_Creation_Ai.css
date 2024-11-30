@@ -1,5 +1,380 @@
-.container1 {
-    padding: 20px;
-    margin-top: 20px;
-    width: 1700px;
+.quizmaker{
+    width: 80%;
+    height: 750px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-container{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.right-container{
+    width: 50%;
+    height: 600px;
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #8DD63E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelss{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #73D10D;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelss h1{
+    color: #2B550E;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    font-family: "Rum Raisin", sans-serif;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    gap: 20px;
+}
+
+.QuizTitle{
+    width: 98%;
+    height: 35px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 5px;
+    padding-left: 10px;
+}
+
+.QuizDescription{
+    width: 98%;
+    height: 67px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 5px;
+    padding-left: 10px;
+}
+
+.descriptions{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: 220px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.descriptions p{
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 1;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 306px;
+    height: 152px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.input-container{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gradelevel{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.gradeobject{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 109.406px;
+    height: 29.669px;
+    flex-shrink: 0;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gradeobject1{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 150px;
+    height: 29.669px;
+    flex-shrink: 0;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:20px ;
+}
+
+.dropdown{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #2B550E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 123px;
+    height: 30px;
+    flex-shrink: 0;
+    color: #FFF;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.items{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.items-input{
+    width: 123px;
+    height: 30px;
+    color: #FFF;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #2B550E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+.quizdescription-input{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 677.273px;
+    height: 211.576px;
+    flex-shrink: 0;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 5px;
+    padding-left: 10px;
+    resize: none;
+}
+
+.generate{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 175px;
+    height: 29px;
+    flex-shrink: 0;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    color: #2B550E;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 5px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+
+}
+
+.formatter{
+    display: flex;
+    justify-content: end;
+    padding-right: 6%;
+}
+
+.topic{
+    display:flex ;
+    flex-direction: row;
+    gap: 20px
+}
+
+.topic-container{
+    width: 123px;
+    height: 30px;
+    color: #FFF;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #2B550E;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+.topic-container::placeholder{
+    color: #FFF;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.wrapp{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.labelll{
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #73D10D;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 338px;
+    height: 44px;
+    flex-shrink: 0;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    justify-content: center;
+    align-items: center;
+    display: flex
+}
+
+.quizzes-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.quiz-library{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+}
+
+.quiz-item{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #A9CD49;
+    width: 316.347px;
+    height: 194.512px;
+    flex-shrink: 0;
+}
+
+.quiz-item h1{
+    color: #FFF;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.pagination{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 7%;
+    gap: 20px;
+}
+/* Custom styles for pagination numbers */
+.pagination-number {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #2B550E;
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #2B550E;
+    font-family: "Rum Raisin";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer
+}
+
+.pagination-number.active {
+    background-color: #0056b3;
 }

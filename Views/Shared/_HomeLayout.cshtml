@@ -43,18 +43,9 @@
             else
             {
                 <div class="nav-container">
-                    <div class="button-container">
-                        <div class="button-background"></div>
-                        <button class="Join" onclick="location.href='@Url.Action("Join", "Account")'">Join</button>
-                    </div>
-                    <div class="button-container">
-                        <div class="button-background"></div>
-                        <button class="Sign" onclick="location.href='@Url.Action("SignUp", "Account")'">Sign Up</button>
-                    </div>
-                    <div class="button-container">
-                        <div class="button-background"></div>
-                        <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
-                    </div>
+                    <button class="Join" onclick="location.href='@Url.Action("Join", "Account")'">Join</button>
+                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
+                    <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
                 </div>
             }
         </header>

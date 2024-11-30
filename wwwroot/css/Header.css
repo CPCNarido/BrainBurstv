@@ -34,9 +34,7 @@ body {
     justify-content: flex-end;
     align-items: flex-end;
     padding-right: 2%;
-    padding-bottom: 2%;
     gap: 2%;
-    margin-right: 25px; /* Add space for the rightmost part near the image */
 }
 
 .Logo{
@@ -73,6 +71,13 @@ body {
     text-align: center; /* Center text within the button */
     top: 3px; /* Move the text by 2px vertically */
     left: 2px; /* Move the text by 2px to the right */
+    width: 150px;
+    height: 30px; /* Reduce the height of the background */
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 4px solid #2B550E;
+    background: #FFFDC1;
+    margin-bottom: 2%;
 }
 
 .profile-container{
@@ -309,18 +314,6 @@ Header {
     left: 25px; /* Move the buttons 10px to the right */
 }
 
-.button-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 150px;
-    height: 30px; /* Reduce the height of the background */
-    flex-shrink: 0;
-    border-radius: 20px;
-    border: 4px solid #2B550E;
-    background: #FFFDC1;
-    z-index: 0; /* Ensure the background is behind the button */
-}
 
 
 
