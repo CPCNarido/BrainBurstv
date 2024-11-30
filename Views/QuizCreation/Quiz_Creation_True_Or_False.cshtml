@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Quiz Creator True Or False";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Quiz_Creation_True_Or_False.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container1">
+        <div class="header-bg">
+            <div class="header">
+                <div class="type-of-question">
+                    <select id="quiz-type" name="quizType">
+                        <option value="" disabled selected>Type of Quiz</option>
+                        <option value="1">Multiple Choice</option>
+                        <option value="2">True/False</option>
+                        <option value="3">Fill in the Blank</option>
+                    </select>
+                </div>
+                <div class="right-side">
+                    <div class="points">
+                        <select name="points" id="points">
+                            <option value="" disabled selected>Select Points</option>
+                            <option value="1">1 Point</option>
+                            <option value="2">2 Points</option>
+                            <option value="3">3 Points</option>
+                            <option value="4">4 Points</option>
+                            <option value="5">5 Points</option>
+                        </select>
+                    </div>
+                    <div class="time">
+                        <select name="time" id="time">
+                            <option value="" disabled selected>Select Time Limit</option>
+                            <option value="30">30 Seconds</option>
+                            <option value="60">1 Minute</option>
+                            <option value="120">2 Minutes</option>
+                            <option value="300">5 Minutes</option>
+                            <option value="600">10 Minutes</option>
+                        </select>
+                    </div>
+                    <div class="save">
+                        <button id="save-quiz" onclick="saveQuiz()">
+                            <img src="~/Assets/floppy 3.png" alt="">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layer-1">
+            <div class="question-box">
+                    <input type="text" id="question" placeholder="Please enter your question....">
+            </div>
+        </div>
+        <div class="layer-2">
+            <div class="choices">
+                <div class="true">
+                    <input type="radio" id="true" name="answer" value="true">
+                    <label for="true">True</label>
+                </div>
+                <div class="false">
+                    <input type="radio" id="false" name="answer" value="false">
+                    <label for="false">False</label>
+                </div>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>

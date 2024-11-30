@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 650px;
+    height: 600px;
     gap: 100px;
     width: 100%;
     background-image: url(../Assets/ContactUs/contact.png);
@@ -19,7 +19,7 @@
     width: 50%;
     position: relative;
     top: -70px;
-    left: 5px;
+    left: 50px;
     z-index: 2; /* Ensure it is in front of the rectangle */
     margin-bottom: 20px; /* Adjust as needed */
 }
@@ -150,6 +150,7 @@
     font-size: 16px;
     resize: none;
     outline: none; /* Remove default outline */
+    color: #2B550E; /* Green color for the text */
 }
 
 .feedback-textbox textarea:focus {
@@ -162,6 +163,7 @@
     right: 25%; /* Position it at the right corner */
     transform: translateY(-50%);
     z-index: 3; /* Ensure it is in front of other elements */
+    border-color:#F5D059;
 }
 
 .send-review-button button {
@@ -170,7 +172,7 @@
     border-radius: 10px; /* Updated border radius */
     padding: 10px 20px;
     font-family: "Rum Raisin";
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     width: 150px;
     height: 38.66px;
@@ -190,6 +192,57 @@
 .send-review-button button:hover {
     background-color: #FFFDC1;
     color: #2B550E;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width as needed */
+}
+
+::-webkit-scrollbar-track {
+    background: #FFFDC1; /* Background color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2B550E; /* Green color for the thumb */
+    border-radius: 10px; /* Rounded corners for the thumb */
+    border: 2px solid #FFFDC1; /* Optional: border around the thumb */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Ensure it is in front of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(128, 128, 128, 0.8); /* Gray film background */
+}
+
+.modal-content {
+    font-size: 20px;
+    background-color: #89B752;
+    margin: 15% auto;
+    padding: 30px; /* Increase padding */
+    border: 2px solid #2B550E; /* Green border */
+    border-radius: 10px; /* Smooth edges */
+    width: 400px; /* Increase width */
+    text-align: center; /* Center the text */
+    font-family: "Rum Raisin"; /* Use Rum Raisin font */
+    color: #FFFDC1;
+    text-shadow: 
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20;   /* Up */
+    -webkit-font-smoothing: antialiased; /* Improve font smoothing */
+    -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
 
 

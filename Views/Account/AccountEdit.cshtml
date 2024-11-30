@@ -44,10 +44,11 @@
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" />
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="changepassword">Save Username</button>
+                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
                             </div>
+
                         </div>
                     </form>
                 </div>
@@ -151,6 +152,14 @@
             // Hide the drop area when an image is previewed
             document.getElementById('drop-area').style.display = 'none';
         };
+    }
+</script>
+
+<script>
+    function checkInput() {
+        var input = document.querySelector('input[name="NewUsername"]').value;
+        var button = document.getElementById('saveButton');
+        button.disabled = input.trim() === "";
     }
 </script>
 
