@@ -4,8 +4,6 @@ html,body{
     overflow-x: hidden;
 }
 
-
-
 .hero-container{
     width: 100%;
 
@@ -14,7 +12,7 @@ html,body{
     background-image: url('../Assets/Homepage/HeroImg.png');
     background-size: cover;
     width: 100%;
-    height:755px;
+    height:600px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,10 +26,28 @@ html,body{
     -webkit-text-stroke-width: 5;
     -webkit-text-stroke-color: #5C4C20;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 70px;
+    font-size: 60px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-top: 10px;
+    text-shadow: 
+        5px 5px 0px #5C4C20,   /* Right Down */
+        -5px -5px 0px #5C4C20,  /* Left Up */
+        -5px 5px 0px #5C4C20,   /* Left Down */
+        5px -5px 0px #5C4C20,   /* Right Up */
+        5px 0px 0px #5C4C20,    /* Right */
+        -5px 0px 0px #5C4C20,   /* Left */
+        0px 5px 0px #5C4C20,    /* Down */
+        0px -5px 0px #5C4C20,   /* Up */
+        6px 6px 0px #5C4C20,    /* Right Down - extra */
+        -6px -6px 0px #5C4C20,  /* Left Up - extra */
+        -6px 6px 0px #5C4C20,   /* Left Down - extra */
+        6px -6px 0px #5C4C20,   /* Right Up - extra */
+        6px 0px 0px #5C4C20,    /* Right - extra */
+        -6px 0px 0px #5C4C20,   /* Left - extra */
+        0px 6px 0px #5C4C20,    /* Down - extra */
+        0px -6px 0px #5C4C20;   /* Up - extra */
 }
 
 .Hero-text1{
@@ -41,10 +57,28 @@ html,body{
     -webkit-text-stroke-width: 3;
     -webkit-text-stroke-color: #5C4C20;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 44px;
+    font-size: 35px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: 10px;
+    text-shadow: 
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20,   /* Up */
+        3px 3px 0px #5C4C20,    /* Right Down - extra */
+        -3px -3px 0px #5C4C20,  /* Left Up - extra */
+        -3px 3px 0px #5C4C20,   /* Left Down - extra */
+        3px -3px 0px #5C4C20,   /* Right Up - extra */
+        3px 0px 0px #5C4C20,    /* Right - extra */
+        -3px 0px 0px #5C4C20,   /* Left - extra */
+        0px 3px 0px #5C4C20,    /* Down - extra */
+        0px -3px 0px #5C4C20;   /* Up - extra */
 }
 
 .join{
@@ -52,8 +86,8 @@ html,body{
     border: 1px solid var(--black-100, #000);
     background: #FFFDC1;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 430px;
-    height: 96px;
+    width: 400px;
+    height: 60px;
     flex-shrink: 0;
     color: #2B550E;
     text-align: center;
@@ -61,7 +95,7 @@ html,body{
     -webkit-text-stroke-width: 5;
     -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 58px;
+    font-size: 40px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -75,7 +109,7 @@ html,body{
     background-image: url('../Assets/Homepage/b1.png');
     background-size: cover;
     width: 100%;
-    height:416px;
+    height:350px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,16 +134,18 @@ html,body{
     -webkit-text-stroke-width: 2;
     -webkit-text-stroke-color: rgba(230, 205, 181, 0.04);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 96px;
+    font-size: 70px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transform: translateX(-20px);
 }
 
 .char{
     display: flex;
     align-items: baseline;
     margin-bottom: -50px;
+    transform: translateX(70px);
 }
 .char1{
     display: flex;
@@ -131,7 +167,7 @@ html,body{
 }
 
 .c1{
-    border: 3px solid var(--black-100, #000);
+    border: 1px solid var(--black-100, #000);
     background: #9FDB5D;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 100%;
@@ -178,11 +214,19 @@ html,body{
 }
 
 .Right-content{
-    width: fit-content;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.Right-content2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Different position */
 }
 
 .title{
@@ -195,17 +239,42 @@ html,body{
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transform: translateX(40px);
 }
-.description{
-    color: #FFFEEB;
+
+.title2{
+    color: #2B550E;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke-width: 2;
-    -webkit-text-stroke-color: #7A7312;
+    -webkit-text-stroke-color: rgba(230, 205, 181, 0.04);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 48px;
+    font-size: 65px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transform: translateX(210px);
+}
+
+.description{
+    color: #FFFEEB;
+    text-shadow:#7A7312;
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: #7A7312;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    transform: translateX(40px);
+    text-shadow: 
+        3px 3px 0px #5C4C20,   /* Right Down */
+        -3px -3px 0px #5C4C20,  /* Left Up */
+        -3px 3px 0px #5C4C20,   /* Left Down */
+        3px -3px 0px #5C4C20,   /* Right Up */
+        3px 0px 0px #5C4C20,    /* Right */
+        -3px 0px 0px #5C4C20,   /* Left */
+        0px 3px 0px #5C4C20,    /* Down */
+        0px -3px 0px #5C4C20;   /* Up */
 }
 
 .description1{
@@ -224,14 +293,26 @@ html,body{
 
 .description3{
     color: #FFFEEB;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow:#7A7312;
     -webkit-text-stroke-width: 2;
     -webkit-text-stroke-color: #7A7312;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 48px;
+    font-size: 45px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transform: translateX(40px);
+    text-shadow: 
+        3px 3px 0px #5C4C20,   /* Right Down */
+        -3px -3px 0px #5C4C20,  /* Left Up */
+        -3px 3px 0px #5C4C20,   /* Left Down */
+        3px -3px 0px #5C4C20,   /* Right Up */
+        3px 0px 0px #5C4C20,    /* Right */
+        -3px 0px 0px #5C4C20,   /* Left */
+        0px 3px 0px #5C4C20,    /* Down */
+        0px -3px 0px #5C4C20;   /* Up */
+    text-align: right;
+    transform: translateX(-55px);
 }
 
 .lets-go{
@@ -241,17 +322,51 @@ html,body{
     -webkit-text-stroke-width: 5;
     -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 48px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    width: 400px;
-    height: 75px;
+    width: 250px;
+    height: 55px;
     flex-shrink: 0;
     border-radius: 15px;
-    border: 1px solid var(--black-100, #000);
+    border: 2px solid #5C4C20; /* Set brown border */
+    background-clip: padding-box; /* Ensure background doesn't overlap border */
     background: #F6D97B;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transform: translateX(-40px);
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+}
+
+.lets-go:hover {
+    background-color: #E6C34A; /* New color on hover */
+    border-color: #5C4C20; /* Ensure border color remains brown on hover */
+}
+
+.lets-go2{
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 5;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 250px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 2px solid #5C4C20; /* Set brown border */
+    background-clip: padding-box; /* Ensure background doesn't overlap border */
+    background: #F6D97B;
+    transform: translateX(40px);
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+}
+
+.lets-go2:hover {
+    background-color: #E6C34A; /* New color on hover */
+    border-color: #5C4C20; /* Ensure border color remains brown on hover */
 }
 
 .image{
@@ -279,8 +394,8 @@ html,body{
 
 .image2{
     background-image: url('../Assets/Homepage/image2.png');
-    width: 595px;
-    height: 376px;
+    width: 600px;
+    height: 380px;
     flex-shrink: 0;
 }
 
@@ -302,7 +417,7 @@ html,body{
 .review-container{
     border-radius: 20px;
     border: 1px solid var(--black-100, #000);
-    background: #F6D97B;
+    background: #89B752;
     width: 534px;
     height: 404px;
     flex-shrink: 0;
