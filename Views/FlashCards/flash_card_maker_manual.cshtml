@@ -43,15 +43,36 @@
                         <div class="question-number">
                             <div class="question-number-text">1</div>
                         </div>
+                        <div class="text-designer">
+                            <button type="button" class="text-designer-make-word-bold-button">
+                                <img src="../Assets/bold 1.png" alt="Bold Icon">
+                            </button>
+                            <button type="button" class="text-designer-make-word-italic-button">
+                                <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
+                            </button>
+                            <button type="button" class="text-designer-make-word-underline-button">
+                                <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
+                            </button>
+                        </div>
+                        <div class="question-arranger">
+                            <button type="button" class="question-arranger-button-delete-question-button">
+                                <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
+                            </button>
+                        </div>
+                    </div>
+                    <hr style="height: 3px; background-color: black; border: none;"/>
+                    <div class="quiz-box-bottom">
                         <div class="question-box">
                             <input type="text" name="questions[0].Question" placeholder="Enter question here..." required />
                         </div>
                         <div class="answer-box">
                             <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
                         </div>
-                        <div class="image-upload-question">
-                            <input type="file" name="questions[0].ImageFile" accept="image/*" onchange="previewImage(event, 0)" />
-                            <img id="preview-0" src="" alt="Image Preview" style="display:none; max-width: 100px; max-height: 100px;" />
+                        <div class="image-upload-answer">
+                            <input type="file" id="image-upload-answer-0" name="questions[0].ImageFile" accept="image/*" class="file-input" onchange="previewImage(event, 0)"/>
+                            <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-0')">
+                                <img id="preview-0" src="../Assets/image insert 5.png" alt="Upload Icon" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -64,9 +85,9 @@
         </form>
     </div>
     <script>
+        const quizContainer = document.getElementById('quiz-container');
+        const quizBoxes = document.querySelectorAll('.quiz-box');
         document.getElementById('add-question-button').addEventListener('click', function() {
-            const quizContainer = document.getElementById('quiz-container');
-            const quizBoxes = document.querySelectorAll('.quiz-box');
             const newIndex = quizBoxes.length;
 
             const newQuizBox = document.createElement('div');
@@ -77,21 +98,114 @@
                     <div class="question-number">
                         <div class="question-number-text">${newIndex + 1}</div>
                     </div>
+                    <div class="text-designer">
+                        <button type="button" class="text-designer-make-word-bold-button">
+                            <img src="../Assets/bold 1.png" alt="Bold Icon">
+                        </button>
+                        <button type="button" class="text-designer-make-word-italic-button">
+                            <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
+                        </button>
+                        <button type="button" class="text-designer-make-word-underline-button">
+                            <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
+                        </button>
+                    </div>
+                    <div class="question-arranger">
+                        <button type="button" class="question-arranger-button-delete-question-button">
+                            <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
+                        </button>
+                    </div>
+                </div>
+                <hr style="height: 3px; background-color: black; border: none;"/>
+                <div class="quiz-box-bottom">
                     <div class="question-box">
                         <input type="text" name="questions[${newIndex}].Question" placeholder="Enter question here..." required />
                     </div>
                     <div class="answer-box">
                         <input type="text" name="questions[${newIndex}].Answer" placeholder="Enter answer here..." required />
                     </div>
-                    <div class="image-upload-question">
-                        <input type="file" name="questions[${newIndex}].ImageFile" accept="image/*" onchange="previewImage(event, ${newIndex})" />
-                        <img id="preview-${newIndex}" src="" alt="Image Preview" style="display:none; max-width: 100px; max-height: 100px;" />
+                    <div class="image-upload-answer">
+                        <input type="file" id="image-upload-answer-${newIndex}" name="questions[${newIndex}].ImageFile" accept="image/*" class="file-input" onchange="previewImage(event, ${newIndex})" style="display:none;" />
+                        <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-${newIndex}')">
+                            <img id="preview-${newIndex}" src="../Assets/image insert 5.png" alt="Upload Icon" />
+                        </button>
                     </div>
                 </div>
             `;
 
             quizContainer.appendChild(newQuizBox);
         });
+
+        function updateQuestionNumbers() {
+            const quizBoxes = document.querySelectorAll('.quiz-box');
+            quizBoxes.forEach((quizBox, index) => {
+                const questionNumber = quizBox.querySelector('.question-number-text');
+                questionNumber.textContent = index + 1;
+                quizBox.dataset.index = index + 1; // Update the data index as well
+
+                // Update the names and IDs of the inputs and buttons
+                const questionInput = quizBox.querySelector('.question-box input');
+                const answerInput = quizBox.querySelector('.answer-box input');
+                const fileInput = quizBox.querySelector('.image-upload-answer input');
+                const uploadButton = quizBox.querySelector('.upload-button');
+                const previewImage = quizBox.querySelector('.image-upload-answer img');
+
+                questionInput.name = `questions[${index}].Question`;
+                answerInput.name = `questions[${index}].Answer`;
+                fileInput.id = `image-upload-answer-${index}`;
+                fileInput.name = `questions[${index}].ImageFile`;
+                fileInput.setAttribute('onchange', `previewImage(event, ${index})`);
+                uploadButton.setAttribute('onclick', `triggerFileInput('image-upload-answer-${index}')`);
+                previewImage.id = `preview-${index}`;
+            });
+        }
+
+        // Handle Move Up and Move Down functionality using event delegation
+        document.addEventListener('click', (event) => {
+            // Handle Delete Question functionality
+            if (event.target.closest('.question-arranger-button-delete-question-button')) {
+                const quizBox = event.target.closest('.quiz-box');
+                quizBox.remove();
+                updateQuestionNumbers();  // Recalculate and update question numbers after deletion
+            }
+
+            // Handle text formatting
+            const target = event.target.closest('button');
+            if (target?.classList.contains('text-designer-make-word-bold-button')) {
+                formatText(target, 'bold');
+            } else if (target?.classList.contains('text-designer-make-word-italic-button')) {
+                formatText(target, 'italic');
+            } else if (target?.classList.contains('text-designer-make-word-underline-button')) {
+                formatText(target, 'underline');
+            }
+        });
+
+        function formatText(button, style) {
+            const quizBox = button.closest('.quiz-box');
+            const questionInput = quizBox.querySelector('.question-box input');
+            const answerInput = quizBox.querySelector('.answer-box input');
+
+            // Check which input field is active
+            const activeInput = document.activeElement;
+            if (activeInput === questionInput || activeInput === answerInput) {
+                const start = activeInput.selectionStart;
+                const end = activeInput.selectionEnd;
+
+                if (start !== end) {
+                    const selectedText = activeInput.value.substring(start, end);
+                    const formattedText = wrapText(selectedText, style);
+                    activeInput.setRangeText(formattedText, start, end, 'end');
+                }
+            }
+        }
+
+        function wrapText(text, style) {
+            const tags = {
+                bold: '**',
+                italic: '*',
+                underline: '__',
+            };
+            return `${tags[style]}${text}${tags[style]}`;
+        }
 
         function previewImage(event, index) {
             const file = event.target.files[0];
@@ -103,6 +217,15 @@
                     img.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+            }
+        }
+
+        // Trigger file input for image upload
+        function triggerFileInput(inputId) {
+            console.log('test');
+            const fileInput = document.getElementById(inputId);
+            if (fileInput) {
+                fileInput.click();
             }
         }
 

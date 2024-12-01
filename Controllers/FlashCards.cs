@@ -98,7 +98,9 @@ namespace UsersApp.Controllers
 
                         // Assuming you want to store the file path in the flashcard object
                         var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
+                        Console.WriteLine("Initial" + filePath);
                         flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
+                        Console.WriteLine("Saved" + flashcard.Questions[questionIndex].ImageQuestionPath);
                     }
                 }
 
@@ -106,14 +108,34 @@ namespace UsersApp.Controllers
                 foreach (var question in flashcard.Questions)
                 {
                     question.FlashcardId = flashcard.Id;
+                    Console.WriteLine("Checking" + question.ImageQuestionPath);
                     if (string.IsNullOrWhiteSpace(question.ImageQuestionPath))
                     {
+                        Console.WriteLine("Check " + question.ImageQuestionPath);
                         question.ImageQuestionPath = null;
                     }
                     _context.Questions.Add(question); // Add each question to the context
+                    _logger.LogInformation($"Question {question.Id}: ImageQuestionPath = {question.ImageQuestionPath}");
                 }
 
                 await _context.SaveChangesAsync();
+
+                // Temporary fix: Update ImageQuestionPath after adding questions
+                foreach (var question in flashcard.Questions)
+                {
+                    if (!string.IsNullOrWhiteSpace(question.ImageQuestionPath))
+                    {
+                        var existingQuestion = await _context.Questions.FindAsync(question.Id);
+                        Console.WriteLine("Id: " + existingQuestion.Id);
+                        if (existingQuestion != null)
+                        {
+                            existingQuestion.ImageQuestionPath = question.ImageQuestionPath;
+                            _context.Questions.Update(existingQuestion);
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync(); // Save changes to the database again
 
                 return Ok("Flashcard saved successfully.");
             }
