@@ -6,13 +6,15 @@ namespace UsersApp.Data
 {
     public class AppDbContext : IdentityDbContext<Users>
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
         public DbSet<Flashcard> Flashcards { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -24,7 +26,5 @@ namespace UsersApp.Data
                 .HasForeignKey(q => q.FlashcardId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
-        
     }
 }
