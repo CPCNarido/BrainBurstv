@@ -16,7 +16,7 @@
     gap: 20px;
 }
 .right-container{
-    width: 50%;
+    width: 80%;
     height: 600px;
     border-radius: 20px;
     border: 1px solid #000;
@@ -254,13 +254,12 @@
 .formatter{
     display: flex;
     justify-content: end;
-    padding-right: 6%;
 }
 
 .topic{
     display:flex ;
     flex-direction: row;
-    gap: 20px
+    gap: 20px;
 }
 
 .topic-container{

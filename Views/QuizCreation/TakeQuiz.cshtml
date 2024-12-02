@@ -95,4 +95,48 @@
         <div id="choices"></div>
     </div>
 </body>
+
+
+<script>
+    // Show alert before the page loads
+    window.onload = function() {
+        alert('There is an anti-cheat on this webpage. Minimizing or changing tabs 3 times will refresh the page.');
+    };
+
+    let tabChangeCount = 0;
+    let hidden, visibilityChange; 
+
+    if (typeof document.hidden !== "undefined") {
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    function playBeep() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 0.1 seconds
+    }
+
+    function handleVisibilityChange() {
+        if (document[hidden]) {
+            tabChangeCount++;
+            playBeep();
+            if (tabChangeCount >= 3) {
+                location.reload();
+            }
+        }
+    }
+
+    document.addEventListener(visibilityChange, handleVisibilityChange, false);
+</script>
 </html>
