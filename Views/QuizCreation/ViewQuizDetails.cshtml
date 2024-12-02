@@ -18,7 +18,7 @@
             // Toggle edit mode
             $(document).on('click', '.edit-question', function () {
                 var questionDiv = $(this).closest('.question');
-                questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', false);
+                questionDiv.find('.question-text, .choice, .timer-input, .correct-answer-input').prop('disabled', false);
                 questionDiv.find('.edit-question').hide();
                 questionDiv.find('.save-question').show();
             });
@@ -26,7 +26,7 @@
             // Save question
             $(document).on('click', '.save-question', function () {
                 var questionDiv = $(this).closest('.question');
-                questionDiv.find('.question-text, .choice, .timer-input').prop('disabled', true);
+                questionDiv.find('.question-text, .choice, .timer-input, .correct-answer-input').prop('disabled', true);
                 questionDiv.find('.edit-question').show();
                 questionDiv.find('.save-question').hide();
             });
@@ -40,19 +40,22 @@
                         <div class="top">
                             <h1>Question ${questionCount}</h1>
                             <div class="buttonss">
-                                <input type="number" class="timer-input" name="Timers[${questionCount}][1]" placeholder="Set timer (minutes)" disabled />
+                                <input type="number" class="timer-input" name="Timers[${questionCount}]" placeholder="Set timer (minutes)" disabled />
                                 <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
                                 <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
                                 <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="Delete"></button>
                             </div>
                         </div>
                         <div class="bot">
-                            <textarea class="question-text" name="Questions[${questionCount}][1]" placeholder="Enter question text..." disabled></textarea>
+                            <textarea class="question-text" name="Questions[${questionCount}]" placeholder="Enter question text..." disabled></textarea>
                             <div class="choices">
-                                <input type="text" class="choice" name="Choices[${questionCount}][1][0]" placeholder="Choice 1" disabled />
-                                <input type="text" class="choice" name="Choices[${questionCount}][1][1]" placeholder="Choice 2" disabled />
-                                <input type="text" class="choice" name="Choices[${questionCount}][1][2]" placeholder="Choice 3" disabled />
-                                <input type="text" class="choice" name="Choices[${questionCount}][1][3]" placeholder="Choice 4" disabled />
+                                <input type="text" class="choice" name="Choices[${questionCount}][0]" placeholder="Choice 1" disabled />
+                                <input type="text" class="choice" name="Choices[${questionCount}][1]" placeholder="Choice 2" disabled />
+                                <input type="text" class="choice" name="Choices[${questionCount}][2]" placeholder="Choice 3" disabled />
+                                <input type="text" class="choice" name="Choices[${questionCount}][3]" placeholder="Choice 4" disabled />
+                            </div>
+                            <div class="correct-answer">
+                                <input type="text" class="correct-answer-input" name="CorrectAnswers[${questionCount}]" placeholder="Correct Answer" disabled />
                             </div>
                         </div>
                     </div>
@@ -71,11 +74,12 @@
                 $('.question').each(function (index) {
                     questionCount = index + 1; // Update questionCount sequentially
                     $(this).find('h1').text(`Question ${questionCount}`);
-                    $(this).find('.timer-input').attr('name', `Timers[${questionCount}][1]`);
-                    $(this).find('.question-text').attr('name', `Questions[${questionCount}][1]`);
+                    $(this).find('.timer-input').attr('name', `Timers[${questionCount}]`);
+                    $(this).find('.question-text').attr('name', `Questions[${questionCount}]`);
                     $(this).find('.choice').each(function (choiceIndex) {
-                        $(this).attr('name', `Choices[${questionCount}][1][${choiceIndex}]`);
+                        $(this).attr('name', `Choices[${questionCount}][${choiceIndex}]`);
                     });
+                    $(this).find('.correct-answer-input').attr('name', `CorrectAnswers[${questionCount}]`);
                 });
             });
 
@@ -85,14 +89,19 @@
 
                 var formData = $(this).serialize(); // Serialize the form data
 
+                console.log("Form Data:", formData); // Log the form data
+
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
                     success: function (response) {
+                        console.log("Response:", response); // Log the response
                         alert('Quiz updated successfully!');
+                        window.location.href = '@Url.Action("ViewQuizDetails", "QuizCreation", new { id = Model.QuizId })';
                     },
                     error: function (error) {
+                        console.error("Error:", error); // Log the error
                         alert('An error occurred while updating the quiz.');
                     }
                 });
@@ -112,17 +121,26 @@
                             <h1>Question @question.Key</h1>
                             <div class="buttonss">
                                 <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (minutes)" disabled />
-                                <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png">Edit</button>
-                                <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png">Save</button>
+                                <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
+                                <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
                                 <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="Delete"></button>
                             </div>
                         </div>
                         <div class="bot">
                             <textarea class="question-text" name="Questions[@question.Key]" disabled>@question.Value</textarea>
                             <div class="choices">
-                                @foreach (var choice in Model.Choices[question.Key])
+                                @if (Model.Choices.ContainsKey(question.Key))
                                 {
-                                    <input type="text" class="choice" name="Choices[@question.Key][]" value="@choice" disabled />
+                                    @foreach (var choice in Model.Choices[question.Key])
+                                    {
+                                        <input type="text" class="choice" name="Choices[@question.Key][]" value="@choice" disabled />
+                                    }
+                                }
+                            </div>
+                            <div class="correct-answer">
+                                @if (Model.CorrectAnswers.ContainsKey(question.Key))
+                                {
+                                    <input type="text" class="correct-answer-input" name="CorrectAnswers[@question.Key]" value="@Model.CorrectAnswers[question.Key]" disabled />
                                 }
                             </div>
                         </div>
@@ -134,8 +152,6 @@
                 <button type="submit" class="save-quiz">Save Quiz</button>
             </div>
         </form>
-            <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
     </div>
-
 </body>
 </html>
