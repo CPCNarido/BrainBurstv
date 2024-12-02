@@ -80,6 +80,11 @@ body {
     margin-bottom: 2%;
 }
 
+.Join:hover, .Sign:hover, .Login:hover {
+    background-color: #2B550E; /* Change background color on hover */
+    color: #FFFDC1; /* Change text color on hover */
+}
+
 .profile-container{
     display: flex;
     justify-content: flex-end;

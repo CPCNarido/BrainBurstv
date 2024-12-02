@@ -1,12 +1,10 @@
-
-
 .content1{
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 794px;
-    height: 755px;
+    width: 420px;
+    height: 540px;
     flex-shrink: 0;
     display: flex;
     flex-direction: row;
@@ -14,12 +12,12 @@
 }
 
 .content2{
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 794px;
-    height: 755px;
+    height: 530px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
@@ -29,25 +27,31 @@
 }
 
 .sidebar{
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: rgba(245, 208, 89, 0.71);
-    width: 220px;
-    height: 755px;
+    width: 110px;
+    height: 540px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.sidebar img {
+    width: 80px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
 .fill{
-    width: 573px;
-    height: 755px;
+    width: 580px;
+    height: 530px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .log {
     display: flex;
     justify-content: flex-start; /* Align items to the left */
@@ -70,7 +74,7 @@
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 50px;
+    font-size: 36px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -82,10 +86,22 @@
     margin-bottom: 5%;
 }
 
+.passinput .form-show {
+    font-size: 16px; /* Adjusted font size */
+    margin-top: 15px; /* Adjust margin to move "Show Password" down by 2px */
+}
+
+.passinput .form-check-label {
+    font-size: 16px; /* Adjusted font size */
+    margin-top: -10px; /* Move "Remember me" further upwards */
+    margin-left: -10px; /* Move "Remember me" a bit to the left */
+    padding-left: 5px; /* Create space between the checkbox and the label */
+}
+
 .email-form::placeholder,.pass-form::placeholder{
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 25px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -98,51 +114,57 @@
 .userinput label,.passinput label{
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 36px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-left: -5px; /* Move the label to the left by 5px */
 }
 
 .email-form,.pass-form{
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #D2E6BD;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 498px;
-    height: 78px;
+    width: 260px;
+    height: 50px;
     flex-shrink: 0;
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 25px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     padding-left: 5%;
+    margin-left: -3px;
 }
 
 .submit-button{
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
-    background: #89B752;
-    width: 169px;
-    height: 62px;
+    background: #2B550E;
+    width: 90px;
+    height: 36px;
     flex-shrink: 0;
-    color: #FFF;
-    -webkit-text-stroke-width: 1;
-    -webkit-text-stroke-color: var(--black-100, #000);
+    color: #FFFDC1;
+    -webkit-text-stroke-color: #000; /* Set outline color to black */
     font-family: "Rum Raisin", sans-serif;
-    font-size: 36px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.submit-button:hover {
+    background-color: #3E7C1E; /* Change background color on hover */
 }
 
 .forgot{
     all: unset;
-    color: var(--black-100, #000);
-    font-family: "Rum Raisin", sans-serif;
-    font-size: 24px;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif !important; /* Ensure font-family is applied */
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -151,14 +173,15 @@
     flex-shrink: 0;
     display: flex;
     justify-content: left;
-    margin-left: 10%;
-    margin-top: 2%;
+    margin-left: 5px;
+    margin-top: 1%;
 
 }
 
 .forgot a{
     text-decoration: none;
     color: inherit;
+    font-family: "Rum Raisin", sans-serif;
 }
 
 .submit{
@@ -184,6 +207,37 @@
     height: 100%;
     flex-direction: column;
 }
+
+.form-check-label{
+    color: var(--black-100, #000);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px; /* Adjusted font size */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: -5px; /* Adjust margin to move "Remember me" */
+    margin-left: 10px;
+    
+}
+
+.signup-prompt {
+    margin-top: 20px;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 14px;
+    color: var(--black-100, #000);
+    margin-left: -10px;
+}
+
+.signup-prompt a {
+    color: #2B550E;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-prompt a:hover {
+    text-decoration: underline;
+}
+
 
 
 

@@ -23,15 +23,15 @@
             @if (ViewData["Title"]?.ToString() == "Login Page")
             {
                 <div class="nav-container">
-                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">JOIN A GAME!</button>
-                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">SIGN UP</button>
+                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join Quiz</button>
+                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
                 </div>
             }
             else if (ViewData["Title"]?.ToString() == "Signup Page")
             {
                 <div class="nav-container">
-                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">JOIN A GAME!</button>
-                    <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">LOG IN</button>
+                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join Quiz</button>
+                    <button class="Sign" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
                 </div>
             }
         </header>
