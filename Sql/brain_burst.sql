@@ -143,6 +143,23 @@ INSERT INTO `quizzes` (`QuizId`, `GradeLevel`, `Topic`, `CorrectAnswers`, `JsonF
 (2, 'College', 'OOP(OBJECT ORIENTED PROGRAMMING)', '[]', 'wwwroot\\quizzes\\a6998741-939f-4675-af70-511dcc6d9ac7.json', 'e5dac1ad-8550-4075-be0d-664f8f9cb15b'),
 (3, 'College', 'OOP(OBJECT ORIENTED PROGRAMMING)', '[\"d\",\"d\",\"b\",\"a\",\"d\",\"d\",\"b\",\"a\",\"a\",\"b\"]', 'wwwroot\\quizzes\\c2087c14-77e1-46b6-a93d-63ecd49005b0.json', 'e5dac1ad-8550-4075-be0d-664f8f9cb15b');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `UserName` varchar(255) NOT NULL,
+  `UserRole` varchar(255) NOT NULL,
+  `Rating` int NOT NULL,
+  `Feedback` text,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Indexes for dumped tables
 --

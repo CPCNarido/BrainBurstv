@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Quiz Creator True Or False";
+    ViewData["Title"] = "Quiz Creator Fill in the Blanks";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 <html>
@@ -34,11 +34,8 @@
                         <div class="answer-title">
                             Answer:
                         </div>
-                        <div class="true">
-                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="True" required /> True
-                        </div>
-                        <div class="false">
-                            <input type="radio" name="questions[${questionIndex - 1}].Answer" value="False" required /> False
+                        <div class="fill-in-the-blank">
+                            <input type="text" name="questions[${questionIndex - 1}].Answer" placeholder="Enter answer here..." required />
                         </div>
                     </div>
                     <div class="delete-question-button">
@@ -62,8 +59,7 @@
                     box.dataset.index = index + 1;
                     box.querySelector('.question-number-text').textContent = index + 1;
                     box.querySelector('.question input').name = `questions[${index}].Question`;
-                    box.querySelector('.true input').name = `questions[${index}].Answer`;
-                    box.querySelector('.false input').name = `questions[${index}].Answer`;
+                    box.querySelector('.fill-in-the-blank input').name = `questions[${index}].Answer`;
                 });
                 questionIndex = questionBoxes.length;
             }
@@ -82,10 +78,9 @@
 <body>
     <div class="container1">
         <div class="quiz-title">
-            Quiz Creator True Or False
+            Quiz Creator Fill in the Blanks
         </div>
         <form id="quiz-form">
-        
             <!-- Quiz Container -->
             <div id="quiz-container">
                 <div class="question-box" data-index="1">
@@ -99,11 +94,8 @@
                         <div class="answer-title">
                             Answer:
                         </div>
-                        <div class="true">
-                            <input type="radio" name="questions[0].Answer" value="True" required /> True
-                        </div>
-                        <div class="false">
-                            <input type="radio" name="questions[0].Answer" value="False" required /> False
+                        <div class="fill-in-the-blank">
+                            <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
                         </div>
                     </div>
                     <div class="delete-question-button">
@@ -124,7 +116,6 @@
                     Save
                 </button>
             </div>
-            
         </form>
     </div>  
 </body>

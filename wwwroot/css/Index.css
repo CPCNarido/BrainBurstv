@@ -150,7 +150,7 @@ html,body{
 .char1{
     display: flex;
     align-items: baseline;
-    margin-bottom: -29px;
+    margin-bottom: -90px;
 }
 .c{
     border: 3px solid var(--black-100, #000);
@@ -167,7 +167,7 @@ html,body{
 }
 
 .c1{
-    border: 1px solid var(--black-100, #000);
+    border: 3px solid var(--black-100, #000);
     background: #9FDB5D;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 100%;
@@ -298,12 +298,21 @@ html,body{
     -webkit-text-stroke-width: 2;
     -webkit-text-stroke-color: #7A7312;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 48px;
+    font-size: 45px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     width: 80%;
     text-align: center;
+    text-shadow: 
+        3px 3px 0px #5C4C20,   /* Right Down */
+        -3px -3px 0px #5C4C20,  /* Left Up */
+        -3px 3px 0px #5C4C20,   /* Left Down */
+        3px -3px 0px #5C4C20,   /* Right Up */
+        3px 0px 0px #5C4C20,    /* Right */
+        -3px 0px 0px #5C4C20,   /* Left */
+        0px 3px 0px #5C4C20,    /* Down */
+        0px -3px 0px #5C4C20;   /* Up */
 }
 
 .description3{
@@ -346,7 +355,7 @@ html,body{
     height: 55px;
     flex-shrink: 0;
     border-radius: 15px;
-    border: 2px solid #5C4C20; /* Set brown border */
+    border: 3px solid #5C4C20; /* Set brown border */
     background-clip: padding-box; /* Ensure background doesn't overlap border */
     background: #F6D97B;
     transform: translateX(-40px);
@@ -373,7 +382,7 @@ html,body{
     height: 55px;
     flex-shrink: 0;
     border-radius: 15px;
-    border: 2px solid #5C4C20; /* Set brown border */
+    border: 3px solid #5C4C20; /* Set brown border */
     background-clip: padding-box; /* Ensure background doesn't overlap border */
     background: #F6D97B;
     transform: translateX(40px);
@@ -420,26 +429,29 @@ html,body{
     background: #9FDB5D;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 100%;
-    height: 568px;
+    height: 570px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .preview-right-container.preview-left-container{
  width: 10%;
  height: 100%;
 }
+
 .review-container{
     border-radius: 20px;
     border: 1px solid var(--black-100, #000);
     background: #89B752;
-    width: 534px;
+    width: 530px;
     height: 404px;
     flex-shrink: 0;
 }
 .middle-container{
-    width: 80%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -455,27 +467,27 @@ html,body{
 
 }
 
-
-
 .review-wrapper{
     display: flex;
     flex-direction: row;
     transition: transform 0.5s;
-    gap: 4%;
-    width: 100%;
+    gap: 6%;
+    width: 90%;
 }
-
 
 .button-container{
     display: flex;
     flex-direction: row;
     gap: 5%;
     margin-top: 5%;
-    width:50%;
+    width: 50%;
     height: 100px;
     margin-left: 20%;
+    background-image: url('../Assets/Homepage/button-background.png'); /* Ensure the path is correct */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-
 
 .c3{
     border: 3px solid var(--black-100, #000);
@@ -489,5 +501,43 @@ html,body{
     justify-content: center;
     align-items: center ;
     gap: 8%;
+}
+
+.feedback-button {
+    color: #2B550E;
+    text-align: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke-width: 5;
+    -webkit-text-stroke-color: rgba(255, 255, 255, 0.00);
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 250px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    border: 3px solid #5C4C20; /* Set brown border */
+    background-clip: padding-box; /* Ensure background doesn't overlap border */
+    background: #FFFDC1;
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+}
+
+.feedback-button:hover {
+    background-color: #E6C34A; /* New color on hover */
+    border-color: #5C4C20; /* Ensure border color remains brown on hover */
+}
+
+.feedback-section {
+    background-image: url('../Assets/Homepage/b1.png'); /* Ensure the path is correct */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    padding: 20px 0;
+    height: 360px; /* Adjust height to ensure the image is properly displayed */
 }
 

@@ -22,6 +22,10 @@
                         <img src="~/Assets/floppy 3.png" alt="Save Icon">
                         SAVE
                     </button>
+                    <button type="button" class="button2" name="action" value="practice" onclick="practiceMode(event)">
+                        <img src="/Assets/practice symbol 1.png" alt="Practice Icon">
+                        PRACTICE
+                    </button>
                 </div>
             </div>
             <!-- Flashcard Title and Description -->
@@ -39,14 +43,36 @@
                         <div class="question-number">
                             <div class="question-number-text">1</div>
                         </div>
+                        <div class="text-designer">
+                            <button type="button" class="text-designer-make-word-bold-button">
+                                <img src="../Assets/bold 1.png" alt="Bold Icon">
+                            </button>
+                            <button type="button" class="text-designer-make-word-italic-button">
+                                <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
+                            </button>
+                            <button type="button" class="text-designer-make-word-underline-button">
+                                <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
+                            </button>
+                        </div>
+                        <div class="question-arranger">
+                            <button type="button" class="question-arranger-button-delete-question-button">
+                                <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
+                            </button>
+                        </div>
+                    </div>
+                    <hr style="height: 3px; background-color: black; border: none;"/>
+                    <div class="quiz-box-bottom">
                         <div class="question-box">
                             <input type="text" name="questions[0].Question" placeholder="Enter question here..." required />
                         </div>
                         <div class="answer-box">
                             <input type="text" name="questions[0].Answer" placeholder="Enter answer here..." required />
                         </div>
-                        <div class="image-upload-question">
-                            <input type="text" name="questions[0].Picture" placeholder="Enter image link here..." />
+                        <div class="image-upload-answer">
+                            <input type="file" id="image-upload-answer-0" name="questions[0].ImageFile" accept="image/*" class="file-input" onchange="previewImage(event, 0)"/>
+                            <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-0')">
+                                <img id="preview-0" src="../Assets/image insert 5.png" alt="Upload Icon" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -59,9 +85,9 @@
         </form>
     </div>
     <script>
+        const quizContainer = document.getElementById('quiz-container');
+        const quizBoxes = document.querySelectorAll('.quiz-box');
         document.getElementById('add-question-button').addEventListener('click', function() {
-            const quizContainer = document.getElementById('quiz-container');
-            const quizBoxes = document.querySelectorAll('.quiz-box');
             const newIndex = quizBoxes.length;
 
             const newQuizBox = document.createElement('div');
@@ -72,20 +98,188 @@
                     <div class="question-number">
                         <div class="question-number-text">${newIndex + 1}</div>
                     </div>
+                    <div class="text-designer">
+                        <button type="button" class="text-designer-make-word-bold-button">
+                            <img src="../Assets/bold 1.png" alt="Bold Icon">
+                        </button>
+                        <button type="button" class="text-designer-make-word-italic-button">
+                            <img src="../Assets/FlashCardMakerManual/italic 1.png" alt="Italic Icon">
+                        </button>
+                        <button type="button" class="text-designer-make-word-underline-button">
+                            <img src="../Assets/FlashCardMakerManual/underline 1.png" alt="Underline Icon">
+                        </button>
+                    </div>
+                    <div class="question-arranger">
+                        <button type="button" class="question-arranger-button-delete-question-button">
+                            <img src="../Assets/FlashCardMakerManual/delete 3.png" alt="Delete Icon">
+                        </button>
+                    </div>
+                </div>
+                <hr style="height: 3px; background-color: black; border: none;"/>
+                <div class="quiz-box-bottom">
                     <div class="question-box">
                         <input type="text" name="questions[${newIndex}].Question" placeholder="Enter question here..." required />
                     </div>
                     <div class="answer-box">
                         <input type="text" name="questions[${newIndex}].Answer" placeholder="Enter answer here..." required />
                     </div>
-                    <div class="image-upload-question">
-                        <input type="text" name="questions[${newIndex}].Picture" placeholder="Enter image link here..." />
+                    <div class="image-upload-answer">
+                        <input type="file" id="image-upload-answer-${newIndex}" name="questions[${newIndex}].ImageFile" accept="image/*" class="file-input" onchange="previewImage(event, ${newIndex})" style="display:none;" />
+                        <button type="button" class="upload-button" onclick="triggerFileInput('image-upload-answer-${newIndex}')">
+                            <img id="preview-${newIndex}" src="../Assets/image insert 5.png" alt="Upload Icon" />
+                        </button>
                     </div>
                 </div>
             `;
 
             quizContainer.appendChild(newQuizBox);
         });
+
+        function updateQuestionNumbers() {
+            const quizBoxes = document.querySelectorAll('.quiz-box');
+            quizBoxes.forEach((quizBox, index) => {
+                const questionNumber = quizBox.querySelector('.question-number-text');
+                questionNumber.textContent = index + 1;
+                quizBox.dataset.index = index + 1; // Update the data index as well
+
+                // Update the names and IDs of the inputs and buttons
+                const questionInput = quizBox.querySelector('.question-box input');
+                const answerInput = quizBox.querySelector('.answer-box input');
+                const fileInput = quizBox.querySelector('.image-upload-answer input');
+                const uploadButton = quizBox.querySelector('.upload-button');
+                const previewImage = quizBox.querySelector('.image-upload-answer img');
+
+                questionInput.name = `questions[${index}].Question`;
+                answerInput.name = `questions[${index}].Answer`;
+                fileInput.id = `image-upload-answer-${index}`;
+                fileInput.name = `questions[${index}].ImageFile`;
+                fileInput.setAttribute('onchange', `previewImage(event, ${index})`);
+                uploadButton.setAttribute('onclick', `triggerFileInput('image-upload-answer-${index}')`);
+                previewImage.id = `preview-${index}`;
+            });
+        }
+
+        // Handle Move Up and Move Down functionality using event delegation
+        document.addEventListener('click', (event) => {
+            // Handle Delete Question functionality
+            if (event.target.closest('.question-arranger-button-delete-question-button')) {
+                const quizBox = event.target.closest('.quiz-box');
+                quizBox.remove();
+                updateQuestionNumbers();  // Recalculate and update question numbers after deletion
+            }
+
+            // Handle text formatting
+            const target = event.target.closest('button');
+            if (target?.classList.contains('text-designer-make-word-bold-button')) {
+                formatText(target, 'bold');
+            } else if (target?.classList.contains('text-designer-make-word-italic-button')) {
+                formatText(target, 'italic');
+            } else if (target?.classList.contains('text-designer-make-word-underline-button')) {
+                formatText(target, 'underline');
+            }
+        });
+
+        function formatText(button, style) {
+            const quizBox = button.closest('.quiz-box');
+            const questionInput = quizBox.querySelector('.question-box input');
+            const answerInput = quizBox.querySelector('.answer-box input');
+
+            // Check which input field is active
+            const activeInput = document.activeElement;
+            if (activeInput === questionInput || activeInput === answerInput) {
+                const start = activeInput.selectionStart;
+                const end = activeInput.selectionEnd;
+
+                if (start !== end) {
+                    const selectedText = activeInput.value.substring(start, end);
+                    const formattedText = wrapText(selectedText, style);
+                    activeInput.setRangeText(formattedText, start, end, 'end');
+                }
+            }
+        }
+
+        function wrapText(text, style) {
+            const tags = {
+                bold: '**',
+                italic: '*',
+                underline: '__',
+            };
+            return `${tags[style]}${text}${tags[style]}`;
+        }
+
+        function previewImage(event, index) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(`preview-${index}`);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Trigger file input for image upload
+        function triggerFileInput(inputId) {
+            console.log('test');
+            const fileInput = document.getElementById(inputId);
+            if (fileInput) {
+                fileInput.click();
+            }
+        }
+
+        function practiceMode(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            const form = document.getElementById('flashcard-form');
+            const formData = new FormData(form);
+
+            // Collect data from the form
+            const data = {
+                title: formData.get('flashcardTitle'),
+                description: formData.get('flashcardDescription'),
+                questions: []
+            };
+
+            const questions = document.querySelectorAll('.quiz-box');
+            const promises = [];
+
+            questions.forEach((questionBox, index) => {
+                const question = formData.get(`questions[${index}].Question`);
+                const answer = formData.get(`questions[${index}].Answer`);
+                const imageFile = formData.get(`questions[${index}].ImageFile`);
+
+                const questionData = { questionText: question, answerText: answer, imageQuestionPath: null };
+
+                if (imageFile) {
+                    const reader = new FileReader();
+                    const promise = new Promise((resolve, reject) => {
+                        reader.onload = function(event) {
+                            questionData.imageQuestionPath = event.target.result;
+                            resolve();
+                        };
+                        reader.onerror = function(event) {
+                            reject(event);
+                        };
+                        reader.readAsDataURL(imageFile);
+                    });
+                    promises.push(promise);
+                }
+
+                data.questions.push(questionData);
+            });
+
+            Promise.all(promises).then(() => {
+                // Store data in localStorage
+                localStorage.setItem('flashcardData', JSON.stringify(data));
+
+                // Redirect to practice page
+                window.location.href = '/FlashCards/Practice';
+            }).catch(error => {
+                console.error('Error processing images:', error);
+                alert('Failed to process images.');
+            });
+        }
 
         function submitForm() {
             const form = document.getElementById('flashcard-form');
@@ -99,11 +293,33 @@
             };
 
             const questions = document.querySelectorAll('.quiz-box');
+            const savedData = JSON.parse(localStorage.getItem('flashcardData')) ?? null;
             questions.forEach((questionBox, index) => {
                 const question = formData.get(`questions[${index}].Question`);
                 const answer = formData.get(`questions[${index}].Answer`);
-                const image = formData.get(`questions[${index}].Picture`);
-                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: image });
+                let imageBase64 = null;
+
+                if (savedData && savedData.questions && savedData.questions[index]) {
+                    imageBase64 = savedData.questions[index].imageQuestionPath;
+                }
+
+                if (imageBase64) {
+                    const byteString = atob(imageBase64.split(',')[1]);
+                    const mimeString = imageBase64.split(',')[0].split(':')[1].split(';')[0];
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([ab], { type: mimeString });
+                    formData.append(`questions[${index}].ImageFile`, blob, `image-${index}.png`);
+                } else {
+                    const imageFile = formData.get(`questions[${index}].ImageFile`);
+                    if (imageFile) {
+                        formData.append(`questions[${index}].ImageFile`, imageFile);
+                    }
+                }
+                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: null });
             });
 
             // Append the JSON data to FormData
@@ -115,8 +331,12 @@
                 body: formData
             }).then(response => {
                 if (response.ok) {
+                    localStorage.removeItem("flashcardData")
+                    form.reset();
+
                     alert('Flashcard saved successfully!');
-                    window.location.href = '/Home/Index'; // Redirect to index page
+                    window.location.reload()
+                    // window.location.href = '/Home/Index'; // Redirect to index page
                 } else {
                     alert('Failed to save flashcard.');
                 }
@@ -125,6 +345,30 @@
                 alert('Failed to save flashcard.');
             });
         }
+
+        document.querySelector('button[name="action"][value="practice"]').addEventListener('click', practiceMode);
+
+        // Populate form with data from localStorage if available
+        window.onload = function() {
+            const flashcardData = JSON.parse(localStorage.getItem('flashcardData'));
+            if (flashcardData) {
+                document.getElementById('flashcardTitle').value = flashcardData.title;
+                document.getElementById('flashcardDescription').value = flashcardData.description;
+
+                flashcardData.questions.forEach((questionData, index) => {
+                    if (index > 0) {
+                        document.getElementById('add-question-button').click();
+                    }
+                    document.querySelector(`input[name="questions[${index}].Question"]`).value = questionData.questionText;
+                    document.querySelector(`input[name="questions[${index}].Answer"]`).value = questionData.answerText;
+                    if (questionData.imageQuestionPath) {
+                        const img = document.getElementById(`preview-${index}`);
+                        img.src = questionData.imageQuestionPath;
+                        img.style.display = 'block';
+                    }
+                });
+            }
+        };
     </script>
 </body>
 </html>

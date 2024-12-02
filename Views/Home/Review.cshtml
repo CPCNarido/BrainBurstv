@@ -35,7 +35,7 @@
                         <input type="hidden" id="rating" name="rating" value="0">
                     </div>
                     <div class="feedback-textbox">
-                        <textarea name="feedback" placeholder="Share your thoughts and help us improve!"></textarea>
+                        <textarea name="Feedback" placeholder="Share your thoughts and help us improve!"></textarea>
                     </div>
                     <div class="send-review-button">
                         <button type="submit">Send Review</button>
@@ -77,14 +77,23 @@
                 document.getElementById("reviewModal").style.display = "none";
             }
 
-            document.querySelector("form").addEventListener("submit", function(event) {
+            document.querySelector("form").addEventListener("submit", async function(event) {
                 event.preventDefault();
-                // Simulate form submission
-                const success = true; // Change this based on actual submission result
-                if (success) {
-                    showModal("Your review has been submitted successfully!");
-                } else {
-                    showModal("There was an error submitting your review. Please try again.");
+                const formData = new FormData(this);
+                try {
+                    const response = await fetch(this.action, {
+                        method: this.method,
+                        body: formData
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        showModal("Your review has been submitted successfully!");
+                    } else {
+                        showModal("There was an error submitting your review. Please try again.");
+                    }
+                } catch (error) {
+                    showModal("An unexpected error occurred. Please try again.");
+                    console.error("Error submitting review:", error);
                 }
             });
         </script>

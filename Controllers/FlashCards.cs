@@ -58,6 +58,13 @@ namespace UsersApp.Controllers
             return View();
         }
 
+
+        public IActionResult Practice()
+        {
+            Console.WriteLine("testing");
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveFlashcard(IFormCollection form)
         {
@@ -78,35 +85,57 @@ namespace UsersApp.Controllers
                 await _context.SaveChangesAsync();
 
                 // Handle file uploads
-                // foreach (var file in form.Files)
-                // {
-                //     if (file.Length > 0)
-                //     {
-                //         // Process the file (e.g., save it to the server or database)
-                //         var filePath = Path.Combine("wwwroot/uploads", file.FileName);
-                //         using (var stream = new FileStream(filePath, FileMode.Create))
-                //         {
-                //             await file.CopyToAsync(stream);
-                //         }
+                foreach (var file in form.Files)
+                {
+                    if (file.Length > 0)
+                    {
+                        // Process the file (e.g., save it to the server or database)
+                        var filePath = Path.Combine("wwwroot/uploads", file.FileName);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
 
-                //         // Assuming you want to store the file path in the flashcard object
-                //         var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
-                //         flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
-                //     }
-                // }
+                        // Assuming you want to store the file path in the flashcard object
+                        var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
+                        Console.WriteLine("Initial" + filePath);
+                        flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
+                        Console.WriteLine("Saved" + flashcard.Questions[questionIndex].ImageQuestionPath);
+                    }
+                }
 
                 // Set the FlashcardId for each question
                 foreach (var question in flashcard.Questions)
                 {
                     question.FlashcardId = flashcard.Id;
+                    Console.WriteLine("Checking" + question.ImageQuestionPath);
                     if (string.IsNullOrWhiteSpace(question.ImageQuestionPath))
                     {
+                        Console.WriteLine("Check " + question.ImageQuestionPath);
                         question.ImageQuestionPath = null;
                     }
                     _context.Questions.Add(question); // Add each question to the context
+                    _logger.LogInformation($"Question {question.Id}: ImageQuestionPath = {question.ImageQuestionPath}");
                 }
 
                 await _context.SaveChangesAsync();
+
+                // Temporary fix: Update ImageQuestionPath after adding questions
+                foreach (var question in flashcard.Questions)
+                {
+                    if (!string.IsNullOrWhiteSpace(question.ImageQuestionPath))
+                    {
+                        var existingQuestion = await _context.Questions.FindAsync(question.Id);
+                        Console.WriteLine("Id: " + existingQuestion.Id);
+                        if (existingQuestion != null)
+                        {
+                            existingQuestion.ImageQuestionPath = question.ImageQuestionPath;
+                            _context.Questions.Update(existingQuestion);
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync(); // Save changes to the database again
 
                 return Ok("Flashcard saved successfully.");
             }

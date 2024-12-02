@@ -10,7 +10,22 @@ body {
 
 .container1 {
     width: 100%;
-    height: 630px;
+}
+
+.quiz-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F5D059;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    font-size: 50px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .header-bg {
@@ -84,32 +99,137 @@ body {
     color: white;
 }
 
-.layer-1 {
-    width: 100%;
-    height: 400px;
-    margin-top: 30px;
-}
-
-.question-box {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    height: 284px;
-}
-
-.question-box input {
-    width: 100%;
-    height: 100%;
+.question-box{
+    background-color: #8DD63E;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
     border: 1px solid black;
     border-radius: 20px;
-    background-color: #D4FC79;
-    font-size: 32px;
-    text-align: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    padding: 2%;
+}
+
+.question-number{
+    background-color: #F5D059;
+    border-radius: 5px;
+    border: 1px solid black;
+    height: 50px;
+    width: 50px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-number-text{
+    font-size: 30px;
+}
+
+.question input{
+    padding: 5px;
+    width: 700px;
+    font-size: 24px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F5D059;
+    font-family: inherit;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
-.question-box input::placeholder {
-    font-size: 32px;
-    text-align: center;
-    opacity: 0.7;
+.answer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 24px;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #F5D059;
+    font-family: inherit;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.answer-title {
+    font-size: 24px;
+}
+
+.delete-question-button {
+}
+
+.delete-question-button button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #FFFDC1;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.delete-question-button button img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+}
+
+.add-question-button button {
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #F5D059;
+    padding: 20px;
+    height: 250px; /* Button height */
+    width: 90%; /* Button width */
+    display: flex;
+    margin-top: 70px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Pointer on hover */
+}
+
+.add-question-button button:hover {
+    background-color: #E5C049; /* Slightly darker background on hover */
+}
+
+.add-question-button img {
+    max-width: 80%; /* Makes the image resizable within the button */
+    max-height: 80%; /* Ensures the image doesn't overflow the button */
+    object-fit: contain; /* Maintains aspect ratio */
+}
+
+.save button {
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #FFFDC1;
+    padding: 20px;
+    height: 100px; /* Button height */
+    width: 20%; /* Button width */
+    display: flex;
+    font-size: 50px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* Pointer on hover */
+}
+
+.save button img {
+    width: 100px;
+    height: 100px;
+}
+
+.save button:hover {
+    background-color: #E5C049; /* Slightly darker background on hover */
 }

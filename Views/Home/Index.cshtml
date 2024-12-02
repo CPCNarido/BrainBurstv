@@ -104,6 +104,10 @@
                     </button>
                 </div>
             </div>
+
+            <div class="feedback-section">
+                <button class="feedback-button" onclick="location.href='@Url.Action("Review", "Home")'">Leave a Feedback</button>
+            </div>
         </div>
 
     </body>
@@ -115,11 +119,14 @@
         const reviewWrapper = document.querySelector('.review-wrapper');
         const reviewContainers = document.querySelectorAll('.review-container');
         const totalItems = reviewContainers.length;
-        const visibleItems = 3;
+        const visibleItems = 1;
 
         if (currentIndex < totalItems - visibleItems) {
-            currentIndex++;
-            const offset = -currentIndex * (100 / visibleItems);
+            currentIndex += 1; // Move by one box
+            if (currentIndex > totalItems - visibleItems) {
+                currentIndex = totalItems - visibleItems; // Ensure it doesn't go beyond the last set of boxes
+            }
+            const offset = -currentIndex * 100; // Adjust offset to move by 100% for each box
             reviewWrapper.style.transform = `translateX(${offset}%)`;
         }
     }
@@ -127,10 +134,20 @@
     function moveLeft() {
         const reviewWrapper = document.querySelector('.review-wrapper');
         if (currentIndex > 0) {
-            currentIndex--;
-            const offset = -currentIndex * (100 / 3);
+            currentIndex -= 1; // Move by one box
+            if (currentIndex < 0) {
+                currentIndex = 0; // Ensure it doesn't go before the first set of boxes
+            }
+            const offset = -currentIndex * 100; // Adjust offset to move by 100% for each box
             reviewWrapper.style.transform = `translateX(${offset}%)`;
         }
     }
+
+    // Center the initial box
+    document.addEventListener('DOMContentLoaded', () => {
+        const reviewWrapper = document.querySelector('.review-wrapper');
+        const offset = -currentIndex * 100; // Adjust offset to center the initial box
+        reviewWrapper.style.transform = `translateX(${offset}%)`;
+    });
 </script>
 </html>
