@@ -98,36 +98,58 @@ namespace UsersApp.Controllers
             return View(quizDetails);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateQuiz(int id, QuizDetailsViewModel model)
+[HttpPost]
+public async Task<IActionResult> UpdateQuiz(QuizDetailsViewModel model)
+{
+    try
+    {
+        var quiz = await _context.Quizzes.FindAsync(model.QuizId);
+        if (quiz == null)
         {
-            var quiz = await _context.Quizzes.FindAsync(id);
-            if (quiz == null)
-            {
-                return NotFound();
-            }
-
-            // Update quiz details
-            var questions = model.Questions.ToDictionary(q => q.Key, q => q.Value);
-            var choices = model.Choices.ToDictionary(c => c.Key, c => c.Value.ToList());
-            var correctAnswers = model.CorrectAnswers.ToDictionary(ca => ca.Key, ca => ca.Value);
-
-            var quizData = new QuizDetailsViewModel
-            {
-                Questions = questions,
-                Choices = choices,
-                Timer = model.Timer,
-                CorrectAnswers = correctAnswers
-            };
-
-            var json = JsonSerializer.Serialize(quizData);
-            System.IO.File.WriteAllText(quiz.JsonFilePath, json);
-
-            // Save changes to the database
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("ViewQuizDetails", new { id = quiz.QuizId });
+            _logger.LogError($"Quiz with ID {model.QuizId} not found.");
+            return NotFound(new { message = $"Quiz with ID {model.QuizId} not found." });
         }
+
+        // Read existing quiz data from the file
+        var existingQuizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+        var existingQuizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(existingQuizData);
+
+        // Merge updated data with existing data
+        foreach (var question in model.Questions)
+        {
+            existingQuizDetails.Questions[question.Key] = question.Value;
+        }
+
+        foreach (var choice in model.Choices)
+        {
+            existingQuizDetails.Choices[choice.Key] = choice.Value;
+        }
+
+        foreach (var timer in model.Timer)
+        {
+            existingQuizDetails.Timer[timer.Key] = timer.Value;
+        }
+
+        foreach (var correctAnswer in model.CorrectAnswers)
+        {
+            existingQuizDetails.CorrectAnswers[correctAnswer.Key] = correctAnswer.Value;
+        }
+
+        var updatedJson = JsonSerializer.Serialize(existingQuizDetails);
+        System.IO.File.WriteAllText(quiz.JsonFilePath, updatedJson);
+
+        // Save changes to the database
+        await _context.SaveChangesAsync();
+
+        _logger.LogInformation($"Quiz with ID {model.QuizId} updated successfully.");
+        return Ok(new { message = "Quiz updated successfully" });
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "An error occurred while updating the quiz.");
+        return StatusCode(500, new { message = "An error occurred while updating the quiz.", error = ex.Message });
+    }
+}
 
         public async Task<IActionResult> TakeQuiz(int id)
         {
