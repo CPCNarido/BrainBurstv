@@ -5,7 +5,7 @@ header {
     background: 
         url('/Assets/HeaderBg.png'),
         linear-gradient(90deg, #8DD63E 22%, #A9CD49 42%, #C6C454 62%);
-    height: 136px;
+    height: 100px;
     width: 100%;
     background-size: cover;
     background-position: center;
@@ -38,7 +38,7 @@ body {
 }
 
 .Logo{
-    height: 194px;
+    height: 150px;
     width: 253px;
 }
 
@@ -59,7 +59,7 @@ body {
     font-family: "Rum Raisin", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 24px; /* Reduce text size */
+    font-size: 18px; /* Reduce text size */
     position: relative;
     z-index: 2; /* Ensure the button text is above the background */
     padding: 0; /* Remove padding */
@@ -292,13 +292,13 @@ Header {
     width: 50%;
 }
 .socials{
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding-right: 2%;
     gap: 2%;
-    
+    height:25px;
 }
 
 .button-container {
