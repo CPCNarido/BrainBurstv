@@ -152,6 +152,7 @@
                 <button type="submit" class="save-quiz">Save Quiz</button>
             </div>
         </form>
+        <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
     </div>
 </body>
 </html>
