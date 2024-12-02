@@ -78,6 +78,25 @@
                     });
                 });
             });
+
+            // Handle form submission via AJAX
+            $('form').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                var formData = $(this).serialize(); // Serialize the form data
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        alert('Quiz updated successfully!');
+                    },
+                    error: function (error) {
+                        alert('An error occurred while updating the quiz.');
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -115,7 +134,8 @@
                 <button type="submit" class="save-quiz">Save Quiz</button>
             </div>
         </form>
-        <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
+            <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
     </div>
+
 </body>
 </html>
