@@ -91,11 +91,11 @@ body {
 }
 
 .UserProfile{
-    width: 350px;
-    height: 101px;
+    width: 270px;
+    height: 70px;
     flex-shrink: 0;
     border-radius: 20px;
-    border: 5px solid #FFF;
+    border: 5px solid #2B550E;
     background: rgba(255, 255, 255, 0.00);
     display: flex;
     align-items: center;
@@ -105,25 +105,30 @@ body {
 }
 
 .Profile{
-    width: 68px;
-    height: 75px;
+    width: 65px;
+    height: 65px;
     flex-shrink: 0;
     border-radius: 90px;
-    border: 3px solid rgb(255, 255, 255);
+    border: 3px solid #2B550E;
+    margin-left: 5px;
+    margin-top: 5px;
+    
 }
-
 
 .nameglobal,.usertypeglobal{
     color: #0B0B0B;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 400;
+    text-shadow: 4px 4px 8px #F5D059; /* Make the text shadow thicker */
+    
 }
 .name,.usertype{
     color: #0B0B0B;
     font-family: "Rum Raisin", sans-serif;
     font-size: 32px;
     font-weight: 400;
+    text-shadow: #F5D059;
 }
 
 .account a{
