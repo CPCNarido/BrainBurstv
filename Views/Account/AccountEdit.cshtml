@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Flashcard Maker Manual";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var flashcards = ViewData["Flashcards"] as List<UsersApp.Models.Flashcard>;
 }
 <html>
 <head>
@@ -50,7 +51,24 @@
         </div>
 
         <div class="Flashcards section" id="Flashcards" style="display: none;">
-            hi2
+            <h1>Flashcards</h1>
+            @if (flashcards != null && flashcards.Any())
+            {
+                @foreach (var flashcard in flashcards)
+                {
+                    <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                        <div>
+                            <h2>@flashcard.Title</h2>
+                            <p>@flashcard.Questions.Count Flashcards</p>
+                        </div>
+                        <div>@flashcard.Description</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No flashcards available.</p>
+            }
         </div>
 
         <div class="Quiz section" id="Quiz" style="display: none;">
@@ -134,6 +152,10 @@
 
 
 <script>
+    function takeFlashcard(id) {
+        window.location.href = '/flashcards/takeflashcard?id=' + id;
+    }
+
     function handleDragOver(event) {
         event.preventDefault(); // Prevent default to allow drop
         event.stopPropagation();
@@ -180,17 +202,13 @@
             document.getElementById('drop-area').style.display = 'none';
         };
     }
-</script>
 
-<script>
     function checkInput() {
         var input = document.querySelector('input[name="NewUsername"]').value;
         var button = document.getElementById('saveButton');
         button.disabled = input.trim() === "";
     }
-</script>
 
-<script>
     function showSection(section) {
         var sections = document.querySelectorAll('.section');
         sections.forEach(function (sec) {
@@ -204,8 +222,5 @@
         }
     }
 </script>
-
-
-
 </body>
 </html>

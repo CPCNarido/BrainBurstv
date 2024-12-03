@@ -1,0 +1,67 @@
+@model UsersApp.Models.Flashcard
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Take Flashcard";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var flashcardJson = JsonSerializer.Serialize(Model);
+}
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>@Model.Title</h1>
+        <div id="question-container">
+            <p id="question-text"></p>
+            <input type="text" id="answer-input" placeholder="Your answer">
+            <button id="next-button" onclick="nextQuestion()">Next</button>
+        </div>
+        <div id="score-container" style="display: none;">
+            <h2>Your Score: <span id="score"></span></h2>
+        </div>
+    </div>
+
+    <script>
+        var flashcard = @Html.Raw(flashcardJson);
+        console.log(flashcard);
+        var questions = flashcard.Questions;
+        var currentQuestionIndex = 0;
+        var score = 0;
+
+        function showQuestion(index) {
+            if (index < questions.length) {
+                document.getElementById('question-text').innerText = questions[index].QuestionText;
+                document.getElementById('answer-input').value = '';
+            } else {
+                showScore();
+            }
+        }
+
+        function nextQuestion() {
+            var userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
+            var correctAnswer = questions[currentQuestionIndex].AnswerText.trim().toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+
+        function showScore() {
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('score-container').style.display = 'block';
+            document.getElementById('score').innerText = score + ' / ' + questions.length;
+        }
+
+        // Initialize the quiz
+        showQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>

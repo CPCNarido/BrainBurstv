@@ -7,6 +7,8 @@ using System.Net.Mail;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
+using UsersApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace UsersApp.Controllers
 {
@@ -18,14 +20,16 @@ namespace UsersApp.Controllers
         private readonly IConfiguration _configuration;
         private static string otpCode;
         private readonly IWebHostEnvironment environment; // for managing file paths
+        private readonly AppDbContext _context;
 
-        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<AccountController> logger, IConfiguration configuration, IWebHostEnvironment environment)
+        public AccountController(SignInManager<Users> signInManager, UserManager<Users> userManager, ILogger<AccountController> logger, IConfiguration configuration, IWebHostEnvironment environment, AppDbContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
             _logger = logger;
             _configuration = configuration;
             this.environment = environment;
+            _context = context;
         }
 
         public IActionResult Login()
@@ -263,7 +267,11 @@ namespace UsersApp.Controllers
                 ViewData["FilePath"] = user.FilePath;
                 ViewData["Username"] = user.FullName;
                 ViewData["Role"] = user.Role;
+                
             }
+            // Fetch all flashcards
+            var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
+            ViewData["Flashcards"] = flashcards;
 
             return View();
         }

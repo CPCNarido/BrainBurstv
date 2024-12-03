@@ -73,8 +73,6 @@ namespace UsersApp.Controllers
                 // Parse JSON data from the form
                 var jsonData = form["jsonData"];
                 var flashcard = JsonConvert.DeserializeObject<Flashcard>(jsonData);
-                Console.WriteLine(flashcard);
-
                 if (flashcard == null)
                 {
                     return BadRequest("Invalid flashcard data.");
@@ -84,13 +82,15 @@ namespace UsersApp.Controllers
                 _context.Flashcards.Add(flashcard);
                 await _context.SaveChangesAsync();
 
-                // Handle file uploads
+                _logger.LogInformation($"Total files: {form.Files.Count}");
                 foreach (var file in form.Files)
                 {
+                    _logger.LogInformation($"Processing file: {file.FileName}, Length: {file.Length}");
                     if (file.Length > 0)
                     {
                         // Process the file (e.g., save it to the server or database)
                         var filePath = Path.Combine("wwwroot/uploads", file.FileName);
+                        _logger.LogInformation($"Saving file to: {filePath}");
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
@@ -98,44 +98,13 @@ namespace UsersApp.Controllers
 
                         // Assuming you want to store the file path in the flashcard object
                         var questionIndex = int.Parse(file.Name.Split('[')[1].Split(']')[0]);
-                        Console.WriteLine("Initial" + filePath);
-                        flashcard.Questions[questionIndex].ImageQuestionPath = filePath;
-                        Console.WriteLine("Saved" + flashcard.Questions[questionIndex].ImageQuestionPath);
+                        _logger.LogInformation($"Initial {filePath}");
+                        flashcard.Questions[questionIndex].ImageQuestionPath = filePath.Replace("\\", "/");
+                        _logger.LogInformation($"Saved {flashcard.Questions[questionIndex].ImageQuestionPath}");
                     }
-                }
-
-                // Set the FlashcardId for each question
-                foreach (var question in flashcard.Questions)
-                {
-                    question.FlashcardId = flashcard.Id;
-                    Console.WriteLine("Checking" + question.ImageQuestionPath);
-                    if (string.IsNullOrWhiteSpace(question.ImageQuestionPath))
-                    {
-                        Console.WriteLine("Check " + question.ImageQuestionPath);
-                        question.ImageQuestionPath = null;
-                    }
-                    _context.Questions.Add(question); // Add each question to the context
-                    _logger.LogInformation($"Question {question.Id}: ImageQuestionPath = {question.ImageQuestionPath}");
                 }
 
                 await _context.SaveChangesAsync();
-
-                // Temporary fix: Update ImageQuestionPath after adding questions
-                foreach (var question in flashcard.Questions)
-                {
-                    if (!string.IsNullOrWhiteSpace(question.ImageQuestionPath))
-                    {
-                        var existingQuestion = await _context.Questions.FindAsync(question.Id);
-                        Console.WriteLine("Id: " + existingQuestion.Id);
-                        if (existingQuestion != null)
-                        {
-                            existingQuestion.ImageQuestionPath = question.ImageQuestionPath;
-                            _context.Questions.Update(existingQuestion);
-                        }
-                    }
-                }
-
-                await _context.SaveChangesAsync(); // Save changes to the database again
 
                 return Ok("Flashcard saved successfully.");
             }
@@ -145,7 +114,7 @@ namespace UsersApp.Controllers
                 // Console.WriteLine($"An error occurred while saving the entity changes: {ex.Message}");
 
                 // Return a response indicating the error was ignored
-                return Ok("Flashcard saved succesfsully.");
+                return BadRequest();
             }
         }
 
@@ -189,6 +158,15 @@ namespace UsersApp.Controllers
             return Json(questions); // Return JSON response
         }
 
-
+        public async Task<IActionResult> TakeFlashcard(int id)
+        {
+            var flashcard = await _context.Flashcards.Include(f => f.Questions).FirstOrDefaultAsync(f => f.Id == id);
+            if (flashcard == null)
+            {
+                return NotFound();
+            }
+            ViewData["Flashcard"] = flashcard;
+            return View(flashcard);
+        }
     }
 }
