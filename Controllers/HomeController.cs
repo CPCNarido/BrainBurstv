@@ -33,7 +33,9 @@ namespace UsersApp.Controllers
                 ViewData["Role"] = user.Role;
             }
 
-            return View();
+            var reviews = await _context.Reviews.ToListAsync();
+
+            return View(reviews);
         }
 
         public async Task<IActionResult> AboutUs()

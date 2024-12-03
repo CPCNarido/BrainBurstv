@@ -1,6 +1,8 @@
-﻿@{
-        ViewData["Title"] = "Homepage";
-        Layout = "~/Views/Shared/_HomeLayout.cshtml";
+﻿@model List<Review>
+
+@{
+    ViewData["Title"] = "Homepage";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 <html>
     <head>
@@ -80,8 +82,7 @@
                     <h1>What do they say about <br>us?</h1>
                     <img src="../Assets/Homepage/say.png" class="char1">
                 </div>
-            </div>
-            
+            </div> <!-- Close the missing div tag here -->
 
             <div class="review-section-container">
                 <div class="preview-left-container">
@@ -89,27 +90,34 @@
                         <img src="../Assets/Homepage/preview-left.png" class="preview-left-logo">
                     </button>
                 </div>
-
-
+                
                 <div class="middle-container">
                     <div class="review-wrapper">
-                        <div class="review-container">
-                            <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="107" height="99" viewBox="0 0 107 99" fill="none">
-                                <path d="M106.024 49.7937C106.024 76.4966 82.6175 98.2085 53.6612 98.2085C24.705 98.2085 1.29883 76.4966 1.29883 49.7937C1.29883 23.0908 24.705 1.37891 53.6612 1.37891C82.6175 1.37891 106.024 23.0908 106.024 49.7937Z" fill="#FFFDC1" stroke="black"/>
-                            </svg>
-                            <div class="rectangle"></div>
-                            <svg class="star" xmlns="http://www.w3.org/2000/svg" width="217" height="28" viewBox="0 0 217 28" fill="none">
-                                <path d="M17.7485 0L21.7333 9.67376H34.6284L24.196 15.6525L28.1808 25.3262L17.7485 19.3475L7.3162 25.3262L11.301 15.6525L0.868673 9.67376H13.7637L17.7485 0Z" fill="#F5D059"/>
-                                <path d="M62.6216 0L66.6063 9.67376H79.5014L69.0691 15.6525L73.0539 25.3262L62.6216 19.3475L52.1892 25.3262L56.174 15.6525L45.7417 9.67376H58.6368L62.6216 0Z" fill="#F5D059"/>
-                                <path d="M109.504 0L113.489 9.67376H126.384L115.952 15.6525L119.937 25.3262L109.504 19.3475L99.0721 25.3262L103.057 15.6525L92.6245 9.67376H105.52L109.504 0Z" fill="#F5D059"/>
-                                <path d="M154.379 0L158.364 9.67376H171.259L160.827 15.6525L164.812 25.3262L154.379 19.3475L143.947 25.3262L147.932 15.6525L137.5 9.67376H150.395L154.379 0Z" fill="#F5D059"/>
-                                <path d="M199.252 0L203.237 9.67376H216.132L205.7 15.6525L209.685 25.3262L199.252 19.3475L188.82 25.3262L192.805 15.6525L182.373 9.67376H195.268L199.252 0Z" fill="#F5D059"/>
-                            </svg>
-                            <div class="large-rectangle"></div>
-                        </div>
+                         @foreach (var review in Model)
+                        {
+                            <div class="review-container">
+                                <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="107" height="99" viewBox="0 0 107 99" fill="none">
+                                    <path d="M106.024 49.7937C106.024 76.4966 82.6175 98.2085 53.6612 98.2085C24.705 98.2085 1.29883 76.4966 1.29883 49.7937C1.29883 23.0908 24.705 1.37891 53.6612 1.37891C82.6175 1.37891 106.024 23.0908 106.024 49.7937Z" fill="#FFFDC1"/>
+                                </svg>
+                                <div class="rectangle">
+                                    <span>@review.UserName</span>
+                                    <span>@review.UserRole</span>
+                                </div>
+                                <div class="stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <svg class="star" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 0L12.4721 6.18034H19.0211L13.2745 9.99966L15.7466 16.18L10 12.3607L4.25342 16.18L6.72553 9.99966L0.978947 6.18034H7.52794L10 0Z" fill="@((i <= review.Rating) ? "#F5D059" : "#D3D3D3")"/>
+                                        </svg>
+                                    }
+                                </div>
+                                <div class="large-rectangle">
+                                    <span>@review.Feedback</span>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
-
 
                 <div class="preview-right-container">
                     <button class="preview-right" onclick="moveRight()">
