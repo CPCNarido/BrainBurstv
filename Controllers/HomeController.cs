@@ -93,18 +93,18 @@ namespace UsersApp.Controllers
         }
 
         [HttpPost]
-public async Task<IActionResult> JoinQuiz(string gameCode)
-{
-    var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
-    if (quiz == null)
-    {
-        _logger.LogError($"Quiz with Game Code {gameCode} not found.");
-        return NotFound(new { message = $"Quiz with Game Code {gameCode} not found." });
-    }
+        public async Task<IActionResult> JoinQuiz(string gameCode)
+        {
+            var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
+            if (quiz == null)
+            {
+                _logger.LogError($"Quiz with Game Code {gameCode} not found.");
+                return NotFound(new { message = $"Quiz with Game Code {gameCode} not found." });
+            }
 
-    return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
-}
-        
+            return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
+        }
+
         public async Task<IActionResult> Privacy()
         {
             if (User.Identity.IsAuthenticated)
@@ -164,8 +164,15 @@ public async Task<IActionResult> JoinQuiz(string gameCode)
             }
         }
 
-        public IActionResult Review()
+        public async Task<IActionResult> Review()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
             return View();
         }
 

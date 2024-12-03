@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 600px;
+    height: 650px;
     gap: 100px;
     width: 100%;
     background-image: url(../Assets/ContactUs/contact.png);
@@ -83,6 +83,9 @@
     line-height: normal;
 }
 
+html, body {
+    overflow: hidden;
+}
 
 .background-rectangle{
     width: 847px;
@@ -244,6 +247,7 @@
     -webkit-font-smoothing: antialiased; /* Improve font smoothing */
     -moz-osx-font-smoothing: grayscale; /* Improve font smoothing */
 }
+
 
 
 
