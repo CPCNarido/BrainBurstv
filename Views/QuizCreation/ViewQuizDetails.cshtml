@@ -193,7 +193,7 @@
                                     {
                                         var choiceIndex = Model.Choices[question.Key].IndexOf(choice);
                                         var isCorrect = Model.CorrectAnswers.ContainsKey(question.Key) &&
-                                                        Model.CorrectAnswers[question.Key].ToString() == choiceIndex.ToString();
+                                                        Model.CorrectAnswers[question.Key] == choiceIndex;
                                         <button type="button" 
                                                 class="choice @(isCorrect ? "correct-choice" : "")" 
                                                 data-index="@choiceIndex">

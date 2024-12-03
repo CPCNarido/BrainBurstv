@@ -69,8 +69,7 @@
                 console.log(`Selected choice index: ${selectedChoiceIndex}`);
 
                 // Check if the selected choice is correct
-                let correctChoiceValue = correctAnswers[currentQuestionIndex + 1]; // Correct answers use 1-based indexing
-                let correctChoiceIndex = choices[currentQuestionIndex + 1].indexOf(correctChoiceValue);
+                let correctChoiceIndex = correctAnswers[currentQuestionIndex + 1];
                 if (selectedChoiceIndex === correctChoiceIndex) {
                     $(this).css('background-color', 'green');
                     score++;

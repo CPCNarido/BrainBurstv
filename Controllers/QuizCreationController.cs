@@ -97,7 +97,24 @@ public async Task<IActionResult> ViewQuizDetails(int id)
     quizDetails.QuizId = id; // Ensure the ID is passed to the view
 
     // Deserialize the CorrectAnswers from the database
-    var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    List<string> correctAnswersList;
+    try
+    {
+        correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    }
+    catch (JsonException)
+    {
+        var correctAnswersIntList = JsonSerializer.Deserialize<List<int>>(quiz.CorrectAnswers);
+        correctAnswersList = correctAnswersIntList.Select(index => index switch
+        {
+            0 => "a",
+            1 => "b",
+            2 => "c",
+            3 => "d",
+            _ => ""
+        }).ToList();
+    }
+
     var correctAnswersDict = new Dictionary<int, int>();
 
     for (int i = 0; i < correctAnswersList.Count; i++)
@@ -143,7 +160,6 @@ public async Task<IActionResult> ViewQuizDetails(int id)
 
     return View(quizDetails);
 }
-
 [HttpPost]
 public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel model)
 {
@@ -168,13 +184,12 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
         model.Timer ??= new Dictionary<int, int>();
         model.CorrectAnswers ??= new Dictionary<int, int>();
 
-        // Create a new JSON file with the updated quiz details
+        // Create a new JSON file with the updated quiz details (questions and choices)
         var updatedQuizData = new
         {
             Questions = model.Questions,
             Choices = model.Choices,
-            Timer = model.Timer,
-            CorrectAnswers = model.CorrectAnswers
+            Timer = model.Timer
         };
 
         var updatedJson = JsonSerializer.Serialize(updatedQuizData);
@@ -189,8 +204,16 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
 
         System.IO.File.WriteAllText(newFilePath, updatedJson);
 
-        // Update the file path in the database
+        // Update the file path and correct answers in the database
         quiz.JsonFilePath = newFilePath;
+        quiz.CorrectAnswers = JsonSerializer.Serialize(model.CorrectAnswers.Values.Select(index => index switch
+        {
+            0 => "a",
+            1 => "b",
+            2 => "c",
+            3 => "d",
+            _ => ""
+        }).ToList());
 
         // Save changes to the database
         await _context.SaveChangesAsync();
@@ -204,72 +227,39 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
         return StatusCode(500, new { message = "An error occurred while updating the quiz.", error = ex.Message });
     }
 }
+public async Task<IActionResult> TakeQuiz(int id)
+{
+    var quiz = await _context.Quizzes.FindAsync(id);
+    if (quiz == null)
+    {
+        _logger.LogError($"Quiz with ID {id} not found.");
+        return NotFound();
+    }
 
-        public async Task<IActionResult> TakeQuiz(int id)
+    var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+    var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
+    quizDetails.QuizId = id; // Ensure the ID is passed to the view
+
+    // Deserialize the CorrectAnswers from the database
+    var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    var correctAnswersDict = new Dictionary<int, int>();
+
+    for (int i = 0; i < correctAnswersList.Count; i++)
+    {
+        correctAnswersDict[i + 1] = correctAnswersList[i] switch
         {
-            try
-            {
-                // Attempt to find the quiz in the database
-                var quiz = await _context.Quizzes.FindAsync(id);
-                if (quiz == null)
-                {
-                    _logger.LogError($"Quiz with ID {id} not found.");
-                    return NotFound($"Quiz with ID {id} not found.");
-                }
+            "a" => 0,
+            "b" => 1,
+            "c" => 2,
+            "d" => 3,
+            _ => -1
+        };
+    }
 
-                // Read quiz data from the file
-                var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
-                
-                // Deserialize the quiz data into the view model
-                var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
-                if (quizDetails == null)
-                {
-                    _logger.LogError($"Failed to deserialize quiz data from file: {quiz.JsonFilePath}");
-                    return BadRequest("Failed to load quiz details.");
-                }
+    quizDetails.CorrectAnswers = correctAnswersDict;
 
-                // Deserialize the CorrectAnswers from the database
-                var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
-                var correctAnswersDict = new Dictionary<int, int>();
-
-                for (int i = 0; i < correctAnswersList.Count; i++)
-                {
-                    correctAnswersDict[i + 1] = correctAnswersList[i] switch
-                    {
-                        "a" => 0,
-                        "b" => 1,
-                        "c" => 2,
-                        "d" => 3,
-                        _ => -1
-                    };
-                }
-
-                quizDetails.CorrectAnswers = correctAnswersDict;
-
-                // Successfully loaded quiz details, assign the quiz ID
-                quizDetails.QuizId = id;
-
-                return View(quizDetails);
-            }
-            catch (FileNotFoundException ex)
-            {
-                // Log specific error if the quiz JSON file is not found
-                _logger.LogError(ex, $"Quiz JSON file not found at the path: {ex.FileName}");
-                return NotFound("Quiz data file not found.");
-            }
-            catch (JsonException ex)
-            {
-                // Log error if there is an issue deserializing the quiz data
-                _logger.LogError(ex, "Error deserializing quiz data.");
-                return BadRequest("Failed to deserialize quiz data.");
-            }
-            catch (Exception ex)
-            {
-                // Log any unexpected errors
-                _logger.LogError(ex, "An unexpected error occurred while loading the quiz.");
-                return StatusCode(500, "An unexpected error occurred.");
-            }
-        }
+    return View(quizDetails);
+}
         
         public async Task<IActionResult> Quiz_Creation_Manual()
         {
