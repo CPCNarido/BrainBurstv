@@ -9,7 +9,9 @@ namespace UsersApp.ViewModels
         [StringLength(50, ErrorMessage = "Username must be between 3 and 50 characters.", MinimumLength = 3)]
         public string NewUsername { get; set; }
 
-        public IEnumerable<Quiz> Quizzes { get; set; } // Add this property
+        public List<Quiz> Quizzes { get; set; } // Add this property
+
+        public List<Flashcard> Flashcards { get; set; } // Add this property
         
         public int ManualQuizCount { get; set; } // Add this property
         public int AiQuizCount { get; set; } // Add this property
