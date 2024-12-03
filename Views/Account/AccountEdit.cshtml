@@ -20,11 +20,25 @@
         <button class="LibraryButton" onclick="showSection('Library')"><img src="../Assets/AccountEdit/folder 1.png">Library</button>
         <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
+        @if((string)@ViewData["Role"] != "Admin")
+        {
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/settings 1.png">Account Settings</button>
+        }
+
     </div>
 
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
-            haiiii
+        @if ((string)@ViewData["Role"] == "Admin")
+        {
+                <h2>Admin Section</h2>
+        }
+        else if((string)@ViewData["Role"] == "Professor"){
+            <p>Professors</p>
+        }
+        else if((string)@ViewData["Role"] == "Student"){
+            <p>Students</p>
+        }
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
