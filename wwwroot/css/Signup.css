@@ -1,43 +1,49 @@
-.content1{
-    border-radius: 20px;
+.content1 {
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 840px;
-    height: 950px;
+    width: 420px;
+    height: 540px;
     flex-shrink: 0;
     display: flex;
     flex-direction: row;
     padding: 0;
 }
 
-.sidebar{
-    border-radius: 20px;
+.sidebar {
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: rgba(245, 208, 89, 0.71);
-    width: 220px;
-    height: 950px;
+    width: 110px;
+    height: 540px;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.fill{
-    width: 600px;
-    height: 900px;
+.sidebar img {
+    width: 80px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.fill {
+    width: 580px;
+    height: 530px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .log {
     display: flex;
     justify-content: flex-start; /* Align items to the left */
     align-items: flex-start; /* Align items to the top */
     width: 100%; /* Ensure the log element takes the full width */
     padding: 2%; /* Add padding if needed */
-    margin-left: 10%; 
+    margin-left: 10%;
     margin-bottom: 0;
     height: 100px;
 }
@@ -47,22 +53,25 @@
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 50px;
+    font-size: 36px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: -20px;
 }
-.userinput1,.userinput,.passinput{
+
+.userinput1, .userinput, .passinput {
     display: flex;
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 5%;
+
 }
 
-.email-form::placeholder,.pass-form::placeholder{
+.email-form::placeholder, .pass-form::placeholder {
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 25px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -72,53 +81,63 @@
     opacity: 0.5;
 }
 
-.userinput label,.userinput1 label,.passinput label,.roleinput label{
+.userinput label, .userinput1 label, .passinput label, .roleinput label {
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 36px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-left: -5px; /* Move the label to the left by 5px */
 }
 
-.email-form,.pass-form{
-    border-radius: 20px;
+.email-form, .pass-form {
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #D2E6BD;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 498px;
-    height: 78px;
+    width: 260px;
+    height: 50px;
     flex-shrink: 0;
     color: var(--black-100, #000);
     font-family: "Rum Raisin", sans-serif;
-    font-size: 25px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     padding-left: 5%;
+    margin-left: -3px;
+    margin-bottom: -10px;
 }
 
-.submit-button{
-    border-radius: 20px;
+.submit-button {
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
-    background: #89B752;
-    width: 169px;
-    height: 62px;
+    background: #2B550E;
+    width: 90px;
+    height: 36px;
     flex-shrink: 0;
-    color: #FFF;
-    -webkit-text-stroke-width: 1;
-    -webkit-text-stroke-color: var(--black-100, #000);
+    color: #FFFDC1;
+    -webkit-text-stroke-color: #000; /* Set outline color to black */
     font-family: "Rum Raisin", sans-serif;
-    font-size: 36px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    margin-bottom: 10px;
+    margin-top:5px;
 }
 
-.forgot{
-    color: var(--black-100, #000);
-    font-family: "Rum Raisin", sans-serif;
-    font-size: 24px;
+.submit-button:hover {
+    background-color: #3E7C1E; /* Change background color on hover */
+}
+
+.forgot {
+    all: unset;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif !important; /* Ensure font-family is applied */
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -127,22 +146,23 @@
     flex-shrink: 0;
     display: flex;
     justify-content: left;
-    margin-left: 10%;
-    margin-top: 2%;
-
+    margin-left: 5px;
+    margin-top: 1%;
 }
 
-.forgot a{
+.forgot a {
     text-decoration: none;
     color: inherit;
+    font-family: "Rum Raisin", sans-serif;
 }
 
-.submit{
+.submit {
     display: flex;
     justify-content: right;
     width: 100%;
     margin-right: 10%;
 }
+
 .input-error {
     border: 2px solid red; /* Make the border red */
 }
@@ -152,29 +172,31 @@
     margin-top: 10px;
 }
 
-.roleinput{
+.roleinput {
     display: flex;
     flex-direction: column;
 }
 
 .custom-dropdown {
-    width: 261px;
-    height: 43px;
-    border-radius: 20px;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
-    background: #89B752;
+    background: #2B550E;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: #ECECEC;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 32px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     text-align: center;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 .custom-dropdown option {
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid var(--black-100, #000);
     background: #89B752;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -188,29 +210,31 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1000; /* Increased z-index to ensure it covers header buttons */
     left: 0;
-    top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     border: 1px solid #888;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 2px solid #1C3C71;
     background: #FFF;
-    border-radius: 10px;
     text-align: center;
     height: 60%;
-    width: 50%; /* Could be more or less, depending on screen size */
+    width: 30%; /* Adjusted width */
     position: relative; /* Added to position .close inside */
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
+    font-family: Arial, sans-serif !important; /* Ensure Arial font-family is applied */
 }
 
 .close {
@@ -231,48 +255,109 @@
     cursor: pointer;
 }
 
-.top{
+.top {
     width: 100%;
-    height: 20%;
+    height: auto;
+    padding: 15px;
     border-radius: 9px;
     background: linear-gradient(90deg, #8DD63E 22%, #9BD144 32%, #C6C454 62%);
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.top h2{
-    font-family: "Rum Raisin", sans-serif;
-    color: #FFF;
-    font-size: 55px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
     text-align: center;
 }
 
-.termscontents p{
+.top h2 {
     font-family: "Rum Raisin", sans-serif;
-    color: var(--black-100, #000);
-    font-size: 28px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    width: 910px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}   
-.wrapper1{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 80%;
-
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
 }
 
+.modal-content {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    width: 50%; /* Adjusted width */
+    max-height: 85vh; /* Adjusted height */
+    overflow-y: auto;
+    margin: auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    text-align: left; /* Ensures left alignment for all text */
+}
 
+.wrapper1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
 
+.termscontents {
+    text-align: left; /* Left-aligns content */
+    margin: 20px 10px;
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+}
 
+.termscontents p {
+    margin-bottom: 15px; /* Space between paragraphs */
+}
+
+.termscontents ul {
+    list-style-type: disc; /* Use bullets for lists */
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.termscontents li {
+    margin-bottom: 10px;
+}
+
+.centered-content {
+    text-align: center; /* Center align text */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: 15px; /* Space below the content */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.termsinput label {
+    font-family: "Rum Raisin", sans-serif;
+}
+
+.accept-button {
+    border-radius: 10px;
+    border: 1px solid var(--black-100, #000);
+    background: #FFFDC1;
+    width: 200px;
+    height: 40px;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accept-button:hover {
+    background-color: #2B550E; /* Change background color on hover */
+    color: #FFFDC1
+}
