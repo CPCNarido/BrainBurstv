@@ -202,3 +202,181 @@
     padding-bottom: 2%;
     margin-top: 20px;
 }
+
+.lagayan{
+    width: 1100px;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    gap: 2%;
+    margin-bottom: 2%;
+}   
+
+.game-code{
+height: 100%;
+width: 40%;
+border-radius: 10px;
+border: 1px solid #000;
+background: #FFFDC1;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}
+.game-code h2{
+    color: #FFFEEB;
+    text-shadow:#7A7312;
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: #7A7312;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-shadow: 
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20;   /* Up */
+    margin: 0;;
+}
+.details{
+    height: 100%;
+    width: 60%;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #F5D059;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    display:flex ;
+    flex-direction: row;
+    align-items: center;
+}
+.left{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#copy-game-code-button{
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    background-image: url(/Assets/QuizCreation/Copy.png);
+}
+.right{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.left h1{
+    color: #FFFEEB;
+    text-shadow:#7A7312;
+    -webkit-text-stroke-width: 2;
+    -webkit-text-stroke-color: #7A7312;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-shadow: 
+        2px 2px 0px #5C4C20,   /* Right Down */
+        -2px -2px 0px #5C4C20,  /* Left Up */
+        -2px 2px 0px #5C4C20,   /* Left Down */
+        2px -2px 0px #5C4C20,   /* Right Up */
+        2px 0px 0px #5C4C20,    /* Right */
+        -2px 0px 0px #5C4C20,   /* Left */
+        0px 2px 0px #5C4C20,    /* Down */
+        0px -2px 0px #5C4C20;   /* Up */
+    margin: 0;;
+}
+
+.topic,.items{
+    width: 80%;
+    height: 28%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+.buttons{
+    width: 80%;
+    height: 38%; 
+    display: flex;
+    flex-direction: row;
+}
+
+.items h1{
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.items h2{
+    color: #FFFDC1;
+    -webkit-text-stroke-width: 1;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-shadow: 
+    1px 1px 0px #5C4C20,   /* Right Down */
+    -1px -1px 0px #5C4C20,  /* Left Up */
+    -1px 1px 0px #5C4C20,   /* Left Down */
+    1px -1px 0px #5C4C20,   /* Right Up */
+    1px 0px 0px #5C4C20,    /* Right */
+    -1px 0px 0px #5C4C20,   /* Left */
+    0px 1px 0px #5C4C20,    /* Down */
+    0px -1px 0px #5C4C20;   /* Up */
+}
+
+.buttons{
+    display: flex;
+    gap: 2%;
+    flex-direction: row;
+    justify-content: end;
+    align-items: flex-end;
+
+}
+
+.quiz-item,.save-quiz{
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 40%;
+    height: 50%;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    gap: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+}
+.sas{
+    width: 30px;
+}
+

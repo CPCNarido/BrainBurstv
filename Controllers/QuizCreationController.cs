@@ -300,7 +300,24 @@ public async Task<IActionResult> TakeQuiz(int id)
     quizDetails.QuizId = id; // Ensure the ID is passed to the view
 
     // Deserialize the CorrectAnswers from the database
-    var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    List<string> correctAnswersList;
+    try
+    {
+        correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    }
+    catch (JsonException)
+    {
+        var correctAnswersIntList = JsonSerializer.Deserialize<List<int>>(quiz.CorrectAnswers);
+        correctAnswersList = correctAnswersIntList.Select(index => index switch
+        {
+            0 => "a",
+            1 => "b",
+            2 => "c",
+            3 => "d",
+            _ => ""
+        }).ToList();
+    }
+
     var correctAnswersDict = new Dictionary<int, int>();
 
     for (int i = 0; i < correctAnswersList.Count; i++)

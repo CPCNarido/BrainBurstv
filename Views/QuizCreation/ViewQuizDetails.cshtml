@@ -20,6 +20,7 @@
             background-color: #d4edda;
             border-color: #c3e6cb;
         }
+        
     </style>
     <script>
         $(document).ready(function () {
@@ -167,11 +168,31 @@
 </head>
 <body>
     <div class="container1">
-        <div class="game-code">
-            <h2>Game Code: @Model.GameCode</h2>
-        q</div>
-        <h1>Quiz Details</h1>
         <form method="post" action="/QuizCreation/UpdateQuiz">
+        <div class="lagayan">
+            <div class="game-code">
+                <h2>Game Code: @Model.GameCode</h2>
+                <button type="button" id="copy-game-code-button"></button>
+            </div>
+
+            <div class="details">
+                <div class="left">
+                    <h1>Quiz Details</h1>
+                    <img src="/Assets/QuizCreation/Logo.png">
+                </div>
+                <div class="right">
+                        <div class="items">
+                            <h1>Items</h1>
+                            <h2>@Model.Questions.Count/@Model.Questions.Count</h2>
+                        </div>
+                        <div class="buttons">
+                            <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'"><img src="/Assets/QuizCreation/Practice.png" class="sas">Practice</button>
+                            <button type="submit" class="save-quiz"><img src="/Assets/QuizCreation/save.png" class="sas">Save Quiz</button>
+                        </div>
+                </div>
+            </div>
+
+        </div>
             <input type="hidden" name="QuizId" value="@Model.QuizId" />
             <div class="questions-container">
                 @foreach (var question in Model.Questions)
@@ -197,13 +218,11 @@
                                         var choiceIndex = Model.Choices[question.Key].IndexOf(choice);
                                         var isCorrect = Model.CorrectAnswers.ContainsKey(question.Key) &&
                                                         Model.CorrectAnswers[question.Key] == choiceIndex;
-
-                                        <input type="text" 
+                                        <textarea 
                                             class="choice @(isCorrect ? "correct-choice" : "")" 
-                                            data-index="@choiceIndex"
-                                            name="Choices[@question.Key][@choiceIndex]"
-                                            value="@choice"
-                                            disabled />
+                                            data-index="@choiceIndex" 
+                                            name="Choices[@question.Key][@choiceIndex]" 
+                                            style="resize: none; overflow: auto; white-space: pre-wrap;">@choice.Trim()</textarea>
                                     }
                                 }
                             </div>
@@ -218,12 +237,30 @@
                 }
             </div>
             <button type="button" id="add-question" class="add"><img src="/Assets/QuizCreation/addquiz.png"></button>
-            <div class="finalization">
-                <button type="submit" class="save-quiz">Save Quiz</button>
-                <button type="button" class="cancel">Cancel</button>
-            </div>
         </form>
-        <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
     </div>
 </body>
+            <script>
+                $(document).ready(function () {
+                    $('#copy-game-code-button').click(function () {
+                        var gameCode = '@Model.GameCode';
+                        navigator.clipboard.writeText(gameCode).then(function () {
+                            alert('Game code copied to clipboard!');
+                        }, function (err) {
+                            console.error('Could not copy text: ', err);
+                        });
+                    });
+                });
+            </script>            <script>
+                $(document).ready(function () {
+                    $('#copy-game-code-button').click(function () {
+                        var gameCode = '@Model.GameCode';
+                        navigator.clipboard.writeText(gameCode).then(function () {
+                            alert('Game code copied to clipboard!');
+                        }, function (err) {
+                            console.error('Could not copy text: ', err);
+                        });
+                    });
+                });
+            </script>
 </html>
