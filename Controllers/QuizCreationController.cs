@@ -83,26 +83,78 @@ namespace UsersApp.Controllers
             return View(quizzes);
         }
 
-        public async Task<IActionResult> ViewQuizDetails(int id)
+public async Task<IActionResult> ViewQuizDetails(int id)
+{
+    var quiz = await _context.Quizzes.FindAsync(id);
+    if (quiz == null)
+    {
+        _logger.LogError($"Quiz with ID {id} not found.");
+        return NotFound();
+    }
+
+    var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+    var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
+    quizDetails.QuizId = id; // Ensure the ID is passed to the view
+
+    // Deserialize the CorrectAnswers from the database
+    var correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+    var correctAnswersDict = new Dictionary<int, int>();
+
+    for (int i = 0; i < correctAnswersList.Count; i++)
+    {
+        correctAnswersDict[i + 1] = correctAnswersList[i] switch
         {
-            var quiz = await _context.Quizzes.FindAsync(id);
-            if (quiz == null)
+            "a" => 0,
+            "b" => 1,
+            "c" => 2,
+            "d" => 3,
+            _ => -1
+        };
+    }
+
+    quizDetails.CorrectAnswers = correctAnswersDict;
+
+    // Assign indexes to choices and get the index of the correct answer
+    foreach (var question in quizDetails.Questions)
+    {
+        if (quizDetails.Choices.ContainsKey(question.Key))
+        {
+            for (int i = 0; i < quizDetails.Choices[question.Key].Count; i++)
             {
-                return NotFound();
+                _logger.LogInformation($"Question {question.Key}, Choice {i}: {quizDetails.Choices[question.Key][i]}");
             }
 
-            var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
-            var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
-            quizDetails.QuizId = id; // Ensure the ID is passed to the view
-
-            return View(quizDetails);
+            if (correctAnswersDict.ContainsKey(question.Key))
+            {
+                var correctAnswerIndex = correctAnswersDict[question.Key];
+                _logger.LogInformation($"Question {question.Key}, Correct Answer Index: {correctAnswerIndex}");
+                quizDetails.CorrectAnswers[question.Key] = correctAnswerIndex;
+            }
+            else
+            {
+                _logger.LogWarning($"Question {question.Key} does not have a correct answer assigned.");
+            }
         }
+        else
+        {
+            _logger.LogWarning($"Question {question.Key} does not have any choices assigned.");
+        }
+    }
+
+    return View(quizDetails);
+}
 
 [HttpPost]
-public async Task<IActionResult> UpdateQuiz(QuizDetailsViewModel model)
+public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel model)
 {
     try
     {
+        if (model == null)
+        {
+            _logger.LogError("Received null model in UpdateQuiz.");
+            return BadRequest(new { message = "Invalid quiz data." });
+        }
+
         var quiz = await _context.Quizzes.FindAsync(model.QuizId);
         if (quiz == null)
         {
@@ -110,33 +162,35 @@ public async Task<IActionResult> UpdateQuiz(QuizDetailsViewModel model)
             return NotFound(new { message = $"Quiz with ID {model.QuizId} not found." });
         }
 
-        // Read existing quiz data from the file
-        var existingQuizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
-        var existingQuizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(existingQuizData);
+        // Ensure the model properties are not null
+        model.Questions ??= new Dictionary<int, string>();
+        model.Choices ??= new Dictionary<int, List<string>>();
+        model.Timer ??= new Dictionary<int, int>();
+        model.CorrectAnswers ??= new Dictionary<int, int>();
 
-        // Merge updated data with existing data
-        foreach (var question in model.Questions)
+        // Create a new JSON file with the updated quiz details
+        var updatedQuizData = new
         {
-            existingQuizDetails.Questions[question.Key] = question.Value;
+            Questions = model.Questions,
+            Choices = model.Choices,
+            Timer = model.Timer,
+            CorrectAnswers = model.CorrectAnswers
+        };
+
+        var updatedJson = JsonSerializer.Serialize(updatedQuizData);
+        var directoryPath = Path.Combine("wwwroot", "quizzes");
+        var newFilePath = Path.Combine(directoryPath, $"{Guid.NewGuid()}.json");
+
+        // Ensure the directory exists
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
         }
 
-        foreach (var choice in model.Choices)
-        {
-            existingQuizDetails.Choices[choice.Key] = choice.Value;
-        }
+        System.IO.File.WriteAllText(newFilePath, updatedJson);
 
-        foreach (var timer in model.Timer)
-        {
-            existingQuizDetails.Timer[timer.Key] = timer.Value;
-        }
-
-        foreach (var correctAnswer in model.CorrectAnswers)
-        {
-            existingQuizDetails.CorrectAnswers[correctAnswer.Key] = correctAnswer.Value;
-        }
-
-        var updatedJson = JsonSerializer.Serialize(existingQuizDetails);
-        System.IO.File.WriteAllText(quiz.JsonFilePath, updatedJson);
+        // Update the file path in the database
+        quiz.JsonFilePath = newFilePath;
 
         // Save changes to the database
         await _context.SaveChangesAsync();

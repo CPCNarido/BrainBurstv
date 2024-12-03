@@ -62,7 +62,7 @@
                         <div class="top">
                             <h1>Question ${questionCount}</h1>
                             <div class="buttonss">
-                                <input type="number" class="timer-input" name="Timers[${questionCount}]" placeholder="Set timer (minutes)" disabled />
+                                <input type="number" class="timer-input" name="Timers[${questionCount}]" placeholder="Set timer (seconds)" disabled />
                                 <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
                                 <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
                                 <button type="button" class="select-correct-answer"><img src="/Assets/QuizCreation/select.png" alt="Select">Select Correct Answer</button>
@@ -78,7 +78,6 @@
                                 <button type="button" class="choice" data-index="3">Choice 4</button>
                             </div>
                             <div class="correct-answer">
-                                <button type="button" class="select-correct-answer">Select Correct Answer</button>
                                 <input type="hidden" class="correct-answer-input" name="CorrectAnswers[${questionCount}]" />
                             </div>
                         </div>
@@ -123,12 +122,35 @@
             // Handle form submission via AJAX
             $('form').submit(function (event) {
                 event.preventDefault();
-                var formData = $(this).serialize();
+
+                // Gather all form data into a JSON object
+                var formData = {};
+                formData.QuizId = $('input[name="QuizId"]').val();
+                formData.Questions = {};
+                formData.Choices = {};
+                formData.Timer = {};
+                formData.CorrectAnswers = {};
+
+                $('.question').each(function (index) {
+                    var questionKey = index + 1;
+                    formData.Questions[questionKey] = $(this).find('.question-text').val();
+                    var timerValue = $(this).find('.timer-input').val();
+                    formData.Timer[questionKey] = timerValue ? parseInt(timerValue) : 10; // Default to 10 seconds if no timer is inputted
+                    formData.CorrectAnswers[questionKey] = $(this).find('.correct-answer-input').val();
+
+                    formData.Choices[questionKey] = [];
+                    $(this).find('.choice').each(function () {
+                        formData.Choices[questionKey].push($(this).text());
+                    });
+                });
+
                 console.log("Form Data:", formData); // Log the form data for debugging
+
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'POST',
-                    data: formData,
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
                     success: function (response) {
                         console.log("Response:", response); // Log the response for debugging
                         alert('Quiz updated successfully!');
@@ -155,7 +177,7 @@
                         <div class="top">
                             <h1>Question @question.Key</h1>
                             <div class="buttonss">
-                                <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (minutes)" disabled />
+                                <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (seconds)" disabled />
                                 <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
                                 <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
                                 <button type="button" class="select-correct-answer"><img src="/Assets/QuizCreation/select.png" alt="Select">Select Correct Answer</button>
@@ -169,23 +191,22 @@
                                 {
                                     @foreach (var choice in Model.Choices[question.Key])
                                     {
+                                        var choiceIndex = Model.Choices[question.Key].IndexOf(choice);
                                         var isCorrect = Model.CorrectAnswers.ContainsKey(question.Key) &&
-                                                        Model.CorrectAnswers[question.Key].ToString() == 
-                                                        Model.Choices[question.Key].IndexOf(choice).ToString();
+                                                        Model.CorrectAnswers[question.Key].ToString() == choiceIndex.ToString();
                                         <button type="button" 
                                                 class="choice @(isCorrect ? "correct-choice" : "")" 
-                                                data-index="@Model.Choices[question.Key].IndexOf(choice)">
+                                                data-index="@choiceIndex">
                                             @choice
                                         </button>
                                     }
                                 }
                             </div>
                             <div class="correct-answer">
-                                <button type="button" class="select-correct-answer">Select Correct Answer</button>
-                                <input type="hidden" 
-                                       class="correct-answer-input" 
-                                       name="CorrectAnswers[@question.Key]" 
-                                       value="@(Model.CorrectAnswers.ContainsKey(question.Key) ? Model.CorrectAnswers[question.Key] : "")" />
+                                @if (Model.CorrectAnswers.ContainsKey(question.Key))
+                                {
+                                    <input type="hidden" class="correct-answer-input" name="CorrectAnswers[@question.Key]" value="@Model.CorrectAnswers[question.Key]" />
+                                }
                             </div>
                         </div>
                     </div>
@@ -197,7 +218,7 @@
                 <button type="button" class="cancel">Cancel</button>
             </div>
         </form>
-                <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
+        <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'">Practice</button>
     </div>
 </body>
 </html>
