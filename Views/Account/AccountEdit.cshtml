@@ -26,8 +26,10 @@
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/settings 1.png">Account Settings</button>
         }
-                <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/settings 1.png">Content Management</button>
 
+        @if((string)@ViewData["Role"] == "Admin"){
+            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/settings 1.png">Content Management</button>
+        }
     </div>
 
     <div class="Content">
