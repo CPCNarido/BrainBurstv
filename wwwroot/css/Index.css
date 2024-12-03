@@ -533,11 +533,21 @@ html,body{
     overflow: hidden;
 }
 
-.preview-left,.preview-right{
+.preview-left, .preview-right {
     width: 132px;
     height: 239px;
     all: unset;
+    cursor: pointer; /* Add cursor pointer */
+}
 
+.preview-left:hover img, .preview-right:hover img {
+    opacity: 0.8; /* Add hover effect */
+    filter: brightness(0) invert(1); /* Change color on hover */
+}
+
+.preview-left:hover, .preview-right:hover {
+    opacity: 0.8; /* Add hover effect */
+    color: #FFFDC1; /* Change color on hover */
 }
 
 .review-wrapper{
