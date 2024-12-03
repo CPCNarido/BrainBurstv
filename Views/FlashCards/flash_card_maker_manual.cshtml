@@ -314,12 +314,9 @@
                     const blob = new Blob([ab], { type: mimeString });
                     formData.append(`questions[${index}].ImageFile`, blob, `image-${index}.png`);
                 } else {
-                    const imageFile = formData.get(`questions[${index}].ImageFile`);
-                    if (imageFile) {
-                        formData.append(`questions[${index}].ImageFile`, imageFile);
-                    }
+
                 }
-                data.questions.push({ questionText: question, answerText: answer, imageQuestionPath: null });
+                data.questions.push({ questionText: question, answerText: answer});
             });
 
             // Append the JSON data to FormData
