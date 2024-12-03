@@ -284,27 +284,16 @@ public async Task<IActionResult> AccountEdit()
 
         var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
         var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
-        var TotalQuizCount = manualQuizCount + aiQuizCount;
-        ViewData["TotalQuizCount"] = TotalQuizCount;
 
         var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
-        ViewData["Flashcards"] = flashcards;
-        
-
-        var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
-        var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
-
-        var TotalUserCount = professorCount + studentCount;
-        ViewData["TotalUserCount"] = TotalUserCount;
-        ViewData["ProfessorCount"] = professorCount;
-        ViewData["StudentCount"] = studentCount;
 
         var model = new AccountEditViewModel
         {
             NewUsername = user.FullName,
-            Quizzes = quizzes, // Populate the Quizzes property
             ManualQuizCount = manualQuizCount,
-            AiQuizCount = aiQuizCount
+            AiQuizCount = aiQuizCount,
+            Flashcards = flashcards, // Populate the Flashcards property
+            Quizzes = quizzes // Populate the Quizzes property
         };
 
         return View(model);
