@@ -13,5 +13,6 @@ namespace UsersApp.Models
         public string GameCode { get; set; } // Add GameCode property
         public string Created_by { get; set; }
         public DateTime CreatedAt { get; set; }
+        public ICollection<ScoreRecord> ScoreRecords { get; set; }
     }
 }
