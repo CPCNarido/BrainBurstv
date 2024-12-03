@@ -86,6 +86,7 @@
                 if (questions.length > 0) {
                     currentIndex = 0;
                     displayQuestion();
+                    /*$('#flashcard-image').attr('src', questions[index].imageQuestionPath).show();*/
                 } else {
                     $("#flashcard-question").text("No questions available.");
                     $("#flashcard-answer").text("");
@@ -172,6 +173,8 @@
 
     #flashcard-answer {
         transform: rotateY(180deg);
+        background-color: #8DD63E;
+        border-radius: 20px;
     }
 </style>
 <script>
