@@ -11,5 +11,7 @@ namespace UsersApp.Models
         public Users User { get; set; }
         public int HighestScore { get; set; }
         public string GameCode { get; set; } // Add GameCode property
+        public string Created_by { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

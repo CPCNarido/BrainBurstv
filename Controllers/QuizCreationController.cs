@@ -373,7 +373,9 @@ public async Task<IActionResult> CreateManualQuiz(string topic, string gradeLeve
         JsonFilePath = string.Empty, // Initially empty, will be updated later
         CorrectAnswers = string.Empty, // Initially empty, will be updated later
         UserId = userId,
-        GameCode = new Random().Next(100000, 999999).ToString() // Generate a 6-digit game code
+        GameCode = new Random().Next(100000, 999999).ToString(), // Generate a 6-digit game code
+        Created_by = "Manual",
+        CreatedAt = DateTime.UtcNow // Set the CreatedAt property
     };
 
     _context.Quizzes.Add(newQuiz);

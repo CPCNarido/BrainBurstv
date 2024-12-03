@@ -104,7 +104,9 @@ namespace UsersApp.Controllers
                 JsonFilePath = jsonFilePath,
                 CorrectAnswers = JsonSerializer.Serialize(answers),
                 UserId = userId, // Set the UserId property
-                GameCode = gameCode // Set the generated game code
+                GameCode = gameCode, // Set the generated game code
+                Created_by = "Ai",
+                CreatedAt = DateTime.Now
             };
             _context.Quizzes.Add(quiz);
             await _context.SaveChangesAsync();
