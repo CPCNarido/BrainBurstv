@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using UsersApp.Models;
 
 namespace UsersApp.ViewModels
 {

@@ -189,6 +189,15 @@ namespace UsersApp.Controllers
             return Json(questions); // Return JSON response
         }
 
-
+        public async Task<IActionResult> TakeFlashcard(int id)
+        {
+            var flashcard = await _context.Flashcards.Include(f => f.Questions).FirstOrDefaultAsync(f => f.Id == id);
+            if (flashcard == null)
+            {
+                return NotFound();
+            }
+            ViewData["Flashcard"] = flashcard;
+            return View(flashcard);
+        }
     }
 }
