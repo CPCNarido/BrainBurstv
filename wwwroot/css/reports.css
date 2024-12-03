@@ -1,0 +1,123 @@
+/* reports.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.layer-1-title {
+}
+
+.layer-1-title-text {
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFFDC1;
+    margin: 0;
+    text-shadow: 
+        -2px -2px 0 #5C4C20,  
+        2px -2px 0 #5C4C20,
+        -2px 2px 0 #5C4C20,
+        2px 2px 0 #5C4C20; /* Updated stroke color */
+}
+
+.layer-1-desc-text {
+    font-size: 24px;
+    color: #2B550E;
+}
+
+.layer-1-content {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    align-items: center;
+}
+
+.layer-1-reports-box {
+    background-color: #9FDB5D;
+    width: 704px;
+    height: 183px;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding-left: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Enables Flexbox */
+    flex-direction: column; /* Stacks the elements vertically */
+    justify-content: center; /* Horizontally centers the canvas */
+}
+
+.layer-1-chart-box {
+    background-color: #FFFDC1;
+    width: 307px;
+    height: 255px;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Enables Flexbox */
+    justify-content: center; /* Horizontally centers the canvas */
+    align-items: center; /* Vertically centers the canvas */
+}
+
+.total-number-quizzes-and-flashcards-graph {
+    width: 80%;
+}
+
+canvas {
+    max-width: 100%; /* Ensures responsiveness of the canvas */
+}
+
+.layer-2-title-text {
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFFDC1;
+    margin: 0;
+    text-shadow: 
+        -2px -2px 0 #5C4C20,  
+        2px -2px 0 #5C4C20,
+        -2px 2px 0 #5C4C20,
+        2px 2px 0 #5C4C20; /* Updated stroke color */
+}
+
+.layer-2-desc-text {
+    font-size: 24px;
+    color: #2B550E;
+}
+
+.layer-2-content {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    align-items: center;
+}
+
+.quizzes-flashcard-average-box{
+    background-color: #9FDB5D;
+    width: 280px;
+    height: 340px;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex; /* Enables Flexbox */
+    flex-direction: column; /* Stacks the elements vertically */
+    justify-content: center; /* Horizontally centers the canvas */
+}
+
+.quizzes-per-month{
+    display: flex;
+    flex-direction: column;
+}
+
+/* New styles for the user roles pie chart */
+.total-user-box {
+    background-color: #FFFDC1;
+    width: 580px;
+    height: 280px;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* Enables Flexbox */
+    justify-content: center; /* Horizontally centers the canvas */
+    align-items: center; /* Vertically centers the canvas */
+}
