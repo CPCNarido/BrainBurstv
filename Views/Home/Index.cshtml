@@ -26,8 +26,9 @@
                     <img src="../Assets/Homepage/nagiisip.png" class="char">
                 </div>
             </div>
+            @if((string)@ViewData["Role"] == "Admin" || (string)@ViewData["Role"] == "Professor")
+            {
             <div class="c1">
-
                 <div class="right">
                     <div class="Right-content">
                         <span class="title">Quiz Creation & Participation</span>
@@ -46,6 +47,8 @@
             <div class="ghost1">
 
             </div>
+            }
+
             <div class="c">
                 <div class="left">
                     <div class="image2"> </div>
@@ -62,6 +65,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div class="ghost1">
 
