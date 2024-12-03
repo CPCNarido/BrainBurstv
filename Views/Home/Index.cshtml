@@ -140,10 +140,10 @@
         const reviewWrapper = document.querySelector('.review-wrapper');
         const reviewContainers = document.querySelectorAll('.review-container');
         const totalItems = reviewContainers.length;
-        const visibleItems = 1;
+        const visibleItems = 2;
 
         if (currentIndex < totalItems - visibleItems) {
-            currentIndex += 1; // Move by one box
+            currentIndex += 1.1; // Move by one box
             if (currentIndex > totalItems - visibleItems) {
                 currentIndex = totalItems - visibleItems; // Ensure it doesn't go beyond the last set of boxes
             }
@@ -155,7 +155,7 @@
     function moveLeft() {
         const reviewWrapper = document.querySelector('.review-wrapper');
         if (currentIndex > 0) {
-            currentIndex -= 1; // Move by one box
+            currentIndex -= 1.1; // Move by one box
             if (currentIndex < 0) {
                 currentIndex = 0; // Ensure it doesn't go before the first set of boxes
             }
