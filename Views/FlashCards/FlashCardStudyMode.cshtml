@@ -1,3 +1,6 @@
+@using Newtonsoft.Json
+@model UsersApp.ViewModels.FlashCardStudyModeViewModel
+
 @{
     ViewData["Title"] = "Flashcard Study Mode";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
@@ -42,19 +45,19 @@
                             <div class="title-text">
                                 <p>Answer Mode</p>
                             </div>
+                        </div>  
+                        <hr />
+                        <div class="description">
+                            <p>Test your knowledge by answering the question first. Then, flip the card to reveal the correct answer and see how well you did!</p>
                         </div>
-                    </div>  
-                    <hr />
-                    <div class="description">
-                        <p>Test your knowledge by answering the question first. Then, flip the card to reveal the correct answer and see how well you did!</p>
                     </div>
                 </div>
             </div>
             <div class="right-side">
                 <div class="flash-card-box">
-                    <div class="flash-card-content" id="flashcard-content">
-                        <p id="flashcard-question">Loading question...</p>
-                        <p id="flashcard-answer" style="display:none;">Loading answer...</p>
+                    <div class="flash-card-content">
+                        <div id="flashcard-question" class="front">Loading question...</div>
+                        <div id="flashcard-answer" class="back">Loading answer...</div>
                     </div>
                     <button id="flip-button" class="flip-flash-card-button">
                         <img src="~/Assets/FlashCardStudyMode/subway_round-arrow-1.png" alt="Flip card button" />
@@ -65,7 +68,7 @@
                         <img src="~/Assets/FlashCardStudyMode/arrow 3.png" alt="">
                     </button>
                     <div class="flash-card-number">
-                        <p id="flashcard-number">1 / 1</p>
+                        <p id="flashcard-number">1 / @Model.Questions.Count</p>
                     </div>
                     <button id="next-button" class="next">
                         <img src="~/Assets/FlashCardStudyMode/arrow 4.png" alt="">
@@ -76,33 +79,18 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let questions = [];
+        let questions = @Html.Raw(JsonConvert.SerializeObject(Model.Questions));
+        console.log("Questions loaded:", questions); // Log the questions data
         let currentIndex = 0;
-
-        // Fetch questions from the server
-        function loadFlashcards(flashcardId) {
-            $.get(`/FlashCards/GetFlashcardQuestions?flashcardId=${flashcardId}`, function (data) {
-                questions = data;
-                if (questions.length > 0) {
-                    currentIndex = 0;
-                    displayQuestion();
-                } else {
-                    $("#flashcard-question").text("No questions available.");
-                    $("#flashcard-answer").text("");
-                }
-                updatePagination();
-            }).fail(function (error) {
-                console.error("Failed to fetch questions:", error);
-                $("#flashcard-question").text("Error loading questions.");
-            });
-        }
 
         // Display the current question
         function displayQuestion() {
             if (questions.length > 0) {
-                $("#flashcard-question").text(questions[currentIndex].questionText).show();
-                $("#flashcard-answer").text(questions[currentIndex].answerText).hide();
+                console.log("Displaying question:", questions[currentIndex]); // Log the current question
+                $("#flashcard-question").text(questions[currentIndex].QuestionText);
+                $("#flashcard-answer").text(questions[currentIndex].AnswerText);
             } else {
+                console.log("No questions available."); // Log if no questions are available
                 $("#flashcard-question").text("No questions available.");
                 $("#flashcard-answer").text("");
             }
@@ -115,15 +103,13 @@
 
         // Flip card to show/hide answer
         $("#flip-button").click(function () {
-            $("#flashcard-answer").toggle();
-            $("#flashcard-question").toggle();
+            $(".flash-card-content").toggleClass("flipped");
         });
 
         // Navigate to previous question
         $("#prev-button").click(function () {
             if (currentIndex > 0) {
                 currentIndex--;
-                $(".flash-card-content").removeClass("flipped");
                 displayQuestion();
                 updatePagination();
             }
@@ -133,47 +119,46 @@
         $("#next-button").click(function () {
             if (currentIndex < questions.length - 1) {
                 currentIndex++;
-                $(".flash-card-content").removeClass("flipped");
                 displayQuestion();
                 updatePagination();
             }
         });
 
-        // Load flashcards on page load (FlashcardId = 1 for demo)
+        // Load flashcards on page load
         $(document).ready(function () {
-            loadFlashcards(1);
+            displayQuestion();
+            updatePagination();
         });
     </script>
+    <style>
+        .flash-card-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flipped {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            font-size: 1.5em;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background-color: #8DD63E;
+        }
+    </style>
 </body>
 </html>
-<style>
-    .flash-card-content {
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-        position: relative;
-    }
-
-    .flash-card-content.flipped {
-        transform: rotateY(180deg);
-    }
-
-    #flashcard-question, #flashcard-answer {
-        backface-visibility: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5em;
-    }
-
-    #flashcard-answer {
-        transform: rotateY(180deg);
-    }
-</style>
-<script>
-    $("#flip-button").click(function () {
-        $(".flash-card-content").toggleClass("flipped");
-    });
-</script>

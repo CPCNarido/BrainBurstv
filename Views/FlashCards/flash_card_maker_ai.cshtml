@@ -22,9 +22,14 @@
                         <input type="text" name="topic" placeholder="Enter your flashcard topic here" required />
                     </div>
                     <div class="flash-card-description">
-                        <input type="text" name="gradeLevel" placeholder="Enter your flashcard grade level here" required />
+                        <select name="gradeLevel" required>
+                            <option value="" disabled selected>Select your grade level</option>
+                            <option value="Elementary">Elementary</option>
+                            <option value="Highschool">Highschool</option>
+                            <option value="College">College</option>
+                        </select>
                     </div>
-                    <div class="flash-card-description">
+                    <div class="flash-card-items">
                         <input type="number" name="items" placeholder="Enter number of items" min="1" max="50" required />
                     </div>
                     <div class="some-texts-container">

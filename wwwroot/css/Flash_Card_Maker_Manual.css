@@ -5,7 +5,7 @@
 .container1 {
     padding: 20px;
     margin-top: 20px;
-    width: 1700px;
+    width: 1440px;
 }
 
 /* General Styling for the Title Section */
@@ -151,6 +151,7 @@
     border-radius: 30px;
     background-color: #8DD63E;
     display: flex;
+    width: 100%;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
