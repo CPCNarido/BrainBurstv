@@ -380,6 +380,13 @@
     padding: 20px;
     background-color: #FBF892;
     color: #2B550E;
+    transition: transform 0.3s ease-in-out;
+}
+
+.flashcard-item:hover{
+    background-color: #F5D059;
+    scale: 1.05;
+    transition: transform 0.3s ease-in-out;
 }
 
 .divider{
