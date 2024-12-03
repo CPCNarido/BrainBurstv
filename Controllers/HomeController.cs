@@ -5,6 +5,7 @@ using UsersApp.Models;
 using Microsoft.AspNetCore.Identity;
 using UsersApp.Data; // Add this line
 using UsersApp.ViewModels; // Add this line
+using Microsoft.EntityFrameworkCore; // Add this line
 
 namespace UsersApp.Controllers
 {
@@ -90,6 +91,19 @@ namespace UsersApp.Controllers
 
             return View();
         }
+
+        [HttpPost]
+public async Task<IActionResult> JoinQuiz(string gameCode)
+{
+    var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
+    if (quiz == null)
+    {
+        _logger.LogError($"Quiz with Game Code {gameCode} not found.");
+        return NotFound(new { message = $"Quiz with Game Code {gameCode} not found." });
+    }
+
+    return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
+}
         
         public async Task<IActionResult> Privacy()
         {

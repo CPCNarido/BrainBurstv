@@ -17,25 +17,11 @@
             form.addEventListener('submit', function (event) {
                 const quizName = document.getElementById('quiz-name').value.trim();
                 const quizDesc = document.getElementById('quiz-desc').value.trim();
-                const quizType = quizTypeSelect.value;
                 const gradeLevel = document.getElementById('grade-level').value;
-                const difficulty = document.getElementById('difficulty').value;
 
-                if (!quizName || !quizDesc || !quizType || !gradeLevel || !difficulty) {
+                if (!quizName || !quizDesc || !gradeLevel) {
                     event.preventDefault();
                     alert('Please fill out all fields before continuing.');
-                } else {
-                    // Adjust the form action based on the selected quiz type
-                    if (quizType == "1") {
-                        form.setAttribute('method', 'post');
-                        form.setAttribute('action', '/quizcreation/Quiz_Creation_Multiple_Choice');
-                    } else if (quizType == "2") {
-                        form.setAttribute('method', 'post');
-                        form.setAttribute('action', '/quizcreation/Quiz_Creation_True_Or_False');
-                    } else if (quizType == "3") {
-                        form.setAttribute('method', 'post');
-                        form.setAttribute('action', '/quizcreation/Quiz_Creation_Fill_In_The_Blanks');
-                    }
                 }
             });
         });
@@ -44,49 +30,32 @@
 <body>
     <div class="container1">
         <div class="quiz-maker-container">
-             <form method="get" action="/Quiz/FillInTheBlanks">
-             <div class="title">
-                <div class="title-text">Create your new quiz!!</div>
-             </div>
-            <div class="quiz-name">
-                <input type="text" id="quiz-name" name="QuizName" placeholder="Enter Quiz Name..." required />
-            </div>
-            <div class="desc-title">
-                <div class="desc-title-text">Add Quiz Description!!</div>
-            </div>
-            <div class="quiz-desc">
-                <input id="quiz-desc" name="QuizDesc" placeholder="Enter Quiz Description..." required />
-            </div>
-            <div class="quiz-type">
-                <select id="quiz-type" name="QuizType" required>
-                    <option value="" disabled selected>Type of Quiz</option>
-                    <option value="1">Multiple Choice</option>
-                    <option value="2">True/False</option>
-                    <option value="3">Fill in the Blank</option>
-                </select>
-            </div>
-            <div class="grade-level">
-                <select id="grade-level" name="GradeLevel" required>
-                    <option value="" disabled selected>Grade Level</option>
-                    <option value="1">Elementary</option>
-                    <option value="2">Highschool</option>
-                    <option value="3">College</option>
-                </select>
-            </div>
-            <div class="difficulty">
-                <select id="difficulty" name="Difficulty" required>
-                    <option value="" disabled selected>Select Difficulty</option>
-                    <option value="1">Easy</option>
-                    <option value="2">Medium</option>
-                    <option value="3">Hard</option>
-                </select>
-            </div>
-            <div class="submit-button">
-                <button type="submit">Continue</button>
-            </div>
-        </form>
+            <form method="post" action="/QuizCreation/CreateManualQuiz">
+                <div class="title">
+                    <div class="title-text">Create your new quiz!!</div>
+                </div>
+                <div class="quiz-name">
+                    <input type="text" id="quiz-name" name="topic" placeholder="Enter Quiz Name..." required />
+                </div>
+                <div class="desc-title">
+                    <div class="desc-title-text">Add Quiz Description!!</div>
+                </div>
+                <div class="quiz-desc">
+                    <input id="quiz-desc" name="description" placeholder="Enter Quiz Description..." required />
+                </div>
+                <div class="grade-level">
+                    <select id="grade-level" name="gradeLevel" required>
+                        <option value="" disabled selected>Grade Level</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Highschool">Highschool</option>
+                        <option value="College">College</option>
+                    </select>
+                </div>
+                <div class="submit-button">
+                    <button type="submit">Continue</button>
+                </div>
+            </form>
         </div>
-       
     </div>
 </body>
 </html>

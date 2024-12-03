@@ -9,5 +9,8 @@ namespace UsersApp.ViewModels
         public Dictionary<int, int> Timer { get; set; } = new Dictionary<int, int>();
         public int QuizId { get; set; }
         public Dictionary<int, int> CorrectAnswers { get; set; } = new Dictionary<int, int>();
+        public int GameCode { get; set; } // Add GameCode property
+        public string Topic { get; set; }
+        public string GradeLevel { get; set; }
     }
 }

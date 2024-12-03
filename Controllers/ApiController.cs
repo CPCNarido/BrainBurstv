@@ -94,6 +94,8 @@ namespace UsersApp.Controllers
                                      .ToDictionary(x => x.index + 1, x => x.c);
             var jsonFilePath = SaveQuizToJsonFile(questionsDict, choicesDict);
 
+            var gameCode = new Random().Next(100000, 999999).ToString();
+
             // Save the JSON file path and correct answers to the database
             var quiz = new Quiz
             {
@@ -101,7 +103,8 @@ namespace UsersApp.Controllers
                 Topic = topic,
                 JsonFilePath = jsonFilePath,
                 CorrectAnswers = JsonSerializer.Serialize(answers),
-                UserId = userId // Set the UserId property
+                UserId = userId, // Set the UserId property
+                GameCode = gameCode // Set the generated game code
             };
             _context.Quizzes.Add(quiz);
             await _context.SaveChangesAsync();
