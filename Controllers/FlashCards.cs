@@ -8,6 +8,8 @@ using UsersApp.Data;
 using UsersApp.Models;
 using UsersApp.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Claims;
+using System.Text;
 
 namespace UsersApp.Controllers
 {
@@ -16,28 +18,17 @@ namespace UsersApp.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<Users> userManager;
         private readonly ILogger<FlashCards> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-
-        public FlashCards(AppDbContext context, UserManager<Users> userManager, ILogger<FlashCards> logger)
+        public FlashCards(AppDbContext context, UserManager<Users> userManager, ILogger<FlashCards> logger, IHttpClientFactory httpClientFactory)
         {
             this.userManager = userManager;
             _logger = logger;
             _context = context;
+            _httpClientFactory = httpClientFactory;
+            _context = context;
         }
 
-        public async Task<IActionResult> flash_card_maker_ai()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = await userManager.GetUserAsync(User);
-                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
-                ViewData["FilePath"] = user.FilePath;
-                ViewData["Username"] = user.FullName;
-                ViewData["Role"] = user.Role;
-            }
-
-            return View();
-        }
 
         public async Task<IActionResult> flash_card_maker_manual()
         {
@@ -168,5 +159,120 @@ namespace UsersApp.Controllers
             ViewData["Flashcard"] = flashcard;
             return View(flashcard);
         }
+
+
+
+                public async Task<IActionResult> flash_card_maker_ai()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateFlashcard([FromForm] string topic, [FromForm] string gradeLevel, [FromForm] int items)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+
+            var prompt = $@"
+            Create a {items}-item flashcard for grade {gradeLevel} with the topic of {topic}. 
+            Make each question have an answer and optionally an image.
+            Use the following format:
+            **Question 1:**
+            What is the capital of France?
+            Answer: Paris
+            ";
+
+            var requestBody = new
+            {
+                contents = new[]
+                {
+                    new
+                    {
+                        role = "user",
+                        parts = new[]
+                        {
+                            new { text = prompt }
+                        }
+                    }
+                },
+                systemInstruction = new
+                {
+                    role = "user",
+                    parts = new[]
+                    {
+                        new { text = "this is a system instruction" }
+                    }
+                },
+                generationConfig = new
+                {
+                    temperature = 1,
+                    topK = 40,
+                    topP = 0.95,
+                    maxOutputTokens = 8192,
+                    responseMimeType = "text/plain"
+                }
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDBHjHy7n50Ak50zusGAAuQapvMTjZOs9c", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Log the response for debugging
+            _logger.LogInformation($"AI Response: {responseContent}");
+
+            // Parse the response content to extract questions and answers
+            var questions = ParseFlashcardContent(responseContent, out var answers);
+
+            // Save the parsed data into a JSON file
+            var flashcard = new Flashcard
+            {
+                Title = topic,
+                Description = $"Flashcard for {gradeLevel} on {topic}",
+                Questions = questions.Select((q, index) => new Question
+                {
+                    QuestionText = q,
+                    AnswerText = answers[index]
+                }).ToList()
+            };
+
+            _context.Flashcards.Add(flashcard);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("FlashCardStudyMode", new { id = flashcard.Id });
+        }
+
+private List<string> ParseFlashcardContent(string responseContent, out List<string> answers)
+{
+    // Implement parsing logic to extract questions, answers, and images from the AI response
+    // This is a placeholder implementation
+    answers = new List<string>();
+    var questions = new List<string>();
+
+    // Example parsing logic (you need to adjust this based on the actual AI response format)
+    var lines = responseContent.Split('\n');
+    foreach (var line in lines)
+    {
+        if (line.StartsWith("Question"))
+        {
+            questions.Add(line.Substring(line.IndexOf(':') + 1).Trim());
+        }
+        else if (line.StartsWith("Answer"))
+        {
+            answers.Add(line.Substring(line.IndexOf(':') + 1).Trim());
+        }
+    }
+
+    return questions;
+}
     }
 }

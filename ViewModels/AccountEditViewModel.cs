@@ -10,6 +10,10 @@ namespace UsersApp.ViewModels
         public string NewUsername { get; set; }
 
         public IEnumerable<Quiz> Quizzes { get; set; } // Add this property
+        
+        public int ManualQuizCount { get; set; } // Add this property
+        public int AiQuizCount { get; set; } // Add this property
+        public int TotalQuizCount { get; set; } // Add this property
     }
 
 }

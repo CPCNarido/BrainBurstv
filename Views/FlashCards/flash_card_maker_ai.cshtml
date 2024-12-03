@@ -12,28 +12,28 @@
 </head>
 <body>
     <div class="container1">
-        <form method="post" action="/FlashCardMakerAi/Generate">
+        <form method="post" action="/FlashCards/GenerateFlashcard">
             <div class="maker-content">
                 <div class="left-side">
                     <div class="title">
                         <p>AI Flashcard Maker</p>
                     </div>
                     <div class="flash-card-name">
-                        <input type="text" name="flashcardName" placeholder="Enter your flashcard name here" />
+                        <input type="text" name="topic" placeholder="Enter your flashcard topic here" required />
                     </div>
                     <div class="flash-card-description">
-                        <input type="text" name="flashcardDescription" placeholder="Enter your flashcard description here" />
+                        <input type="text" name="gradeLevel" placeholder="Enter your flashcard grade level here" required />
+                    </div>
+                    <div class="flash-card-description">
+                        <input type="number" name="items" placeholder="Enter number of items" min="1" max="50" required />
                     </div>
                     <div class="some-texts-container">
                         <div class="some-texts">
-                            Boost your study sessions with BrainBurst’s AI Flashcard Maker. Quickly turn your notes into smart flashcards that enhance learning and retention
+                            Boost your study sessions with BrainBurst’s AI Flashcard Maker. Quickly turn your notes into smart flashcards that enhance learning and retention.
                         </div>
                     </div>
                 </div>
                 <div class="right-side">
-                    <div class="input">
-                        <input type="text" name="inputText" placeholder="Enter your text here" />
-                    </div>
                     <div class="generate-button">
                         <button type="submit">Generate</button>
                     </div>

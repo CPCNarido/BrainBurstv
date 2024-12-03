@@ -17,13 +17,23 @@
 <body>
     <div class="SideBar">
         <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
+        @if((string)@ViewData["Role"] == "Admin")
+        {
+            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+        }
+
+        @if((string)@ViewData["Role"] != "Admin")
+        {
         <button class="LibraryButton" onclick="showSection('Library')"><img src="../Assets/AccountEdit/folder 1.png">Library</button>
         <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
-        @if((string)@ViewData["Role"] != "Admin")
-        {
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/settings 1.png">Account Settings</button>
         }
+
+
+
+        
+        
 
     </div>
 
@@ -32,7 +42,7 @@
         @if ((string)@ViewData["Role"] == "Admin")
         {
                 <h1 class="report-titles"> Overall Content Report</h1>
-                <p class="report-description">Overview of Quizzes and Flashcards created on Brain Burst</p>
+                <p class="report-description">Overview of Quizzes created on Brain Burst</p>
                 
                 <div class="top-chart-container">
                     <div>
@@ -44,13 +54,13 @@
 
                     <div class="box-reports">
                         <div class="content-created">
-                            Total Number of Content Created: 
+                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"]
                         </div>
                         <div class="number-of-quiz">
-                            Number of Quizzes:
+                            Number of AI Generated Quizzes: @Model.AiQuizCount
                         </div>
                         <div class="number-of-flashcards">
-                            Number of Flashcards:
+                            Number of Manually Created Quizzes: @Model.ManualQuizCount
                         </div>
                     </div>
                 </div>
@@ -74,15 +84,15 @@
                         <div class="left-right-box-report">
                             <div class="population-report">
                                 <h1>Total Number of Users:</h1>
-                                <p>50</p>
+                                <p>@ViewData["TotalUserCount"]</p>
                             </div>
                             <div class="population-report">
                                 <h1>Total Number of Students:</h1>
-                                <p>50</p>
+                                <p>@ViewData["StudentCount"]</p>
                             </div>
                             <div class="population-report">
                                 <h1>Total Number of Professors:</h1>
-                                <p>50</p>
+                                <p>@ViewData["ProfessorCount"]</p>
                             </div>
                         </div>
                         <div class="right-right-box-report">
@@ -127,16 +137,6 @@
                         <p>Professor Ratings</p>
                     </div>
                 </div>
-            
-                <div class="feedback-container">
-                    <div class="feedback-report">
-                        <p>Top Positive Feedback: </p>
-                    </div>
-                    <div class="feedback-report">
-                        <p>Top Negative Feedback: </p>
-                    </div>
-                </div>
-
         }
         else if((string)@ViewData["Role"] == "Professor"){
             <p>Professors</p>
@@ -148,7 +148,7 @@
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div class="Library section" id="Library" style="display: none;">
+        <div class="Library section" id="ContentManagement" style="display: none;">
             hi1
         </div>
 
@@ -159,6 +159,9 @@
         <div class="Quiz section" id="Quiz" style="display: none;">
             hi3
         </div>
+
+
+        
 
         <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1>Account Settings</h1>
@@ -228,68 +231,7 @@
             </div>
         </div>
 
-        <div class="Reports section" id="Reports" style="display: none;">
-            <div class="layer-1-title">
-                <div class="layer-1-title-text">
-                    Overall Content Report
-                </div>
-            </div>
-            <div class="layer-1-desc">
-                <div class="layer-1-desc-text">
-                    Overview of Quizzes and Flashcards created on Brain Burst
-                </div>
-            </div>
-            <div class="layer-1-content">
-                <div class="layer-1-chart-box">
-                    <div class="total-number-quizzes-and-flashcards-graph">
-                        <canvas id="myPieChart"></canvas>
-                    </div>
-                </div>
-                <div class="layer-1-reports-box">
-                    <div class="content-created">
-                        Total Number of Content Created: 
-                    </div>
-                    <div class="number-of-quiz">
-                        Number of Quizzes:
-                    </div>
-                    <div class="number-of-flashcards">
-                        Number of Flashcards:
-                    </div>
-                </div>
-            </div>
-            <div class="layer-2-title">
-                <div class="layer-2-title-text">
-                    User Report
-                </div>
-            </div>
-            <div class="layer-2-desc">
-                <div class="layer-2-desc-text">
-                    Overview of users and their activities on BrainBurst
-                </div>
-            </div>
-            <div class="layer-2-content">
-                <div class="quizzes-flashcard-average-box">
-                    <div class="quizzes-per-month">
-                        <div class="quizzes-per-month-text">
-                            Average Quizzes Per Month
-                        </div>
-                        <div class="quizzes-per-month-number">
-                            <!-- replace with data from database-->90
-                        </div>
-                    </div>
-                    <div class="flashcards-per-month">
-                        <div class="flashcards-per-month-text">
-                            Average flashcards Per Month
-                        </div>
-                        <div class="flashcards-per-month-number">
-                            <!-- replace with data from database-->
-                        </div>
-                    </div>
-                </div>
-                <div class="total-user-box">
-                    <canvas id="userRolesPieChart"></canvas>
-                </div>
-            </div>
+    
                 
 <script>
 // Pie Chart 1
@@ -297,10 +239,10 @@ const ctx1 = document.getElementById('myPieChart1').getContext('2d');
 const myPieChart1 = new Chart(ctx1, {
     type: 'pie',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        labels: ['Manual quiz', 'AI Quiz'],
         datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
+            label: 'Quiz Generated',
+            data: [@Model.ManualQuizCount, @Model.AiQuizCount],
             backgroundColor: [
                 'rgba(58, 183, 26, 1)',
                 'rgba(255, 222, 62, 1)',
@@ -333,10 +275,10 @@ const ctx2 = document.getElementById('myPieChart2').getContext('2d');
 const myPieChart2 = new Chart(ctx2, {
     type: 'pie',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        labels: ['Professor', 'Student'],
         datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
+            label: 'User Count',
+            data: [@ViewData["ProfessorCount"], @ViewData["StudentCount"]],
             backgroundColor: [
                 'rgba(58, 183, 26, 1)',
                 'rgba(255, 222, 62, 1)',
