@@ -1,0 +1,18 @@
+[
+  {
+    "QuestionText": "1:**What is the sum of 345 and 678?",
+    "AnswerText": "1023"
+  },
+  {
+    "QuestionText": "2:**Add -25 and 75 together. What is the result?",
+    "AnswerText": "50"
+  },
+  {
+    "QuestionText": "3:**If you add 12.5 and 8.75, what is the total?",
+    "AnswerText": "21.25"
+  },
+  {
+    "QuestionText": "4:**Solve: 456 + 1234 + 987",
+    "AnswerText": "2677"
+  }
+]
