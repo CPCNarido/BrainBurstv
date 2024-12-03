@@ -1,67 +1,179 @@
-@model UsersApp.Models.Flashcard
-@using System.Text.Json
-
 @{
-    ViewData["Title"] = "Take Flashcard";
+    ViewData["Title"] = "Flashcard Study Mode";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
-    var flashcardJson = JsonSerializer.Serialize(Model);
 }
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="~/css/FlashCardStudyMode.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="quiz-container">
-        <h1>@Model.Title</h1>
-        <div id="question-container">
-            <p id="question-text"></p>
-            <input type="text" id="answer-input" placeholder="Your answer">
-            <button id="next-button" onclick="nextQuestion()">Next</button>
-        </div>
-        <div id="score-container" style="display: none;">
-            <h2>Your Score: <span id="score"></span></h2>
+    <div class="container1">
+        <div class="flash-card-container">
+            <div class="left-side">
+                <div class="top-box">
+                    <div class="study-mode">
+                        <div class="title">
+                            <div class="title-image">
+                                <div class="image">
+                                    <img src="~/Assets/FlashCardStudyMode/Group 343.png" alt="flashcard-study-mode" />
+                                </div>
+                            </div>
+                            <div class="title-text">
+                                <p>Study Mode</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="description">
+                        <p>Flip the flashcard to see the answer in an instant, no pressure! It’s like getting a sneak peek without the suspense.</p>
+                    </div>
+                </div>
+                <div class="bottom-box">
+                    <div class="answer-mode">
+                        <div class="title">
+                            <div class="title-image">
+                                <div class="image">
+                                    <img src="~/Assets/FlashCardStudyMode/Clip path group-1.png" alt="flashcard-study-mode" />
+                                </div>
+                            </div>
+                            <div class="title-text">
+                                <p>Answer Mode</p>
+                            </div>
+                        </div>
+                    </div>  
+                    <hr />
+                    <div class="description">
+                        <p>Test your knowledge by answering the question first. Then, flip the card to reveal the correct answer and see how well you did!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-side">
+                <div class="flash-card-box">
+                    <div class="flash-card-content" id="flashcard-content">
+                        <p id="flashcard-question">Loading question...</p>
+                        <p id="flashcard-answer" style="display:none;">Loading answer...</p>
+                    </div>
+                    <button id="flip-button" class="flip-flash-card-button">
+                        <img src="~/Assets/FlashCardStudyMode/subway_round-arrow-1.png" alt="Flip card button" />
+                    </button>
+                </div>
+                <div class="flash-card-pagination-button">
+                    <button id="prev-button" class="previous">
+                        <img src="~/Assets/FlashCardStudyMode/arrow 3.png" alt="">
+                    </button>
+                    <div class="flash-card-number">
+                        <p id="flashcard-number">1 / 1</p>
+                    </div>
+                    <button id="next-button" class="next">
+                        <img src="~/Assets/FlashCardStudyMode/arrow 4.png" alt="">
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        var flashcard = @Html.Raw(flashcardJson);
-        console.log(flashcard);
-        var questions = flashcard.Questions;
-        var currentQuestionIndex = 0;
-        var score = 0;
+        let questions = [];
+        let currentIndex = 0;
 
-        function showQuestion(index) {
-            if (index < questions.length) {
-                document.getElementById('question-text').innerText = questions[index].QuestionText;
-                document.getElementById('answer-input').value = '';
+        // Fetch questions from the server
+        function loadFlashcards(flashcardId) {
+            $.get(`/FlashCards/GetFlashcardQuestions?flashcardId=${flashcardId}`, function (data) {
+                questions = data;
+                if (questions.length > 0) {
+                    currentIndex = 0;
+                    displayQuestion();
+                } else {
+                    $("#flashcard-question").text("No questions available.");
+                    $("#flashcard-answer").text("");
+                }
+                updatePagination();
+            }).fail(function (error) {
+                console.error("Failed to fetch questions:", error);
+                $("#flashcard-question").text("Error loading questions.");
+            });
+        }
+
+        // Display the current question
+        function displayQuestion() {
+            if (questions.length > 0) {
+                $("#flashcard-question").text(questions[currentIndex].questionText).show();
+                $("#flashcard-answer").text(questions[currentIndex].answerText).hide();
             } else {
-                showScore();
+                $("#flashcard-question").text("No questions available.");
+                $("#flashcard-answer").text("");
             }
         }
 
-        function nextQuestion() {
-            var userAnswer = document.getElementById('answer-input').value.trim().toLowerCase();
-            var correctAnswer = questions[currentQuestionIndex].AnswerText.trim().toLowerCase();
+        // Update pagination info
+        function updatePagination() {
+            $("#flashcard-number").text(`${currentIndex + 1} / ${questions.length}`);
+        }
 
-            if (userAnswer === correctAnswer) {
-                score++;
+        // Flip card to show/hide answer
+        $("#flip-button").click(function () {
+            $("#flashcard-answer").toggle();
+            $("#flashcard-question").toggle();
+        });
+
+        // Navigate to previous question
+        $("#prev-button").click(function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+                $(".flash-card-content").removeClass("flipped");
+                displayQuestion();
+                updatePagination();
             }
+        });
 
-            currentQuestionIndex++;
-            showQuestion(currentQuestionIndex);
-        }
+        // Navigate to next question
+        $("#next-button").click(function () {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                $(".flash-card-content").removeClass("flipped");
+                displayQuestion();
+                updatePagination();
+            }
+        });
 
-        function showScore() {
-            document.getElementById('question-container').style.display = 'none';
-            document.getElementById('score-container').style.display = 'block';
-            document.getElementById('score').innerText = score + ' / ' + questions.length;
-        }
-
-        // Initialize the quiz
-        showQuestion(currentQuestionIndex);
+        // Load flashcards on page load (FlashcardId = 1 for demo)
+        $(document).ready(function () {
+            loadFlashcards(1);
+        });
     </script>
 </body>
 </html>
+<style>
+    .flash-card-content {
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
+    }
+
+    .flash-card-content.flipped {
+        transform: rotateY(180deg);
+    }
+
+    #flashcard-question, #flashcard-answer {
+        backface-visibility: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+    }
+
+    #flashcard-answer {
+        transform: rotateY(180deg);
+    }
+</style>
+<script>
+    $("#flip-button").click(function () {
+        $(".flash-card-content").toggleClass("flipped");
+    });
+</script>

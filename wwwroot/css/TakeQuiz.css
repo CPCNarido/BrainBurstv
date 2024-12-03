@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: rum raisin;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -9,7 +9,6 @@ body {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -22,7 +21,7 @@ body {
 }
 
 #question {
-    font-size: 1.2em;
+    font-size: 30em;
     margin-bottom: 20px;
     color: #333;
 }
@@ -56,3 +55,4 @@ body {
     background-color: red;
     color: white;
 }
+

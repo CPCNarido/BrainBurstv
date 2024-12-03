@@ -47,26 +47,37 @@
         <div class="Library section" id="Library" style="display: none;">
             hi1
         </div>
+        <div class="f-content">
+            <div class="Flashcards section" id="Flashcards" style="display: none;">
+                <div class="f-head">
+                    <h1>Flashcards</h1>
+                </div>
+                <div class="f-collection">
+                    @if (flashcards != null && flashcards.Any())
+                    {
+                        @foreach (var flashcard in flashcards)
+                        {
+                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                                <div class="f-info">
+                                    <p>@flashcard.Id</p>
+                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
+                                    <h2>@ViewData["Username"]</h2>
 
-        <div class="Flashcards section" id="Flashcards" style="display: none;">
-            <h1>Flashcards</h1>
-            @if (flashcards != null && flashcards.Any())
-            {
-                @foreach (var flashcard in flashcards)
-                {
-                    <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
-                        <div>
-                            <h2>@flashcard.Title</h2>
-                            <p>@flashcard.Questions.Count Flashcards</p>
-                        </div>
-                        <div>@flashcard.Description</div>
-                    </div>
-                }
-            }
-            else
-            {
-                <p>No flashcards available.</p>
-            }
+                                </div>
+                                <div class="bot">
+                                <div class="divider"></div>
+                                <div class="f-desc">@flashcard.Description</div>             
+                                </div>                  
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <p>No flashcards available.</p>
+                    }
+                </div>
+            </div>
         </div>
 
         <div class="Quiz section" id="Quiz" style="display: none;">
