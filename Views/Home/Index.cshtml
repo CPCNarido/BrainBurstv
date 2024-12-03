@@ -86,7 +86,7 @@
 
             <div class="review-section-container">
                 <div class="preview-left-container">
-                    <button class="preview-left" onclick="moveLeft()">
+                    <button class="preview-left" onclick="moveLeft()" id="moveLeftButton">
                         <img src="../Assets/Homepage/preview-left.png" class="preview-left-logo">
                     </button>
                 </div>
@@ -120,7 +120,7 @@
                 </div>
 
                 <div class="preview-right-container">
-                    <button class="preview-right" onclick="moveRight()">
+                    <button class="preview-right" onclick="moveRight()" id="moveRightButton">
                         <img src="../Assets/Homepage/right.png" class="preview-left-logo">
                     </button>
                 </div>
@@ -144,9 +144,11 @@
 
         if (currentIndex < totalItems - visibleItems) {
             currentIndex += 1.1; // Move by one box
-            if (currentIndex > totalItems - visibleItems) {
+            if (currentIndex >= totalItems - visibleItems) {
                 currentIndex = totalItems - visibleItems; // Ensure it doesn't go beyond the last set of boxes
+                document.getElementById('moveRightButton').disabled = true; // Disable the move right button
             }
+            document.getElementById('moveLeftButton').disabled = false; // Enable the move left button
             const offset = -currentIndex * 100; // Adjust offset to move by 100% for each box
             reviewWrapper.style.transform = `translateX(${offset}%)`;
         }
@@ -156,9 +158,11 @@
         const reviewWrapper = document.querySelector('.review-wrapper');
         if (currentIndex > 0) {
             currentIndex -= 1.1; // Move by one box
-            if (currentIndex < 0) {
+            if (currentIndex <= 0) {
                 currentIndex = 0; // Ensure it doesn't go before the first set of boxes
+                document.getElementById('moveLeftButton').disabled = true; // Disable the move left button
             }
+            document.getElementById('moveRightButton').disabled = false; // Enable the move right button
             const offset = -currentIndex * 100; // Adjust offset to move by 100% for each box
             reviewWrapper.style.transform = `translateX(${offset}%)`;
         }
@@ -169,6 +173,15 @@
         const reviewWrapper = document.querySelector('.review-wrapper');
         const offset = -currentIndex * 100; // Adjust offset to center the initial box
         reviewWrapper.style.transform = `translateX(${offset}%)`;
+        document.getElementById('moveLeftButton').disabled = true; // Initially disable the move left button
+
+        // Disable the move right button if there are no more items to show
+        const reviewContainers = document.querySelectorAll('.review-container');
+        const totalItems = reviewContainers.length;
+        const visibleItems = 2;
+        if (totalItems <= visibleItems) {
+            document.getElementById('moveRightButton').disabled = true;
+        }
     });
 </script>
 </html>
