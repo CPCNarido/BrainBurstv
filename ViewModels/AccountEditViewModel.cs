@@ -16,6 +16,12 @@ namespace UsersApp.ViewModels
         public int ManualQuizCount { get; set; } // Add this property
         public int AiQuizCount { get; set; } // Add this property
         public int TotalQuizCount { get; set; } // Add this property
+        public int aiFlashcardCount { get; set; } // Add this property
+        public int manualFlashcardCount { get; set; } // Add this property
+        public int TotalFlashcardCount { get; set; } // Add this property
+        public int ProfessorCount { get; set; } // Add this property
+        public int StudentCount { get; set; } // Add this property
+        public int TotalUserCount { get; set; } // Add this property
     }
 
 }

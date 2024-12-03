@@ -284,6 +284,22 @@ public async Task<IActionResult> AccountEdit()
 
         var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
         var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
+        var TotalQuizCount = manualQuizCount + aiQuizCount;
+        ViewData["TotalQuizCount"] = TotalQuizCount;
+
+        var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
+        var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
+        var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
+        ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
+
+
+        var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
+        var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
+        var TotalUserCount = professorCount + studentCount;
+        ViewData["TotalUserCount"] = TotalUserCount;
+        ViewData["ProfessorCount"] = professorCount;
+        ViewData["StudentCount"] = studentCount;
+        
 
         var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
 

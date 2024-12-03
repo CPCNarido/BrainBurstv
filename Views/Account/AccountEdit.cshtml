@@ -41,7 +41,7 @@
         @if ((string)@ViewData["Role"] == "Admin")
         {
                 <h1 class="report-titles"> Overall Content Report</h1>
-                <p class="report-description">Overview of Quizzes created on Brain Burst</p>
+                <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
                 
                 <div class="top-chart-container">
                     <div>
@@ -56,6 +56,12 @@
                             Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"]
                         </div>
                         <div class="number-of-quiz">
+                            Number of AI Generated Quizzes: @Model.AiQuizCount
+                        </div>
+                        <div class="number-of-flashcards">
+                            Number of Manually Created Quizzes: @Model.ManualQuizCount
+                        </div>
+                         <div class="number-of-quiz">
                             Number of AI Generated Quizzes: @Model.AiQuizCount
                         </div>
                         <div class="number-of-flashcards">
@@ -269,10 +275,10 @@ const ctx1 = document.getElementById('myPieChart1').getContext('2d');
 const myPieChart1 = new Chart(ctx1, {
     type: 'pie',
     data: {
-        labels: ['Manual quiz', 'AI Quiz'],
+        labels: ['Quiz Count', 'FlashCard Count'],
         datasets: [{
-            label: 'Quiz Generated',
-            data: [@Model.ManualQuizCount, @Model.AiQuizCount],
+            label: 'Generated',
+            data: [@ViewData["TotalQuizCount"], @ViewData["TotalFlashcardCount"]],
             backgroundColor: [
                 'rgba(58, 183, 26, 1)',
                 'rgba(255, 222, 62, 1)',
