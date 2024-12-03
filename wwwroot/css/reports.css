@@ -1,5 +1,9 @@
 /* reports.css */
 
+* {
+    margin: 0;
+    padding: 0;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -7,117 +11,233 @@ body {
     background-color: #f4f4f4;
 }
 
-.layer-1-title {
+.container {
+    align-items: flex-start;
+}
+.Content {
+    height: auto;
+    padding: 4%;
 }
 
-.layer-1-title-text {
-    font-size: 40px;
-    font-weight: bold;
+.SideBar {
+    height:1849px;
+}
+
+
+.report-titles {
+    font-family: Rum Raisin;
+    font-size: 2rem;
     color: #FFFDC1;
-    margin: 0;
-    text-shadow: 
-        -2px -2px 0 #5C4C20,  
-        2px -2px 0 #5C4C20,
-        -2px 2px 0 #5C4C20,
-        2px 2px 0 #5C4C20; /* Updated stroke color */
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 
+    2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 
+    3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 
+    3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20,
+    0 0 10px rgba(0, 0, 0, 1);
+    font-weight: 300;
+    margin-bottom: 1.5%;
 }
 
-.layer-1-desc-text {
-    font-size: 24px;
+.report-description {
+    font-family: Rum Raisin;
     color: #2B550E;
+    font-size: 1.3rem;
 }
 
-.layer-1-content {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
+.top-chart-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Left is 1 part, right is 3 parts */
+    gap: 40px; 
     align-items: center;
+    margin-top: 3%;
 }
 
-.layer-1-reports-box {
-    background-color: #9FDB5D;
-    width: 704px;
-    height: 183px;
-    border: 1px solid black;
+
+.box-pie-chart {
+    border: 2px solid #2B550E;
     border-radius: 20px;
-    padding-left: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Enables Flexbox */
-    flex-direction: column; /* Stacks the elements vertically */
-    justify-content: center; /* Horizontally centers the canvas */
+    padding: 10% 5%;
 }
-
-.layer-1-chart-box {
-    background-color: #FFFDC1;
-    width: 307px;
-    height: 255px;
-    border: 1px solid black;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Enables Flexbox */
-    justify-content: center; /* Horizontally centers the canvas */
-    align-items: center; /* Vertically centers the canvas */
-}
-
-.total-number-quizzes-and-flashcards-graph {
-    width: 80%;
-}
-
-canvas {
-    max-width: 100%; /* Ensures responsiveness of the canvas */
-}
-
-.layer-2-title-text {
-    font-size: 40px;
-    font-weight: bold;
-    color: #FFFDC1;
-    margin: 0;
-    text-shadow: 
-        -2px -2px 0 #5C4C20,  
-        2px -2px 0 #5C4C20,
-        -2px 2px 0 #5C4C20,
-        2px 2px 0 #5C4C20; /* Updated stroke color */
-}
-
-.layer-2-desc-text {
-    font-size: 24px;
-    color: #2B550E;
-}
-
-.layer-2-content {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
-    align-items: center;
-}
-
-.quizzes-flashcard-average-box{
-    background-color: #9FDB5D;
-    width: 280px;
-    height: 340px;
-    border: 1px solid black;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ 
+.report-note {
+    font-family: Rum Raisin;
+    margin-top: 2%;
     text-align: center;
-    display: flex; /* Enables Flexbox */
-    flex-direction: column; /* Stacks the elements vertically */
-    justify-content: center; /* Horizontally centers the canvas */
+    color: #2B550E;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px #00000036;
 }
 
-.quizzes-per-month{
+.box-reports {
+    margin-top: -25px;
+    background-color:#9FDB5D;
+    border: 2px solid #2B550E;
+    height: 220px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 5%;
+    font-family: Rum Raisin;
+    color: #2B550E;
+    font-size: 1.5rem;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
-/* New styles for the user roles pie chart */
-.total-user-box {
-    background-color: #FFFDC1;
-    width: 580px;
-    height: 280px;
+#margin-top-text {
+    margin-top: 5%;
+}
+
+.mid-chart-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Left is 1 part, right is 1 part */
+    gap: 40px; 
+    align-items: center;
+    margin-top: 2%;
+    align-items: center;
+}
+
+.left-box-report {
+    background-color: #9FDB5D;
+    color: #2B550E;
+    font-family: Rum Raisin;
+    padding: 5%;
+    text-align: center;
     border: 1px solid black;
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex; /* Enables Flexbox */
-    justify-content: center; /* Horizontally centers the canvas */
-    align-items: center; /* Vertically centers the canvas */
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quizzes-average {
+    margin-bottom: 30px;
+}
+
+.quizzes-average:last-child {
+    margin-bottom: 0;
+}
+
+.quizzes-average h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom:7%;
+}
+
+.quizzes-average p {
+    font-size: 1.8rem;
+}
+
+.right-box-report {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Rum Raisin;
+    color: #2B550E;
+    background-color: #9FDB5D;
+    padding: 3% 5%;
+    border-radius: 20px;
+    border: 2px solid #2B550E;
+}
+
+.left-right-box-report {
+    text-align: center;
+}
+
+.population-report{
+    margin-bottom: 30px;
+}
+.population-report h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom:7%;
+}
+
+#myPieChart2, #myPieChart3, #myPieChart4 {
+    display: block;
+    margin: 0 auto;
+    width: 300px!important;
+    height:300px!important;
+}
+
+.population-report p {
+    font-size: 1.8rem;
+}
+
+.role-description {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-top: 4%;
+}
+
+.bottom-chart-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+.first-chart-bottom {
+    padding: 8% 5%;
+    background-color: #9FDB5D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: Rum Raisin;
+    color: #2B550E;
+    border-radius: 20px;
+    border: 2px solid #2B550E;
+    min-height: 200px;
+}
+
+.average-content-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 4%;
+}
+
+.average-content-rating p {
+    font-size: 1.2rem;
+    margin-right: 20px;
+}
+
+.second-chart-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box-chart-bottom {
+    border: 2px solid #2B550E;
+    border-radius: 20px;
+    padding: 5%;
+}
+
+.second-chart-bottom p, .third-chart-bottom p {
+    font-family: Rum Raisin;
+    color: #2B550E;
+    margin-top: 3%;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.feedback-container {
+    margin-top: 5%;
+}
+.feedback-report {
+    width: 95%;
+    padding: 2.5% 2%;
+    background-color: #9FDB5D;
+    margin-bottom: 3%;
+    font-family: Rum Raisin;
+    color: #2B550E;
+    border:2px solid #2B550E;
+    border-radius: 20px;
+    font-size:1.2rem;
+}
+
+.feedback-report:last-child {
+    margin-bottom: 0;
 }
