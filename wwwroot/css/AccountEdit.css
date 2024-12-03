@@ -330,3 +330,69 @@
     display: none;
 }
 
+.f-head{
+}
+
+.f-content{
+    width: 90%;
+    margin: 0 auto;
+    font-family: rum raisin;
+}
+
+.f-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.f-info h2{
+    width: 60%;
+    float: right;
+    margin: 0px 10px 0;
+    flex-direction: column;
+
+}
+
+.f-info p{
+    width: 20%;
+    float: left;
+    font-size: 20px;
+}
+
+.f-collection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.flashcard-item{
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 25%;
+    height: auto;
+    cursor: pointer;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #FBF892;
+    color: #2B550E;
+}
+
+.divider{
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin: 10px 0;
+}
+
+.bot{
+    margin-top: 20px;
+}
+
+.f-desc{
+    text-align: center;
+}
