@@ -12,6 +12,38 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .scores-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .scores-table th, .scores-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .scores-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .scores-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .scores-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .scores-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
     <script>
         $(document).ready(function() {
             // Serialize model data for JavaScript use
@@ -33,9 +65,22 @@
 
             function showQuestion(index) {
                 if (index >= Object.keys(questions).length) {
-                    $('#quiz-container').html(`<strong>Quiz Completed! Your score: ${score}/${Object.keys(questions).length}</strong>`);
+                    $('#quiz-container').html(`
+                        <strong>Quiz Completed! Your score: ${score}/${Object.keys(questions).length}</strong>
+                        <button id="retake-quiz" class="btn">Retake Quiz</button>
+                        <button id="create-quiz" class="btn">Create Another Quiz</button>
+                    `);
                     submitScore(score);
                     fetchScores();
+
+                    // Add event listeners for the new buttons
+                    $('#retake-quiz').click(function() {
+                        location.reload(); // Reload the page to retake the quiz
+                    });
+                    $('#create-quiz').click(function() {
+                        window.location.href = '@Url.Action("Quiz_Creation_Ai", "QuizCreation")'; // Redirect to quiz creation page
+                    });
+
                     return;
                 }
 
@@ -121,11 +166,31 @@
 
             // Function to display the scores
             function displayScores(scores) {
-                let scoresHtml = '<h3>Scores of Users Who Have Taken This Quiz:</h3><ul>';
+                let scoresHtml = `
+                    <h3>Scores of Users Who Have Taken This Quiz:</h3>
+                    <table class="scores-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
                 scores.forEach(score => {
-                    scoresHtml += `<li>User: ${score.fullName}, Score: ${score.score}, Date: ${new Date(score.submissionDate).toLocaleString()}</li>`;
+                    scoresHtml += `
+                        <tr>
+                            <td>${score.fullName}</td>
+                            <td>${score.score}</td>
+                            <td>${new Date(score.submissionDate).toLocaleString()}</td>
+                        </tr>
+                    `;
                 });
-                scoresHtml += '</ul>';
+                scoresHtml += `
+                        </tbody>
+                    </table>
+                `;
                 $('#quiz-container').append(scoresHtml);
             }
         });
