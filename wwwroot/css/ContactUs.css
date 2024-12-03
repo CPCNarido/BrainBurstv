@@ -1,3 +1,7 @@
+.html, body {
+    overflow: hidden;
+}
+
 .container1 {
     width: 100%;
     background-color: #FFFDC1;

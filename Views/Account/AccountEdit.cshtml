@@ -25,10 +25,9 @@
 
         @if((string)@ViewData["Role"] != "Admin")
         {
-        <button class="LibraryButton" onclick="showSection('Library')"><img src="../Assets/AccountEdit/folder 1.png">Library</button>
         <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
-        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/settings 1.png">Account Settings</button>
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
         }
 
 
@@ -172,16 +171,47 @@
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div class="Library section" id="ContentManagement" style="display: none;">
-            hi1
-        </div>
 
-        <div class="Flashcards section" id="Flashcards" style="display: none;">
-            hi2
+        <div class="f-content">
+            <div class="Flashcards section" id="Flashcards" style="display: none;">
+                <div class="f-head">
+                    <h1>Flashcards</h1>
+                </div>
+                <div class="f-collection">
+                    @if (Model.Flashcards != null && Model.Flashcards.Any())
+                    {
+                        @foreach (var flashcard in Model.Flashcards)
+                        {
+                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                                <div class="f-info">
+                                    <p>@flashcard.Id</p>
+                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
+                                    <h2>@ViewData["Username"]</h2>
+                                </div>
+                                <div class="bot">
+                                    <div class="divider"></div>
+                                    <div class="f-desc">@flashcard.Description</div>             
+                                </div>                  
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
         </div>
 
         <div class="Quiz section" id="Quiz" style="display: none;">
-            hi3
+            <div class="Q-Head">
+                <h1>Quizzes</h1>
+            </div>
+            <div class="quizzes-container">
+            @foreach (var quiz in Model.Quizzes)
+            {
+            <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                <h1>@quiz.Topic</h1>
+                <h2>@quiz.GradeLevel</h2>
+            </button>
+            }
+            </div>
         </div>
 
 
@@ -480,6 +510,12 @@ const myPieChart4 = new Chart(ctx4, {
         } else {
             selectedSection.style.display = 'block';
         }
+    }
+</script>
+
+<script>
+    function takeFlashcard(flashcardId) {
+        window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
     }
 </script>
 </body>
