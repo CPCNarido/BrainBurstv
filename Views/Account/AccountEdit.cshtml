@@ -9,9 +9,11 @@
 <head>
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="SideBar">
@@ -19,10 +21,59 @@
         <button class="LibraryButton" onclick="showSection('Library')"><img src="../Assets/AccountEdit/folder 1.png">Library</button>
         <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
+        @if((string)@ViewData["Role"] != "Admin")
+        {
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/settings 1.png">Account Settings</button>
+        }
+
     </div>
 
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
+        @if ((string)@ViewData["Role"] == "Admin")
+        {
+                <h2>Admin Section</h2>
+        }
+        else if((string)@ViewData["Role"] == "Professor"){
+            <p>Professors</p>
+        }
+        else if((string)@ViewData["Role"] == "Student"){
+            <p>Students</p>
+        }
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="Library section" id="Library" style="display: none;">
+            hi1
+        </div>
+
+        <div class="Flashcards section" id="Flashcards" style="display: none;">
+            <h1>Flashcards</h1>
+            @if (flashcards != null && flashcards.Any())
+            {
+                @foreach (var flashcard in flashcards)
+                {
+                    <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                        <div>
+                            <h2>@flashcard.Title</h2>
+                            <p>@flashcard.Questions.Count Flashcards</p>
+                        </div>
+                        <div>@flashcard.Description</div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No flashcards available.</p>
+            }
+        </div>
+
+        <div class="Quiz section" id="Quiz" style="display: none;">
+            hi3
+        </div>
+
+        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1>Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
@@ -88,38 +139,126 @@
                     <button type="submit" class="changepassword">Logout</button>
                 </form>
             </div>
-
         </div>
 
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <div class="Library section" id="Library" style="display: none;">
-            hi1
-        </div>
-
-        <div class="Flashcards section" id="Flashcards" style="display: none;">
-            <h1>Flashcards</h1>
-            @if (flashcards != null && flashcards.Any())
-            {
-                @foreach (var flashcard in flashcards)
-                {
-                    <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
-                        <div>
-                            <h2>@flashcard.Title</h2>
-                            <p>@flashcard.Questions.Count Flashcards</p>
-                        </div>
-                        <div>@flashcard.Description</div>
+        <div class="Reports section" id="Reports" style="display: none;">
+            <div class="layer-1-title">
+                <div class="layer-1-title-text">
+                    Overall Content Report
+                </div>
+            </div>
+            <div class="layer-1-desc">
+                <div class="layer-1-desc-text">
+                    Overview of Quizzes and Flashcards created on Brain Burst
+                </div>
+            </div>
+            <div class="layer-1-content">
+                <div class="layer-1-chart-box">
+                    <div class="total-number-quizzes-and-flashcards-graph">
+                        <canvas id="myPieChart"></canvas>
                     </div>
-                }
-            }
-            else
-            {
-                <p>No flashcards available.</p>
-            }
-        </div>
+                </div>
+                <div class="layer-1-reports-box">
+                    <div class="content-created">
+                        Total Number of Content Created: 
+                    </div>
+                    <div class="number-of-quiz">
+                        Number of Quizzes:
+                    </div>
+                    <div class="number-of-flashcards">
+                        Number of Flashcards:
+                    </div>
+                </div>
+            </div>
+            <div class="layer-2-title">
+                <div class="layer-2-title-text">
+                    User Report
+                </div>
+            </div>
+            <div class="layer-2-desc">
+                <div class="layer-2-desc-text">
+                    Overview of users and their activities on BrainBurst
+                </div>
+            </div>
+            <div class="layer-2-content">
+                <div class="quizzes-flashcard-average-box">
+                    <div class="quizzes-per-month">
+                        <div class="quizzes-per-month-text">
+                            Average Quizzes Per Month
+                        </div>
+                        <div class="quizzes-per-month-number">
+                            <!-- replace with data from database-->90
+                        </div>
+                    </div>
+                    <div class="flashcards-per-month">
+                        <div class="flashcards-per-month-text">
+                            Average flashcards Per Month
+                        </div>
+                        <div class="flashcards-per-month-number">
+                            <!-- replace with data from database-->
+                        </div>
+                    </div>
+                </div>
+                <div class="total-user-box">
+                    <canvas id="userRolesPieChart"></canvas>
+                </div>
+            </div>
+                
+            <script>
+                var ctx = document.getElementById('myPieChart').getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Quizzes', 'Flashcards'],
+                        datasets: [{
+                            data: [10, 20], // Replace with your data
+                            backgroundColor: ['#FFDE3E', '#387012'],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
 
-        <div class="Quiz section" id="Quiz" style="display: none;">
-            hi3
+                var userCtx = document.getElementById('userRolesPieChart').getContext('2d');
+                var userRolesPieChart = new Chart(userCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Admins', 'Professors', 'Students'],
+                        datasets: [{
+                            data: [5, 15, 30], // Replace with your data
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            </script>
         </div>
     </div>
 

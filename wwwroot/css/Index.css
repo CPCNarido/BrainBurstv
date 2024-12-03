@@ -446,7 +446,43 @@ html,body{
     width: 530px;
     height: 404px;
     flex-shrink: 0;
+    position: relative;
 }
+
+.review-container .circle {
+    position: absolute; /* Use absolute positioning */
+   transform: translate(40px, 15px);
+}
+
+.review-container .rectangle {
+    position: absolute; /* Use absolute positioning */
+    transform: translate(200px, 30px); 
+    width: 276px;
+    height: 74px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+}
+.review-container .star {
+    width: 250px;
+    height: 50px;
+    flex-shrink: 0;
+    margin-top: 10px; /* Adjust the margin as needed */
+    transform: translate(220px, 100px); 
+}
+
+.review-container .large-rectangle {
+    width: 441.715px;
+    height: 181.166px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    position: absolute; /* Use absolute positioning */
+    transform: translate(43px, 130px); /* Adjust the position as needed */
+}
+
 .middle-container{
     width: 100%;
     height: 100%;

@@ -14,6 +14,7 @@ namespace UsersApp.Data
         public DbSet<Question> Questions { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<ScoreRecord> ScoreRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,12 @@ namespace UsersApp.Data
                 .WithOne()
                 .HasForeignKey(q => q.FlashcardId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure the relationship between ScoreRecord and User
+            modelBuilder.Entity<ScoreRecord>()
+                .HasOne(sr => sr.User)
+                .WithMany()
+                .HasForeignKey(sr => sr.UserId);
         }
     }
 }
