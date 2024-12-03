@@ -109,69 +109,87 @@ public async Task<IActionResult> ViewQuizDetails(int id)
         return NotFound();
     }
 
-    var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
-    var quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
-    quizDetails.QuizId = id; // Ensure the ID is passed to the view
+    QuizDetailsViewModel quizDetails;
 
-    // Deserialize the CorrectAnswers from the database
-    List<string> correctAnswersList;
-    try
+    if (string.IsNullOrEmpty(quiz.JsonFilePath))
     {
-        correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
-    }
-    catch (JsonException)
-    {
-        var correctAnswersIntList = JsonSerializer.Deserialize<List<int>>(quiz.CorrectAnswers);
-        correctAnswersList = correctAnswersIntList.Select(index => index switch
+        // Initialize an empty quiz if the JsonFilePath is empty
+        quizDetails = new QuizDetailsViewModel
         {
-            0 => "a",
-            1 => "b",
-            2 => "c",
-            3 => "d",
-            _ => ""
-        }).ToList();
-    }
-
-    var correctAnswersDict = new Dictionary<int, int>();
-
-    for (int i = 0; i < correctAnswersList.Count; i++)
-    {
-        correctAnswersDict[i + 1] = correctAnswersList[i] switch
-        {
-            "a" => 0,
-            "b" => 1,
-            "c" => 2,
-            "d" => 3,
-            _ => -1
+            QuizId = id,
+            Questions = new Dictionary<int, string>(),
+            Choices = new Dictionary<int, List<string>>(),
+            Timer = new Dictionary<int, int>(),
+            CorrectAnswers = new Dictionary<int, int>(),
+            GameCode = int.Parse(quiz.GameCode)
         };
     }
-
-    quizDetails.CorrectAnswers = correctAnswersDict;
-
-    // Assign indexes to choices and get the index of the correct answer
-    foreach (var question in quizDetails.Questions)
+    else
     {
-        if (quizDetails.Choices.ContainsKey(question.Key))
-        {
-            for (int i = 0; i < quizDetails.Choices[question.Key].Count; i++)
-            {
-                _logger.LogInformation($"Question {question.Key}, Choice {i}: {quizDetails.Choices[question.Key][i]}");
-            }
+        var quizData = System.IO.File.ReadAllText(quiz.JsonFilePath);
+        quizDetails = JsonSerializer.Deserialize<QuizDetailsViewModel>(quizData);
+        quizDetails.QuizId = id; // Ensure the ID is passed to the view
 
-            if (correctAnswersDict.ContainsKey(question.Key))
+        // Deserialize the CorrectAnswers from the database
+        List<string> correctAnswersList;
+        try
+        {
+            correctAnswersList = JsonSerializer.Deserialize<List<string>>(quiz.CorrectAnswers);
+        }
+        catch (JsonException)
+        {
+            var correctAnswersIntList = JsonSerializer.Deserialize<List<int>>(quiz.CorrectAnswers);
+            correctAnswersList = correctAnswersIntList.Select(index => index switch
             {
-                var correctAnswerIndex = correctAnswersDict[question.Key];
-                _logger.LogInformation($"Question {question.Key}, Correct Answer Index: {correctAnswerIndex}");
-                quizDetails.CorrectAnswers[question.Key] = correctAnswerIndex;
+                0 => "a",
+                1 => "b",
+                2 => "c",
+                3 => "d",
+                _ => ""
+            }).ToList();
+        }
+
+        var correctAnswersDict = new Dictionary<int, int>();
+
+        for (int i = 0; i < correctAnswersList.Count; i++)
+        {
+            correctAnswersDict[i + 1] = correctAnswersList[i] switch
+            {
+                "a" => 0,
+                "b" => 1,
+                "c" => 2,
+                "d" => 3,
+                _ => -1
+            };
+        }
+
+        quizDetails.CorrectAnswers = correctAnswersDict;
+
+        // Assign indexes to choices and get the index of the correct answer
+        foreach (var question in quizDetails.Questions)
+        {
+            if (quizDetails.Choices.ContainsKey(question.Key))
+            {
+                for (int i = 0; i < quizDetails.Choices[question.Key].Count; i++)
+                {
+                    _logger.LogInformation($"Question {question.Key}, Choice {i}: {quizDetails.Choices[question.Key][i]}");
+                }
+
+                if (correctAnswersDict.ContainsKey(question.Key))
+                {
+                    var correctAnswerIndex = correctAnswersDict[question.Key];
+                    _logger.LogInformation($"Question {question.Key}, Correct Answer Index: {correctAnswerIndex}");
+                    quizDetails.CorrectAnswers[question.Key] = correctAnswerIndex;
+                }
+                else
+                {
+                    _logger.LogWarning($"Question {question.Key} does not have a correct answer assigned.");
+                }
             }
             else
             {
-                _logger.LogWarning($"Question {question.Key} does not have a correct answer assigned.");
+                _logger.LogWarning($"Question {question.Key} does not have any choices assigned.");
             }
-        }
-        else
-        {
-            _logger.LogWarning($"Question {question.Key} does not have any choices assigned.");
         }
     }
 
@@ -337,14 +355,33 @@ public async Task<IActionResult> TakeQuiz(int id)
     return View(quizDetails);
 }
         
-        public async Task<IActionResult> Quiz_Creation_Manual()
-        {
-            return View();
-        }  
+public async Task<IActionResult> Quiz_Creation_Manual()
+{
+    return View();
+}
 
-        public async Task<IActionResult> Quiz_Creation_True_Or_False()
-        {
-            return View();
-        }   
+[HttpPost]
+public async Task<IActionResult> CreateManualQuiz(string topic, string gradeLevel, string description)
+{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+
+    // Create a new quiz with the provided details
+    var newQuiz = new Quiz
+    {
+        Topic = topic,
+        GradeLevel = gradeLevel,
+        JsonFilePath = string.Empty, // Initially empty, will be updated later
+        CorrectAnswers = string.Empty, // Initially empty, will be updated later
+        UserId = userId,
+        GameCode = new Random().Next(100000, 999999).ToString() // Generate a 6-digit game code
+    };
+
+    _context.Quizzes.Add(newQuiz);
+    await _context.SaveChangesAsync();
+
+    // Redirect to the ViewQuizDetails view with the new quiz ID
+    return RedirectToAction("ViewQuizDetails", new { id = newQuiz.QuizId });
+}
+
     }
 }
