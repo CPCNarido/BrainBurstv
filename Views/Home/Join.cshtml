@@ -1,24 +1,23 @@
 @{
-        ViewData["Title"] = "Join Page";
-        Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    ViewData["Title"] = "Join Quiz";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
-<html>
-    <head>
-        <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/Global/Footer.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/Home/Index.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/Join.css" asp-append-version="true" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
-    </head>
-    
-    <div class="content">
 
-            <div class="logo"><img src="/Assets/JoinPage/JoinLogo.png" alt="" class="logob"></div>
-            <form action="" method="post" >
-                <input type="text" name="" id="" class="Input" placeholder="ENTER CODE TO JOIN QUIZ">
-            </form>
-             <button type="submit" class="Submit">Join</button>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Join.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container1">
+        <h1>Join Quiz</h1>
+        <form method="post" action="/QuizCreation/JoinQuiz">
+            <div class="form-group">
+                <label for="gameCode">Enter Game Code:</label>
+                <input type="text" id="gameCode" name="gameCode" maxlength="6" required />
+            </div>
+            <button type="submit" class="join-quiz">Join Quiz</button>
+        </form>
     </div>
+</body>
 </html>

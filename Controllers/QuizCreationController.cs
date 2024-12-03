@@ -26,6 +26,23 @@ namespace UsersApp.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> GetQuizScores(int quizId)
+        {
+            var scores = await _context.ScoreRecords
+                .Where(sr => sr.QuizId == quizId)
+                .Include(sr => sr.User) // Include the User entity
+                .OrderByDescending(sr => sr.Score) // Sort scores from highest to lowest
+                .Select(sr => new
+                {
+                    FullName = sr.User.FullName, // Fetch the user's full name
+                    sr.Score,
+                    sr.SubmissionDate
+                })
+                .ToListAsync();
+
+            return Ok(scores);
+        }
+
         public async Task<IActionResult> Quiz_Creation_Ai(int page = 1)
         {
             const int PageSize = 12; // Or set this value as appropriate for your needs
@@ -158,6 +175,9 @@ public async Task<IActionResult> ViewQuizDetails(int id)
         }
     }
 
+    // Assign the GameCode
+    quizDetails.GameCode = int.Parse(quiz.GameCode);
+
     return View(quizDetails);
 }
 [HttpPost]
@@ -206,14 +226,13 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
 
         // Update the file path and correct answers in the database
         quiz.JsonFilePath = newFilePath;
-        quiz.CorrectAnswers = JsonSerializer.Serialize(model.CorrectAnswers.Values.Select(index => index switch
+        quiz.CorrectAnswers = JsonSerializer.Serialize(model.CorrectAnswers.Values.ToList());
+
+        // Generate a 6-digit game code if it doesn't exist
+        if (string.IsNullOrEmpty(quiz.GameCode))
         {
-            0 => "a",
-            1 => "b",
-            2 => "c",
-            3 => "d",
-            _ => ""
-        }).ToList());
+            quiz.GameCode = new Random().Next(100000, 999999).ToString();
+        }
 
         // Save changes to the database
         await _context.SaveChangesAsync();
@@ -227,6 +246,46 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
         return StatusCode(500, new { message = "An error occurred while updating the quiz.", error = ex.Message });
     }
 }
+
+        [HttpPost]
+public async Task<IActionResult> JoinQuiz(string gameCode)
+{
+    var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
+    if (quiz == null)
+    {
+        _logger.LogError($"Quiz with Game Code {gameCode} not found.");
+        return NotFound(new { message = $"Quiz with Game Code {gameCode} not found." });
+    }
+
+    return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
+}
+
+[HttpPost]
+public async Task<IActionResult> SubmitScore([FromBody] ScoreSubmissionModel model)
+{
+    if (model == null || model.QuizId <= 0 || model.Score < 0)
+    {
+        _logger.LogError("Invalid score submission data.");
+        return BadRequest(new { message = "Invalid score submission data." });
+    }
+
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+
+    var scoreRecord = new ScoreRecord
+    {
+        QuizId = model.QuizId,
+        UserId = userId,
+        Score = model.Score,
+        SubmissionDate = DateTime.UtcNow
+    };
+
+    _context.ScoreRecords.Add(scoreRecord);
+    await _context.SaveChangesAsync();
+
+    _logger.LogInformation($"Score for Quiz ID {model.QuizId} submitted successfully.");
+    return Ok(new { message = "Score submitted successfully" });
+}
+
 public async Task<IActionResult> TakeQuiz(int id)
 {
     var quiz = await _context.Quizzes.FindAsync(id);

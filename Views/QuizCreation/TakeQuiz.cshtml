@@ -34,6 +34,8 @@
             function showQuestion(index) {
                 if (index >= Object.keys(questions).length) {
                     $('#quiz-container').html(`<strong>Quiz Completed! Your score: ${score}/${Object.keys(questions).length}</strong>`);
+                    submitScore(score);
+                    fetchScores();
                     return;
                 }
 
@@ -85,6 +87,47 @@
 
             // Display the first question on page load
             showQuestion(currentQuestionIndex);
+
+            // Function to submit the score to the server
+            function submitScore(score) {
+                $.ajax({
+                    url: '/QuizCreation/SubmitScore',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ quizId: quizId, score: score }),
+                    success: function(response) {
+                        console.log("Score submitted successfully:", response);
+                    },
+                    error: function(error) {
+                        console.error("Error submitting score:", error);
+                    }
+                });
+            }
+
+            // Function to fetch and display the scores of users who have taken the quiz
+            function fetchScores() {
+                $.ajax({
+                    url: `/QuizCreation/GetQuizScores?quizId=${quizId}`,
+                    type: 'GET',
+                    success: function(scores) {
+                        console.log("Scores fetched successfully:", scores);
+                        displayScores(scores);
+                    },
+                    error: function(error) {
+                        console.error("Error fetching scores:", error);
+                    }
+                });
+            }
+
+            // Function to display the scores
+            function displayScores(scores) {
+                let scoresHtml = '<h3>Scores of Users Who Have Taken This Quiz:</h3><ul>';
+                scores.forEach(score => {
+                    scoresHtml += `<li>User: ${score.fullName}, Score: ${score.score}, Date: ${new Date(score.submissionDate).toLocaleString()}</li>`;
+                });
+                scoresHtml += '</ul>';
+                $('#quiz-container').append(scoresHtml);
+            }
         });
     </script>
 </head>
@@ -123,7 +166,7 @@
         oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
         oscillator.connect(audioCtx.destination);
         oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 0.1 seconds
+        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
     }
 
     function handleVisibilityChange() {
