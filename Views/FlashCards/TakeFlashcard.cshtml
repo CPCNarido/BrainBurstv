@@ -141,7 +141,9 @@
 
         // Load flashcards on page load (FlashcardId = 1 for demo)
         $(document).ready(function () {
-            loadFlashcards(1);
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            loadFlashcards(id);
         });
     </script>
 </body>
