@@ -256,25 +256,47 @@ namespace UsersApp.Controllers
             return View("AccountSettings"); // Return to settings page if the upload fails
         }
         
+public async Task<IActionResult> AccountEdit()
+{
+    if (User.Identity.IsAuthenticated)
+    {
+        var user = await userManager.GetUserAsync(User);
+        _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+        ViewData["FilePath"] = user.FilePath;
+        ViewData["Username"] = user.FullName;
+        ViewData["Role"] = user.Role;
 
-
-        public async Task<IActionResult> AccountEdit()
-        {
-            if (User.Identity.IsAuthenticated)
+        var userId = user.Id; // Retrieve the user ID from the logged-in user
+        var quizzes = await _context.Quizzes
+            .Where(q => q.UserId == userId) // Filter quizzes by UserId
+            .Select(q => new Quiz
             {
-                var user = await userManager.GetUserAsync(User);
-                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
-                ViewData["FilePath"] = user.FilePath;
-                ViewData["Username"] = user.FullName;
-                ViewData["Role"] = user.Role;
-                
-            }
-            // Fetch all flashcards
-            var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
-            ViewData["Flashcards"] = flashcards;
+                QuizId = q.QuizId,
+                GradeLevel = q.GradeLevel ?? string.Empty,
+                Topic = q.Topic ?? string.Empty,
+                CorrectAnswers = q.CorrectAnswers ?? string.Empty,
+                JsonFilePath = q.JsonFilePath ?? string.Empty,
+                UserId = q.UserId,
+                HighestScore = q.HighestScore,
+                GameCode = q.GameCode ?? string.Empty
+            })
+            .ToListAsync();
 
-            return View();
-        }
+        var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
+        ViewData["Flashcards"] = flashcards;
+
+        var model = new AccountEditViewModel
+        {
+            NewUsername = user.FullName,
+            Quizzes = quizzes // Populate the Quizzes property
+        };
+
+        return View(model);
+    }
+
+    return RedirectToAction("Login", "Account");
+}
+
 
 [HttpPost]
 public async Task<IActionResult> AccountEdit(AccountEditViewModel model)

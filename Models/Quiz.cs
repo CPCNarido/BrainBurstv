@@ -9,6 +9,7 @@ namespace UsersApp.Models
         public string JsonFilePath { get; set; }
         public string UserId { get; set; }
         public Users User { get; set; }
+        public int HighestScore { get; set; }
         public string GameCode { get; set; } // Add GameCode property
     }
 }
