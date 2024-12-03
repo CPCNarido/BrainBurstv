@@ -72,10 +72,10 @@
                         <div class="bot">
                             <textarea class="question-text" name="Questions[${questionCount}]" placeholder="Enter question text..." disabled></textarea>
                             <div class="choices">
-                                <button type="button" class="choice" data-index="0">Choice 1</button>
-                                <button type="button" class="choice" data-index="1">Choice 2</button>
-                                <button type="button" class="choice" data-index="2">Choice 3</button>
-                                <button type="button" class="choice" data-index="3">Choice 4</button>
+                                <input type="text" class="choice" data-index="0" name="Choices[${questionCount}][0]" placeholder="Choice 1" disabled />
+                                <input type="text" class="choice" data-index="1" name="Choices[${questionCount}][1]" placeholder="Choice 2" disabled />
+                                <input type="text" class="choice" data-index="2" name="Choices[${questionCount}][2]" placeholder="Choice 3" disabled />
+                                <input type="text" class="choice" data-index="3" name="Choices[${questionCount}][3]" placeholder="Choice 4" disabled />
                             </div>
                             <div class="correct-answer">
                                 <input type="hidden" class="correct-answer-input" name="CorrectAnswers[${questionCount}]" />
@@ -140,7 +140,7 @@
 
                     formData.Choices[questionKey] = [];
                     $(this).find('.choice').each(function () {
-                        formData.Choices[questionKey].push($(this).text());
+                        formData.Choices[questionKey].push($(this).val());
                     });
                 });
 
@@ -194,11 +194,13 @@
                                         var choiceIndex = Model.Choices[question.Key].IndexOf(choice);
                                         var isCorrect = Model.CorrectAnswers.ContainsKey(question.Key) &&
                                                         Model.CorrectAnswers[question.Key] == choiceIndex;
-                                        <button type="button" 
-                                                class="choice @(isCorrect ? "correct-choice" : "")" 
-                                                data-index="@choiceIndex">
-                                            @choice
-                                        </button>
+
+                                        <input type="text" 
+                                            class="choice @(isCorrect ? "correct-choice" : "")" 
+                                            data-index="@choiceIndex"
+                                            name="Choices[@question.Key][@choiceIndex]"
+                                            value="@choice"
+                                            disabled />
                                     }
                                 }
                             </div>

@@ -47,12 +47,12 @@
                 });
 
                 // Start the timer for the current question
-                startTimer(timers[index + 1] || 0.1667); // Default to 10 seconds if no timer is specified
+                startTimer(timers[index + 1] || 10); // Default to 10 seconds if no timer is specified
             }
 
-            function startTimer(minutes) {
+            function startTimer(seconds) {
                 clearInterval(timer);
-                let timeLeft = minutes * 60; // Convert minutes to seconds
+                let timeLeft = seconds;
                 timer = setInterval(() => {
                     timeLeft--;
                     $('#timer').text(`Time left: ${timeLeft} secs`);
