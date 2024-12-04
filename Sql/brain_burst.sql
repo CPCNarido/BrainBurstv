@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2024 at 04:11 AM
+-- Generation Time: Dec 04, 2024 at 08:01 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -141,19 +141,20 @@ CREATE TABLE `flashcards` (
   `Description` text NOT NULL,
   `JsonFilePath` varchar(255) DEFAULT NULL,
   `CreatedBy` varchar(450) NOT NULL,
-  `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `CreatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UserId` varchar(450) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `flashcards`
 --
 
-INSERT INTO `flashcards` (`Id`, `Title`, `Description`, `JsonFilePath`, `CreatedBy`, `CreatedAt`) VALUES
-(1, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/3167a6a9-f1f3-4840-9c45-a92e2042d60c.json', 'Ai', '2024-12-03 19:51:23'),
-(2, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/a3ce073d-b908-4663-936f-92bef745018c.json', 'Ai', '2024-12-03 19:52:48'),
-(3, 'Hai', 'asdasdas', 'wwwroot/flashcards/50ccf6ef-1e4a-47a7-b67b-beee01dea96c.json', 'Manual', '2024-12-03 19:58:25'),
-(4, 'Hai', 'asdasdas', 'wwwroot/flashcards/96bf086d-cbcc-457e-9e24-8157dfb62908.json', 'Manual', '2024-12-03 19:58:42'),
-(5, 'sad', 'asdads', 'wwwroot/flashcards/933de7b5-0de6-46a2-8783-5bffce90eac4.json', 'Manual', '2024-12-03 20:17:01');
+INSERT INTO `flashcards` (`Id`, `Title`, `Description`, `JsonFilePath`, `CreatedBy`, `CreatedAt`, `UserId`) VALUES
+(1, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/3167a6a9-f1f3-4840-9c45-a92e2042d60c.json', 'Ai', '2024-12-03 19:51:23', ''),
+(2, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/a3ce073d-b908-4663-936f-92bef745018c.json', 'Ai', '2024-12-03 19:52:48', ''),
+(3, 'Hai', 'asdasdas', 'wwwroot/flashcards/50ccf6ef-1e4a-47a7-b67b-beee01dea96c.json', 'Manual', '2024-12-03 19:58:25', ''),
+(4, 'Hai', 'asdasdas', 'wwwroot/flashcards/96bf086d-cbcc-457e-9e24-8157dfb62908.json', 'Manual', '2024-12-03 19:58:42', ''),
+(5, 'sad', 'asdads', 'wwwroot/flashcards/933de7b5-0de6-46a2-8783-5bffce90eac4.json', 'Manual', '2024-12-03 20:17:01', '');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,8 @@ INSERT INTO `quizzes` (`QuizId`, `GradeLevel`, `Topic`, `CorrectAnswers`, `JsonF
 (27, 'Elementary', 'Addition', '[\"b\",\"c\",\"c\",\"c\",\"c\"]', 'wwwroot\\quizzes\\fdebe49c-0268-4e42-b041-0f52a1b52421.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '213123', 'Manual', '2024-12-04 01:11:48'),
 (28, 'College', 'Addition', '[1,1,0,1,0]', 'wwwroot\\quizzes\\6f9a7b5c-27e6-4563-8787-caa8950ac059.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '963180', 'Manual', '2024-12-04 01:11:48'),
 (29, 'College', 'Psychology', '[1,1,1,1,1]', 'wwwroot\\quizzes\\7190738c-ff29-4892-a9b3-7bc7aba50e38.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '249671', 'Manual', '2024-12-04 01:11:48'),
-(30, 'College', 'Addition', '[1,1,0,2,1]', 'wwwroot\\quizzes\\549e2326-fc56-4b8d-b3ce-09462e83770e.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '871866', 'Manual', '2024-12-04 01:11:48');
+(30, 'College', 'Addition', '[1,1,0,2,1]', 'wwwroot\\quizzes\\549e2326-fc56-4b8d-b3ce-09462e83770e.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '871866', 'Manual', '2024-12-04 01:11:48'),
+(31, 'Elementary', 'Addition', '[1,2,2,2,2]', 'wwwroot\\quizzes\\86f890b5-90f5-45b8-a59f-9269744a0d63.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '430814', 'Ai', '2024-12-04 15:43:52');
 
 --
 -- Triggers `quizzes`
@@ -257,15 +259,19 @@ CREATE TABLE `reviews` (
   `UserName` varchar(255) NOT NULL,
   `UserRole` varchar(255) NOT NULL,
   `Rating` int NOT NULL,
-  `Feedback` text
+  `Feedback` text,
+  `FilePath` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `reviews` (`Id`, `UserName`, `UserRole`, `Rating`, `Feedback`) VALUES
-(1, 'christinsdasd', 'Student', 5, 'dfsdfsdf');
+INSERT INTO `reviews` (`Id`, `UserName`, `UserRole`, `Rating`, `Feedback`, `FilePath`) VALUES
+(1, 'christinsdasd', 'Student', 5, 'dfsdfsdf', '/profile_images/default.png'),
+(2, 'Christian Paul Narido', 'Student', 1, 'sdasdasdasd', '/profile_images/default.png'),
+(3, 'Christian Paul Narido', 'Student', 4, 'sdasdsad', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif'),
+(4, 'Christian Paul Narido', 'Student', 4, 'sdasdsad', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif');
 
 -- --------------------------------------------------------
 
@@ -326,7 +332,9 @@ INSERT INTO `scorerecords` (`ScoreRecordId`, `QuizId`, `UserId`, `Score`, `Submi
 (38, 28, 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '2024-12-03 10:50:01'),
 (39, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 3, '2024-12-03 15:24:37'),
 (40, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 1, '2024-12-03 15:25:20'),
-(41, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 1, '2024-12-03 15:25:28');
+(41, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 1, '2024-12-03 15:25:28'),
+(42, 31, '885efb3e-8e0f-4593-b855-6489a1fd5279', 1, '2024-12-04 07:44:47'),
+(43, 31, '885efb3e-8e0f-4593-b855-6489a1fd5279', 1, '2024-12-04 07:44:51');
 
 --
 -- Indexes for dumped tables
@@ -391,19 +399,19 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `QuizId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `QuizId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `scorerecords`
 --
 ALTER TABLE `scorerecords`
-  MODIFY `ScoreRecordId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `ScoreRecordId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
