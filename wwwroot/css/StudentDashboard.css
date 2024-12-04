@@ -1,11 +1,82 @@
 *{
     font-family: 'Rum Raisin', sans-serif;
 }
-.quiz-results{
-    font-size: 70px;
+
+.quiz-report-titles, .flashcards-report-titles {
+    font-family: Rum Raisin;
+    font-size: 2rem;
+    color: #FFFDC1;
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 
+    2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 
+    3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 
+    3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20,
+    0 0 10px rgba(0, 0, 0, 1);
+    font-weight: 300;
+    margin-bottom: 1.5%;
+}
+
+.flashcards-report-titles{
+    margin-top: 100px;
+}
+
+.quiz-report-description, .flashcards-report-description {
+    font-family: Rum Raisin;
     color: #2B550E;
+    font-size: 1.3rem;
+}
+
+.quiz-top-chart-container, .flashcards-top-chart-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Left is 1 part, right is 3 parts */
+    gap: 40px; 
     align-items: center;
+    margin-top: 3%;
+}
+
+.quiz-box-pie-chart, .flashcards-box-pie-chart {
+    border: 2px solid #2B550E;
+    border-radius: 20px;
+    padding: 10% 5%;
+}
+
+.quiz-report-note, .flashcards-report-note {
+    font-family: Rum Raisin;
+    margin-top: 2%;
     text-align: center;
+    color: #2B550E;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px #00000036;
+}
+
+.quiz-box-reports, .flashcards-box-reports {
+    margin-top: -25px;
+    background-color:#9FDB5D;
+    border: 2px solid #2B550E;
+    height: 220px;
+    border-radius: 20px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 5%;
+    font-family: Rum Raisin;
+    color: #2B550E;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quiz-results {
+    margin-top: 100px;
+    font-family: Rum Raisin;
+    font-size: 2rem;
+    color: #FFFDC1;
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 
+    2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 
+    3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 
+    3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20,
+    0 0 10px rgba(0, 0, 0, 1);
+    font-weight: 300;
+    margin-bottom: 1.5%;
 }
 
 .results-table {
