@@ -343,7 +343,6 @@
 
 .accept-button {
     border-radius: 10px;
-    border: 1px solid var(--black-100, #000);
     background: #FFFDC1;
     width: 200px;
     height: 40px;
@@ -360,4 +359,25 @@
 .accept-button:hover {
     background-color: #2B550E; /* Change background color on hover */
     color: #FFFDC1
+}
+
+.accept-terms-button {
+    border-radius: 10px;
+    border: 2px solid var (#2B550E);
+    background: #FFFDC1;
+    width: 200px;
+    height: 40px;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accept-terms-button:hover {
+    background-color: #2B550E; /* Change background color on hover */
+    color: #FFFDC1;
 }

@@ -108,15 +108,20 @@
                 <p><strong>10. Governing Law:</strong> These terms will be governed by and construed according to the laws of the Philippines, without regard to its conflict of law principles.</p>
                 <p><strong>11. Contact Us:</strong> If you have any questions about these Terms of Service, please contact us at [Email].</p>
             </div>
+            <button class="accept-terms-button" onclick="acceptTermsAndCloseModal()">I accept these terms</button>
         </div>
     </div>
 </div>
 
     <script>        
         document.getElementById('acceptTerms').addEventListener('change', function(event) {
-            // Show the modal when the checkbox is clicked
-            document.getElementById('termsModal').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Disable background scrolling
+            if (event.target.checked) {
+                // Show the modal when the checkbox is checked
+                document.getElementById('termsModal').style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Disable background scrolling
+            } else {
+                acceptTerms();
+            }
         });
 
         // Function to enable or disable the signup button based on checkbox state
@@ -142,6 +147,13 @@
 
         // Add click event to close button in the modal
         document.querySelector('.close').addEventListener('click', closeModal);
+
+        function acceptTermsAndCloseModal() {
+            var checkbox = document.getElementById('acceptTerms');
+            checkbox.checked = true;
+            acceptTerms();
+            closeModal();
+        }
     </script>
 </body>
 </html>
