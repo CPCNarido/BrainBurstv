@@ -96,9 +96,7 @@
                          @foreach (var review in Model)
                         {
                             <div class="review-container">
-                                <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="107" height="99" viewBox="0 0 107 99" fill="none">
-                                    <path d="M106.024 49.7937C106.024 76.4966 82.6175 98.2085 53.6612 98.2085C24.705 98.2085 1.29883 76.4966 1.29883 49.7937C1.29883 23.0908 24.705 1.37891 53.6612 1.37891C82.6175 1.37891 106.024 23.0908 106.024 49.7937Z" fill="#FFFDC1"/>
-                                </svg>
+                                <img src="@review.FilePath" class="circle" width="107" height="99" style="border-radius: 50%;" viewBox="0 0 107 99" fill="none">
                                 <div class="rectangle">
                                     <span>@review.UserName</span>
                                     <span>@review.UserRole</span>
