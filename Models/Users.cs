@@ -7,5 +7,6 @@ namespace UsersApp.Models
         public string FullName { get; set; }
         public string Role { get; set; } // Add this line
         public string FilePath { get; set; }
+        public DateTime Created_At { get; set; }
     }
 }

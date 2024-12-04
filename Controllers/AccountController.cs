@@ -305,6 +305,7 @@ public async Task<IActionResult> AccountEdit()
 
         var TotalContentCount = TotalQuizCount + TotalFlashcardCount;
         ViewData["TotalContentCount"] = TotalContentCount;
+        
 
         var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
 
@@ -316,15 +317,6 @@ public async Task<IActionResult> AccountEdit()
             Flashcards = flashcards, // Populate the Flashcards property
             Quizzes = quizzes // Populate the Quizzes property
         };
-
-        if (user.Role == "Student")
-        {
-            var quizResults = await _context.ScoreRecords
-                .Include(sr => sr.Quiz) // Include the Quiz reference
-                .Where(qr => qr.UserId == user.Id)
-                .ToListAsync();
-            ViewData["QuizResults"] = quizResults;
-        }
 
         return View(model);
     }

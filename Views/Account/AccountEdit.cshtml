@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -29,6 +28,11 @@
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
         }
+
+
+
+        
+        
 
     </div>
 
@@ -71,10 +75,8 @@
                             </div>
                         </div>
                         <div class="content-created">
-                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"] Contents
+                            Total Number of Quiz Created/Generated: @ViewData["TotalContentCount"] Contents
                         </div>
-
-
                     </div>
 
                 </div>
@@ -153,65 +155,10 @@
                 </div>
         }
         else if((string)@ViewData["Role"] == "Professor"){
-            <div class="quiz-results">
-                <h2>My Quiz Results</h2>
-            </div>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Quiz Name</th>
-                        <th>Score</th>
-                        <th>Date Taken</th>
-                        <th>View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if(ViewData["QuizResults"] != null)
-                    {
-                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
-                        {
-                            <tr>
-                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
-                                <td>@result.Score</td>
-                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
-                                <td>View</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="4">No quiz results available.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <p>Professors</p>
         }
         else if((string)@ViewData["Role"] == "Student"){
-            <div class="quiz-results">
-                <h2>My Quiz Results</h2>
-            </div>
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Quiz Name</th>
-                            <th>Score</th>
-                            <th>Date Taken</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
-                        {
-                            <tr>
-                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
-                                <td>@result.Score</td>
-                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
-                                <td>View</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <p>Students</p>
         }
         </div>
 
