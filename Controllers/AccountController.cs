@@ -290,7 +290,10 @@ public async Task<IActionResult> AccountEdit()
         var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
         var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
         var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
+        ViewData["aiFlashcardCount"] = aiFlashcardCount;
+        ViewData["manualFlashcardCount"] = manualFlashcardCount;
         ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
+
 
 
         var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
@@ -299,7 +302,9 @@ public async Task<IActionResult> AccountEdit()
         ViewData["TotalUserCount"] = TotalUserCount;
         ViewData["ProfessorCount"] = professorCount;
         ViewData["StudentCount"] = studentCount;
-        
+
+        var TotalContentCount = TotalQuizCount + TotalFlashcardCount;
+        ViewData["TotalContentCount"] = TotalContentCount;
 
         var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
 

@@ -52,22 +52,35 @@
                     </div>
 
                     <div class="box-reports">
+
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>Quizzes</h1>
+                                    AI Generated Quizzes: @Model.AiQuizCount
+                                </div>
+                                <div class="number-of-flashcards">
+                                    Manually Created Quizzes: @Model.ManualQuizCount
+                                </div>
+                            </div>
+
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Flashcards</h1>
+                                    AI Generated FlashCard: @ViewData["aiFlashcardCount"]
+                                </div>
+                                <div class="number-of-flashcards">
+                                    Manually Created FlashCard: @ViewData["manualFlashcardCount"]
+                                </div>
+                            </div>
+                        </div>
                         <div class="content-created">
-                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"]
+                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"] Contents
                         </div>
-                        <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
-                         <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
+
+
                     </div>
+
                 </div>
 
 

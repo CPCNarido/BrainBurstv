@@ -420,3 +420,13 @@
     font-family: "Rum Raisin", sans-serif;
 }
 
+.sp{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5%;
+}
+.content-created{
+    margin-top: 2%;
+    text-align: center;
+}
