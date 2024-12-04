@@ -8,5 +8,7 @@ namespace UsersApp.ViewModels
         public int Rating { get; set; }
 
         public string Feedback { get; set; }
+
+        public string FilePath{get; set;}
     }
 }

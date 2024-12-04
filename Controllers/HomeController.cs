@@ -136,12 +136,14 @@ namespace UsersApp.Controllers
                     var user = await _userManager.GetUserAsync(User);
                     userName = user.FullName;
                     userRole = user.Role;
+                    model.FilePath = user.FilePath;
                 }
 
                 var review = new Review
                 {
                     UserName = userName,
                     UserRole = userRole,
+                    FilePath = model.FilePath,
                     Rating = model.Rating,
                     Feedback = model.Feedback
                 };
