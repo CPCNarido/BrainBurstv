@@ -11,25 +11,25 @@
             <div class="l">
                 <div class="number-of-quiz">
                     <h1>Quizzes</h1>
-                    AI Generated Quizzes: @ViewData["YearlyAiQuizCount"]
+                    AI Generated Quizzes: @ViewData["AiQuizCount"]
                 </div>
                 <div class="number-of-flashcards">
-                    Manually Created Quizzes: @ViewData["YearlyManualQuizCount"]
+                    Manually Created Quizzes: @ViewData["ManualQuizCount"]
                 </div>
             </div>
 
             <div class="r">
                 <div class="number-of-quiz">
                     <h1>Flashcards</h1>
-                    AI Generated FlashCard: @ViewData["YearlyAiFlashcardCount"]
+                    AI Generated FlashCard: @ViewData["AiFlashcardCount"]
                 </div>
                 <div class="number-of-flashcards">
-                    Manually Created FlashCard: @ViewData["YearlyManualFlashcardCount"]
+                    Manually Created FlashCard: @ViewData["ManualFlashcardCount"]
                 </div>
             </div>
         </div>
         <div class="content-created">
-            Total Number of Quiz Created/Generated: @ViewData["YearlyQuizCount"] Contents
+            Total Number of Quiz Created/Generated: @ViewData["TotalContentCount"] Contents
         </div>
     </div>
 </div>
@@ -41,26 +41,26 @@
     <div class="left-box-report">
         <div class="quizzes-average">
             <h1>Average Quizzes Created per Month</h1>
-            <p>@ViewData["YearlyQuizCount"]</p>
+            <p>50</p>
         </div>
         <div class="quizzes-average">
             <h1>Average Flashcards Created per Month</h1>
-            <p>@ViewData["YearlyFlashcardCount"]</p>
+            <p>50</p>
         </div>
     </div>
     <div class="right-box-report">
         <div class="left-right-box-report">
             <div class="population-report">
                 <h1>Total Number of Users:</h1>
-                <p>@ViewData["YearlyUserCount"]</p>
+                <p>@ViewData["TotalUserCount"]</p>
             </div>
             <div class="population-report">
                 <h1>Total Number of Students:</h1>
-                <p>@ViewData["YearlyStudentCount"]</p>
+                <p>@ViewData["StudentCount"]</p>
             </div>
             <div class="population-report">
                 <h1>Total Number of Professors:</h1>
-                <p>@ViewData["YearlyProfessorCount"]</p>
+                <p>@ViewData["ProfessorCount"]</p>
             </div>
         </div>
         <div class="right-right-box-report">
@@ -114,7 +114,7 @@ const myPieChart1 = new Chart(ctx1, {
     data: {
         labels: ['AI Generated Quizzes', 'Manually Created Quizzes', 'AI Generated Flashcards', 'Manually Created Flashcards'],
         datasets: [{
-            data: [@ViewData["YearlyAiQuizCount"], @ViewData["YearlyManualQuizCount"], @ViewData["YearlyAiFlashcardCount"], @ViewData["YearlyManualFlashcardCount"]],
+            data: [@ViewData["AiQuizCount"], @ViewData["ManualQuizCount"], @ViewData["AiFlashcardCount"], @ViewData["ManualFlashcardCount"]],
             backgroundColor: [
                 'rgba(58, 183, 26, 1)',
                 'rgba(255, 222, 62, 1)',
@@ -150,7 +150,7 @@ const myPieChart2 = new Chart(ctx2, {
         labels: ['Professor', 'Student'],
         datasets: [{
             label: 'User Count',
-            data: [@ViewData["YearlyProfessorCount"], @ViewData["YearlyStudentCount"]],
+            data: [@ViewData["ProfessorCount"], @ViewData["StudentCount"]],
             backgroundColor: [
                 'rgba(58, 183, 26, 1)',
                 'rgba(255, 222, 62, 1)',
