@@ -326,6 +326,13 @@ public async Task<IActionResult> AccountEdit()
                 .Where(qr => qr.UserId == user.Id)
                 .ToListAsync();
             ViewData["QuizResults"] = quizResults;
+        } else if(user.Role == "Professor")
+        {
+            var quizResults = await _context.ScoreRecords
+                .Include(sr => sr.Quiz) // Include the Quiz reference
+                .Where(qr => qr.Quiz.UserId == user.Id)
+                .ToListAsync();
+            ViewData["QuizResults"] = quizResults;
         }
 
         return View(model);

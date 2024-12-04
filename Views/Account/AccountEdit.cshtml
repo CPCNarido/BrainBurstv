@@ -156,7 +156,104 @@
                 </div>
         }
         else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+                <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+
+                <div class="quiz-top-chart-container">
+                    <div>
+                        <div class="quiz-box-pie-chart">
+                            <canvas id="myPieChart5" width="220" height="240"></canvas>
+                        </div>
+                        <p class="quiz-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="quiz-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Quizzes</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Quizzes</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Quiz Created: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="flashcards-report-titles"> Flashcards Report</h1>
+                <p class="flashcards-report-description">Overview of Flashcards, Manual and AI</p>
+
+                <div class="flashcards-top-chart-container">
+                    <div>
+                        <div class="flashcards-box-pie-chart">
+                            <canvas id="myPieChart6" width="220" height="240"></canvas>
+                        </div>
+                        <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="flashcards-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Flashcards</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Flashcards</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Flashcards: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-results">
+                    Quiz Results
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Date Taken</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
         }
         else if((string)@ViewData["Role"] == "Student"){
             <h1 class="quiz-report-titles"> Quiz Report</h1>
