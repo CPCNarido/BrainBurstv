@@ -72,7 +72,8 @@ namespace UsersApp.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     FilePath = "/profile_images/default.png",
-                    Role = model.Role
+                    Role = model.Role,
+                    Created_At = DateTime.Now
                 };
 
                 var result = await userManager.CreateAsync(users, model.Password);
