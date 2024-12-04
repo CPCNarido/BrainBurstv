@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -54,10 +55,204 @@
             </div>
         }
         else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+                <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+
+                <div class="quiz-top-chart-container">
+                    <div>
+                        <div class="quiz-box-pie-chart">
+                            <canvas id="myPieChart7" width="220" height="240"></canvas>
+                        </div>
+                        <p class="quiz-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="quiz-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Quizzes</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Quizzes</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Quiz Created: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="flashcards-report-titles"> Flashcards Report</h1>
+                <p class="flashcards-report-description">Overview of Flashcards, Manual and AI</p>
+
+                <div class="flashcards-top-chart-container">
+                    <div>
+                        <div class="flashcards-box-pie-chart">
+                            <canvas id="myPieChart8" width="220" height="240"></canvas>
+                        </div>
+                        <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="flashcards-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Flashcards</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Flashcards</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Flashcards: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-results">
+                    Quiz Results
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Date Taken</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
         }
         else if((string)@ViewData["Role"] == "Student"){
-            <p>Students</p>
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+                <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+
+                <div class="quiz-top-chart-container">
+                    <div>
+                        <div class="quiz-box-pie-chart8">
+                            <canvas id="myPieChart5" width="220" height="240"></canvas>
+                        </div>
+                        <p class="quiz-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="quiz-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Quizzes</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Quizzes</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Quiz Taken: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="flashcards-report-titles"> Flashcards Report</h1>
+                <p class="flashcards-report-description">Overview of Flashcards, Manual and AI</p>
+
+                <div class="flashcards-top-chart-container">
+                    <div>
+                        <div class="flashcards-box-pie-chart">
+                            <canvas id="myPieChart6" width="220" height="240"></canvas>
+                        </div>
+                        <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="flashcards-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Flashcards</h1>
+                                    @Model.AiQuizCount
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Flashcards</h1>
+                                    @Model.ManualQuizCount
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Flashcards: @ViewData["TotalContentCount"] Contents
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-results">
+                    Quiz Results
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Date Taken</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
         }
         </div>
 
@@ -179,6 +374,138 @@
 
     
                 
+
+    <script>
+    // Pie Chart 5
+    const ctx5 = document.getElementById('myPieChart5').getContext('2d');
+    const myPieChart5 = new Chart(ctx5, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
+            datasets: [{
+                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+
+    // Pie Chart 6
+    const ctx6 = document.getElementById('myPieChart6').getContext('2d');
+    const myPieChart6 = new Chart(ctx6, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
+            datasets: [{
+                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
+                backgroundColor: [
+                    'rgba(56, 112, 18, 1)',
+                    'rgba(255, 207, 4, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+</script>
+
+<script>
+    // Pie Chart 7
+    const ctx7 = document.getElementById('myPieChart7').getContext('2d');
+    const myPieChart7 = new Chart(ctx7, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
+            datasets: [{
+                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+
+    // Pie Chart 8
+    const ctx8 = document.getElementById('myPieChart8').getContext('2d');
+    const myPieChart8 = new Chart(ctx8, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
+            datasets: [{
+                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
+                backgroundColor: [
+                    'rgba(56, 112, 18, 1)',
+                    'rgba(255, 207, 4, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+</script>
 
 <script>
     function handleDragOver(event) {

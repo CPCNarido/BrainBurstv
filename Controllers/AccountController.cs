@@ -369,6 +369,22 @@ public async Task<IActionResult> AccountEdit(string period = "daily")
             AiQuizCount = dailyAiQuizCount + monthlyAiQuizCount + yearlyAiQuizCount
         };
 
+        if (user.Role == "Student")
+        {
+            var quizResults = await _context.ScoreRecords
+                .Include(sr => sr.Quiz) // Include the Quiz reference
+                .Where(qr => qr.UserId == user.Id)
+                .ToListAsync();
+            ViewData["QuizResults"] = quizResults;
+        } else if(user.Role == "Professor")
+        {
+            var quizResults = await _context.ScoreRecords
+                .Include(sr => sr.Quiz) // Include the Quiz reference
+                .Where(qr => qr.Quiz.UserId == user.Id)
+                .ToListAsync();
+            ViewData["QuizResults"] = quizResults;
+        }
+
         return View(model);
     }
 
