@@ -162,7 +162,7 @@
                 <div class="quiz-top-chart-container">
                     <div>
                         <div class="quiz-box-pie-chart">
-                            <canvas id="myPieChart5" width="220" height="240"></canvas>
+                            <canvas id="myPieChart7" width="220" height="240"></canvas>
                         </div>
                         <p class="quiz-report-note"> AI Generated vs Manually Created</p>
                     </div>
@@ -198,7 +198,7 @@
                 <div class="flashcards-top-chart-container">
                     <div>
                         <div class="flashcards-box-pie-chart">
-                            <canvas id="myPieChart6" width="220" height="240"></canvas>
+                            <canvas id="myPieChart8" width="220" height="240"></canvas>
                         </div>
                         <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
                     </div>
@@ -261,7 +261,7 @@
 
                 <div class="quiz-top-chart-container">
                     <div>
-                        <div class="quiz-box-pie-chart">
+                        <div class="quiz-box-pie-chart8">
                             <canvas id="myPieChart5" width="220" height="240"></canvas>
                         </div>
                         <p class="quiz-report-note"> AI Generated vs Manually Created</p>
@@ -665,6 +665,72 @@ const myPieChart4 = new Chart(ctx4, {
     // Pie Chart 6
     const ctx6 = document.getElementById('myPieChart6').getContext('2d');
     const myPieChart6 = new Chart(ctx6, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
+            datasets: [{
+                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
+                backgroundColor: [
+                    'rgba(56, 112, 18, 1)',
+                    'rgba(255, 207, 4, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+</script>
+
+<script>
+    // Pie Chart 7
+    const ctx7 = document.getElementById('myPieChart7').getContext('2d');
+    const myPieChart7 = new Chart(ctx7, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
+            datasets: [{
+                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+
+    // Pie Chart 8
+    const ctx8 = document.getElementById('myPieChart8').getContext('2d');
+    const myPieChart8 = new Chart(ctx8, {
         type: 'pie',
         data: {
             labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
