@@ -257,7 +257,7 @@ namespace UsersApp.Controllers
             return View("AccountSettings"); // Return to settings page if the upload fails
         }
         
-public async Task<IActionResult> AccountEdit()
+public async Task<IActionResult> AccountEdit(string period = "daily")
 {
     if (User.Identity.IsAuthenticated)
     {
@@ -283,40 +283,90 @@ public async Task<IActionResult> AccountEdit()
             })
             .ToListAsync();
 
-        var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
-        var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
-        var TotalQuizCount = manualQuizCount + aiQuizCount;
-        ViewData["TotalQuizCount"] = TotalQuizCount;
+        // Daily, Monthly, and Yearly counts
+        var today = DateTime.Today;
+        var startOfMonth = new DateTime(today.Year, today.Month, 1);
+        var startOfYear = new DateTime(today.Year, 1, 1);
 
-        var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
-        var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
-        var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
-        ViewData["aiFlashcardCount"] = aiFlashcardCount;
-        ViewData["manualFlashcardCount"] = manualFlashcardCount;
-        ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
+        var dailyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt.Date == today);
+        var monthlyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt >= startOfMonth);
+        var yearlyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt >= startOfYear);
 
+        ViewData["DailyQuizCount"] = dailyQuizCount;
+        ViewData["MonthlyQuizCount"] = monthlyQuizCount;
+        ViewData["YearlyQuizCount"] = yearlyQuizCount;
 
+        var dailyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt.Date == today);
+        var monthlyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt >= startOfMonth);
+        var yearlyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt >= startOfYear);
 
-        var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
-        var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
-        var TotalUserCount = professorCount + studentCount;
-        ViewData["TotalUserCount"] = TotalUserCount;
-        ViewData["ProfessorCount"] = professorCount;
-        ViewData["StudentCount"] = studentCount;
+        ViewData["DailyFlashcardCount"] = dailyFlashcardCount;
+        ViewData["MonthlyFlashcardCount"] = monthlyFlashcardCount;
+        ViewData["YearlyFlashcardCount"] = yearlyFlashcardCount;
 
-        var TotalContentCount = TotalQuizCount + TotalFlashcardCount;
-        ViewData["TotalContentCount"] = TotalContentCount;
-        
+        var dailyUserCount = await userManager.Users.CountAsync(u => u.Created_At.Date == today);
+        var monthlyUserCount = await userManager.Users.CountAsync(u => u.Created_At >= startOfMonth);
+        var yearlyUserCount = await userManager.Users.CountAsync(u => u.Created_At >= startOfYear);
 
-        var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
+        ViewData["DailyUserCount"] = dailyUserCount;
+        ViewData["MonthlyUserCount"] = monthlyUserCount;
+        ViewData["YearlyUserCount"] = yearlyUserCount;
+
+        var dailyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At.Date == today);
+        var monthlyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At >= startOfMonth);
+        var yearlyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At >= startOfYear);
+
+        ViewData["DailyStudentCount"] = dailyStudentCount;
+        ViewData["MonthlyStudentCount"] = monthlyStudentCount;
+        ViewData["YearlyStudentCount"] = yearlyStudentCount;
+
+        var dailyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At.Date == today);
+        var monthlyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At >= startOfMonth);
+        var yearlyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At >= startOfYear);
+
+        ViewData["DailyProfessorCount"] = dailyProfessorCount;
+        ViewData["MonthlyProfessorCount"] = monthlyProfessorCount;
+        ViewData["YearlyProfessorCount"] = yearlyProfessorCount;
+
+        var dailyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt.Date == today);
+        var monthlyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt >= startOfMonth);
+        var yearlyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt >= startOfYear);
+
+        ViewData["DailyManualFlashcardCount"] = dailyManualFlashcardCount;
+        ViewData["MonthlyManualFlashcardCount"] = monthlyManualFlashcardCount;
+        ViewData["YearlyManualFlashcardCount"] = yearlyManualFlashcardCount;
+
+        var dailyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt.Date == today);
+        var monthlyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt >= startOfMonth);
+        var yearlyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt >= startOfYear);
+
+        ViewData["DailyAiFlashcardCount"] = dailyAiFlashcardCount;
+        ViewData["MonthlyAiFlashcardCount"] = monthlyAiFlashcardCount;
+        ViewData["YearlyAiFlashcardCount"] = yearlyAiFlashcardCount;
+
+        var dailyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt.Date == today);
+        var monthlyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt >= startOfMonth);
+        var yearlyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt >= startOfYear);
+
+        ViewData["DailyManualQuizCount"] = dailyManualQuizCount;
+        ViewData["MonthlyManualQuizCount"] = monthlyManualQuizCount;
+        ViewData["YearlyManualQuizCount"] = yearlyManualQuizCount;
+
+        var dailyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt.Date == today);
+        var monthlyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt >= startOfMonth);
+        var yearlyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt >= startOfYear);
+
+        ViewData["DailyAiQuizCount"] = dailyAiQuizCount;
+        ViewData["MonthlyAiQuizCount"] = monthlyAiQuizCount;
+        ViewData["YearlyAiQuizCount"] = yearlyAiQuizCount;
 
         var model = new AccountEditViewModel
         {
             NewUsername = user.FullName,
-            ManualQuizCount = manualQuizCount,
-            AiQuizCount = aiQuizCount,
-            Flashcards = flashcards, // Populate the Flashcards property
-            Quizzes = quizzes // Populate the Quizzes property
+            Flashcards = await _context.Flashcards.Where(f => f.UserId == userId).ToListAsync(),
+            Quizzes = quizzes,
+            ManualQuizCount = dailyManualQuizCount + monthlyManualQuizCount + yearlyManualQuizCount,
+            AiQuizCount = dailyAiQuizCount + monthlyAiQuizCount + yearlyAiQuizCount
         };
 
         return View(model);
@@ -324,7 +374,64 @@ public async Task<IActionResult> AccountEdit()
 
     return RedirectToAction("Login", "Account");
 }
+public IActionResult GetContentReport(string filter)
+{
+    var now = DateTime.UtcNow;
 
+    // Fetch data based on filter (daily, monthly, yearly)
+    IQueryable<Quiz> quizzesQuery = _context.Quizzes.AsQueryable();
+    IQueryable<Flashcard> flashcardsQuery = _context.Flashcards.AsQueryable();
+
+    // Filter quizzes and flashcards based on the selected date range
+    if (filter == "daily")
+    {
+        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Date == now.Date);
+        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Date == now.Date);
+    }
+    else if (filter == "monthly")
+    {
+        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Month == now.Month && q.CreatedAt.Year == now.Year);
+        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Month == now.Month && f.CreatedAt.Year == now.Year);
+    }
+    else if (filter == "yearly")
+    {
+        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Year == now.Year);
+        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Year == now.Year);
+    }
+
+    // Count AI and manual created content
+    var aiQuizCount = quizzesQuery.Count(q => q.Created_by == "Ai");
+    var manualQuizCount = quizzesQuery.Count(q => q.Created_by == "Manual");
+    var aiFlashcardCount = flashcardsQuery.Count(f => f.CreatedBy == "Ai");
+    var manualFlashcardCount = flashcardsQuery.Count(f => f.CreatedBy == "Manual");
+
+    // Total counts
+    var totalQuizCount = aiQuizCount + manualQuizCount;
+    var totalFlashcardCount = aiFlashcardCount + manualFlashcardCount;
+
+    // Populate ViewData
+    ViewData["AiQuizCount"] = aiQuizCount;
+    ViewData["ManualQuizCount"] = manualQuizCount;
+    ViewData["AiFlashcardCount"] = aiFlashcardCount;
+    ViewData["ManualFlashcardCount"] = manualFlashcardCount;
+    ViewData["TotalQuizCount"] = totalQuizCount;
+    ViewData["TotalFlashcardCount"] = totalFlashcardCount;
+    ViewData["TotalContentCount"] = totalQuizCount + totalFlashcardCount;
+
+    // Return the appropriate partial view based on the filter
+    if (filter == "daily")
+    {
+        return PartialView("_DailyReport");
+    }
+    else if (filter == "monthly")
+    {
+        return PartialView("_MonthlyReport");
+    }
+    else // yearly
+    {
+        return PartialView("_YearlyReport");
+    }
+}
 
 
 [HttpPost]

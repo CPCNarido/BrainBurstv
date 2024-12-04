@@ -126,7 +126,8 @@ public async Task<IActionResult> GenerateFlashcard([FromForm] string topic, [Fro
         JsonFilePath = filePath.Replace("\\", "/"), // Store the file path in the database
         CreatedBy ="Ai",
         CreatedAt = DateTime.UtcNow,
-        Questions = questions
+        Questions = questions,
+        UserId = userId
     };
 
     _context.Flashcards.Add(flashcard);
@@ -290,7 +291,8 @@ private List<Question> ParseFlashcardContent(string responseContent)
                 JsonFilePath = filePath.Replace("\\", "/"), // Store the file path in the database
                 CreatedBy = "Manual",
                 CreatedAt = DateTime.UtcNow,
-                Questions = questions
+                Questions = questions,
+                UserId = userId
             };
 
             _context.Flashcards.Add(flashcard);

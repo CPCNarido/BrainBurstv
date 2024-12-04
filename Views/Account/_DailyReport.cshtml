@@ -1,0 +1,260 @@
+<div class="top-chart-container">
+    <div>
+        <div class="box-pie-chart">
+            <canvas id="myPieChart1" width="220" height="240"></canvas>
+        </div>
+        <p class="report-note"> AI Generated vs Manually Created</p>
+    </div>
+
+    <div class="box-reports">
+        <div class="sp">
+            <div class="l">
+                <div class="number-of-quiz">
+                    <h1>Quizzes</h1>
+                    AI Generated Quizzes: @ViewData["DailyAiQuizCount"]
+                </div>
+                <div class="number-of-flashcards">
+                    Manually Created Quizzes: @ViewData["DailyManualQuizCount"]
+                </div>
+            </div>
+
+            <div class="r">
+                <div class="number-of-quiz">
+                    <h1>Flashcards</h1>
+                    AI Generated FlashCard: @ViewData["DailyAiFlashcardCount"]
+                </div>
+                <div class="number-of-flashcards">
+                    Manually Created FlashCard: @ViewData["DailyManualFlashcardCount"]
+                </div>
+            </div>
+        </div>
+        <div class="content-created">
+            Total Number of Quiz Created/Generated: @ViewData["DailyQuizCount"] Contents
+        </div>
+    </div>
+</div>
+
+<h1 class="report-titles" id="margin-top-text"> User Report</h1>
+<p class="report-description">Overview of users and their activities on BrainBurst</p>
+
+<div class="mid-chart-container">
+    <div class="left-box-report">
+        <div class="quizzes-average">
+            <h1>Average Quizzes Created per Month</h1>
+            <p>@ViewData["DailyQuizCount"]</p>
+        </div>
+        <div class="quizzes-average">
+            <h1>Average Flashcards Created per Month</h1>
+            <p>@ViewData["DailyFlashcardCount"]</p>
+        </div>
+    </div>
+    <div class="right-box-report">
+        <div class="left-right-box-report">
+            <div class="population-report">
+                <h1>Total Number of Users:</h1>
+                <p>@ViewData["DailyUserCount"]</p>
+            </div>
+            <div class="population-report">
+                <h1>Total Number of Students:</h1>
+                <p>@ViewData["DailyStudentCount"]</p>
+            </div>
+            <div class="population-report">
+                <h1>Total Number of Professors:</h1>
+                <p>@ViewData["DailyProfessorCount"]</p>
+            </div>
+        </div>
+        <div class="right-right-box-report">
+            <canvas id="myPieChart2"></canvas>
+            <p class="role-description">Users by role</p>
+        </div>
+    </div>
+</div>
+
+<h1 class="report-titles" id="margin-top-text"> Feedback  Analysis Report</h1>
+<p class="report-description">Overview of user feedback on BrainBurst</p>
+
+<div class="bottom-chart-container">
+    <div class="first-chart-bottom">
+        <div class="average-content-rating">
+            <p>Total Feedback Entries: </p>
+            <h1>50</h1>
+        </div>
+        <div class="average-content-rating">
+            <p>Total Feedback Entries: </p>
+            <h1>50</h1>
+        </div>
+        <div class="average-content-rating">
+            <p>Total Feedback Entries: </p>
+            <h1>50</h1>
+        </div>
+        <div class="average-content-rating">
+            <p>Total Feedback Entries: </p>
+            <h1>50</h1>
+        </div>
+    </div>
+    <div class="second-chart-bottom">
+        <div class="box-chart-bottom">
+            <canvas id="myPieChart3"></canvas>
+        </div>
+        <p>Student Ratings</p>
+    </div>
+    <div class="third-chart-bottom">
+        <div class="box-chart-bottom">
+            <canvas id="myPieChart4"></canvas>
+        </div>
+        <p>Professor Ratings</p>
+    </div>
+</div>
+
+<script>
+// Pie Chart 1
+const ctx1 = document.getElementById('myPieChart1').getContext('2d');
+const myPieChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+        labels: ['AI Generated Quizzes', 'Manually Created Quizzes', 'AI Generated Flashcards', 'Manually Created Flashcards'],
+        datasets: [{
+            data: [@ViewData["DailyAiQuizCount"], @ViewData["DailyManualQuizCount"], @ViewData["DailyAiFlashcardCount"], @ViewData["DailyManualFlashcardCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+
+const ctx2 = document.getElementById('myPieChart2').getContext('2d');
+const myPieChart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+        labels: ['Professor', 'Student'],
+        datasets: [{
+            label: 'User Count',
+            data: [@ViewData["DailyProfessorCount"], @ViewData["DailyStudentCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: 'rgba(43, 85, 14, 1)' // Change legend text color to the specified color
+                }
+            },
+            tooltip: {
+                enabled: true,
+                bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
+                titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
+            }
+        }
+    }
+});
+
+// Pie Chart 3
+const ctx3 = document.getElementById('myPieChart3').getContext('2d');
+const myPieChart3 = new Chart(ctx3, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        datasets: [{
+            label: 'My Pie Chart',
+            data: [15, 25, 35, 25],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+
+// Pie Chart 4
+const ctx4 = document.getElementById('myPieChart4').getContext('2d');
+const myPieChart4 = new Chart(ctx4, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        datasets: [{
+            label: 'My Pie Chart',
+            data: [15, 25, 35, 25],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+</script>
