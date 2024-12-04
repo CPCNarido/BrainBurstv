@@ -9,5 +9,6 @@ namespace UsersApp.Models
         public DateTime SubmissionDate { get; set; }
 
         public Users User { get; set; } // Add reference to the User
+        public Quiz Quiz { get; set; } // Add reference to the Quiz
     }
 }

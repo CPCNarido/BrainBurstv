@@ -1,0 +1,32 @@
+*{
+    font-family: 'Rum Raisin', sans-serif;
+}
+.quiz-results{
+    font-size: 70px;
+    color: #2B550E;
+    align-items: center;
+    text-align: center;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.results-table th, .results-table td {
+    border: 1px solid #F5D059;
+    padding: 8px;
+}
+.results-table th {
+    background-color: #F5D059;
+    text-align: left;
+}
+.results-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.results-table tr:hover {
+    background-color: #ddd;
+}
+.results-table th, .results-table td {
+    text-align: center;
+}

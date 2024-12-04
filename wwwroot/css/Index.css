@@ -440,17 +440,18 @@ html,body{
 
 .review-container{
     border-radius: 20px;
-    border: 1px solid var(--black-100, #000);
     background: #89B752;
     width: 530px;
     height: 404px;
     flex-shrink: 0;
     position: relative;
+    border: 7px solid #2B550E;
 }
 
 .review-container .circle {
     position: absolute; /* Use absolute positioning */
-   transform: translate(40px, 15px);
+    transform: translate(40px, 15px);
+    border: none; /* Remove the border */
 }
 
 .review-container .rectangle {
@@ -460,15 +461,40 @@ html,body{
     height: 74px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid #000;
     background: #FFFDC1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Center align text */
 }
+
+.review-container .rectangle span:first-child {
+    font-weight: 400; /* Style for username */
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 18px;
+}
+
+.review-container .rectangle span:last-child {
+    font-weight: normal; /* Style for user role */
+    color:#2B550E;
+    font-weight: 800;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+}
+
 .review-container .star {
-    width: 250px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     flex-shrink: 0;
-    margin-top: 10px; /* Adjust the margin as needed */
-    transform: translate(220px, 100px); 
+    margin: 0 2px; /* Use margin to reduce space between stars */
+    transform: translate(70px, 110px); 
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .review-container .large-rectangle {
@@ -476,10 +502,25 @@ html,body{
     height: 181.166px;
     flex-shrink: 0;
     border-radius: 10px;
-    border: 1px solid #000;
     background: #FFFDC1;
     position: absolute; /* Use absolute positioning */
     transform: translate(43px, 130px); /* Adjust the position as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Center align text */
+    padding: 10px; /* Add padding for better text spacing */
+}
+
+.review-container .large-rectangle span {
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 20px;
+    color: #2B550E;
+    width: 100%; /* Ensure the text takes the full width */
+    height: 100%; /* Ensure the text takes the full height */
+    display: flex;
+    justify-content: center; /* Center align text horizontally */
+    align-items: center; /* Center align text vertically */
 }
 
 .middle-container{
@@ -492,11 +533,21 @@ html,body{
     overflow: hidden;
 }
 
-.preview-left,.preview-right{
+.preview-left, .preview-right {
     width: 132px;
     height: 239px;
     all: unset;
+    cursor: pointer; /* Add cursor pointer */
+}
 
+.preview-left:hover img, .preview-right:hover img {
+    opacity: 0.8; /* Add hover effect */
+    filter: brightness(0) invert(1); /* Change color on hover */
+}
+
+.preview-left:hover, .preview-right:hover {
+    opacity: 0.8; /* Add hover effect */
+    color: #FFFDC1; /* Change color on hover */
 }
 
 .review-wrapper{

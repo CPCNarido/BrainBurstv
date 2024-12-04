@@ -317,6 +317,15 @@ public async Task<IActionResult> AccountEdit()
             Quizzes = quizzes // Populate the Quizzes property
         };
 
+        if (user.Role == "Student")
+        {
+            var quizResults = await _context.ScoreRecords
+                .Include(sr => sr.Quiz) // Include the Quiz reference
+                .Where(qr => qr.UserId == user.Id)
+                .ToListAsync();
+            ViewData["QuizResults"] = quizResults;
+        }
+
         return View(model);
     }
 
