@@ -10,13 +10,10 @@
 </head>
 <body>
     <div class="container1">
-        <h1>Join Quiz</h1>
-        <form method="post" action="/QuizCreation/JoinQuiz">
-            <div class="form-group">
-                <label for="gameCode">Enter Game Code:</label>
-                <input type="text" id="gameCode" name="gameCode" maxlength="6" required />
-            </div>
-            <button type="submit" class="join-quiz">Join Quiz</button>
+        <img src="/Assets/JoinPage/JoinLogo.png">
+        <form method="post" action="/QuizCreation/JoinQuiz" class="sd">
+            <input type="text" id="gameCode" name="gameCode" maxlength="6" placeholder="Enter Code to Join Quiz!" required />
+            <button type="submit" class="join-quiz">Join Quiz</button> 
         </form>
     </div>
 </body>
