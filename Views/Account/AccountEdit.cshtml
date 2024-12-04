@@ -30,11 +30,6 @@
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
         }
 
-
-
-        
-        
-
     </div>
 
     <div class="Content">
@@ -139,7 +134,39 @@
                 </div>
         }
         else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
+            <div class="quiz-results">
+                <h2>My Quiz Results</h2>
+            </div>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Quiz Name</th>
+                        <th>Score</th>
+                        <th>Date Taken</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(ViewData["QuizResults"] != null)
+                    {
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>View</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4">No quiz results available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
         else if((string)@ViewData["Role"] == "Student"){
             <div class="quiz-results">
