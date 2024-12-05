@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/print.css" media="print" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -20,7 +21,10 @@
         <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
         @if((string)@ViewData["Role"] == "Admin")
         {
-            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+            
+        <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
+
         }
 
         @if((string)@ViewData["Role"] != "Admin")
@@ -29,18 +33,13 @@
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
         }
-
-
-
-        
-        
-
     </div>
 
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
         @if ((string)@ViewData["Role"] == "Admin")
         {
+            <button onclick="printPage()" class="print-button">Print</button>
             <h1 class="report-titles"> Overall Content Report</h1>
             <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
             
@@ -55,6 +54,7 @@
             </div>
         }
         else if((string)@ViewData["Role"] == "Professor"){
+            <button onclick="printPage()" class="print-button">Print</button>
             <h1 class="quiz-report-titles"> Quiz Report</h1>
                 <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
 
@@ -127,8 +127,8 @@
                     </div>
                 </div>
 
-                <div class="quiz-results">
-                    Quiz Results
+                <div id="reportContent">
+                    @await Html.PartialAsync("_DailyReport")
                 </div>
                 <table class="results-table">
                     <thead>
@@ -143,11 +143,7 @@
                         @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
                         {
                             <tr>
-                                <td>
-                                    <div class="results-quiz" onclick="showSection('Quiz')">
-                                        @result.Quiz.Topic
-                                    </div>
-                                </td> 
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
                                 <td>@result.Score</td>
                                 <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
                                 <td>
@@ -159,6 +155,7 @@
                 </table>
         }
         else if((string)@ViewData["Role"] == "Student"){
+            <button onclick="printPage()" class="print-button">Print</button>
             <h1 class="quiz-report-titles"> Quiz Report</h1>
                 <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
 
@@ -231,8 +228,8 @@
                     </div>
                 </div>
 
-                <div class="quiz-results">
-                    Quiz Results
+                <div id="reportContent">
+                    @await Html.PartialAsync("_DailyReport")
                 </div>
                 <table class="results-table">
                     <thead>
@@ -240,6 +237,7 @@
                             <th>Quiz Name</th>
                             <th>Score</th>
                             <th>Date Taken</th>
+                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -249,6 +247,9 @@
                                 <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
                                 <td>@result.Score</td>
                                 <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -375,139 +376,13 @@
     
                 
 
-    @* <script>
-    // Pie Chart 5
-    const ctx5 = document.getElementById('myPieChart5').getContext('2d');
-    const myPieChart5 = new Chart(ctx5, {
-        type: 'pie',
-        data: {
-            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
-            datasets: [{
-                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
-                backgroundColor: [
-                    'rgba(58, 183, 26, 1)',
-                    'rgba(255, 222, 62, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 253, 193, 1)',
-                    'rgba(255, 253, 193, 1)'
-                ],
-                borderWidth: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
+    <script>
+        function printPage() {
+            window.print();
         }
-    });
+    </script>
 
-    // Pie Chart 6
-    const ctx6 = document.getElementById('myPieChart6').getContext('2d');
-    const myPieChart6 = new Chart(ctx6, {
-        type: 'pie',
-        data: {
-            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
-            datasets: [{
-                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
-                backgroundColor: [
-                    'rgba(56, 112, 18, 1)',
-                    'rgba(255, 207, 4, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 253, 193, 1)',
-                    'rgba(255, 253, 193, 1)'
-                ],
-                borderWidth: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-        }
-    });
-</script>
-
-<script>
-    // Pie Chart 7
-    const ctx7 = document.getElementById('myPieChart7').getContext('2d');
-    const myPieChart7 = new Chart(ctx7, {
-        type: 'pie',
-        data: {
-            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
-            datasets: [{
-                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
-                backgroundColor: [
-                    'rgba(58, 183, 26, 1)',
-                    'rgba(255, 222, 62, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 253, 193, 1)',
-                    'rgba(255, 253, 193, 1)'
-                ],
-                borderWidth: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-        }
-    });
-
-    // Pie Chart 8
-    const ctx8 = document.getElementById('myPieChart8').getContext('2d');
-    const myPieChart8 = new Chart(ctx8, {
-        type: 'pie',
-        data: {
-            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
-            datasets: [{
-                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
-                backgroundColor: [
-                    'rgba(56, 112, 18, 1)',
-                    'rgba(255, 207, 4, 1)'
-                ],
-                borderColor: [
-                    'rgba(255, 253, 193, 1)',
-                    'rgba(255, 253, 193, 1)'
-                ],
-                borderWidth: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-                tooltip: {
-                    enabled: true,
-                }
-            },
-        }
-    });
-</script> *@
-
-<script>
+    <script>
     function handleDragOver(event) {
         event.preventDefault(); // Prevent default to allow drop
         event.stopPropagation();
@@ -581,7 +456,7 @@
 
 <script>
     function showReport(reportType) {
-        fetch(`/Account/GetContentReport?filter=${reportType}`)
+        fetch(`/Account/AccountEdit?filter=${reportType}`)
             .then(response => response.text())
             .then(html => {
                 document.getElementById('reportContent').innerHTML = html;
