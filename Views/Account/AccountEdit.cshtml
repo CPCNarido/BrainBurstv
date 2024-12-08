@@ -136,7 +136,6 @@
                             <th>Quiz Name</th>
                             <th>Score</th>
                             <th>Date Taken</th>
-                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,9 +145,6 @@
                                 <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
                                 <td>@result.Score</td>
                                 <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
-                                <td>
-                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
-                                </td>
                             </tr>
                         }
                     </tbody>
@@ -237,7 +233,6 @@
                             <th>Quiz Name</th>
                             <th>Score</th>
                             <th>Date Taken</th>
-                            <th>View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -247,9 +242,6 @@
                                 <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
                                 <td>@result.Score</td>
                                 <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
-                                <td>
-                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
-                                </td>
                             </tr>
                         }
                     </tbody>
@@ -291,15 +283,31 @@
             <div class="Q-Head">
                 <h1>Quizzes</h1>
             </div>
-            <div class="quizzes-container">
-            @foreach (var quiz in Model.Quizzes)
+            @if((string)@ViewData["Role"] == "Student")
             {
-            <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                <h1>@quiz.Topic</h1>
-                <h2>@quiz.GradeLevel</h2>
-            </button>
-            }
-            </div>
+                <div class="quizzes-container">
+                    @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                    {
+                        <div class="flashcard-item">
+                            <h1>@result.Quiz.Topic</h1>
+                            <h2>Score: @result.Score</h2>
+                            <h2>Date Taken: @result.SubmissionDate.ToString("MM/dd/yyyy")</h2>
+                        </div>
+                    }
+                </div>
+            }else if((string)@ViewData["Role"] == "Professor")
+            {
+                <div class="quizzes-container">
+                @foreach (var quiz in Model.Quizzes)
+                {
+                <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                    <h1>@quiz.Topic</h1>
+                    <h2>@quiz.GradeLevel</h2>
+                </button>
+                }
+                </div>
+                }
+            
         </div>
 
 
