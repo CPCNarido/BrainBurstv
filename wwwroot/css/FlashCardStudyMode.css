@@ -25,10 +25,13 @@ body {
 }
 
 .left-side{
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-}
+    width: 355px;
+    height: 180px;
+    justify-content: space-between;
+    background-color: #F5D059;
+    border: 1.5px solid black;
+    border-radius: 20px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);}
 
 hr{
     height: 1px;
