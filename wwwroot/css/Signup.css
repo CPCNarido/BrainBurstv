@@ -57,7 +57,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-bottom: -20px;
+    margin-bottom: -10px;
 }
 
 .userinput1, .userinput, .passinput {
@@ -191,19 +191,19 @@
     font-weight: 400;
     line-height: normal;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: -7px;
     margin-top: 5px;
 }
 
 .custom-dropdown option {
     border-radius: 10px;
     border: 1px solid var(--black-100, #000);
-    background: #89B752;
+    background: #2B550E;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .custom-dropdown option:hover {
-    background-color: #f1f1f1;
+    background-color: #C6C454;
 }
 
 /*Modal*/
@@ -220,7 +220,7 @@
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 20% auto; /* Lower the modal by increasing the top margin */
     border: 1px solid #888;
     border-radius: 10px;
     border: 2px solid #1C3C71;
@@ -237,22 +237,23 @@
     font-family: Arial, sans-serif !important; /* Ensure Arial font-family is applied */
 }
 
-.close {
-    color: #aaa;
-    z-index: 1;
-    display: flex;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 28px;
-    font-weight: bold;
+/* Custom scrollbar styles */
+.modal-content::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.modal-content::-webkit-scrollbar-track {
+    background: #FFFDC1; /* Background of the scrollbar track */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #2B550E; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #3E7C1E; /* Color of the scrollbar thumb on hover */
 }
 
 .top {
@@ -277,12 +278,12 @@
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: #FFFDC1;
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
     padding: 20px;
     width: 50%; /* Adjusted width */
-    max-height: 85vh; /* Adjusted height */
+    max-height: 105vh; /* Adjusted height */
     overflow-y: auto;
     margin: auto;
     font-family: Arial, sans-serif;
@@ -304,7 +305,7 @@
     text-align: left; /* Left-aligns content */
     margin: 20px 10px;
     font-family: "Arial", sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .termscontents p {
@@ -354,6 +355,7 @@
     margin-top: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border: 2px solid #2B550E; /* Add border to button */
 }
 
 .accept-button:hover {
@@ -363,7 +365,6 @@
 
 .accept-terms-button {
     border-radius: 10px;
-    border: 2px solid var (#2B550E);
     background: #FFFDC1;
     width: 200px;
     height: 40px;
@@ -375,9 +376,21 @@
     margin-top: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    box-shadow: none; /* Remove the black shadow */
+    border: none; /* Remove the black outline */
+    border: 3px solid #2B550E; /* Add border to button */
 }
 
 .accept-terms-button:hover {
     background-color: #2B550E; /* Change background color on hover */
     color: #FFFDC1;
+}
+
+.role-error-message {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 7px;
+    color: red;
+    font-family: 'Rum Raisin', sans-serif;
+    font-size: 12px;
 }

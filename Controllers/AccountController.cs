@@ -104,35 +104,76 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                Users users = new Users
+                if (string.IsNullOrEmpty(model.Name))
                 {
-                    FullName = model.Name,
-                    Email = model.Email,
-                    UserName = model.Email,
-                    FilePath = "/profile_images/default.png",
-                    Role = model.Role,
-                    Created_At = DateTime.Now
-                };
-
-                var result = await userManager.CreateAsync(users, model.Password);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Login", "Account");
+                    ViewData["NameError"] = "Name is required.";
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
+                    ViewData["NameError"] = null; // Clear name error if field is not empty
                 }
+                if (string.IsNullOrEmpty(model.Email))
+                {
+                    ViewData["EmailError"] = "Email is required.";
+                }
+                else
+                {
+                    ViewData["EmailError"] = null; // Clear email error if field is not empty
+                }
+                if (string.IsNullOrEmpty(model.Password))
+                {
+                    ViewData["PasswordError"] = "Password is required.";
+                }
+                else
+                {
+                    ViewData["PasswordError"] = null; // Clear password error if field is not empty
+                }
+                if (string.IsNullOrEmpty(model.ConfirmPassword))
+                {
+                    ViewData["ConfirmPasswordError"] = "Confirm Password is required.";
+                }
+                else
+                {
+                    ViewData["ConfirmPasswordError"] = null; // Clear confirm password error if field is not empty
+                }
+                if (string.IsNullOrEmpty(model.Role))
+                {
+                    ViewData["RoleError"] = "Role is required.";
+                }
+                else
+                {
+                    ViewData["RoleError"] = null; // Clear role error if field is not empty
+                }
+                return View(model);
             }
-            return View(model);
+
+            Users users = new Users
+            {
+                FullName = model.Name,
+                Email = model.Email,
+                UserName = model.Email,
+                FilePath = "/profile_images/default.png",
+                Role = model.Role,
+                Created_At = DateTime.Now
+            };
+
+            var result = await userManager.CreateAsync(users, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
         }
 
         public async Task<IActionResult> VerifyEmail()
