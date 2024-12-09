@@ -1,0 +1,18 @@
+[
+  {
+    "QuestionText": "1:**What is a map?",
+    "AnswerText": "A map is a drawing that shows places on Earth."
+  },
+  {
+    "QuestionText": "2:**What are the names of the five oceans?",
+    "AnswerText": "The Pacific Ocean, the Atlantic Ocean, the Indian Ocean, the Arctic Ocean, and the Southern Ocean."
+  },
+  {
+    "QuestionText": "3:**What is a continent?",
+    "AnswerText": "A continent is one of the seven large landmasses on Earth."
+  },
+  {
+    "QuestionText": "4:**What is a mountain?",
+    "AnswerText": "A mountain is a large natural rise in the Earth's surface."
+  }
+]
