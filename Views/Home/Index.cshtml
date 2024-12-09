@@ -34,13 +34,17 @@
                         <span class="title">Quiz Creation & Participation</span>
                         <span class="description">Create custom quizzes or let AI<br> generate them instantly. Join <br>quizzes by code for easy,<br> interactive learning.</span>
                         <div class="button-container">
-                            @if((string)@ViewData["Role"] == "Admin" || (string)@ViewData["Role"] == "Professor")
-                            {
-                                <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'">Generate with A.I</button>
-                                <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'">Create Manually</button>
-                            }
+                            <button class="lets-go" 
+                                    onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'"
+                                    @( (string)@ViewData["Role"] != "Admin" && (string)@ViewData["Role"] != "Professor" ? "disabled" : "" )>
+                                Generate with A.I
+                            </button>
+                            <button class="lets-go" 
+                                    onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'"
+                                    @( (string)@ViewData["Role"] != "Admin" && (string)@ViewData["Role"] != "Professor" ? "disabled" : "" )>
+                                Create Manually
+                            </button>
                         </div>
-
                     </div>
                 </div>
                 <div class="left1">
