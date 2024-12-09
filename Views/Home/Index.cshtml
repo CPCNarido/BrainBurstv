@@ -28,16 +28,17 @@
                     <img src="../Assets/Homepage/nagiisip.png" class="char">
                 </div>
             </div>
-            @if((string)@ViewData["Role"] == "Admin" || (string)@ViewData["Role"] == "Professor")
-            {
             <div class="c1">
                 <div class="right">
                     <div class="Right-content">
                         <span class="title">Quiz Creation & Participation</span>
                         <span class="description">Create custom quizzes or let AI<br> generate them instantly. Join <br>quizzes by code for easy,<br> interactive learning.</span>
                         <div class="button-container">
-                            <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'">Generate with A.I</button>
-                            <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'">Create Manually</button>
+                            @if((string)@ViewData["Role"] == "Admin" || (string)@ViewData["Role"] == "Professor")
+                            {
+                                <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Ai", "QuizCreation")'">Generate with A.I</button>
+                                <button class="lets-go" onclick="location.href='@Url.Action("Quiz_Creation_Manual", "QuizCreation")'">Create Manually</button>
+                            }
                         </div>
 
                     </div>
@@ -49,7 +50,6 @@
             <div class="ghost1">
 
             </div>
-            }
 
             <div class="c">
                 <div class="left">
