@@ -63,7 +63,7 @@
 }
 
 .userinput .email-form {
-    width: 120%; /* Increase width */
+    width: 150%; /* Increase width */
     padding: 15px; /* Increase height */
     border: 1px solid #000;
     border-radius: 5px;
@@ -102,7 +102,7 @@
     cursor: pointer;
     font-family: "Rum Raisin", sans-serif;
     margin-top: 20px; /* Increase margin-top to move button down */
-    margin-left: 80%; /* Move button to the right */
+    margin-left: 110%; /* Move button to the right */
     display: block; /* Ensure the button is a block element */
 }
 
