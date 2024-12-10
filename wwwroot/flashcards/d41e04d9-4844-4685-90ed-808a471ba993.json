@@ -1,0 +1,58 @@
+[
+  {
+    "QuestionText": "1:**What is the smallest planet in our solar system?",
+    "AnswerText": "Mercury"
+  },
+  {
+    "QuestionText": "2:**What planet is known as the \"Red Planet\"?",
+    "AnswerText": "Mars"
+  },
+  {
+    "QuestionText": "3:**Which planet is known for its large, prominent rings?",
+    "AnswerText": "Saturn"
+  },
+  {
+    "QuestionText": "4:**What is the largest planet in our solar system?",
+    "AnswerText": "Jupiter"
+  },
+  {
+    "QuestionText": "5:**Which planet is often called an \"ice giant\"?",
+    "AnswerText": "Uranus"
+  },
+  {
+    "QuestionText": "6:**What planet is known for its strong winds and Great Red Spot?",
+    "AnswerText": "Jupiter"
+  },
+  {
+    "QuestionText": "7:**Which planet is closest to the Sun?",
+    "AnswerText": "Mercury"
+  },
+  {
+    "QuestionText": "8:**What planet has a day longer than its year?",
+    "AnswerText": "Venus"
+  },
+  {
+    "QuestionText": "9:**Which planet is tilted on its side, rotating almost horizontally?",
+    "AnswerText": "Uranus"
+  },
+  {
+    "QuestionText": "10:**What planet is the sixth planet from the Sun?",
+    "AnswerText": "Saturn"
+  },
+  {
+    "QuestionText": "11:**Which planet is known for its beautiful blue color?",
+    "AnswerText": "Neptune"
+  },
+  {
+    "QuestionText": "12:**What planet is Earth's closest planetary neighbor?",
+    "AnswerText": "Venus"
+  },
+  {
+    "QuestionText": "13:**Which planet has the most moons?",
+    "AnswerText": "Saturn"
+  },
+  {
+    "QuestionText": "14:**What planet is considered a \"gas giant\"?",
+    "AnswerText": "Neptune"
+  }
+]
