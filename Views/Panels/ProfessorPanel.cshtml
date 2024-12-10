@@ -1,4 +1,5 @@
 @model UsersApp.ViewModels.AccountEditViewModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Admin Panel";
@@ -9,6 +10,9 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/print.css" media="print" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -30,7 +34,77 @@
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
-                welcome to Professor panel
+            <button onclick="printPage()" class="print-button">Print</button>
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+            <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+            <div class="quiz-top-chart-container">
+                    <div>
+                        <div class="quiz-box-pie-chart">
+                            <canvas id="myPieChart7" width="220" height="240"></canvas>
+                        </div>
+                        <p class="quiz-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="quiz-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Quizzes</h1>
+                                    @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Quizzes</h1>
+                                    @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Quiz Created: @Model.Quizzes.Count(q => q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="flashcards-report-titles"> Flashcards Report</h1>
+                <p class="flashcards-report-description">Overview of Flashcards, Manual and AI</p>
+
+                <div class="flashcards-top-chart-container">
+                    <div>
+                        <div class="flashcards-box-pie-chart">
+                            <canvas id="myPieChart8" width="220" height="240"></canvas>
+                        </div>
+                        <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
+                    </div>
+
+                    <div class="flashcards-box-reports">
+                        <div class="sp">
+                            <div class="l">
+                                <div class="number-of-quiz">
+                                    <h1>AI Generated Flashcards</h1>
+                                    @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                </div>
+                            </div>
+                            <div class="r">
+                                <div class="number-of-quiz">
+                                    <h1>Manual Generated Flashcards</h1>
+                                    @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
+                                </div>
+                                <div class="number-of-flashcards">
+                                    @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-created">
+                            Total Number of Flashcards: @Model.Flashcards.Count(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        </div>
+                    </div>
+                </div>
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -44,7 +118,7 @@
                 <div class="f-collection">
                     @if (Model.Flashcards != null && Model.Flashcards.Any())
                     {
-                        @foreach (var flashcard in Model.Flashcards)
+                        @foreach (var flashcard in Model.Flashcards.Where(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                         {
                             <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                                 <div class="f-info">
@@ -382,5 +456,10 @@ const myPieChart4 = new Chart(ctx4, {
         window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
     }
 </script>
+<script>
+        function printPage() {
+            window.print();
+        }
+    </script>
 </body>
 </html>

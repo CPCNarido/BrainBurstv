@@ -1,0 +1,18 @@
+[
+  {
+    "QuestionText": "1:** What color is made by mixing red and blue?",
+    "AnswerText": "Purple"
+  },
+  {
+    "QuestionText": "2:** What tool do artists use to mix paints?",
+    "AnswerText": "A palette"
+  },
+  {
+    "QuestionText": "3:**  What is a sculpture made of?",
+    "AnswerText": "Clay, stone, metal, or other materials"
+  },
+  {
+    "QuestionText": "4:** What is a famous painting by Vincent van Gogh?",
+    "AnswerText": "The Starry Night"
+  }
+]
