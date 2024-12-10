@@ -56,7 +56,7 @@
                         </div>
                     </form>
                     <div class="signup-prompt">
-                        Ready to burst your brain? <a asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                        Ready to burst your brain? <a asp-controller="Account" asp-action="Register">Sign Up</a>
                     </div>
                 </div>
             </div>
@@ -79,47 +79,51 @@
                 color: red;
             }
         </style>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const form = document.getElementById('loginForm');
-                const emailInput = document.querySelector('input[name="Email"]');
-                const passwordInput = document.querySelector('input[name="Password"]');
-                const emailError = document.getElementById('emailError');
-                const passwordError = document.getElementById('passwordError');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('loginForm');
+        const emailInput = document.querySelector('input[name="Email"]');
+        const passwordInput = document.querySelector('input[name="Password"]');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
 
-                form.addEventListener('submit', function (event) {
-                    let valid = true;
-                    if (!emailInput.value) {
-                        emailInput.classList.add('input-error');
-                        emailError.textContent = "Email is required.";
-                        valid = false;
-                    } else {
-                        emailInput.classList.remove('input-error');
-                        emailError.textContent = "";
-                    }
-                    if (!passwordInput.value) {
-                        passwordInput.classList.add('input-error');
-                        passwordError.textContent = "Password is required.";
-                        valid = false;
-                    } else {
-                        passwordInput.classList.remove('input-error');
-                        passwordError.textContent = "";
-                    }
-                    if (!valid) {
-                        event.preventDefault();
-                    }
-                });
+        // Validate form on submit
+        form.addEventListener('submit', function (event) {
+            let valid = true;
+            if (!emailInput.value) {
+                emailInput.classList.add('input-error');
+                emailError.textContent = "Email is required.";
+                valid = false;
+            } else {
+                emailInput.classList.remove('input-error');
+                emailError.textContent = "";
+            }
+            if (!passwordInput.value) {
+                passwordInput.classList.add('input-error');
+                passwordError.textContent = "Password is required.";
+                valid = false;
+            } else {
+                passwordInput.classList.remove('input-error');
+                passwordError.textContent = "";
+            }
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
 
-                function togglePasswordVisibility() {
-                    var passwordField = document.getElementById("password");
-                    var showPasswordCheckbox = document.getElementById("showPassword");
-                    if (showPasswordCheckbox.checked) {
-                        passwordField.type = "text";
-                    } else {
-                        passwordField.type = "password";
-                    }
-                }
-            });
-        </script>
+        // Toggle password visibility
+        const showPasswordCheckbox = document.getElementById("showPassword");
+        const passwordField = document.getElementById("password");
+
+        showPasswordCheckbox.addEventListener('change', function () {
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        });
+    });
+</script>
+
     </body>
 </html>
