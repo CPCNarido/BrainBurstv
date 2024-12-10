@@ -33,6 +33,7 @@ namespace UsersApp.Controllers
             var prompt = $@"
             Create a {Items} items quiz for grade {gradeLevel} with the topic of {topic}, the quiz is as follows {QuizDescription}. 
             Make each question have 4 choices and display the question followed by the choices.
+            note: the title should be in the response, just response the format below.
             Use the following format:
             **Question 1:**
             What is the capital of France?
