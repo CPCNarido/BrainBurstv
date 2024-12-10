@@ -1,26 +1,39 @@
-@model UsersApp.ViewModels.VerifyOtpViewModel
+@using UsersApp.ViewModels;
+@model VerifyOtpViewModel;
 
 @{
     ViewData["Title"] = "Verify OTP";
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
-<link rel="stylesheet" href="/css/Login.css" />
 
-<div class="content-wrapper">
-    <div class="Fill">
-        <div class="log1"><h1>Verify Otp</h1></div>
-        <div class="HAI">
-            <form asp-action="VerifyOtp" method="post">
-                <div class="userinput">
-                    <label asp-for="Otp"></label>
-                    <input asp-for="Otp" class="email-form" />
-                    <span asp-validation-for="Otp" class="text-danger"></span>
+<link rel="stylesheet" href="/css/VerifyOtp.css" />
+
+<div class="content-Wrapper">
+    <div class="content1">
+        <div class="sidebar">
+            <img src="/Assets/LoginSignup/SidebarLogo.png" alt="Sidebar Logo" />
+        </div>
+        <div class="fill">
+            <div class="account-container">
+                <div class="account-box">
+                    <div class="log1"><h1>Verify OTP</h1></div>
+                    <form asp-action="VerifyOtp" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="userinput">
+                            <label asp-for="Otp" class="form-label"></label>
+                            <input asp-for="Otp" class="email-form" placeholder="Enter OTP" />
+                            <span asp-validation-for="Otp" class="text-danger"></span>
+                        </div>
+                        <input type="submit" value="Verify" class="submit-button" />
+                    </form>
                 </div>
-                <input type="hidden" asp-for="Username" />
-                <button type="submit" class="submit-button">Verify OTP</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

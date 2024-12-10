@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using UsersApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting; // Add this
+using Microsoft.AspNetCore.Http; // Add this
+using System.IO; // Add this
 
 namespace UsersApp.Controllers
 {
@@ -66,14 +69,18 @@ namespace UsersApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Users users = new Users
-                {
-                    FullName = model.Name,
-                    Email = model.Email,
-                    UserName = model.Email,
-                    FilePath = "/profile_images/default.png",
-                    Role = model.Role
-                };
+                return View(model); // Add this line to return the view if the model state is invalid
+            }
+
+            Users users = new Users
+            {
+                FullName = model.Name,
+                Email = model.Email,
+                UserName = model.Email,
+                FilePath = "/profile_images/default.png",
+                Role = model.Role,
+                Created_At = DateTime.Now
+            };
 
                 var result = await userManager.CreateAsync(users, model.Password);
 

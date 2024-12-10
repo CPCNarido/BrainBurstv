@@ -1,0 +1,135 @@
+.content1 {
+    border-radius: 10px;
+    border: 1px solid var(--black-100, #000);
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    width: 420px;
+    height: 540px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    align-items: flex-start; /* Align items to the top */
+    margin-left: 20px; /* Move content to the right */
+}
+
+.sidebar {
+    border-radius: 10px;
+    border: 1px solid var(--black-100, #000);
+    background: rgba(245, 208, 89, 0.71);
+    width: 110px;
+    height: 540px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar img {
+    width: 80px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.fill {
+    width: 580px;
+    height: 530px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the top */
+    margin-left: 20px; /* Move content to the right */
+}
+
+.log1 h1 {
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--black-100, #000);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--black-100, #000);
+    font-family: "Rum Raisin", sans-serif;
+    margin-bottom: 20px;
+}
+
+.userinput {
+    margin-bottom: 15px;
+    position: relative; /* Add position relative */
+}
+
+.userinput .form-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000;
+    font-size: 20px; /* Increase font size */
+    font-family: "Rum Raisin", sans-serif;
+}
+
+.userinput .email-form {
+    width: 120%; /* Increase width */
+    padding: 15px; /* Increase height */
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 16px; /* Increase font size */
+    color: #333;
+    background-color: #D2E6BD; /* Add background color */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    max-width: 500px; /* Set a maximum width */
+    font-family: "Rum Raisin", sans-serif; /* Add font-family */
+}
+
+.userinput .email-form::placeholder {
+    color: #888;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.userinput .text-danger {
+    position: absolute; /* Position error message absolutely */
+    bottom: -20px; /* Position error message below the input field */
+    left: 5;
+    font-size: 14px; /* Adjust font size */
+    color: red;
+    font-family: "Rum Raisin", sans-serif;
+}
+
+.submit-button {
+    width: 40%; /* Reduce width */
+    padding: 5px; /* Reduce height */
+    background-color: #FFFDC1;
+    border: 3px solid #2B550E; /* Add black border */
+    border-radius: 10px; /* Increase border-radius */
+    color: #2B550E;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Rum Raisin", sans-serif;
+    margin-top: 20px; /* Increase margin-top to move button down */
+    margin-left: 80%; /* Move button to the right */
+    display: block; /* Ensure the button is a block element */
+}
+
+.submit-button:hover {
+    background-color: #2B550E;
+    color: #FFFDC1;
+}
+
+.text-decoration-none {
+    color: #2B550E;
+    text-decoration: none;
+    font-size: 16px;
+    font-family: "Rum Raisin", sans-serif;
+}
+
+.text-decoration-none:hover {
+    text-decoration: underline;
+}
+
+.account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the top */
+    width: 100%;
+    margin-left: 10px; /* Move content to the right */
+}
+
+.float-right {
+    float: right;
+}
