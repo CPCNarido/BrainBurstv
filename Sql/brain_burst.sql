@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2024 at 08:01 AM
+-- Generation Time: Dec 10, 2024 at 04:30 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -122,11 +122,11 @@ INSERT INTO `aspnetusers` (`Id`, `FilePath`, `FullName`, `Role`, `UserName`, `No
 ('33333333-3333-3333-3333-333333333333', '/profile_images/default.png', 'Alice Johnson', 'Admin', 'alicejohnson@example.com', 'ALICEJOHNSON@EXAMPLE.COM', 'alicejohnson@example.com', 'ALICEJOHNSON@EXAMPLE.COM', b'0', 'AQAAAAIAAYagAAAAELDWyTArfyG9F4Mrts0T4qsExKtc7/oohGNK1AQG29NcOM+mM4nK7LsONHAYcz+kzg==', '44JUEO3PUSGHEFQHRCDUASRBOLE7HQOS', 'a50211f0-5ecf-4816-98c3-4758f98026aa', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
 ('44444444-4444-4444-4444-444444444444', '/profile_images/default.png', 'Bob Brown', 'Student', 'bobbrown@example.com', 'BOBBROWN@EXAMPLE.COM', 'bobbrown@example.com', 'BOBBROWN@EXAMPLE.COM', b'0', 'AQAAAAIAAYagAAAAEMBJmoWj9jrfvWV27qWPR3/pDj4HAaOFKiAam1gRLkj6vqPfFJedeJjan7mjLojDbA==', '3IUZVKXHLIPTJAXSP2SIHT2XHY2IWZIS', 'b95d831f-af99-48b0-bdd6-d9955336fb8f', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
 ('55555555-5555-5555-5555-555555555555', '/profile_images/default.png', 'Charlie Davis', 'Professor', 'charliedavis@example.com', 'CHARLIEDAVIS@EXAMPLE.COM', 'charliedavis@example.com', 'CHARLIEDAVIS@EXAMPLE.COM', b'0', 'AQAAAAIAAYagAAAAEJmS2qCfDl8JcKCS4t0HTB0R/542bD9hGYAoMVUHhMrXgPq2lGQoSKjOyr4mn+vRUw==', '36YKRWUKRLE7EV6TADBZ6QV3BAONDCKV', 'dfa969cd-5961-46b4-b2bc-a767ea65bc50', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
-('581e473b-7763-4c6c-8a0c-74872f0ef0fa', '/profile_images/default.png', 'Christian Paul Narido', 'Professor', 'cnarido7ssss8@gmail.com', 'CNARIDO7SSSS8@GMAIL.COM', 'cnarido7ssss8@gmail.com', 'CNARIDO7SSSS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEOQnWgsqE7LCuZhRQoLF7lQzbhpmA3fa3rgXC3jHJFXEQvC0nV360GQUpmgAcX/NOA==', 'CIHLKRRJQOTESEN7QLBESBFWUHZOWAIK', '71cc4564-891c-423d-b6ac-6c295bf43221', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:49:35'),
+('581e473b-7763-4c6c-8a0c-74872f0ef0fa', '/profile_images/cnarido7ssss8@gmail.com_Green_Blue_Happy_Kids_Colorful_Achievement_Certificate_20241208 (2).png', 'Christian Paul NaridSDo', 'Professor', 'cnarido7ssss8@gmail.com', 'CNARIDO7SSSS8@GMAIL.COM', 'cnarido7ssss8@gmail.com', 'CNARIDO7SSSS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEOQnWgsqE7LCuZhRQoLF7lQzbhpmA3fa3rgXC3jHJFXEQvC0nV360GQUpmgAcX/NOA==', 'CIHLKRRJQOTESEN7QLBESBFWUHZOWAIK', 'b05250b8-2914-41f4-9021-132598c199b4', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:49:35'),
 ('885efb3e-8e0f-4593-b855-6489a1fd5279', '/profile_images/cnarido78@gmail.com_462554032_1603163513889654_4632221763728143409_n-removebg-preview.png', 'Christian Paul Narido', 'Admin', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', 'cnarido78@gmail.com', 'CNARIDO78@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEMBJmoWj9jrfvWV27qWPR3/pDj4HAaOFKiAam1gRLkj6vqPfFJedeJjan7mjLojDbA==', '3IUZVKXHLIPTJAXSP2SIHT2XHY2IWZIS', 'b95d831f-af99-48b0-bdd6-d9955336fb8f', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
 ('9554553f-d996-4a05-9976-546e241fd136', '/profile_images/default.png', 'christinsdasd', 'Student', 'cnarido78s@gmail.com', 'CNARIDO78S@GMAIL.COM', 'cnarido78s@gmail.com', 'CNARIDO78S@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEJmS2qCfDl8JcKCS4t0HTB0R/542bD9hGYAoMVUHhMrXgPq2lGQoSKjOyr4mn+vRUw==', '36YKRWUKRLE7EV6TADBZ6QV3BAONDCKV', 'dfa969cd-5961-46b4-b2bc-a767ea65bc50', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
 ('bff75696-aec3-4ce3-8275-744303eb45d6', '/profile_images/default.png', 'Christian Paul Narido', 'Student', 'cnarido7sss8@gmail.com', 'CNARIDO7SSS8@GMAIL.COM', 'cnarido7sss8@gmail.com', 'CNARIDO7SSS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEEIQ7zgjevO1TWQM5xba7L8hVv5U4iJGrp1lbiTNfopRiBE4Cs/G3fcdnyTUCb23lw==', 'KDTYAR3S5KEQIIMP5F2Q3RNN3NRZRBWQ', 'cc65c277-f4bc-48b8-8829-7e070dd0056b', NULL, b'0', b'0', NULL, b'1', 0, '0001-01-01 00:00:00'),
-('e5dac1ad-8550-4075-be0d-664f8f9cb15b', '/profile_images/default.png', 'Christian Paul Narido', 'Professor', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEAWtxybUTmZV8qrG6l3eoVkUpAf7lKUpAFiwcqi1u0We9QSWmYPIEeGm0OJpRAzEhQ==', 'I3DEKBMNZNLEZCKH2MCGKDO7B6YWQ3W3', '4af7d812-5320-4b8d-84ae-d0d1b6cbf3b0', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
+('e5dac1ad-8550-4075-be0d-664f8f9cb15b', '/profile_images/default.png', 'Christian Paul Narido', 'Admin', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', 'cnarido7ss8@gmail.com', 'CNARIDO7SS8@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAEAWtxybUTmZV8qrG6l3eoVkUpAf7lKUpAFiwcqi1u0We9QSWmYPIEeGm0OJpRAzEhQ==', 'I3DEKBMNZNLEZCKH2MCGKDO7B6YWQ3W3', '4af7d812-5320-4b8d-84ae-d0d1b6cbf3b0', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11'),
 ('ef528ca6-3919-444d-9908-0db448c20bc1', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif', 'Christian Paul Narido', 'Student', 'cnaridso@gmail.com', 'CNARIDSO@GMAIL.COM', 'cnaridso@gmail.com', 'CNARIDSO@GMAIL.COM', b'0', 'AQAAAAIAAYagAAAAELDWyTArfyG9F4Mrts0T4qsExKtc7/oohGNK1AQG29NcOM+mM4nK7LsONHAYcz+kzg==', '44JUEO3PUSGHEFQHRCDUASRBOLE7HQOS', 'a50211f0-5ecf-4816-98c3-4758f98026aa', NULL, b'0', b'0', NULL, b'1', 0, '2024-12-04 10:04:11');
 
 -- --------------------------------------------------------
@@ -154,7 +154,13 @@ INSERT INTO `flashcards` (`Id`, `Title`, `Description`, `JsonFilePath`, `Created
 (2, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/a3ce073d-b908-4663-936f-92bef745018c.json', 'Ai', '2024-12-03 19:52:48', ''),
 (3, 'Hai', 'asdasdas', 'wwwroot/flashcards/50ccf6ef-1e4a-47a7-b67b-beee01dea96c.json', 'Manual', '2024-12-03 19:58:25', ''),
 (4, 'Hai', 'asdasdas', 'wwwroot/flashcards/96bf086d-cbcc-457e-9e24-8157dfb62908.json', 'Manual', '2024-12-03 19:58:42', ''),
-(5, 'sad', 'asdads', 'wwwroot/flashcards/933de7b5-0de6-46a2-8783-5bffce90eac4.json', 'Manual', '2024-12-03 20:17:01', '');
+(5, 'sad', 'asdads', 'wwwroot/flashcards/933de7b5-0de6-46a2-8783-5bffce90eac4.json', 'Manual', '2024-12-03 20:17:01', ''),
+(6, 'Addition', 'Flashcard for Highschool on Addition', 'wwwroot/flashcards/ef5cd3b4-f835-466f-800c-7110f6e3db48.json', 'Ai', '2024-12-04 10:44:32', '9554553f-d996-4a05-9976-546e241fd136'),
+(7, 'Botany', 'Flashcard for Elementary on Botany', 'wwwroot/flashcards/648e7e82-9a70-49d6-87b3-a6e4967116b5.json', 'Ai', '2024-12-10 04:04:52', '581e473b-7763-4c6c-8a0c-74872f0ef0fa'),
+(8, 'sad', 'sad', 'wwwroot/flashcards/9e731107-7189-4537-a55c-99cb661ba871.json', 'Manual', '2024-12-10 04:07:35', '581e473b-7763-4c6c-8a0c-74872f0ef0fa'),
+(9, 'sad', 'sad', 'wwwroot/flashcards/150df852-dd63-4fa6-a455-369e8c211019.json', 'Manual', '2024-12-10 04:09:39', '581e473b-7763-4c6c-8a0c-74872f0ef0fa'),
+(10, 'OOP(OBJECT ORIENTED PROGRAMMING)', 'Flashcard for Elementary on OOP(OBJECT ORIENTED PROGRAMMING)', 'wwwroot/flashcards/6fee8dcb-1634-4f8d-8f51-f96cbaa0187d.json', 'Ai', '2024-12-10 04:28:31', '581e473b-7763-4c6c-8a0c-74872f0ef0fa'),
+(11, 'OOP(OBJECT ORIENTED PROGRAMMING)', 'Flashcard for College on OOP(OBJECT ORIENTED PROGRAMMING)', 'wwwroot/flashcards/c529f519-f3ce-4e09-b6f1-5691f67b020b.json', 'Ai', '2024-12-10 06:06:58', '581e473b-7763-4c6c-8a0c-74872f0ef0fa');
 
 -- --------------------------------------------------------
 
@@ -187,7 +193,22 @@ INSERT INTO `questions` (`Id`, `QuestionText`, `AnswerText`, `ImageQuestionPath`
 (9, 'sadsdas', 's', NULL, NULL, 3),
 (10, 'sadsdas', 's', NULL, NULL, 4),
 (11, 'dscsd', 'sss', NULL, NULL, 4),
-(12, 'asds', 's', NULL, NULL, 5);
+(12, 'asds', 's', NULL, NULL, 5),
+(13, '1:**What is the sum of 25 and 37?', '62', NULL, NULL, 6),
+(14, '2:**Add -15 and 22. What is the result?', '7', NULL, NULL, 6),
+(15, '3:**Solve: 456 + 789 + 123', '1368', NULL, NULL, 6),
+(16, '4:**If you have 1,250 apples and you buy 750 more, how many apples do you have in total?', '2000', NULL, NULL, 6),
+(17, '1:** What part of the plant helps it soak up water and nutrients from the soil?', 'Roots', NULL, NULL, 7),
+(18, '2:** What is the main job of a leaf?', 'To make food for the plant through photosynthesis', NULL, NULL, 7),
+(19, '3:** What part of the plant produces seeds?', 'Flowers', NULL, NULL, 7),
+(20, '4:** What is the stem of a plant?', 'The stem supports the plant and carries water and nutrients', NULL, NULL, 7),
+(21, 'sad', 'asdasd', NULL, NULL, 8),
+(22, 'sad', 'asdasd', NULL, NULL, 9),
+(23, '1:**What is an object in Object-Oriented Programming?', 'An object is like a real-world thing, with its own properties (like color or size) and actions (like moving or making a sound).', NULL, NULL, 10),
+(24, '1:** What is Object-Oriented Programming (OOP)?', 'A programming paradigm based on the concept of \"objects\", which can contain data and code: data in the form of fields (often known as attributes or properties), and code, in the form of procedures (often known as methods).', NULL, NULL, 11),
+(25, '2:**  Name four fundamental principles of OOP.', 'Encapsulation, Inheritance, Polymorphism, Abstraction', NULL, NULL, 11),
+(26, '3:** Explain Encapsulation in OOP.', 'Bundling data (fields) and methods that operate on that data within a class, and controlling access to that data and methods.  This protects data integrity and promotes modularity.', NULL, NULL, 11),
+(27, '4:** What is Inheritance in OOP, and what are its benefits?', 'A mechanism where one class (child class or subclass) acquires the properties and methods of another class (parent class or superclass). Benefits include code reusability, reduced redundancy, and establishing a clear hierarchical relationship between classes.', NULL, NULL, 11);
 
 -- --------------------------------------------------------
 
@@ -213,9 +234,9 @@ CREATE TABLE `quizzes` (
 --
 
 INSERT INTO `quizzes` (`QuizId`, `GradeLevel`, `Topic`, `CorrectAnswers`, `JsonFilePath`, `UserId`, `HighestScore`, `GameCode`, `Created_by`, `CreatedAt`) VALUES
-(9, 'Elementary', 'Physics', '[1,1,2,2,2,3]', 'wwwroot\\quizzes\\9246cee3-f2b7-4c14-a57d-312c473a55ee.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '234255', 'Ai', '2024-12-04 01:11:48'),
-(10, 'Elementary', 'Physics', '[0,2,2,1,2]', 'wwwroot\\quizzes\\d4ff01bd-f7e0-4d4f-b929-ad9e8e8b4fc6.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '098976', 'Manual', '2024-12-04 01:11:48'),
-(11, 'Elementary', 'Addition', '[1,2,1,1,2]', 'wwwroot\\quizzes\\c429f550-9936-4cb3-893c-e84d828a1e8e.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '453453', 'Ai', '2024-12-04 01:11:48'),
+(9, 'Elementary', 'Physics', '[1,1,2,2,2,3]', 'wwwroot\\quizzes\\9246cee3-f2b7-4c14-a57d-312c473a55ee.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '234255', 'Ai', '2023-12-04 01:11:48'),
+(10, 'Elementary', 'Physics', '[0,2,2,1,2]', 'wwwroot\\quizzes\\d4ff01bd-f7e0-4d4f-b929-ad9e8e8b4fc6.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '098976', 'Manual', '2024-11-04 01:11:48'),
+(11, 'Elementary', 'Addition', '[1,2,1,1,2]', 'wwwroot\\quizzes\\c429f550-9936-4cb3-893c-e84d828a1e8e.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '453453', 'Ai', '2024-12-03 01:11:48'),
 (12, 'Highschool', 'Addition', '[3,1,0,0,1,3]', 'wwwroot\\quizzes\\88f7db86-6737-46f4-aef5-a26e1250f67b.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '123233', 'Manual', '2024-12-04 01:11:48'),
 (13, 'Elementary', 'Physics', '[\"d\"]', 'wwwroot\\quizzes\\bb6012c7-2689-42e3-b61f-79e7e40cfdfc.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, NULL, 'Ai', '2024-12-04 01:11:48'),
 (14, 'Highschool', 'Addition', '', '', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '208233', 'Manual', '2024-12-04 01:11:48'),
@@ -234,7 +255,10 @@ INSERT INTO `quizzes` (`QuizId`, `GradeLevel`, `Topic`, `CorrectAnswers`, `JsonF
 (28, 'College', 'Addition', '[1,1,0,1,0]', 'wwwroot\\quizzes\\6f9a7b5c-27e6-4563-8787-caa8950ac059.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '963180', 'Manual', '2024-12-04 01:11:48'),
 (29, 'College', 'Psychology', '[1,1,1,1,1]', 'wwwroot\\quizzes\\7190738c-ff29-4892-a9b3-7bc7aba50e38.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '249671', 'Manual', '2024-12-04 01:11:48'),
 (30, 'College', 'Addition', '[1,1,0,2,1]', 'wwwroot\\quizzes\\549e2326-fc56-4b8d-b3ce-09462e83770e.json', 'ef528ca6-3919-444d-9908-0db448c20bc1', 0, '871866', 'Manual', '2024-12-04 01:11:48'),
-(31, 'Elementary', 'Addition', '[1,2,2,2,2]', 'wwwroot\\quizzes\\86f890b5-90f5-45b8-a59f-9269744a0d63.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '430814', 'Ai', '2024-12-04 15:43:52');
+(31, 'Elementary', 'Addition', '[1,2,2,2,2]', 'wwwroot\\quizzes\\86f890b5-90f5-45b8-a59f-9269744a0d63.json', '885efb3e-8e0f-4593-b855-6489a1fd5279', 0, '430814', 'Ai', '2024-12-04 15:43:52'),
+(32, 'College', 'BOTANY', '[2,2,1,2,2]', 'wwwroot\\quizzes\\5871d2e9-400d-4dab-8c63-4e8396519b2c.json', '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 0, '203331', 'Ai', '2024-12-04 18:50:57'),
+(33, 'Elementary', 'Addition', '[1,2,2,1,2]', 'wwwroot\\quizzes\\c7011d2f-4227-4b68-96b3-280016e3fa1b.json', '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 0, '373967', 'Ai', '2024-12-10 14:13:25'),
+(34, 'Elementary', 'Addition', '[-1,1,2,2,2,1]', 'wwwroot\\quizzes\\9e51252f-4a4a-4eb4-b683-ffec97aa5747.json', '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 0, '109864', 'Ai', '2024-12-10 14:14:53');
 
 --
 -- Triggers `quizzes`
@@ -271,7 +295,8 @@ INSERT INTO `reviews` (`Id`, `UserName`, `UserRole`, `Rating`, `Feedback`, `File
 (1, 'christinsdasd', 'Student', 5, 'dfsdfsdf', '/profile_images/default.png'),
 (2, 'Christian Paul Narido', 'Student', 1, 'sdasdasdasd', '/profile_images/default.png'),
 (3, 'Christian Paul Narido', 'Student', 4, 'sdasdsad', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif'),
-(4, 'Christian Paul Narido', 'Student', 4, 'sdasdsad', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif');
+(4, 'Christian Paul Narido', 'Student', 4, 'sdasdsad', '/profile_images/cnaridso@gmail.com_b86f4331-ed1a-472c-a661-6c9a1357f239.jfif'),
+(5, 'Christian Paul NaridSDo', 'Professor', 4, 'DSASAD', '/profile_images/cnarido7ssss8@gmail.com_Green_Blue_Happy_Kids_Colorful_Achievement_Certificate_20241208 (2).png');
 
 -- --------------------------------------------------------
 
@@ -334,7 +359,18 @@ INSERT INTO `scorerecords` (`ScoreRecordId`, `QuizId`, `UserId`, `Score`, `Submi
 (40, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 1, '2024-12-03 15:25:20'),
 (41, 29, 'ef528ca6-3919-444d-9908-0db448c20bc1', 1, '2024-12-03 15:25:28'),
 (42, 31, '885efb3e-8e0f-4593-b855-6489a1fd5279', 1, '2024-12-04 07:44:47'),
-(43, 31, '885efb3e-8e0f-4593-b855-6489a1fd5279', 1, '2024-12-04 07:44:51');
+(43, 31, '885efb3e-8e0f-4593-b855-6489a1fd5279', 1, '2024-12-04 07:44:51'),
+(44, 12, '9554553f-d996-4a05-9976-546e241fd136', 0, '2024-12-04 10:47:55'),
+(45, 12, '9554553f-d996-4a05-9976-546e241fd136', 0, '2024-12-04 10:49:09'),
+(46, 12, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 2, '2024-12-10 04:39:08'),
+(47, 12, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 2, '2024-12-10 04:39:16'),
+(48, 32, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 1, '2024-12-10 04:54:10'),
+(49, 32, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 0, '2024-12-10 05:14:27'),
+(50, 32, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 0, '2024-12-10 05:17:37'),
+(51, 33, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 1, '2024-12-10 16:17:49'),
+(52, 33, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 1, '2024-12-10 16:17:49'),
+(53, 33, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 1, '2024-12-10 16:17:49'),
+(54, 33, '581e473b-7763-4c6c-8a0c-74872f0ef0fa', 1, '2024-12-10 16:17:58');
 
 --
 -- Indexes for dumped tables
@@ -387,31 +423,31 @@ ALTER TABLE `scorerecords`
 -- AUTO_INCREMENT for table `flashcards`
 --
 ALTER TABLE `flashcards`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `QuizId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `QuizId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `scorerecords`
 --
 ALTER TABLE `scorerecords`
-  MODIFY `ScoreRecordId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `ScoreRecordId` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Constraints for dumped tables

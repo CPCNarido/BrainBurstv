@@ -26,7 +26,8 @@ namespace UsersApp.Controllers
             _environment = environment;
         }
 
-        public async Task<IActionResult> AdminPanel()
+
+        public async Task<IActionResult> AdminPanel(string period = "all")
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -35,10 +36,39 @@ namespace UsersApp.Controllers
                 ViewData["FilePath"] = user.FilePath;
                 ViewData["Username"] = user.FullName;
                 ViewData["Role"] = user.Role;
-        
-                var userId = user.Id; // Retrieve the user ID from the logged-in user
-                var quizzes = await _context.Quizzes
-                    .Where(q => q.UserId == userId) // Filter quizzes by UserId
+
+                DateTime startDate = DateTime.MinValue;
+                string filterPeriod = "All";
+                switch (period.ToLower())
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        filterPeriod = "Today";
+                        break;
+                    case "thismonth":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        filterPeriod = "This Month";
+                        break;
+                    case "thisyear":
+                        startDate = new DateTime(DateTime.Today.Year, 1, 1);
+                        filterPeriod = "This Year";
+                        break;
+                }
+
+                var quizzesQuery = _context.Quizzes.AsQueryable();
+                var flashcardsQuery = _context.Flashcards.AsQueryable();
+                var usersQuery = userManager.Users.AsQueryable();
+                var reviewsQuery = _context.Reviews.AsQueryable();
+
+                if (startDate != DateTime.MinValue)
+                {
+                    quizzesQuery = quizzesQuery.Where(q => q.CreatedAt >= startDate);
+                    flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt >= startDate);
+                    usersQuery = usersQuery.Where(u => u.Created_At >= startDate);
+                    reviewsQuery = reviewsQuery.Where(r => r.CreatedAt >= startDate);
+                }
+
+                var quizzes = await quizzesQuery
                     .Select(q => new Quiz
                     {
                         QuizId = q.QuizId,
@@ -51,41 +81,91 @@ namespace UsersApp.Controllers
                         GameCode = q.GameCode ?? string.Empty
                     })
                     .ToListAsync();
-        
-                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
-                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
-                var TotalQuizCount = manualQuizCount + aiQuizCount;
-                ViewData["TotalQuizCount"] = TotalQuizCount;
-        
-                var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
-                var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
-                var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
-                ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
-        
-                var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
-                var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
-                var TotalUserCount = professorCount + studentCount;
-                ViewData["TotalUserCount"] = TotalUserCount;
+
+                var flashcards = await flashcardsQuery
+                    .Include(f => f.Questions)
+                    .ToListAsync();
+
+                var studentRatings = await reviewsQuery
+                    .Where(r => r.UserRole == "Student")
+                    .ToListAsync();
+
+                var professorRatings = await reviewsQuery
+                    .Where(r => r.UserRole == "Professor")
+                    .ToListAsync();
+
+                var manualQuizCount = await quizzesQuery.CountAsync(q => q.Created_by == "Manual");
+                var aiQuizCount = await quizzesQuery.CountAsync(q => q.Created_by == "Ai");
+                var totalQuizCount = manualQuizCount + aiQuizCount;
+
+                var manualFlashcardCount = await flashcardsQuery.CountAsync(f => f.CreatedBy == "Manual");
+                var aiFlashcardCount = await flashcardsQuery.CountAsync(f => f.CreatedBy == "Ai");
+                var totalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
+
+                var professorCount = await usersQuery.CountAsync(u => u.Role == "Professor");
+                var studentCount = await usersQuery.CountAsync(u => u.Role == "Student");
+                var totalUserCount = professorCount + studentCount;
+
+                var totalContents = totalQuizCount + totalFlashcardCount;
+
+                // Calculate average quizzes and flashcards created per month
+                int months = 1;
+                if (startDate != DateTime.MinValue)
+                {
+                    months = (DateTime.Today.Year - startDate.Year) * 12 + DateTime.Today.Month - startDate.Month + 1;
+                }
+                else
+                {
+                    var firstQuiz = await _context.Quizzes.OrderBy(q => q.CreatedAt).FirstOrDefaultAsync();
+                    var firstFlashcard = await _context.Flashcards.OrderBy(f => f.CreatedAt).FirstOrDefaultAsync();
+                    var firstDate = firstQuiz?.CreatedAt ?? firstFlashcard?.CreatedAt ?? DateTime.Today;
+                    months = (DateTime.Today.Year - firstDate.Year) * 12 + DateTime.Today.Month - firstDate.Month + 1;
+                }
+
+                var averageQuizzesPerMonth = months > 0 ? totalQuizCount / months : 0;
+                var averageFlashcardsPerMonth = months > 0 ? totalFlashcardCount / months : 0;
+
+                ViewData["ManualQuizCount"] = manualQuizCount;
+                ViewData["AiQuizCount"] = aiQuizCount;
+                ViewData["TotalQuizCount"] = totalQuizCount;
+                ViewData["ManualFlashcardCount"] = manualFlashcardCount;
+                ViewData["AiFlashcardCount"] = aiFlashcardCount;
+                ViewData["TotalFlashcardCount"] = totalFlashcardCount;
                 ViewData["ProfessorCount"] = professorCount;
                 ViewData["StudentCount"] = studentCount;
-        
-                var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
-        
+                ViewData["TotalUserCount"] = totalUserCount;
+                ViewData["TotalContents"] = totalContents;
+                ViewData["AverageQuizzesPerMonth"] = averageQuizzesPerMonth;
+                ViewData["AverageFlashcardsPerMonth"] = averageFlashcardsPerMonth;
+                ViewData["FilterPeriod"] = filterPeriod;
+
                 var model = new AccountEditViewModel
                 {
                     NewUsername = user.FullName,
+                    Flashcards = flashcards,
+                    Quizzes = quizzes,
+                    StudentRatings = studentRatings,
+                    ProfessorRatings = professorRatings,
                     ManualQuizCount = manualQuizCount,
                     AiQuizCount = aiQuizCount,
-                    Flashcards = flashcards, // Populate the Flashcards property
-                    Quizzes = quizzes // Populate the Quizzes property
+                    TotalQuizCount = totalQuizCount,
+                    manualFlashcardCount = manualFlashcardCount,
+                    aiFlashcardCount = aiFlashcardCount,
+                    TotalFlashcardCount = totalFlashcardCount,
+                    ProfessorCount = professorCount,
+                    StudentCount = studentCount,
+                    TotalUserCount = totalUserCount,
+                    TotalContents = totalContents,
+                    AverageQuizzesPerMonth = averageQuizzesPerMonth,
+                    AverageFlashcardsPerMonth = averageFlashcardsPerMonth,
+                    FilterPeriod = filterPeriod
                 };
-        
+
                 return View(model);
             }
-        
+
             return RedirectToAction("Login", "Account");
         }
-
 
         public async Task<IActionResult> StudentPanel()
         {
@@ -398,6 +478,36 @@ namespace UsersApp.Controllers
             return View("StudentPanel", model);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuiz(int id)
+        {
+            var quiz = await _context.Quizzes.FindAsync(id);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            _context.Quizzes.Remove(quiz);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFlashcard(int id)
+        {
+            var flashcard = await _context.Flashcards.FindAsync(id);
+            if (flashcard == null)
+            {
+                return NotFound();
+            }
+
+            _context.Flashcards.Remove(flashcard);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
 
 

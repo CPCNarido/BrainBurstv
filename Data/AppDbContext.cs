@@ -16,6 +16,7 @@ namespace UsersApp.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<ScoreRecord> ScoreRecords { get; set; }
 
+        public DbSet<Review> Ratings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

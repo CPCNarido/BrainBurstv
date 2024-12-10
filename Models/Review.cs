@@ -9,4 +9,5 @@ public class Review
     public string Feedback { get; set; }
     
     public string FilePath { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

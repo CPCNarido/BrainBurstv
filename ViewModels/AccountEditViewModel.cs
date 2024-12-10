@@ -21,6 +21,15 @@ namespace UsersApp.ViewModels
         public int ProfessorCount { get; set; } // Add this property
         public int StudentCount { get; set; } // Add this property
         public int TotalUserCount { get; set; } // Add this property
+        public List<Review> StudentRatings { get; set; }
+        public List<Review> ProfessorRatings { get; set; }
+        public List<Review> AllRatings { get; set; }
+        public int TotalContents { get; set; } // Add this property
+        public double AverageQuizzesPerMonth { get; set; } // Add this property
+        public double AverageFlashcardsPerMonth { get; set; } // Add this property
+        public double AverageRatingsPerMonth { get; set; } // Add this property
+        public double AverageUsersPerMonth { get; set; } // Add this property
+        public string FilterPeriod { get; set; } // Add this property
     }
 
 }
