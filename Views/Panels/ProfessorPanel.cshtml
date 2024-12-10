@@ -377,7 +377,79 @@ const myPieChart4 = new Chart(ctx4, {
         },
     }
 });
-    </script>
+
+    // Pie Chart for Quizzes
+    const ctxQuiz = document.getElementById('myPieChart7').getContext('2d');
+    const myPieChartQuiz = new Chart(ctxQuiz, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated', 'Manual Generated'],
+            datasets: [{
+                label: 'Quiz Count',
+                data: [
+                    @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                ],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+
+    // Pie Chart for Flashcards
+    const ctxFlashcards = document.getElementById('myPieChart8').getContext('2d');
+    const myPieChartFlashcards = new Chart(ctxFlashcards, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated', 'Manual Generated'],
+            datasets: [{
+                label: 'Flashcard Count',
+                data: [
+                    @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                ],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+</script>
 
 <script>
     function handleDragOver(event) {

@@ -208,8 +208,8 @@ namespace UsersApp.Controllers
                     NewUsername = user.FullName,
                     ManualQuizCount = manualQuizCount,
                     AiQuizCount = aiQuizCount,
-                    Flashcards = flashcards, // Populate the Flashcards property
-                    Quizzes = quizzes // Populate the Quizzes property
+                    Flashcards = flashcards,
+                    Quizzes = quizzes
                 };
         
                 return View(model);
@@ -407,16 +407,6 @@ namespace UsersApp.Controllers
             _logger.LogInformation("Returning to StudentPanel view with errors for user ID: {UserId}", user.Id);
             return View("StudentPanel", model);
         }
-
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-
-
-
 
             public async Task<IActionResult> Logout()
         {
