@@ -106,58 +106,15 @@ namespace UsersApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(model.Name))
+                Users users = new Users
                 {
-                    ViewData["NameError"] = "Name is required.";
-                }
-                else
-                {
-                    ViewData["NameError"] = null; // Clear name error if field is not empty
-                }
-                if (string.IsNullOrEmpty(model.Email))
-                {
-                    ViewData["EmailError"] = "Email is required.";
-                }
-                else
-                {
-                    ViewData["EmailError"] = null; // Clear email error if field is not empty
-                }
-                if (string.IsNullOrEmpty(model.Password))
-                {
-                    ViewData["PasswordError"] = "Password is required.";
-                }
-                else
-                {
-                    ViewData["PasswordError"] = null; // Clear password error if field is not empty
-                }
-                if (string.IsNullOrEmpty(model.ConfirmPassword))
-                {
-                    ViewData["ConfirmPasswordError"] = "Confirm Password is required.";
-                }
-                else
-                {
-                    ViewData["ConfirmPasswordError"] = null; // Clear confirm password error if field is not empty
-                }
-                if (string.IsNullOrEmpty(model.Role))
-                {
-                    ViewData["RoleError"] = "Role is required.";
-                }
-                else
-                {
-                    ViewData["RoleError"] = null; // Clear role error if field is not empty
-                }
-                return View(model);
-            }
-
-            Users users = new Users
-            {
-                FullName = model.Name,
-                Email = model.Email,
-                UserName = model.Email,
-                FilePath = "/profile_images/default.png",
-                Role = model.Role,
-                Created_At = DateTime.Now
-            };
+                    FullName = model.Name,
+                    Email = model.Email,
+                    UserName = model.Email,
+                    FilePath = "/profile_images/default.png",
+                    Role = model.Role,
+                    Created_At = DateTime.Now
+                };
 
             var result = await userManager.CreateAsync(users, model.Password);
 
@@ -331,204 +288,14 @@ namespace UsersApp.Controllers
                 var user = await userManager.GetUserAsync(User);
                 user.FilePath = $"/profile_images/{fileName}";  // Store relative path
                 await userManager.UpdateAsync(user);
-
-                return RedirectToAction("AccountEdit"); // Adjust redirect as needed
+    
+                return RedirectToAction("AdminPanel"); // Adjust redirect as needed
             }
 
             return View("AccountSettings"); // Return to settings page if the upload fails
         }
         
-public async Task<IActionResult> AccountEdit(string period = "daily")
-{
-    if (User.Identity.IsAuthenticated)
-    {
-        var user = await userManager.GetUserAsync(User);
-        _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
-        ViewData["FilePath"] = user.FilePath;
-        ViewData["Username"] = user.FullName;
-        ViewData["Role"] = user.Role;
 
-        var userId = user.Id; // Retrieve the user ID from the logged-in user
-        var quizzes = await _context.Quizzes
-            .Where(q => q.UserId == userId) // Filter quizzes by UserId
-            .Select(q => new Quiz
-            {
-                QuizId = q.QuizId,
-                GradeLevel = q.GradeLevel ?? string.Empty,
-                Topic = q.Topic ?? string.Empty,
-                CorrectAnswers = q.CorrectAnswers ?? string.Empty,
-                JsonFilePath = q.JsonFilePath ?? string.Empty,
-                UserId = q.UserId,
-                HighestScore = q.HighestScore,
-                GameCode = q.GameCode ?? string.Empty
-            })
-            .ToListAsync();
-
-        // Daily, Monthly, and Yearly counts
-        var today = DateTime.Today;
-        var startOfMonth = new DateTime(today.Year, today.Month, 1);
-        var startOfYear = new DateTime(today.Year, 1, 1);
-
-        var dailyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt.Date == today);
-        var monthlyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt >= startOfMonth);
-        var yearlyQuizCount = await _context.Quizzes.CountAsync(q => q.CreatedAt >= startOfYear);
-
-        ViewData["DailyQuizCount"] = dailyQuizCount;
-        ViewData["MonthlyQuizCount"] = monthlyQuizCount;
-        ViewData["YearlyQuizCount"] = yearlyQuizCount;
-
-        var dailyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt.Date == today);
-        var monthlyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt >= startOfMonth);
-        var yearlyFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedAt >= startOfYear);
-
-        ViewData["DailyFlashcardCount"] = dailyFlashcardCount;
-        ViewData["MonthlyFlashcardCount"] = monthlyFlashcardCount;
-        ViewData["YearlyFlashcardCount"] = yearlyFlashcardCount;
-
-        var dailyUserCount = await userManager.Users.CountAsync(u => u.Created_At.Date == today);
-        var monthlyUserCount = await userManager.Users.CountAsync(u => u.Created_At >= startOfMonth);
-        var yearlyUserCount = await userManager.Users.CountAsync(u => u.Created_At >= startOfYear);
-
-        ViewData["DailyUserCount"] = dailyUserCount;
-        ViewData["MonthlyUserCount"] = monthlyUserCount;
-        ViewData["YearlyUserCount"] = yearlyUserCount;
-
-        var dailyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At.Date == today);
-        var monthlyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At >= startOfMonth);
-        var yearlyStudentCount = await userManager.Users.CountAsync(u => u.Role == "Student" && u.Created_At >= startOfYear);
-
-        ViewData["DailyStudentCount"] = dailyStudentCount;
-        ViewData["MonthlyStudentCount"] = monthlyStudentCount;
-        ViewData["YearlyStudentCount"] = yearlyStudentCount;
-
-        var dailyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At.Date == today);
-        var monthlyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At >= startOfMonth);
-        var yearlyProfessorCount = await userManager.Users.CountAsync(u => u.Role == "Professor" && u.Created_At >= startOfYear);
-
-        ViewData["DailyProfessorCount"] = dailyProfessorCount;
-        ViewData["MonthlyProfessorCount"] = monthlyProfessorCount;
-        ViewData["YearlyProfessorCount"] = yearlyProfessorCount;
-
-        var dailyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt.Date == today);
-        var monthlyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt >= startOfMonth);
-        var yearlyManualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.CreatedAt >= startOfYear);
-
-        ViewData["DailyManualFlashcardCount"] = dailyManualFlashcardCount;
-        ViewData["MonthlyManualFlashcardCount"] = monthlyManualFlashcardCount;
-        ViewData["YearlyManualFlashcardCount"] = yearlyManualFlashcardCount;
-
-        var dailyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt.Date == today);
-        var monthlyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt >= startOfMonth);
-        var yearlyAiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.CreatedAt >= startOfYear);
-
-        ViewData["DailyAiFlashcardCount"] = dailyAiFlashcardCount;
-        ViewData["MonthlyAiFlashcardCount"] = monthlyAiFlashcardCount;
-        ViewData["YearlyAiFlashcardCount"] = yearlyAiFlashcardCount;
-
-        var dailyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt.Date == today);
-        var monthlyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt >= startOfMonth);
-        var yearlyManualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.CreatedAt >= startOfYear);
-
-        ViewData["DailyManualQuizCount"] = dailyManualQuizCount;
-        ViewData["MonthlyManualQuizCount"] = monthlyManualQuizCount;
-        ViewData["YearlyManualQuizCount"] = yearlyManualQuizCount;
-
-        var dailyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt.Date == today);
-        var monthlyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt >= startOfMonth);
-        var yearlyAiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.CreatedAt >= startOfYear);
-
-        ViewData["DailyAiQuizCount"] = dailyAiQuizCount;
-        ViewData["MonthlyAiQuizCount"] = monthlyAiQuizCount;
-        ViewData["YearlyAiQuizCount"] = yearlyAiQuizCount;
-
-        var model = new AccountEditViewModel
-        {
-            NewUsername = user.FullName,
-            Flashcards = await _context.Flashcards.Where(f => f.UserId == userId).ToListAsync(),
-            Quizzes = quizzes,
-            ManualQuizCount = dailyManualQuizCount + monthlyManualQuizCount + yearlyManualQuizCount,
-            AiQuizCount = dailyAiQuizCount + monthlyAiQuizCount + yearlyAiQuizCount
-        };
-
-        if (user.Role == "Student")
-        {
-            var quizResults = await _context.ScoreRecords
-                .Include(sr => sr.Quiz) // Include the Quiz reference
-                .Where(qr => qr.UserId == user.Id)
-                .ToListAsync();
-            ViewData["QuizResults"] = quizResults;
-        } else if(user.Role == "Professor")
-        {
-            var quizResults = await _context.ScoreRecords
-                .Include(sr => sr.Quiz) // Include the Quiz reference
-                .Where(qr => qr.Quiz.UserId == user.Id)
-                .ToListAsync();
-            ViewData["QuizResults"] = quizResults;
-        }
-
-        return View(model);
-    }
-
-    return RedirectToAction("Login", "Account");
-}
-public IActionResult GetContentReport(string filter)
-{
-    var now = DateTime.UtcNow;
-
-    // Fetch data based on filter (daily, monthly, yearly)
-    IQueryable<Quiz> quizzesQuery = _context.Quizzes.AsQueryable();
-    IQueryable<Flashcard> flashcardsQuery = _context.Flashcards.AsQueryable();
-
-    // Filter quizzes and flashcards based on the selected date range
-    if (filter == "daily")
-    {
-        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Date == now.Date);
-        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Date == now.Date);
-    }
-    else if (filter == "monthly")
-    {
-        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Month == now.Month && q.CreatedAt.Year == now.Year);
-        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Month == now.Month && f.CreatedAt.Year == now.Year);
-    }
-    else if (filter == "yearly")
-    {
-        quizzesQuery = quizzesQuery.Where(q => q.CreatedAt.Year == now.Year);
-        flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt.Year == now.Year);
-    }
-
-    // Count AI and manual created content
-    var aiQuizCount = quizzesQuery.Count(q => q.Created_by == "Ai");
-    var manualQuizCount = quizzesQuery.Count(q => q.Created_by == "Manual");
-    var aiFlashcardCount = flashcardsQuery.Count(f => f.CreatedBy == "Ai");
-    var manualFlashcardCount = flashcardsQuery.Count(f => f.CreatedBy == "Manual");
-
-    // Total counts
-    var totalQuizCount = aiQuizCount + manualQuizCount;
-    var totalFlashcardCount = aiFlashcardCount + manualFlashcardCount;
-
-    // Populate ViewData
-    ViewData["AiQuizCount"] = aiQuizCount;
-    ViewData["ManualQuizCount"] = manualQuizCount;
-    ViewData["AiFlashcardCount"] = aiFlashcardCount;
-    ViewData["ManualFlashcardCount"] = manualFlashcardCount;
-    ViewData["TotalQuizCount"] = totalQuizCount;
-    ViewData["TotalFlashcardCount"] = totalFlashcardCount;
-    ViewData["TotalContentCount"] = totalQuizCount + totalFlashcardCount;
-
-    // Return the appropriate partial view based on the filter
-    if (filter == "daily")
-    {
-        return PartialView("_DailyReport");
-    }
-    else if (filter == "monthly")
-    {
-        return PartialView("_MonthlyReport");
-    }
-    else // yearly
-    {
-        return PartialView("_YearlyReport");
-    }
-}
 
 
 [HttpPost]

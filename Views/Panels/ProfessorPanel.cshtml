@@ -1,0 +1,386 @@
+@model UsersApp.ViewModels.AccountEditViewModel
+
+@{
+    ViewData["Title"] = "Admin Panel";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="SideBar">
+        <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
+        <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
+        <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
+
+
+
+
+        
+        
+
+    </div>
+    <div class="Content">
+        <div class="Home section" id="Home" style="display: block;">
+                welcome to Professor panel
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+
+        <div class="f-content">
+            <div class="Flashcards section" id="Flashcards" style="display: none;">
+                <div class="f-head">
+                    <h1>Flashcards</h1>
+                </div>
+                <div class="f-collection">
+                    @if (Model.Flashcards != null && Model.Flashcards.Any())
+                    {
+                        @foreach (var flashcard in Model.Flashcards)
+                        {
+                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                                <div class="f-info">
+                                    <p>@flashcard.Id</p>
+                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
+                                    <h2>@ViewData["Username"]</h2>
+                                </div>
+                                <div class="bot">
+                                    <div class="divider"></div>
+                                    <div class="f-desc">@flashcard.Description</div>             
+                                </div>                  
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="Quiz section" id="Quiz" style="display: none;">
+            <div class="Q-Head">
+                <h1>Quizzes</h1>
+            </div>
+            <div class="quizzes-container">
+            @foreach (var quiz in Model.Quizzes)
+            {
+            <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                <h1>@quiz.Topic</h1>
+                <h2>@quiz.GradeLevel</h2>
+            </button>
+            }
+            </div>
+        </div>
+
+
+        
+
+        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
+            <h1>Account Settings</h1>
+            <div class="personal-info">Personal Information</div>
+            <div class="personal-container">
+                <div class="userprofile">
+                    <div class="drag-drop-container" id="drag-drop-container">
+                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data">
+                            <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                                <p>Drag and drop a picture here or click to upload</p>
+                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
+                                <label class="button" for="fileElem">Select a file</label>
+                            </div>  
+                            <button type="submit" class="Upload">Upload Image</button>
+                        </form>
+                        <div id="gallery"></div>
+                    </div>
+                </div>
+
+                <div class="userdetails-container">
+                     <form asp-action="AccountEditProfessor" method="post">
+                        <div class="username">
+                            <h1>Username</h1>
+                            <div class="name">
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
+                                <span asp-validation-for="NewUsername" class="text-danger"></span>
+                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="personal-info">Security and Privacy</div>
+    
+            <div class="personal-container1">
+                <div class="description">
+                    <h1>Change Password</h1>
+                    <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
+                </div>
+                <div class="button-container">
+                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
+                </div>
+            </div>
+            <div class="personal-container2">
+                <div class="description">
+                    <h1>Delete Account</h1>
+                    <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
+                </div>
+                <div class="button-container">
+                    <div class="Logout">
+                        <form asp-action="DeleteAccount" method="post">
+                            <button type="submit" class="deleteaccount">Delete Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            
+
+
+            <div class="Logout1">
+                <form asp-action="Logout" method="post">
+                    <button type="submit" class="changepassword">Logout</button>
+                </form>
+            </div>
+        </div>
+
+    
+                
+<script>
+// Pie Chart 1
+const ctx1 = document.getElementById('myPieChart1').getContext('2d');
+const myPieChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+        labels: ['Quiz Count', 'FlashCard Count'],
+        datasets: [{
+            label: 'Generated',
+            data: [@ViewData["TotalQuizCount"], @ViewData["TotalFlashcardCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+
+const ctx2 = document.getElementById('myPieChart2').getContext('2d');
+const myPieChart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+        labels: ['Professor', 'Student'],
+        datasets: [{
+            label: 'User Count',
+            data: [@ViewData["ProfessorCount"], @ViewData["StudentCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: 'rgba(43, 85, 14, 1)' // Change legend text color to the specified color
+                }
+            },
+            tooltip: {
+                enabled: true,
+                bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
+                titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
+            }
+        }
+    }
+});
+
+// Pie Chart 3
+const ctx3 = document.getElementById('myPieChart3').getContext('2d');
+const myPieChart3 = new Chart(ctx3, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        datasets: [{
+            label: 'My Pie Chart',
+            data: [15, 25, 35, 25],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+
+// Pie Chart 4
+const ctx4 = document.getElementById('myPieChart4').getContext('2d');
+const myPieChart4 = new Chart(ctx4, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green'],
+        datasets: [{
+            label: 'My Pie Chart',
+            data: [15, 25, 35, 25],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+    </script>
+
+<script>
+    function handleDragOver(event) {
+        event.preventDefault(); // Prevent default to allow drop
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.add('highlight');
+    }
+
+    function handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.remove('highlight');
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        document.getElementById('drop-area').classList.remove('highlight');
+
+        const files = event.dataTransfer.files;
+        if (files.length) {
+            document.getElementById('fileElem').files = files; // Assign the dropped files to the input
+            handleFiles(files); // Preview the file
+        }
+    }
+
+    function handleFiles(files) {
+        files = [...files];
+        previewFile(files[0]);
+    }
+
+    function previewFile(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function () {
+            let img = document.createElement('img');
+            img.src = reader.result;
+            img.classList.add('uploaded-image');
+            document.querySelector('.Upload').style.display = 'block';
+
+            let gallery = document.getElementById('gallery');
+            gallery.innerHTML = ''; // Clear any existing images
+            gallery.appendChild(img);
+
+            // Hide the drop area when an image is previewed
+            document.getElementById('drop-area').style.display = 'none';
+        };
+    }
+</script>
+
+<script>
+    function checkInput() {
+        var input = document.querySelector('input[name="NewUsername"]').value;
+        var button = document.getElementById('saveButton');
+        button.disabled = input.trim() === "";
+    }
+</script>
+
+<script>
+    function showSection(section) {
+        var sections = document.querySelectorAll('.section');
+        sections.forEach(function (sec) {
+            sec.style.display = 'none';
+        });
+        var selectedSection = document.getElementById(section);
+        if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
+            selectedSection.style.display = 'block';
+        } else {
+            selectedSection.style.display = 'block';
+        }
+    }
+</script>
+
+<script>
+    function takeFlashcard(flashcardId) {
+        window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
+    }
+</script>
+</body>
+</html>

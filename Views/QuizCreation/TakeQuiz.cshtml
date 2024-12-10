@@ -13,6 +13,33 @@
     <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        #popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+#popup-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#popup-message.hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
         .scores-table {
             width: 100%;
             border-collapse: collapse;
@@ -201,6 +228,7 @@
 <body>
     <div id="quiz-container">
         <div id="timer"></div>
+        <div id="popup-message" class="hidden">Time is up! Moving to the next question...</div>
         <div id="question"></div>
         <div id="choices"></div>
     </div>
@@ -231,6 +259,26 @@
         const oscillator = audioCtx.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
+    }
+
+    function playBeep2() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + .1); // Beep duration is 1 second
+    }
+
+    function playBeep3() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
         oscillator.connect(audioCtx.destination);
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
