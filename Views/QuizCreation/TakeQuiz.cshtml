@@ -13,6 +13,33 @@
     <link rel="stylesheet" href="~/css/TakeQuiz.css" asp-append-version="true" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        #popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+#popup-message.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#popup-message.hidden {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
         .scores-table {
             width: 100%;
             border-collapse: collapse;
@@ -97,18 +124,46 @@
                 startTimer(timers[index + 1] || 10); // Default to 10 seconds if no timer is specified
             }
 
-            function startTimer(seconds) {
-                clearInterval(timer);
-                let timeLeft = seconds;
-                timer = setInterval(() => {
-                    timeLeft--;
-                    $('#timer').text(`Time left: ${timeLeft} secs`);
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        showQuestion(++currentQuestionIndex); // Move to the next question
-                    }
-                }, 1000);
-            }
+function startTimer(seconds) {
+    clearInterval(timer);
+    let timeLeft = seconds;
+    timer = setInterval(() => {
+        timeLeft--;
+        $('#timer').text(`Time left: ${timeLeft} secs`);
+        
+        if (timeLeft < 4) {
+            playBeep2();
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            playBeep3();
+
+            // Show the pop-up message
+            showPopupMessage('Time is up! Moving to the next question...', 2000, () => {
+                showQuestion(++currentQuestionIndex); // Move to the next question after pop-up disappears
+            });
+        }
+    }, 1000);
+}
+
+function showPopupMessage(message, duration, callback) {
+    const popup = document.getElementById('popup-message');
+    popup.textContent = message;
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+
+    // Hide the popup after the duration
+    setTimeout(() => {
+        popup.classList.remove('show');
+        popup.classList.add('hidden');
+        
+        // Execute callback after hiding the pop-up
+        if (callback) callback();
+    }, duration);
+}
+
+
 
             // Handle choice selection
             $(document).on('click', '.choice', function() {
@@ -199,6 +254,7 @@
 <body>
     <div id="quiz-container">
         <div id="timer"></div>
+        <div id="popup-message" class="hidden">Time is up! Moving to the next question...</div>
         <div id="question"></div>
         <div id="choices"></div>
     </div>
@@ -229,6 +285,26 @@
         const oscillator = audioCtx.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
+    }
+
+    function playBeep2() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + .1); // Beep duration is 1 second
+    }
+
+    function playBeep3() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
         oscillator.connect(audioCtx.destination);
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second

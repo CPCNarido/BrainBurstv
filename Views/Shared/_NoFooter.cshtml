@@ -1,4 +1,4 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,35 +103,6 @@
         <main role="main" class="container">
             @RenderBody()
         </main>
-        <footer class="Footer">
-            <div class="upfoot">
-                <div class="Footlogo">
-                    <img src="/Assets/Footer.png" class="logo1">
-                </div>
-                <div class="info">
-                    <div class="information">
-                        <h1>Information</h1>
-                        <button class="FooterAbout" onclick="location.href='@Url.Action("AboutUs", "Home")'"><h1>ABOUT US</h1></button>
-                        <button class="FooterAbout" onclick="location.href='@Url.Action("ContactUs", "Home")'"><h1>CONTACT US</h1></button>
-                    </div>
-                    <div class="object"></div>
-                    <div class="Legal">
-                        <h1>Legal</h1>
-                        <button class="FooterTerms" onclick="location.href='@Url.Action("Terms", "Home")'"><h1>TERMS AND CONDITIONS</h1></button>
-                        <button class="Footerprivacy" onclick="location.href='@Url.Action("Privacy", "Home")'"><h1>PRIVACY POLICY</h1></button>
-                    </div>
-                </div>
-                <div class="ghost"></div>
-            </div>
-            <div class="downfoot">
-                <div class="rights"><h1>All rights reserved.</h1><br><h1>2024.BrainBurst</h1></div>
-                <div class="socials">
-                    <img src="/Assets/Socials/Facebook.png" class="facebook" style="width: 60px; height: 60px;">
-                    <img src="/Assets/Socials/Twitter.png" class="twitter" style="width: 60px; height: 60px;">
-                    <img src="/Assets/Socials/Instagram.png" class="instagram" style="width: 60px; height: 60px;">
-                </div>
-            </div>
-        </footer>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -17,17 +17,10 @@
 <body>
     <div class="SideBar">
         <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
-        @if((string)@ViewData["Role"] == "Admin")
-        {
-            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
-        }
-
-        @if((string)@ViewData["Role"] != "Admin")
-        {
         <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
-        }
+
 
 
 
@@ -37,117 +30,7 @@
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
-        @if ((string)@ViewData["Role"] == "Admin")
-        {
-                <h1 class="report-titles"> Overall Content Report</h1>
-                <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
-                
-                <div class="top-chart-container">
-                    <div>
-                    <div class="box-pie-chart">
-                        <canvas id="myPieChart1" width="220" height="240"></canvas>
-                    </div>
-                    <p class="report-note"> AI Generated vs Manually Created</p>
-                    </div>
-
-                    <div class="box-reports">
-                        <div class="content-created">
-                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"]
-                        </div>
-                        <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
-                         <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
-                    </div>
-                </div>
-
-
-                <h1 class="report-titles" id="margin-top-text"> User Report</h1>
-                <p class="report-description">Overview of users and their activities on BrainBurst</p>
-
-                <div class="mid-chart-container">
-                    <div class="left-box-report">
-                        <div class="quizzes-average">
-                            <h1>Average Quizzes Created per Month</h1>
-                            <p>50</p>
-                        </div>
-                        <div class="quizzes-average">
-                            <h1>Average Flashcards Created per Month</h1>
-                            <p>50</p>
-                        </div>
-                    </div>
-                    <div class="right-box-report">
-                        <div class="left-right-box-report">
-                            <div class="population-report">
-                                <h1>Total Number of Users:</h1>
-                                <p>@ViewData["TotalUserCount"]</p>
-                            </div>
-                            <div class="population-report">
-                                <h1>Total Number of Students:</h1>
-                                <p>@ViewData["StudentCount"]</p>
-                            </div>
-                            <div class="population-report">
-                                <h1>Total Number of Professors:</h1>
-                                <p>@ViewData["ProfessorCount"]</p>
-                            </div>
-                        </div>
-                        <div class="right-right-box-report">
-                            <canvas id="myPieChart2"></canvas>
-                            <p class="role-description">Users by role</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <h1 class="report-titles" id="margin-top-text"> Feedback  Analysis Report</h1>
-                <p class="report-description">Overview of user feedback on BrainBurst</p>
-
-                <div class="bottom-chart-container">
-                    <div class="first-chart-bottom">
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
-                        </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
-                        </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
-                        </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
-                        </div>
-                    </div>
-                    <div class="second-chart-bottom">
-                        <div class="box-chart-bottom">
-                        <canvas id="myPieChart3"></canvas>
-                        </div>
-                         <p>Student Ratings</p>
-                    </div>
-                    <div class="third-chart-bottom">
-                        <div class="box-chart-bottom">
-                        <canvas id="myPieChart4"></canvas>
-                        </div>
-                        <p>Professor Ratings</p>
-                    </div>
-                </div>
-        }
-        else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
-        }
-        else if((string)@ViewData["Role"] == "Student"){
-            <p>Students</p>
-        }
+                welcome to Professor panel
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -204,7 +87,7 @@
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImage" method="post" enctype="multipart/form-data">
+                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
                                 <p>Drag and drop a picture here or click to upload</p>
                                 <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
@@ -217,7 +100,7 @@
                 </div>
 
                 <div class="userdetails-container">
-                     <form asp-action="AccountEdit" method="post">
+                     <form asp-action="AccountEditProfessor" method="post">
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
