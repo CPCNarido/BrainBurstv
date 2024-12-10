@@ -15,4 +15,23 @@
     border: none !important;
 }
 
-/* Add any additional print-specific styles here */
+/* Adjust font sizes for printing */
+.quiz-report-titles, .flashcards-report-titles {
+    font-size: 1.5rem; /* Adjusted font size */
+}
+
+.quiz-report-description, .flashcards-report-description {
+    font-size: 1rem; /* Adjusted font size */
+}
+
+.quiz-box-reports, .flashcards-box-reports {
+    font-size: 1rem; /* Adjusted font size */
+}
+
+.quiz-box-pie-chart, .flashcards-box-pie-chart {
+    padding: 5% 2%; /* Adjusted padding */
+}
+
+.quiz-report-note, .flashcards-report-note {
+    font-size: 0.9rem; /* Adjusted font size */
+}

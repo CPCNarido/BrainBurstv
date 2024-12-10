@@ -208,8 +208,8 @@ namespace UsersApp.Controllers
                     NewUsername = user.FullName,
                     ManualQuizCount = manualQuizCount,
                     AiQuizCount = aiQuizCount,
-                    Flashcards = flashcards,
-                    Quizzes = quizzes
+                    Flashcards = flashcards, // Populate the Flashcards property
+                    Quizzes = quizzes // Populate the Quizzes property
                 };
         
                 return View(model);
