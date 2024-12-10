@@ -391,6 +391,19 @@ html,body{
     border-color: #5C4C20; /* Ensure border color remains brown on hover */
 }
 
+.lets-go:disabled,
+.lets-go2:disabled {
+    cursor: not-allowed;
+    background-color: #F6D97B; /* Keep the original background color */
+    border-color: #5C4C20; /* Keep the original border color */
+}
+
+.lets-go:disabled:hover,
+.lets-go2:disabled:hover {
+    background-color: #F6D97B; /* Prevent color change on hover */
+    border-color: #5C4C20; /* Prevent border color change on hover */
+}
+
 .image{
     background-image: url('../Assets/Homepage/BRAINBURST.png');
     width: 595px;

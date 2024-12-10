@@ -20,6 +20,13 @@
         body {
             overflow: hidden; /* Disable scrolling */
         }
+        .text-danger {
+            color: red;
+            font-family: 'Rum Raisin', sans-serif;
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: -10px;
+        }
     </style>
 </head>
 <body>
@@ -29,27 +36,27 @@
         </div>
         <div class="fill">
             <div class="log"><h1>Signup</h1></div>
-            <form asp-action="Register" method="post">
+            <form asp-action="Register" method="post" id="registerForm">
                 @Html.AntiForgeryToken()
                 <div class="userinput1">
                     <label asp-for="Name" class="form-label"></label>
                     <input asp-for="Name" class="email-form" placeholder="Please enter your Name." />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <span asp-validation-for="Name" class="text-danger" id="nameError">@ViewData["NameError"]</span>
                 </div>
                 <div class="userinput">
                     <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="email-form" placeholder="Please enter your username."  />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span asp-validation-for="Email" class="text-danger" id="emailError">@ViewData["EmailError"]</span>
                 </div>
                 <div class="passinput">
                     <label asp-for="Password" class="form-label"></label>
                     <input asp-for="Password" class="pass-form" placeholder="Please enter your password.">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <span asp-validation-for="Password" class="text-danger" id="passwordError">@ViewData["PasswordError"]</span>
                 </div>
                 <div class="passinput">
                     <label asp-for="ConfirmPassword" class="form-label"></label>
                     <input asp-for="ConfirmPassword" class="pass-form" placeholder="Please re-enter your password.">
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger" id="confirmPasswordError">@ViewData["ConfirmPasswordError"]</span>
                 </div>
                 <div class="roleinput">
                     <label for="Role">Role:</label>
@@ -58,11 +65,11 @@
                         <option value="Student">Student</option>
                         <option value="Professor">Professor</option>
                     </select>
-                    <span asp-validation-for="Role" class="text-danger"></span>
+                    <span asp-validation-for="Role" class="role-error-message" id="roleError" style="display: block; margin-top: 5px;">@ViewData["RoleError"]</span>
                 </div>
                 <div class="termsinput">
                     <input type="checkbox" id="acceptTerms" required>
-                    <label for="termsCheckbox" class="termsinput">I accept the <a href="#" id="termsLink">terms and conditions</a></label>
+                    <label for="termsCheckbox" class="termsinput">I accept the <a href="#" id="termsLink">Terms and Conditions</a></label>
                 </div>
                 <div class="submit">
                     <button id="signupButton" type="submit" class="submit-button" disabled>Signup</button>
@@ -119,6 +126,7 @@
                 // Show the modal when the checkbox is checked
                 document.getElementById('termsModal').style.display = 'block';
                 document.body.style.overflow = 'hidden'; // Disable background scrolling
+                event.target.checked = false; // Uncheck the checkbox
             } else {
                 acceptTerms();
             }
@@ -154,6 +162,68 @@
             acceptTerms();
             closeModal();
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registerForm');
+            const nameInput = document.querySelector('input[name="Name"]');
+            const emailInput = document.querySelector('input[name="Email"]');
+            const passwordInput = document.querySelector('input[name="Password"]');
+            const confirmPasswordInput = document.querySelector('input[name="ConfirmPassword"]');
+            const roleSelect = document.querySelector('select[name="Role"]');
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const roleError = document.getElementById('roleError');
+
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+                if (!nameInput.value) {
+                    nameInput.classList.add('input-error');
+                    nameError.textContent = "Name is required.";
+                    valid = false;
+                } else {
+                    nameInput.classList.remove('input-error');
+                    nameError.textContent = "";
+                }
+                if (!emailInput.value) {
+                    emailInput.classList.add('input-error');
+                    emailError.textContent = "Email is required.";
+                    valid = false;
+                } else {
+                    emailInput.classList.remove('input-error');
+                    emailError.textContent = "";
+                }
+                if (!passwordInput.value) {
+                    passwordInput.classList.add('input-error');
+                    passwordError.textContent = "Password is required.";
+                    valid = false;
+                } else {
+                    passwordInput.classList.remove('input-error');
+                    passwordError.textContent = "";
+                }
+                if (!confirmPasswordInput.value) {
+                    confirmPasswordInput.classList.add('input-error');
+                    confirmPasswordError.textContent = "Confirm Password is required.";
+                    valid = false;
+                } else {
+                    confirmPasswordInput.classList.remove('input-error');
+                    confirmPasswordError.textContent = "";
+                }
+                if (!roleSelect.value) {
+                    roleSelect.classList.add('input-error');
+                    roleError.textContent = "Role is required.";
+                    valid = false;
+                } else {
+                    roleSelect.classList.remove('input-error');
+                    roleError.textContent = "";
+                }
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
     </script>
 </body>
+</html>
 </html>

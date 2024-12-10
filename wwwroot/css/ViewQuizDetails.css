@@ -75,6 +75,11 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    cursor: pointer;
+}
+
+.edit-question:hover{
+    background: #F5D059;
 }
 
 .save-question{
@@ -393,7 +398,12 @@ align-items: center;
     gap: 2%;
     display: flex;
     justify-content: center;
-    align-items: center;;
+    align-items: center;
+    cursor: pointer;
+}
+
+.select-correct-answer:hover{
+    background: #F5D059;
 }
 .sas{
     width: 30px;

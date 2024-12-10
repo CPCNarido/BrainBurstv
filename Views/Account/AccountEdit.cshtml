@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -19,7 +20,10 @@
         <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
         @if((string)@ViewData["Role"] == "Admin")
         {
-            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+            
+        <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
+
         }
 
         @if((string)@ViewData["Role"] != "Admin")
@@ -28,21 +32,29 @@
         <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
         }
-
-
-
-        
-        
-
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
         @if ((string)@ViewData["Role"] == "Admin")
         {
-                <h1 class="report-titles"> Overall Content Report</h1>
-                <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
-                
-                <div class="top-chart-container">
+            <h1 class="report-titles"> Overall Content Report</h1>
+            <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
+            
+            <div class="filter-container">
+                <button class="filter-button" onclick="showReport('daily')">Daily</button>
+                <button class="filter-button" onclick="showReport('monthly')">Monthly</button>
+                <button class="filter-button" onclick="showReport('yearly')">Yearly</button>
+            </div>
+
+            <div id="reportContent">
+                @await Html.PartialAsync("_DailyReport")
+            </div>
+        }
+        else if((string)@ViewData["Role"] == "Professor"){
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+                <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+
+                <div class="quiz-top-chart-container">
                     <div>
                     <div class="box-pie-chart">
                         <canvas id="myPieChart1" width="220" height="240"></canvas>
@@ -105,15 +117,42 @@
                         </div>
                     </div>
                 </div>
-                
-                <h1 class="report-titles" id="margin-top-text"> Feedback  Analysis Report</h1>
-                <p class="report-description">Overview of user feedback on BrainBurst</p>
 
-                <div class="bottom-chart-container">
-                    <div class="first-chart-bottom">
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
+                <div class="quiz-results">
+                    Quiz Results
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Date Taken</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+        }
+        else if((string)@ViewData["Role"] == "Student"){
+            <h1 class="quiz-report-titles"> Quiz Report</h1>
+                <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+
+                <div class="quiz-top-chart-container">
+                    <div>
+                        <div class="quiz-box-pie-chart8">
+                            <canvas id="myPieChart5" width="220" height="240"></canvas>
                         </div>
                         <div class="average-content-rating">
                             <p>Total Feedback Entries: </p>
@@ -141,12 +180,33 @@
                         <p>Professor Ratings</p>
                     </div>
                 </div>
-        }
-        else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
-        }
-        else if((string)@ViewData["Role"] == "Student"){
-            <p>Students</p>
+
+                <div class="quiz-results">
+                    Quiz Results
+                </div>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Quiz Name</th>
+                            <th>Score</th>
+                            <th>Date Taken</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                        {
+                            <tr>
+                                <td>@result.Quiz.Topic</td> <!-- Display the quiz name -->
+                                <td>@result.Score</td>
+                                <td>@result.SubmissionDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <button onclick="location.href='@Url.Action("ViewQuizResult", "Quiz", new { id = result.QuizId })'">View</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
         }
         </div>
 
@@ -184,15 +244,31 @@
             <div class="Q-Head">
                 <h1>Quizzes</h1>
             </div>
-            <div class="quizzes-container">
-            @foreach (var quiz in Model.Quizzes)
+            @if((string)@ViewData["Role"] == "Student")
             {
-            <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                <h1>@quiz.Topic</h1>
-                <h2>@quiz.GradeLevel</h2>
-            </button>
-            }
-            </div>
+                <div class="quizzes-container">
+                    @foreach (var result in (List<UsersApp.Models.ScoreRecord>)ViewData["QuizResults"])
+                    {
+                        <div class="flashcard-item">
+                            <h1>@result.Quiz.Topic</h1>
+                            <h2>Score: @result.Score</h2>
+                            <h2>Date Taken: @result.SubmissionDate.ToString("MM/dd/yyyy")</h2>
+                        </div>
+                    }
+                </div>
+            }else if((string)@ViewData["Role"] == "Professor")
+            {
+                <div class="quizzes-container">
+                @foreach (var quiz in Model.Quizzes)
+                {
+                <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                    <h1>@quiz.Topic</h1>
+                    <h2>@quiz.GradeLevel</h2>
+                </button>
+                }
+                </div>
+                }
+            
         </div>
 
 
@@ -268,161 +344,140 @@
 
     
                 
-<script>
-// Pie Chart 1
-const ctx1 = document.getElementById('myPieChart1').getContext('2d');
-const myPieChart1 = new Chart(ctx1, {
-    type: 'pie',
-    data: {
-        labels: ['Quiz Count', 'FlashCard Count'],
-        datasets: [{
-            label: 'Generated',
-            data: [@ViewData["TotalQuizCount"], @ViewData["TotalFlashcardCount"]],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-            },
-            tooltip: {
-                enabled: true,
-            }
-        },
-    }
-});
 
-const ctx2 = document.getElementById('myPieChart2').getContext('2d');
-const myPieChart2 = new Chart(ctx2, {
-    type: 'pie',
-    data: {
-        labels: ['Professor', 'Student'],
-        datasets: [{
-            label: 'User Count',
-            data: [@ViewData["ProfessorCount"], @ViewData["StudentCount"]],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(159, 219, 93, 1)',
-                'rgba(159, 219, 93, 1)',
-                'rgba(159, 219, 93, 1)',
-                'rgba(159, 219, 93, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    color: 'rgba(43, 85, 14, 1)' // Change legend text color to the specified color
+    @* <script>
+    // Pie Chart 5
+    const ctx5 = document.getElementById('myPieChart5').getContext('2d');
+    const myPieChart5 = new Chart(ctx5, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
+            datasets: [{
+                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
                 }
             },
-            tooltip: {
-                enabled: true,
-                bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
-                titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
-            }
         }
-    }
-});
+    });
 
-// Pie Chart 3
-const ctx3 = document.getElementById('myPieChart3').getContext('2d');
-const myPieChart3 = new Chart(ctx3, {
-    type: 'pie',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
-        datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-            },
-            tooltip: {
-                enabled: true,
-            }
+    // Pie Chart 6
+    const ctx6 = document.getElementById('myPieChart6').getContext('2d');
+    const myPieChart6 = new Chart(ctx6, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
+            datasets: [{
+                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
+                backgroundColor: [
+                    'rgba(56, 112, 18, 1)',
+                    'rgba(255, 207, 4, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
         },
-    }
-});
-
-// Pie Chart 4
-const ctx4 = document.getElementById('myPieChart4').getContext('2d');
-const myPieChart4 = new Chart(ctx4, {
-    type: 'pie',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
-        datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
             },
-            tooltip: {
-                enabled: true,
-            }
-        },
-    }
-});
-    </script>
+        }
+    });
+</script>
 
 <script>
+    // Pie Chart 7
+    const ctx7 = document.getElementById('myPieChart7').getContext('2d');
+    const myPieChart7 = new Chart(ctx7, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Quizzes', 'Manually Created Quizzes'],
+            datasets: [{
+                data: [@Model.AiQuizCount, @Model.ManualQuizCount],
+                backgroundColor: [
+                    'rgba(58, 183, 26, 1)',
+                    'rgba(255, 222, 62, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+
+    // Pie Chart 8
+    const ctx8 = document.getElementById('myPieChart8').getContext('2d');
+    const myPieChart8 = new Chart(ctx8, {
+        type: 'pie',
+        data: {
+            labels: ['AI Generated Flashcards', 'Manually Created Flashcards'],
+            datasets: [{
+                data: [@ViewData["aiFlashcardCount"], @ViewData["manualFlashcardCount"]],
+                backgroundColor: [
+                    'rgba(56, 112, 18, 1)',
+                    'rgba(255, 207, 4, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 253, 193, 1)',
+                    'rgba(255, 253, 193, 1)'
+                ],
+                borderWidth: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    enabled: true,
+                }
+            },
+        }
+    });
+</script> *@
+
+    <script>
     function handleDragOver(event) {
         event.preventDefault(); // Prevent default to allow drop
         event.stopPropagation();
@@ -495,6 +550,19 @@ const myPieChart4 = new Chart(ctx4, {
 </script>
 
 <script>
+    function showReport(reportType) {
+        fetch(`/Account/GetContentReport?filter=${reportType}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('reportContent').innerHTML = html;
+            })
+            .catch(error => console.error('Error applying filter:', error));
+    }
+
+        function showReport(reportType) {
+        window.location.href = `/Account/AccountEdit?period=${reportType}`;
+    }
+
     function takeFlashcard(flashcardId) {
         window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
     }

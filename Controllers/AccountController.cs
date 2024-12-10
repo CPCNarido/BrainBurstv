@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UsersApp.Models;
 using UsersApp.ViewModels;
@@ -40,20 +40,60 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                if (string.IsNullOrEmpty(model.Email))
                 {
-                    return RedirectToAction("Index", "Home");
+                    ViewData["EmailError"] = "Email is required.";
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email or password is incorrect.");
-                    return View(model);
+                    ViewData["EmailError"] = null; // Clear email error if field is not empty
                 }
+                if (string.IsNullOrEmpty(model.Password))
+                {
+                    ViewData["PasswordError"] = "Password is required.";
+                }
+                else
+                {
+                    ViewData["PasswordError"] = null; // Clear password error if field is not empty
+                }
+                return View(model);
             }
-            return View(model);
+
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ViewData["EmailError"] = "Email does not match any account. Try again.";
+                ViewData["PasswordError"] = null; // Clear password error
+                return View(model);
+            }
+            else
+            {
+                ViewData["EmailError"] = null; // Clear email error if user is found
+            }
+
+            if (!(await userManager.CheckPasswordAsync(user, model.Password)))
+            {
+                ViewData["PasswordError"] = "Password is wrong. Try again.";
+                ViewData["EmailError"] = null; // Clear email error
+                return View(model);
+            }
+            else
+            {
+                ViewData["PasswordError"] = null; // Clear password error if password is correct
+            }
+
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Email or password is incorrect.");
+                return View(model);
+            }
         }
 
         public IActionResult Register()
@@ -64,7 +104,7 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 Users users = new Users
                 {
@@ -72,26 +112,25 @@ namespace UsersApp.Controllers
                     Email = model.Email,
                     UserName = model.Email,
                     FilePath = "/profile_images/default.png",
-                    Role = model.Role
+                    Role = model.Role,
+                    Created_At = DateTime.Now
                 };
 
-                var result = await userManager.CreateAsync(users, model.Password);
+            var result = await userManager.CreateAsync(users, model.Password);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
-                }
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
             }
-            return View(model);
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
         }
 
         public async Task<IActionResult> VerifyEmail()

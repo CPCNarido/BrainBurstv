@@ -16,7 +16,6 @@
     <div class="container1">
         <div class="flash-card-container">
             <div class="left-side">
-                <div class="top-box">
                     <div class="study-mode">
                         <div class="title">
                             <div class="title-image">
@@ -33,25 +32,6 @@
                     <div class="description">
                         <p>Flip the flashcard to see the answer in an instant, no pressure! It’s like getting a sneak peek without the suspense.</p>
                     </div>
-                </div>
-                <div class="bottom-box">
-                    <div class="answer-mode">
-                        <div class="title">
-                            <div class="title-image">
-                                <div class="image">
-                                    <img src="~/Assets/FlashCardStudyMode/Clip path group-1.png" alt="flashcard-study-mode" />
-                                </div>
-                            </div>
-                            <div class="title-text">
-                                <p>Answer Mode</p>
-                            </div>
-                        </div>  
-                        <hr />
-                        <div class="description">
-                            <p>Test your knowledge by answering the question first. Then, flip the card to reveal the correct answer and see how well you did!</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="right-side">
                 <div class="flash-card-box">
@@ -85,6 +65,10 @@
 
         // Display the current question
         function displayQuestion() {
+            // Ensure the flashcard is unflipped
+            $(".flash-card-content").removeClass("flipped");
+            // Temporarily disable transition
+            $(".flash-card-content").css("transition", "none");
             if (questions.length > 0) {
                 console.log("Displaying question:", questions[currentIndex]); // Log the current question
                 $("#flashcard-question").text(questions[currentIndex].QuestionText);
@@ -94,6 +78,10 @@
                 $("#flashcard-question").text("No questions available.");
                 $("#flashcard-answer").text("");
             }
+            // Re-enable transition after a short delay
+            setTimeout(() => {
+                $(".flash-card-content").css("transition", "transform 0.6s");
+            }, 50);
         }
 
         // Update pagination info
@@ -110,6 +98,7 @@
         $("#prev-button").click(function () {
             if (currentIndex > 0) {
                 currentIndex--;
+                $(".flash-card-content").removeClass("flipped"); // Ensure the flashcard is unflipped
                 displayQuestion();
                 updatePagination();
             }
@@ -119,6 +108,7 @@
         $("#next-button").click(function () {
             if (currentIndex < questions.length - 1) {
                 currentIndex++;
+                $(".flash-card-content").removeClass("flipped"); // Ensure the flashcard is unflipped
                 displayQuestion();
                 updatePagination();
             }

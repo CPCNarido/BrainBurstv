@@ -103,6 +103,7 @@
         <main role="main" class="container">
             @RenderBody()
         </main>
+        @if(ViewData["Title"] != "Take Quiz"){
         <footer class="Footer">
             <div class="upfoot">
                 <div class="Footlogo">
@@ -132,6 +133,8 @@
                 </div>
             </div>
         </footer>
+        }
+
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
