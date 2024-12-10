@@ -105,6 +105,7 @@
                     $('#timer').text(`Time left: ${timeLeft} secs`);
                     if (timeLeft <= 0) {
                         clearInterval(timer);
+                        alert('Times Up!');
                         showQuestion(++currentQuestionIndex); // Move to the next question
                     }
                 }, 1000);
