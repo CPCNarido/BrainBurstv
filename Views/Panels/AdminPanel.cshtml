@@ -16,24 +16,19 @@
 </head>
 <body>
     <div class="SideBar">
-        <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
+        <button class="HomeButton" onclick="showSection('Home')">
+            <img src="../Assets/AccountEdit/bahay.png" style="width: 60px; height: 60px;">Home
+        </button>
         @if((string)@ViewData["Role"] == "Admin")
         {
-            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
+            <button class="QuizButton" onclick="showSection('ContentManagement')">
+                <img src="../Assets/AccountEdit/folder 1.png" style="width: 60px; height: 60px;">Content Management
+            </button>
         }
-
-        @if((string)@ViewData["Role"] != "Admin")
-        {
-        <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
-        <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
-        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
-        }
-
-
-
-        
-        
-
+        <button class="LogoutButton" onclick="document.getElementById('logoutForm').submit()">
+            <img src="../Assets/logout.png" style="width: 60px; height: 60px;">Logout
+        </button>
+        <form id="logoutForm" asp-action="Logout" method="post" style="display: none;"></form>
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">

@@ -29,7 +29,7 @@
 
 }
 
-.HomeButton,.LibraryButton,.FlashcardsButton,.QuizButton{
+.HomeButton,.LibraryButton,.FlashcardsButton,.QuizButton,.LogoutButton{
     width: 80%;
     height: 5%;
     color: #2B550E;
@@ -43,12 +43,11 @@
     outline: none;
     cursor: pointer;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Align items to the start */
     align-items: center;
+    gap: 10px; /* Add some space between the image and text */
+    text-align: left; /* Ensure text is left-aligned */
 }
-
-
-
 
 .HomeButton{
     margin-top: 10%;
