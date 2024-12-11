@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -136,6 +137,7 @@
                         <p>Professor Ratings</p>
                     </div>
                 </div>
+                <button onclick="printPage()" class="print-button" style="margin-top: -100px;">Print</button>
         }
         else if((string)@ViewData["Role"] == "Professor"){
             <p>Professors</p>
@@ -492,6 +494,9 @@ const myPieChart4 = new Chart(ctx4, {
 <script>
     function takeFlashcard(flashcardId) {
         window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
+    }
+    function printPage() {
+            window.print();
     }
 </script>
 </body>
