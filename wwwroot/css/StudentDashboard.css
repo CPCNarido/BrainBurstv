@@ -130,3 +130,20 @@
 .results-table td button:hover {
     background-color: #1E3A08;
 }
+
+.back-button {
+    padding: 1%;
+    margin-top: 30px;
+    margin-left: 30px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #F5D059;
+    display: flex; /* Add display flex */
+    align-items: center; /* Align items vertically */
+    justify-content: center; /* Center items horizontally */
+}
+
+.back-button img {
+    width: 40px;
+    height: 40px;
+}

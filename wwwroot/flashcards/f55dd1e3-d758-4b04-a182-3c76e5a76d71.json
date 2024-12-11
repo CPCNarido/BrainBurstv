@@ -1,0 +1,58 @@
+[
+  {
+    "QuestionText": "1:**What is the closest planet to the Sun?",
+    "AnswerText": "Mercury"
+  },
+  {
+    "QuestionText": "2:**What is the second planet from the Sun?",
+    "AnswerText": "Venus"
+  },
+  {
+    "QuestionText": "3:**What is the planet known for its rings?",
+    "AnswerText": "Saturn"
+  },
+  {
+    "QuestionText": "4:**What is the largest planet in our solar system?",
+    "AnswerText": "Jupiter"
+  },
+  {
+    "QuestionText": "5:**What is the red planet?",
+    "AnswerText": "Mars"
+  },
+  {
+    "QuestionText": "6:**What is the planet known as the \"ice giant\"?",
+    "AnswerText": "Uranus"
+  },
+  {
+    "QuestionText": "7:**What is the furthest planet from the Sun (excluding Pluto)?",
+    "AnswerText": "Neptune"
+  },
+  {
+    "QuestionText": "8:**Which planet is known for its Great Red Spot?",
+    "AnswerText": "Jupiter"
+  },
+  {
+    "QuestionText": "9:**Which planet has the most moons?",
+    "AnswerText": "Saturn"
+  },
+  {
+    "QuestionText": "10:**Which planet is tilted on its side?",
+    "AnswerText": "Uranus"
+  },
+  {
+    "QuestionText": "11:**Which planet has a very strong magnetic field?",
+    "AnswerText": "Jupiter"
+  },
+  {
+    "QuestionText": "12:**Which planet is often called Earth's twin?",
+    "AnswerText": "Venus"
+  },
+  {
+    "QuestionText": "13:**Which planet has a very thin atmosphere?",
+    "AnswerText": "Mercury"
+  },
+  {
+    "QuestionText": "14:**Which planet is known for its strong winds?",
+    "AnswerText": "Neptune"
+  }
+]

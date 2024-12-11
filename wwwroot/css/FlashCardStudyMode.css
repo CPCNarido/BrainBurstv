@@ -13,12 +13,28 @@ body {
     height: 630px;
 }
 
+.back-button{
+    height: 50px;
+    justify-content: center;
+    margin-top: 30px;
+    margin-left: 30px;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: #F5D059;
+    align-items: center;
+}
+
+.back-button img{
+    width: 40px;
+    height: 40px;
+    align-items: center;
+}
 .flash-card-container {
     display: flex;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 100px;
+    margin-top: 60px;
     justify-content: center;
     align-items: center;
     gap: 100px;

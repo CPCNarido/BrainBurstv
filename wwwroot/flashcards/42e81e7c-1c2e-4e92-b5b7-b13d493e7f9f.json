@@ -1,0 +1,58 @@
+[
+  {
+    "QuestionText": "1:**How many continents are there?",
+    "AnswerText": "Seven"
+  },
+  {
+    "QuestionText": "2:**Which continent is known as the \"frozen continent\"?",
+    "AnswerText": "Antarctica"
+  },
+  {
+    "QuestionText": "3:**Name the continent where you can find the Amazon rainforest.",
+    "AnswerText": "South America"
+  },
+  {
+    "QuestionText": "4:**Which continent is home to the highest mountain in the world, Mount Everest?",
+    "AnswerText": "Asia"
+  },
+  {
+    "QuestionText": "5:**What continent is the largest in land area?",
+    "AnswerText": "Asia"
+  },
+  {
+    "QuestionText": "6:**Which continent is known for its deserts like the Sahara?",
+    "AnswerText": "Africa"
+  },
+  {
+    "QuestionText": "7:**Name the continent where Australia is located.",
+    "AnswerText": "Australia"
+  },
+  {
+    "QuestionText": "8:**Which continent is home to the country of Canada?",
+    "AnswerText": "North America"
+  },
+  {
+    "QuestionText": "9:**What continent is mostly in the Southern Hemisphere?",
+    "AnswerText": "Australia (or you could also accept South America, depending on how you define \"mostly\")"
+  },
+  {
+    "QuestionText": "10:**Name a continent that has both very hot and very cold regions.",
+    "AnswerText": "Asia (or North America, or South America — many answers could work here.)"
+  },
+  {
+    "QuestionText": "11:**Which continent is shaped a bit like a boot?",
+    "AnswerText": "Europe"
+  },
+  {
+    "QuestionText": "12:**What is the smallest continent?",
+    "AnswerText": "Australia"
+  },
+  {
+    "QuestionText": "13:**Name a continent that has a lot of islands around it.",
+    "AnswerText": "Europe (or Asia,  or North America —many answers could work here.)"
+  },
+  {
+    "QuestionText": "14:**Which continent is partially in the Northern and partially in the Southern Hemisphere?",
+    "AnswerText": "South America"
+  }
+]

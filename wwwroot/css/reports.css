@@ -29,6 +29,7 @@ body {
     height: 70px;
     font-size: 20px;
     border: 1px solid black;
+    margin-top: 50px;
     border-radius: 10px;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for hover effects */
 }

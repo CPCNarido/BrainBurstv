@@ -12,7 +12,7 @@ namespace UsersApp.Models
         public string CreatedBy { get; set; } // Add this property
         public DateTime CreatedAt { get; set; } // Add this property
         public List<Question> Questions { get; set; }
-        public string UserId { get; set; } // Add this line
+        public string UserId { get; set; } // Add this property
     } 
 
     public class Question
