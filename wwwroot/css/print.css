@@ -1,72 +1,49 @@
-/* Hide elements that should not be printed */
-.SideBar, .print-button, header, footer, .filter-button, .admin-panel-title {
-    display: none;
+@media print {
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .SideBar, .print-button, .f-content, .Q-Head, .personal-info, .personal-container, .personal-container1, .personal-container2, .Logout1, header, footer, .filter-button {
+        display: none;
+    }
+    .Content {
+        width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+    .Content h1, .Content p {
+        text-align: center;
+        margin: 5px 0;
+    }
+    .quiz-top-chart-container, .flashcards-top-chart-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+        page-break-inside: avoid;
+    }
+    .quiz-box-pie-chart, .flashcards-box-pie-chart {
+        width: 45%;
+        height: auto;
+    }
+    .quiz-box-reports, .flashcards-box-reports {
+        width: 45%;
+        text-align: center;
+    }
+    .quiz-box-reports h1, .flashcards-box-reports h1 {
+        font-size: 0.9em;
+        margin-bottom: 5px;
+    }
+    .quiz-box-reports div, .flashcards-box-reports div {
+        margin-bottom: 5px;
+    }
+    .content-created {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    .quiz-box-pie-chart, .flashcards-box-pie-chart {
+        width: 350px;
+        height: 300px;
+    }
 }
-
-/* Ensure the content is styled properly for printing */
-.Content {
-    width: 100%;
-    margin: 0;
-    padding: 5px;
-}
-
-/* Remove borders from printed content */
-* {
-    border: none !important;
-}
-
-/* Adjust font sizes for printing */
-.quiz-report-titles, .flashcards-report-titles {
-    font-size: 1.5rem;
-}
-
-.quiz-report-description, .flashcards-report-description {
-    font-size: 1rem;
-}
-
-.quiz-box-reports, .flashcards-box-reports {
-    font-size: 1rem;
-}
-
-.quiz-box-pie-chart, .flashcards-box-pie-chart {
-    padding: 5% 2%;
-}
-
-.quiz-report-note, .flashcards-report-note {
-    font-size: 0.9rem;
-}
-
-/* Additional styles for print */
-body {
-    background-color: white;
-    color: black;
-    font-size: 12pt;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: black;
-}
-
-p {
-    margin-bottom: 10px;
-}
-
-.container {
-    padding: 10px;
-    margin: 0;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table, th, td {
-    border: 1px solid black;
-}
-
-th, td {
-    padding: 5px;
-    text-align: left;
-}
-
