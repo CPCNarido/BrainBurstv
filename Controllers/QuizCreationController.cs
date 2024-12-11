@@ -266,17 +266,23 @@ public async Task<IActionResult> UpdateQuiz([FromBody] QuizDetailsViewModel mode
 }
 
         [HttpPost]
-public async Task<IActionResult> JoinQuiz(string gameCode)
-{
-    var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
-    if (quiz == null)
+    public async Task<IActionResult> JoinQuiz(string gameCode)
     {
-        _logger.LogError($"Quiz with Game Code {gameCode} not found.");
-        return NotFound(new { message = $"Quiz with Game Code {gameCode} not found." });
-    }
+        if (string.IsNullOrEmpty(gameCode))
+        {
+            TempData["ErrorMessage"] = "Please enter a game code.";
+            return RedirectToAction("Join", "Home");
+        }
 
-    return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
-}
+        var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.GameCode == gameCode);
+        if (quiz == null)
+        {
+            TempData["ErrorMessage"] = "Invalid game code. Please try again.";
+            return RedirectToAction("Join", "Home");
+        }
+
+        return RedirectToAction("TakeQuiz", new { id = quiz.QuizId });
+    }
 
 [HttpPost]
 public async Task<IActionResult> SubmitScore([FromBody] ScoreSubmissionModel model)

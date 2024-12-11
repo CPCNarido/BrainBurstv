@@ -1,10 +1,9 @@
 .content{
     width: 1113px;
-    height: 457px;
+    height: 600px;
     flex-shrink: 0;
     border-radius: 20px;
-    background: rgba(141, 214, 62, 0.70);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    background: #FFFDC1;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,7 +14,6 @@
 
 .Input {
     border-radius: 20px;
-    border: 1px solid var(--black-100, #000);
     background: #FFFDC1;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 950px;
@@ -27,43 +25,27 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: 10px; /* Adjust the margin as needed */
+    border: 1px solid #000; /* Ensure the border remains consistent */
+    box-sizing: border-box; /* Include the border in the element's total width and height */
+}
+
+.Input:focus {
+    outline: none; /* Remove the default focus outline */
+    border: 1px solid #000; /* Ensure the border remains consistent */
 }
 
 .Input::placeholder {
     color: var(--black-100, #000);
-    font-family: "Rum Raisin", sans-serif;
-    font-size: 64px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-align: center; /* Center the placeholder text */
     opacity: 0.4;
 }
-.Submit{
-    border-radius: 20px;
-    border: 1px solid var(--black-100, #000);
-    background: #F5D059;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    width: 286px;
-    height: 60px;
-    flex-shrink: 0;
-    color: #2B550E;
-    font-family: "Rum Raisin", sans-serif;
-    font-size: 60px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 3%;
-}
+
 .container1{
     border-radius: 20px;
     background: #8DD63E;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 973px;
-    height: 396px;
+    height: 350px;
     flex-shrink: 0;
     margin: 2%;
     display: flex;
@@ -78,12 +60,10 @@
     background: #F5D059;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 250.025px;
-    height: 51.991px;
+    height: 40px;
     flex-shrink: 0;
     color: #2B550E;
     font-family: "Rum Raisin", sans-serif; 
-    font-size: 48px;
-    font-style: normal;
     font-weight: 400;
     line-height: normal;
     display:flex;
@@ -91,6 +71,7 @@
     align-items:center;
     margin-top: 2%;
     margin-bottom: 2%;
+    font-size: 24px;
 }
 
 #gameCode{
@@ -98,12 +79,13 @@
     border: 1px solid #000;
     background: #FFFDC1;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 830.503px;
-    height: 93.584px;
+    height: 70px;
     flex-shrink: 0;
-    color: #000;
+    color: #2B550E;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 48px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -112,9 +94,43 @@
     align-items: center;
     text-align: center;
 }
+
+#gameCode:-webkit-autofill {
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: #FFFDC1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif; /* Ensure the font-family is set to "Rum Raisin" */
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    -webkit-text-fill-color: #2B550E; /* Ensures the text color is correct */
+    transition: background-color 5000s ease-in-out 0s, -webkit-text-fill-color 5000s ease-in-out 0s; /* Prevents background color and text color from changing */
+}
+
 .sd{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+img {
+    width: 250px; /* Adjust the width as needed */
+    height: 180px; /* Adjust the height as needed */
+    margin-bottom: -10px;
+}
+
+body {
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.error-message {
+    color: red;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 18px;
+    margin-top: 10px;
 }
