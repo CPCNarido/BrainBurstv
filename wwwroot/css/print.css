@@ -1,5 +1,5 @@
 /* Hide elements that should not be printed */
-.SideBar, .print-button, header, footer, .filter-button {
+.SideBar, .print-button, header, footer, .filter-button, .admin-panel-title {
     display: none;
 }
 
@@ -17,21 +17,56 @@
 
 /* Adjust font sizes for printing */
 .quiz-report-titles, .flashcards-report-titles {
-    font-size: 1.5rem; /* Adjusted font size */
+    font-size: 1.5rem;
 }
 
 .quiz-report-description, .flashcards-report-description {
-    font-size: 1rem; /* Adjusted font size */
+    font-size: 1rem;
 }
 
 .quiz-box-reports, .flashcards-box-reports {
-    font-size: 1rem; /* Adjusted font size */
+    font-size: 1rem;
 }
 
 .quiz-box-pie-chart, .flashcards-box-pie-chart {
-    padding: 5% 2%; /* Adjusted padding */
+    padding: 5% 2%;
 }
 
 .quiz-report-note, .flashcards-report-note {
-    font-size: 0.9rem; /* Adjusted font size */
+    font-size: 0.9rem;
 }
+
+/* Additional styles for print */
+body {
+    background-color: white;
+    color: black;
+    font-size: 12pt;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: black;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.container {
+    padding: 10px;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
