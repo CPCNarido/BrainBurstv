@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -30,7 +31,7 @@
             <div class="quiz-top-chart-container">
                 <div>
                     <div class="quiz-box-pie-chart">
-                        <canvas id="myPieChart7" width="220" height="240"></canvas>
+                        <canvas id="myPieChartq" width="220" height="240"></canvas>
                     </div>
                     <p class="quiz-report-note"> AI Generated vs Manually Created</p>
                 </div>
@@ -38,13 +39,13 @@
                     <div class="sp">
                         <div class="l">
                             <div class="number-of-quiz">
-                                <h1>AI Generated Quizzes</h1>
+                                <h1>AI Generated Quizzes Taken</h1>
                                 @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
-                                <h1>Manual Generated Quizzes</h1>
+                                <h1>Manual Generated Quizzes Taken</h1>
                                 @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                             </div>
                         </div>
@@ -60,7 +61,7 @@
             <div class="flashcards-top-chart-container">
                 <div>
                     <div class="flashcards-box-pie-chart">
-                        <canvas id="myPieChart8" width="220" height="240"></canvas>
+                        <canvas id="myPieChartf" width="220" height="240"></canvas>
                     </div>
                     <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
                 </div>
@@ -212,201 +213,13 @@
 
     <script>
         // Pie Chart 1
-        const ctx1 = document.getElementById('myPieChart1').getContext('2d');
-        const myPieChart1 = new Chart(ctx1, {
-            type: 'pie',
-            data: {
-                labels: ['Quiz Count', 'FlashCard Count'],
-                datasets: [{
-                    label: 'Generated',
-                    data: 2, 10],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)',
-                        'rgba(56, 112, 18, 1)',
-                        'rgba(255, 207, 4, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        enabled: true,
-                    }
-                },
-            }
-        });
-
-        const ctx2 = document.getElementById('myPieChart2').getContext('2d');
-        const myPieChart2 = new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ['Professor', 'Student'],
-                datasets: [{
-                    label: 'User Count',
-                    data: 0,1],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)',
-                        'rgba(56, 112, 18, 1)',
-                        'rgba(255, 207, 4, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(159, 219, 93, 1)',
-                        'rgba(159, 219, 93, 1)',
-                        'rgba(159, 219, 93, 1)',
-                        'rgba(159, 219, 93, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: 'rgba(43, 85, 14, 1)' // Change legend text color to the specified color
-                        }
-                    },
-                    tooltip: {
-                        enabled: true,
-                        bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
-                        titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
-                    }
-                }
-            }
-        });
-
-        // Pie Chart 3
-        const ctx3 = document.getElementById('myPieChart3').getContext('2d');
-        const myPieChart3 = new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green'],
-                datasets: [{
-                    label: 'My Pie Chart',
-                    data: [15, 25, 35, 25],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)',
-                        'rgba(56, 112, 18, 1)',
-                        'rgba(255, 207, 4, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        enabled: true,
-                    }
-                },
-            }
-        });
-
-        // Pie Chart 4
-        const ctx4 = document.getElementById('myPieChart4').getContext('2d');
-        const myPieChart4 = new Chart(ctx4, {
-            type: 'pie',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green'],
-                datasets: [{
-                    label: 'My Pie Chart',
-                    data: [15, 25, 35, 25],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)',
-                        'rgba(56, 112, 18, 1)',
-                        'rgba(255, 207, 4, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        enabled: true,
-                    }
-                },
-            }
-        });
-
-        // Pie Chart for Quizzes
-        const ctxQuiz = document.getElementById('myPieChart7').getContext('2d');
-        const myPieChartQuiz = new Chart(ctxQuiz, {
+        const studentquiz = document.getElementById('myPieChartq').getContext('2d');
+        const studentchart1 = new Chart(studentquiz, {
             type: 'pie',
             data: {
                 labels: ['AI Generated', 'Manual Generated'],
                 datasets: [{
                     label: 'Quiz Count',
-                    data: [
-                        @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                    ],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        enabled: true,
-                    }
-                },
-            }
-        });
-
-        // Pie Chart for Flashcards
-        const ctxFlashcards = document.getElementById('myPieChart8').getContext('2d');
-        const myPieChartFlashcards = new Chart(ctxFlashcards, {
-            type: 'pie',
-            data: {
-                labels: ['AI Generated', 'Manual Generated'],
-                datasets: [{
-                    label: 'Flashcard Count',
                     data: [
                         @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
                         @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
@@ -434,6 +247,46 @@
                 },
             }
         });
+
+        // Pie Chart 2
+        const studentflashcard = document.getElementById('myPieChartf').getContext('2d');
+        const studentchart2 = new Chart(studentflashcard, {
+            type: 'pie',
+            data: {
+                labels: ['AI Generated', 'Manual Generated'],
+                datasets: [{
+                    label: 'Flashcards Count',
+                    data: [
+                        @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                        @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    ],
+                    backgroundColor: [
+                        'rgba(58, 183, 26, 1)',
+                        'rgba(255, 222, 62, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 253, 193, 1)',
+                        'rgba(255, 253, 193, 1)'
+                    ],
+                    borderWidth: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                },
+            }
+        });
+
+        function printPage() {
+            window.print();
+        }
     </script>
 
     <script>
