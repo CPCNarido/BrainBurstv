@@ -29,6 +29,14 @@
         <div class="Home section" id="Home" style="display: block;">
             <h1 class="quiz-report-titles admin-panel-title"> Quiz Report</h1>
             <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+            <div class="filter-dropdown">
+                <select onchange="filterData(this.value)">
+                    <option value="today">Today</option>
+                    <option value="thisweek">This Week</option>
+                    <option value="thisyear">This Year</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
             <div class="quiz-top-chart-container">
                 <div>
                     <div class="quiz-box-pie-chart">
@@ -53,7 +61,7 @@
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Quiz Created: @Model.Quizzes.Count(q => q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        Total Number of Quiz Created: @Model.TotalQuizCount
                     </div>
                 </div>
             </div>
@@ -279,6 +287,10 @@
 
             function printPage() {
                 window.print();
+            }
+
+            function filterData(period) {
+                window.location.href = `@Url.Action("ProfessorPanel", "Panels")?period=${period}`;
             }
         </script>
 
