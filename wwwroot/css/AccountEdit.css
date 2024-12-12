@@ -392,8 +392,8 @@
 }
 
 .Upload:hover {
-    background-color: #0056b3; /* Change to desired hover background color */
-    color: #fff; /* Change to desired hover text color */
+    background-color: #2B550E; /* Change to desired hover background color */
+    color: #FFFDC1; /* Change to desired hover text color */
 }
 
 .f-head{
@@ -543,7 +543,3 @@ button {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:hover {
-    background-color: #0056b3; /* Change to desired hover background color */
-    color: #fff; /* Change to desired hover text color */
-}
