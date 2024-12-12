@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <div class="SideBar">
@@ -143,16 +144,15 @@
     </div>
 
         <div class="AccountSettings section" id="AccountSettings" style="display: none;">
-            <h1>Account Settings</h1>
+            <h1 class="account-settings-title">Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
                         <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                                <p>Drag and drop a picture here or click to upload</p>
-                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
-                                <label class="button" for="fileElem">Select a file</label>
+                                <img src="../Assets/dprofile.png" alt="Profile Image" id="dprofile" style="cursor: pointer;" onclick="document.getElementById('fileElem').click();">
+                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
                             </div>  
                             <button type="submit" class="Upload">Upload Image</button>
                         </form>
