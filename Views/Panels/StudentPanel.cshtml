@@ -155,11 +155,11 @@
                                 {
                                     @if (ViewData["FilePath"] != null)
                                     {
-                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 180px; height: 180px;" onclick="document.getElementById('fileElem').click();">
+                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="document.getElementById('fileElem').click();">
                                     }
                                     else
                                     {
-                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 180px; height: 180px;" onclick="document.getElementById('fileElem').click();">
+                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="document.getElementById('fileElem').click();">
                                     }
                                 }
                                 <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
