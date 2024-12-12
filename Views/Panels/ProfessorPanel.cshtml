@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="SideBar">
@@ -29,6 +29,14 @@
         <div class="Home section" id="Home" style="display: block;">
             <h1 class="quiz-report-titles admin-panel-title"> Quiz Report</h1>
             <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+            <div class="filter-dropdown">
+                <select onchange="filterData(this.value)">
+                    <option value="today">Today</option>
+                    <option value="thisweek">This Week</option>
+                    <option value="thisyear">This Year</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
             <div class="quiz-top-chart-container">
                 <div>
                     <div class="quiz-box-pie-chart">
@@ -53,7 +61,7 @@
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Quiz Created: @Model.Quizzes.Count(q => q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        Total Number of Quiz Created: @Model.TotalQuizCount
                     </div>
                 </div>
             </div>
@@ -140,17 +148,26 @@
             </div>
         </div>
 
-        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
-            <h1>Account Settings</h1>
+       <div class="AccountSettings section" id="AccountSettings" style="display: none;">
+            <h1 class="account-settings-title">Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data">
+                        <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data" id="uploadProfileForm" onsubmit="event.preventDefault(); uploadProfileImage();">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                                <p>Drag and drop a picture here or click to upload</p>
-                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
-                                <label class="button" for="fileElem">Select a file</label>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @if (ViewData["FilePath"] != null)
+                                    {
+                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
+                                    }
+                                    else
+                                    {
+                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
+                                    }
+                                }
+                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
                             </div>  
                             <button type="submit" class="Upload">Upload Image</button>
                         </form>
@@ -158,14 +175,31 @@
                     </div>
                 </div>
 
+                <form asp-action="RemoveProfileImageStudent" method="post" id="removeProfileForm" style="display: none;">
+                    <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                </form>
+
+                <div id="profileOptions" class="hidden" onclick="hideProfileOptions(event)">
+                    <button onclick="viewProfile()">View Profile</button>
+                    <button onclick="removeProfile()">Remove Profile</button>
+                    <button onclick="document.getElementById('fileElem').click();">Upload New Profile</button>
+                </div>
+
                 <div class="userdetails-container">
-                    <form asp-action="AccountEditProfessor" method="post">
+                    <form asp-action="AccountEditStudent" method="post" id="accountEditForm">
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" disabled />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
+                                <button type="button" class="changepassword" id="changeButton" onclick="toggleUsernameEdit()">Change Username</button>
+                                <button type="submit" class="changepassword" id="saveButton" style="display: none;">Save Username</button>
+                            </div>
+                        </div>
+                        <div class="Email">
+                            <h1>Email</h1>
+                            <div class="name">
+                                <input type="text" class="Newemail" value="@User.FindFirstValue(ClaimTypes.Email)" readonly />
                             </div>
                         </div>
                     </form>
@@ -180,7 +214,7 @@
                     <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
                 </div>
                 <div class="button-container">
-                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
+                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Change Password</button>
                 </div>
             </div>
             <div class="personal-container2">
@@ -280,6 +314,10 @@
             function printPage() {
                 window.print();
             }
+
+            function filterData(period) {
+                window.location.href = `@Url.Action("ProfessorPanel", "Panels")?period=${period}`;
+            }
         </script>
 
         <script>
@@ -351,18 +389,131 @@
                 } else {
                     selectedSection.style.display = 'block';
                 }
+                // Update the URL query parameter
+                const url = new URL(window.location);
+                url.searchParams.set('section', section);
+                window.history.pushState({}, '', url);
             }
-        </script>
 
-        <script>
+            // On page load, show the section based on the URL query parameter
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const section = urlParams.get('section') || 'Home';
+                showSection(section);
+            });
+
             function takeFlashcard(flashcardId) {
                 window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
             }
-        </script>
-        <script>
-            function printPage() {
-                window.print();
+
+            function showProfileOptions() {
+                var options = document.getElementById('profileOptions');
+                options.classList.toggle('hidden');
             }
+
+            function hideProfileOptions(event) {
+                event.stopPropagation();
+                var options = document.getElementById('profileOptions');
+                options.classList.add('hidden');
+            }
+
+            document.addEventListener('click', function(event) {
+                var options = document.getElementById('profileOptions');
+                var profileImage = document.getElementById('dprofile');
+                if (!options.contains(event.target) && event.target !== profileImage) {
+                    options.classList.add('hidden');
+                }
+            });
+
+            function viewProfile() {
+                var imgSrc = document.getElementById('dprofile').src;
+                window.open(imgSrc, '_blank');
+                hideProfileOptions(event);
+            }
+
+            function removeProfile() {
+                $.ajax({
+                    url: '@Url.Action("RemoveProfileImageStudent", "Account")',
+                    type: 'POST',
+                    data: $('#removeProfileForm').serialize(),
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while removing the profile image.');
+                    }
+                });
+                hideProfileOptions(event);
+            }
+
+            function uploadProfileImage() {
+                var formData = new FormData($('#uploadProfileForm')[0]);
+                $.ajax({
+                    url: '@Url.Action("UploadProfileImageStudent", "Account")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while uploading the profile image.');
+                    }
+                });
+            }
+
+            function toggleUsernameEdit() {
+                var input = document.querySelector('input[name="NewUsername"]');
+                var changeButton = document.getElementById('changeButton');
+                var saveButton = document.getElementById('saveButton');
+
+                if (input.disabled) {
+                    input.disabled = false;
+                    input.value = ''; // Clear the input field
+                    input.focus(); // Automatically focus on the input field
+                    changeButton.style.display = 'none';
+                    saveButton.style.display = 'inline-block';
+                } else {
+                    input.disabled = true;
+                    changeButton.style.display = 'inline-block';
+                    saveButton.style.display = 'none';
+                }
+            }
+
+            document.getElementById('accountEditForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const url = new URL(form.action);
+                url.searchParams.set('section', 'AccountSettings');
+
+                console.log('Submitting form to:', url.toString());
+                console.log('Form data:', formData);
+
+                $.ajax({
+                    url: url.toString(),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('Form submission successful');
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', status, error);
+                        alert('An error occurred while updating the username.');
+                    }
+                });
+            });
         </script>
     </div>
 </body>

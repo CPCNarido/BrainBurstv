@@ -86,7 +86,7 @@
 </head>
 
 <body>
-    <div class="wrapper">
+    <div class="page-container" style="display: flex; flex-direction: column; min-height: 100vh;">
         <header>
             <div class="logo-container">
                 <a href="@Url.Action("Index", "Home")">
@@ -166,7 +166,7 @@
 
             }
         </header>
-        <main role="main" class="container">
+        <main style="flex-grow: 1; display: flex;">
             @RenderBody()
         </main>
         @if(ViewData["Title"] != "Take Quiz"){
