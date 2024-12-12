@@ -1,4 +1,4 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html>
 <head>
@@ -166,7 +166,7 @@
 
             }
         </header>
-        <main>
+        <main style="flex-grow: 1; display: flex;">
             @RenderBody()
         </main>
         @if(ViewData["Title"] != "Take Quiz"){
