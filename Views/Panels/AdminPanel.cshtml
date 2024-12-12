@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AdminPanel.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -17,141 +17,157 @@
 </head>
 <body>
     <div class="SideBar">
-        <button class="HomeButton" onclick="showSection('Home')">
-            <img src="../Assets/AccountEdit/bahay.png" style="width: 60px; height: 60px;">Home
-        </button>
+        <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
         @if((string)@ViewData["Role"] == "Admin")
         {
-            <button class="QuizButton" onclick="showSection('ContentManagement')">
-                <img src="../Assets/AccountEdit/folder 1.png" style="width: 60px; height: 60px;">Content Management
-            </button>
+            <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
         }
-        <button class="LogoutButton" onclick="document.getElementById('logoutForm').submit()">
-            <img src="../Assets/logout.png" style="width: 60px; height: 60px;">Logout
-        </button>
-        <form id="logoutForm" asp-action="Logout" method="post" style="display: none;"></form>
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
         @if ((string)@ViewData["Role"] == "Admin")
         {
-                <h1 class="report-titles"> Overall Content Report</h1>
-                <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
-                
-                <div class="top-chart-container">
-                    <div>
+            <h1 class="report-titles">Overall Content Report</h1>
+            <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
+            
+            <div class="filter-container">
+                <select id="filterDropdown" class="filter-dropdown" onchange="filterData(this.value)">
+                    <option value="all">All</option>
+                    <option value="today">Today</option>
+                    <option value="thismonth">This Month</option>
+                    <option value="thisyear">This Year</option>
+                </select>
+            </div>
+
+            <div class="top-chart-container">
+                <div>
                     <div class="box-pie-chart">
                         <canvas id="myPieChart1" width="220" height="240"></canvas>
                     </div>
-                    <p class="report-note"> AI Generated vs Manually Created</p>
-                    </div>
-
-                    <div class="box-reports">
-                        <div class="content-created">
-                            Total Number of Quiz Created/Generated: @ViewData["TotalQuizCount"]
-                        </div>
-                        <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
-                         <div class="number-of-quiz">
-                            Number of AI Generated Quizzes: @Model.AiQuizCount
-                        </div>
-                        <div class="number-of-flashcards">
-                            Number of Manually Created Quizzes: @Model.ManualQuizCount
-                        </div>
-                    </div>
+                    <p class="report-note">Quizzes and Flashcards Count</p>
                 </div>
 
-
-                <h1 class="report-titles" id="margin-top-text"> User Report</h1>
-                <p class="report-description">Overview of users and their activities on BrainBurst</p>
-
-                <div class="mid-chart-container">
-                    <div class="left-box-report">
-                        <div class="quizzes-average">
-                            <h1>Average Quizzes Created per Month</h1>
-                            <p>50</p>
+                <div class="box-reports">
+                    <div class="topper">
+                        <div class="left">
+                            <h1>Quizzes</h1>
+                            <div class="number-of-quiz">
+                                AI Generated Quizzes: @ViewData["AiQuizCount"]
+                            </div>
+                            <div class="number-of-flashcards">
+                                Manually Created Quizzes: @ViewData["ManualQuizCount"]
+                            </div>
                         </div>
-                        <div class="quizzes-average">
-                            <h1>Average Flashcards Created per Month</h1>
-                            <p>50</p>
+                        <div class="right">
+                            <h1>Flashcards</h1>
+                            <div class="number-of-quiz">
+                                AI Generated FlashCards: @ViewData["AiFlashcardCount"]
+                            </div>
+                            <div class="number-of-flashcards">
+                                Manually Created FlashCards: @ViewData["ManualFlashcardCount"]
+                            </div>
                         </div>
                     </div>
-                    <div class="right-box-report">
-                        <div class="left-right-box-report">
-                            <div class="population-report">
-                                <h1>Total Number of Users:</h1>
-                                <p>@ViewData["TotalUserCount"]</p>
-                            </div>
-                            <div class="population-report">
-                                <h1>Total Number of Students:</h1>
-                                <p>@ViewData["StudentCount"]</p>
-                            </div>
-                            <div class="population-report">
-                                <h1>Total Number of Professors:</h1>
-                                <p>@ViewData["ProfessorCount"]</p>
-                            </div>
-                        </div>
-                        <div class="right-right-box-report">
-                            <canvas id="myPieChart2"></canvas>
-                            <p class="role-description">Users by role</p>
-                        </div>
+                    <div class="content-created">
+                        Total Number of Quiz and Flashcards Created/Generated: @ViewData["TotalContents"]
                     </div>
                 </div>
-                
-                <h1 class="report-titles" id="margin-top-text"> Feedback  Analysis Report</h1>
-                <p class="report-description">Overview of user feedback on BrainBurst</p>
+            </div>
 
-                <div class="bottom-chart-container">
-                    <div class="first-chart-bottom">
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
+            <h1 class="report-titles" id="margin-top-text">User Report</h1>
+            <p class="report-description">Overview of users and their activities on BrainBurst</p>
+
+            <div class="mid-chart-container">
+                <div class="left-box-report">
+                    <div class="quizzes-average">
+                        <h1>Average Quizzes Created @ViewData["FilterPeriod"]</h1>
+                        <p>@ViewData["AverageQuizzesPerMonth"]</p>
+                    </div>
+                    <div class="quizzes-average">
+                        <h1>Average Flashcards Created @ViewData["FilterPeriod"]</h1>
+                        <p>@ViewData["AverageFlashcardsPerMonth"]</p>
+                    </div>
+                </div>
+                <div class="right-box-report">
+                    <div class="left-right-box-report">
+                        <div class="population-report">
+                            <h1>Total Number of Users:</h1>
+                            <p>@ViewData["TotalUserCount"]</p>
                         </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
+                        <div class="population-report">
+                            <h1>Total Number of Students:</h1>
+                            <p>@ViewData["StudentCount"]</p>
                         </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
-                        </div>
-                        <div class="average-content-rating">
-                            <p>Total Feedback Entries: </p>
-                            <h1>50</h1>
+                        <div class="population-report">
+                            <h1>Total Number of Professors:</h1>
+                            <p>@ViewData["ProfessorCount"]</p>
                         </div>
                     </div>
-                    <div class="second-chart-bottom">
-                        <div class="box-chart-bottom">
+                    <div class="right-right-box-report">
+                        <canvas id="myPieChart2"></canvas>
+                        <p class="role-description">Users by role</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h1 class="report-titles" id="margin-top-text">Feedback Analysis Report</h1>
+            <p class="report-description">Overview of user feedback on BrainBurst</p>
+
+            <div class="bottom-chart-container">
+                <div class="first-chart-bottom">
+                    <div class="average-content-rating">
+                        <p>Total Student Reviews: </p>
+                        <h1>@Model.StudentRatings?.Count</h1>
+                    </div>
+                    <div class="average-content-rating">
+                        <p>Total Professor Reviews: </p>
+                        <h1>@Model.ProfessorRatings?.Count</h1>
+                    </div>
+                </div>
+                <div class="second-chart-bottom">
+                    <div class="box-chart-bottom">
                         <canvas id="myPieChart3"></canvas>
-                        </div>
-                         <p>Student Ratings</p>
                     </div>
-                    <div class="third-chart-bottom">
-                        <div class="box-chart-bottom">
-                        <canvas id="myPieChart4"></canvas>
-                        </div>
-                        <p>Professor Ratings</p>
-                    </div>
+                    <p>Student Ratings</p>
                 </div>
-                <button onclick="printPage()" class="print-button" style="margin-top: -100px;">Print</button>
-        }
-        else if((string)@ViewData["Role"] == "Professor"){
-            <p>Professors</p>
-        }
-        else if((string)@ViewData["Role"] == "Student"){
-            <p>Students</p>
+                <div class="third-chart-bottom">
+                    <div class="box-chart-bottom">
+                        <canvas id="myPieChart4"></canvas>
+                    </div>
+                    <p>Professor Ratings</p>
+                </div>
+            </div>
         }
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
+        <div class="ContentManagement section" id="ContentManagement" style="display: none;">
+            <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Quizzes')">Quizzes</button>
+            <button class="tablinks" onclick="openTab(event, 'Flashcards')">Flashcards</button>
+            </div>
+            <div class="line"></div>
+
+            <div id="Quizzes" class="tabcontent" style="display: none;">
+                <div class="Q-Head">
+                    <h1>Quizzes</h1>
+                </div>
+                <div class="quizzes-container">
+                    @foreach (var quiz in Model.Quizzes)
+                    {
+                        <div id="quiz-@quiz.QuizId" class="flashcard-item">
+                            <h1>@quiz.Topic</h1>
+                            <h2>@quiz.GradeLevel</h2>
+                            <button onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
+                            <button onclick="deleteQuiz(@quiz.QuizId)">Delete</button>
+                        </div>
+                    }
+                </div>
+            </div>
 
         <div class="f-content">
-            <div class="Flashcards section" id="Flashcards" style="display: none;">
+            <div id="Flashcards" class="tabcontent">
                 <div class="f-head">
                     <h1>Flashcards</h1>
                 </div>
@@ -160,111 +176,25 @@
                     {
                         @foreach (var flashcard in Model.Flashcards)
                         {
-                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                            <div id="flashcard-@flashcard.Id" class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                                 <div class="f-info">
                                     <p>@flashcard.Id</p>
-                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
-                                    <h2>@ViewData["Username"]</h2>
+                                    <h2>@flashcard.Title</h2>
+                                    <h2>@flashcard.Questions.Count Items</h2>
                                 </div>
                                 <div class="bot">
                                     <div class="divider"></div>
                                     <div class="f-desc">@flashcard.Description</div>             
                                 </div>                  
+                                <button onclick="deleteFlashcard(@flashcard.Id)">Delete</button>
                             </div>
                         }
                     }
                 </div>
             </div>
         </div>
-
-        <div class="Quiz section" id="Quiz" style="display: none;">
-            <div class="Q-Head">
-                <h1>Quizzes</h1>
-            </div>
-            <div class="quizzes-container">
-            @foreach (var quiz in Model.Quizzes)
-            {
-            <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                <h1>@quiz.Topic</h1>
-                <h2>@quiz.GradeLevel</h2>
-            </button>
-            }
-            </div>
         </div>
-
-
-        
-
-        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
-            <h1>Account Settings</h1>
-            <div class="personal-info">Personal Information</div>
-            <div class="personal-container">
-                <div class="userprofile">
-                    <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImage" method="post" enctype="multipart/form-data">
-                            <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                                <p>Drag and drop a picture here or click to upload</p>
-                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
-                                <label class="button" for="fileElem">Select a file</label>
-                            </div>  
-                            <button type="submit" class="Upload">Upload Image</button>
-                        </form>
-                        <div id="gallery"></div>
-                    </div>
-                </div>
-
-                <div class="userdetails-container">
-                     <form asp-action="AccountEdit" method="post">
-                        <div class="username">
-                            <h1>Username</h1>
-                            <div class="name">
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
-                                <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div class="personal-info">Security and Privacy</div>
-    
-            <div class="personal-container1">
-                <div class="description">
-                    <h1>Change Password</h1>
-                    <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
-                </div>
-                <div class="button-container">
-                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
-                </div>
-            </div>
-            <div class="personal-container2">
-                <div class="description">
-                    <h1>Delete Account</h1>
-                    <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
-                </div>
-                <div class="button-container">
-                    <div class="Logout">
-                        <form asp-action="DeleteAccount" method="post">
-                            <button type="submit" class="deleteaccount">Delete Account</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            
-
-
-            <div class="Logout1">
-                <form asp-action="Logout" method="post">
-                    <button type="submit" class="changepassword">Logout</button>
-                </form>
-            </div>
-        </div>
-
-    
-                
+          
 <script>
 // Pie Chart 1
 const ctx1 = document.getElementById('myPieChart1').getContext('2d');
@@ -340,164 +270,138 @@ const myPieChart2 = new Chart(ctx2, {
                 bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
                 titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
             }
-        }
-    }
-});
-
-// Pie Chart 3
-const ctx3 = document.getElementById('myPieChart3').getContext('2d');
-const myPieChart3 = new Chart(ctx3, {
-    type: 'pie',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
-        datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-            },
-            tooltip: {
-                enabled: true,
-            }
         },
     }
 });
 
-// Pie Chart 4
-const ctx4 = document.getElementById('myPieChart4').getContext('2d');
-const myPieChart4 = new Chart(ctx4, {
-    type: 'pie',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green'],
-        datasets: [{
-            label: 'My Pie Chart',
-            data: [15, 25, 35, 25],
-            backgroundColor: [
-                'rgba(58, 183, 26, 1)',
-                'rgba(255, 222, 62, 1)',
-                'rgba(56, 112, 18, 1)',
-                'rgba(255, 207, 4, 1)'
-            ],
-            borderColor: [
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)',
-                'rgba(255, 253, 193, 1)'
-            ],
-            borderWidth: 8
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-            },
-            tooltip: {
-                enabled: true,
-            }
-        },
-    }
-});
-    </script>
-
-<script>
-    function handleDragOver(event) {
-        event.preventDefault(); // Prevent default to allow drop
-        event.stopPropagation();
-        document.getElementById('drop-area').classList.add('highlight');
-    }
-
-    function handleDragLeave(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        document.getElementById('drop-area').classList.remove('highlight');
-    }
-
-    function handleDrop(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        document.getElementById('drop-area').classList.remove('highlight');
-
-        const files = event.dataTransfer.files;
-        if (files.length) {
-            document.getElementById('fileElem').files = files; // Assign the dropped files to the input
-            handleFiles(files); // Preview the file
+function renderRatingsChart(chartId, ratings) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    return new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+            datasets: [{
+                data: ratings,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+            }]
         }
-    }
+    });
+}
 
-    function handleFiles(files) {
-        files = [...files];
-        previewFile(files[0]);
-    }
+document.addEventListener('DOMContentLoaded', function () {
+    var studentRatings = @Html.Raw(Json.Serialize(Model.StudentRatings.GroupBy(r => r.Rating).Select(g => g.Count())));
+    var professorRatings = @Html.Raw(Json.Serialize(Model.ProfessorRatings.GroupBy(r => r.Rating).Select(g => g.Count())));
 
-    function previewFile(file) {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = function () {
-            let img = document.createElement('img');
-            img.src = reader.result;
-            img.classList.add('uploaded-image');
-            document.querySelector('.Upload').style.display = 'block';
+    renderRatingsChart('myPieChart3', studentRatings);
+    renderRatingsChart('myPieChart4', professorRatings);
+});
 
-            let gallery = document.getElementById('gallery');
-            gallery.innerHTML = ''; // Clear any existing images
-            gallery.appendChild(img);
 
-            // Hide the drop area when an image is previewed
-            document.getElementById('drop-area').style.display = 'none';
-        };
-    }
-</script>
 
-<script>
-    function checkInput() {
-        var input = document.querySelector('input[name="NewUsername"]').value;
-        var button = document.getElementById('saveButton');
-        button.disabled = input.trim() === "";
-    }
-</script>
+// Set the active section based on local storage
+document.addEventListener('DOMContentLoaded', function () {
+    var activeSection = localStorage.getItem('activeSection') || 'Home';
+    showSection(activeSection);
+});
 
-<script>
-    function showSection(section) {
-        var sections = document.querySelectorAll('.section');
-        sections.forEach(function (sec) {
-            sec.style.display = 'none';
+function filterData(period) {
+    window.location.href = `@Url.Action("AdminPanel", "Panels")?period=${period}`;
+}
+
+// Set the selected value of the dropdown based on the current filter period
+document.addEventListener('DOMContentLoaded', function () {
+    var filterPeriod = '@ViewData["FilterPeriod"]';
+    var filterDropdown = document.getElementById('filterDropdown');
+    filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
+});
+
+function deleteQuiz(quizId) {
+    if (confirm('Are you sure you want to delete this quiz?')) {
+        $.ajax({
+            url: '@Url.Action("DeleteQuiz", "Panels")',
+            type: 'POST',
+            data: { id: quizId },
+            success: function(result) {
+                alert('Quiz deleted successfully.');
+                localStorage.setItem('activeSection', 'ContentManagement');
+                // Fade out and remove the quiz element
+                $('#quiz-' + quizId).fadeOut(500, function() {
+                    $(this).remove();
+                });
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while deleting the quiz: ' + error);
+            }
         });
-        var selectedSection = document.getElementById(section);
-        if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
-            selectedSection.style.display = 'block';
-        } else {
-            selectedSection.style.display = 'block';
-        }
     }
+}
+
+
+function deleteFlashcard(flashcardId) {
+    if (confirm('Are you sure you want to delete this flashcard?')) {
+        $.ajax({
+            url: '@Url.Action("DeleteFlashcard", "Panels")',
+            type: 'POST',
+            data: { id: flashcardId },
+            success: function(result) {
+                alert('Flashcard deleted successfully.');
+                localStorage.setItem('activeSection', 'ContentManagement');
+                // Fade out and remove the flashcard element
+                $('#flashcard-' + flashcardId).fadeOut(500, function() {
+                    $(this).remove();
+                });
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while deleting the flashcard: ' + error);
+            }
+        });
+    }
+}
+</script>
+<script>
+function showSection(section) {
+    var sections = document.querySelectorAll('.section');
+    sections.forEach(function (sec) {
+        sec.style.display = 'none';
+    });
+    var selectedSection = document.getElementById(section);
+    if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
+        selectedSection.style.display = 'block';
+    } else {
+        selectedSection.style.display = 'block';
+    }
+    localStorage.setItem('activeSection', section);
+
+    // Automatically open the "Quizzes" tab when the Content Management section is shown
+    if (section === 'ContentManagement') {
+        openTab(null, 'Quizzes');
+    }
+}
+
+// Set the active section based on local storage
+document.addEventListener('DOMContentLoaded', function () {
+    var activeSection = localStorage.getItem('activeSection') || 'Home';
+    showSection(activeSection);
+});
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    if (evt) {
+        evt.currentTarget.className += " active";
+    } else {
+        document.querySelector('.tablinks').classList.add('active');
+    }
+}
 </script>
 
-<script>
-    function takeFlashcard(flashcardId) {
-        window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
-    }
-    function printPage() {
-            window.print();
-    }
-</script>
 </body>
 </html>
