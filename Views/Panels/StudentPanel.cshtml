@@ -151,7 +151,17 @@
                     <div class="drag-drop-container" id="drag-drop-container">
                         <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                                <img src="../Assets/dprofile.png" alt="Profile Image" id="dprofile" style="cursor: pointer;" onclick="document.getElementById('fileElem').click();">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @if (ViewData["FilePath"] != null)
+                                    {
+                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 180px; height: 180px;" onclick="document.getElementById('fileElem').click();">
+                                    }
+                                    else
+                                    {
+                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 180px; height: 180px;" onclick="document.getElementById('fileElem').click();">
+                                    }
+                                }
                                 <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
                             </div>  
                             <button type="submit" class="Upload">Upload Image</button>
