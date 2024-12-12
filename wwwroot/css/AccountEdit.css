@@ -407,6 +407,13 @@
     transition: transform 0.3s ease-in-out;
 }
 
+.flashcard-item h1{
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .flashcard-item:hover{
     background-color: #F5D059;
     scale: 1.05;

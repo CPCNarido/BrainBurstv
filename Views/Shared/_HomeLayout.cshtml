@@ -37,18 +37,20 @@
 .popup {
     display: none;
     position: absolute;
-    width: 23.5%;
+    width: 17%;
     height: fit-content;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #FBF892;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     z-index: 1000;
     border-radius: 5px;
     margin-left: 29%;
     margin-top: -2;
     opacity: 0;
     transform: translateY(-10px);
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .popup.show {
@@ -61,20 +63,24 @@
 }
 
         .popup button {
+            all: unset;
             display: block;
             margin: 5px 0;
-            padding: 8px 12px;
             border: none;
-            background-color: #007bff;
-            color: #fff;
+            padding-top: 10px;
+            padding-bottom: 10px;
             border-radius: 3px;
             cursor: pointer;
             text-align: center;
+            color: #2B550E;
+            font-family: "Rum Raisin", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin: 0;
         }
 
-        .popup button.logout {
-            background-color: #dc3545;
-        }
 
     </style>
 </head>
@@ -102,14 +108,27 @@
                             <img src="/profile_images/default.png" class="Profile" alt="User Profile">
                         }
                     </div>
-                    <div class="credentials">
-                        <div class="nameglobal">@ViewData["Username"]</div>
-                        <div class="usertypeglobal">@ViewData["Role"]</div>
-                    </div>
                 </div>
 
                 <!-- Popup -->
                 <div class="popup" id="profilePopup">
+                    <div class="UserProfile">
+                        <div>
+                        @if (ViewData["FilePath"] != null)
+                        {
+                            <img src="@ViewData["FilePath"]" class="Profiles" alt="User Profile">
+                        }
+                        else
+                        {
+                            <img src="/profile_images/default.png" class="Profile" alt="User Profile">
+                        }
+                        </div>
+                        <div class="credentials">
+                            <div class="nameglobal">@ViewData["Username"]</div>
+                            <div class="usertypeglobal">@ViewData["Role"]</div>
+                        </div>
+                    </div>
+                    <div class="line"></div>
                     @if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Admin")
                     {
                         <button onclick="window.location.href='@Url.Action("AdminPanel", "Panels")'">Go to Admin Panel</button>
@@ -122,8 +141,11 @@
                     {
                         <button onclick="window.location.href='@Url.Action("StudentPanel", "Panels")'">Go to Student Panel</button>
                     }
-                    <button class="logout" onclick="window.location.href='@Url.Action("Logout", "Account")'">Logout</button>
+                    <button class="logout" onclick="window.location.href='@Url.Action("Logout", "Account")'"><img src="../Assets/logoutsad.png" style="width: 20px; height: 20px;">Logout</button>
+                    <div class="line"></div>
+                    <button onclick="location.href='@Url.Action("Review", "Home")'">Review</button>
                 </div>
+
             </div>
             }
             else
