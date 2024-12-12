@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -149,13 +148,13 @@
             </div>
         </div>
 
-        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
+       <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1 class="account-settings-title">Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data" id="uploadProfileForm" onsubmit="event.preventDefault(); uploadProfileImage();">
+                        <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data" id="uploadProfileForm" onsubmit="event.preventDefault(); uploadProfileImage();">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
                                 @if (User.Identity.IsAuthenticated)
                                 {
@@ -175,9 +174,11 @@
                         <div id="gallery"></div>
                     </div>
                 </div>
-                <form asp-action="RemoveProfileImageProfessor" method="post" id="removeProfileForm" style="display: none;">
+
+                <form asp-action="RemoveProfileImageStudent" method="post" id="removeProfileForm" style="display: none;">
                     <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
                 </form>
+
                 <div id="profileOptions" class="hidden" onclick="hideProfileOptions(event)">
                     <button onclick="viewProfile()">View Profile</button>
                     <button onclick="removeProfile()">Remove Profile</button>
@@ -185,13 +186,14 @@
                 </div>
 
                 <div class="userdetails-container">
-                    <form asp-action="AccountEditProfessor" method="post">
+                    <form asp-action="AccountEditStudent" method="post" id="accountEditForm">
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" disabled />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
+                                <button type="button" class="changepassword" id="changeButton" onclick="toggleUsernameEdit()">Change Username</button>
+                                <button type="submit" class="changepassword" id="saveButton" style="display: none;">Save Username</button>
                             </div>
                         </div>
                         <div class="Email">
@@ -431,7 +433,7 @@
 
             function removeProfile() {
                 $.ajax({
-                    url: '@Url.Action("RemoveProfileImageProfessor", "Account")',
+                    url: '@Url.Action("RemoveProfileImageStudent", "Account")',
                     type: 'POST',
                     data: $('#removeProfileForm').serialize(),
                     success: function () {
@@ -450,7 +452,7 @@
             function uploadProfileImage() {
                 var formData = new FormData($('#uploadProfileForm')[0]);
                 $.ajax({
-                    url: '@Url.Action("UploadProfileImageProfessor", "Account")',
+                    url: '@Url.Action("UploadProfileImageStudent", "Account")',
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -466,11 +468,52 @@
                     }
                 });
             }
-        </script>
-        <script>
-            function printPage() {
-                window.print();
+
+            function toggleUsernameEdit() {
+                var input = document.querySelector('input[name="NewUsername"]');
+                var changeButton = document.getElementById('changeButton');
+                var saveButton = document.getElementById('saveButton');
+
+                if (input.disabled) {
+                    input.disabled = false;
+                    input.value = ''; // Clear the input field
+                    input.focus(); // Automatically focus on the input field
+                    changeButton.style.display = 'none';
+                    saveButton.style.display = 'inline-block';
+                } else {
+                    input.disabled = true;
+                    changeButton.style.display = 'inline-block';
+                    saveButton.style.display = 'none';
+                }
             }
+
+            document.getElementById('accountEditForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const url = new URL(form.action);
+                url.searchParams.set('section', 'AccountSettings');
+
+                console.log('Submitting form to:', url.toString());
+                console.log('Form data:', formData);
+
+                $.ajax({
+                    url: url.toString(),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('Form submission successful');
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', status, error);
+                        alert('An error occurred while updating the username.');
+                    }
+                });
+            });
         </script>
     </div>
 </body>
