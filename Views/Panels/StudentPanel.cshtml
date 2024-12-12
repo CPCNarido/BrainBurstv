@@ -155,11 +155,11 @@
                                 {
                                     @if (ViewData["FilePath"] != null)
                                     {
-                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="document.getElementById('fileElem').click();">
+                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
                                     }
                                     else
                                     {
-                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="document.getElementById('fileElem').click();">
+                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
                                     }
                                 }
                                 <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
@@ -168,6 +168,12 @@
                         </form>
                         <div id="gallery"></div>
                     </div>
+                </div>
+
+                <div id="profileOptions" class="hidden" onclick="hideProfileOptions(event)">
+                    <button onclick="viewProfile()">View Profile</button>
+                    <button onclick="removeProfile()">Remove Profile</button>
+                    <button onclick="document.getElementById('fileElem').click();">Upload New Profile</button>
                 </div>
 
                 <div class="userdetails-container">
@@ -374,6 +380,40 @@
     <script>
         function takeFlashcard(flashcardId) {
             window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
+        }
+    </script>
+
+    <script>
+        function showProfileOptions() {
+            var options = document.getElementById('profileOptions');
+            options.classList.toggle('hidden');
+        }
+
+        function hideProfileOptions(event) {
+            event.stopPropagation();
+            var options = document.getElementById('profileOptions');
+            options.classList.add('hidden');
+        }
+
+        document.addEventListener('click', function(event) {
+            var options = document.getElementById('profileOptions');
+            var profileImage = document.getElementById('dprofile');
+            if (!options.contains(event.target) && event.target !== profileImage) {
+                options.classList.add('hidden');
+            }
+        });
+
+        function viewProfile() {
+            var imgSrc = document.getElementById('dprofile').src;
+            window.open(imgSrc, '_blank');
+            hideProfileOptions(event);
+        }
+
+        function removeProfile() {
+            // Logic to remove profile picture
+            document.getElementById('dprofile').src = '/profile_images/default.png';
+            hideProfileOptions(event);
+            // Optionally, you can add an AJAX call to remove the profile picture from the server
         }
     </script>
 </body>

@@ -442,3 +442,36 @@
     margin-top: 2%;
     text-align: center;
 }
+
+#profileOptions {
+    position: absolute;
+    background: #FFFDC1;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#profileOptions button {
+    background: #F5D059;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    color: #2B550E;
+}
+
+#profileOptions button:hover {
+    background: #FBF892;
+}
+
+#profileOptions button.remove-profile {
+    background: #d10c0c;
+    color: #FFFDC1;
+}
