@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AdminPanel.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
@@ -17,26 +17,11 @@
 </head>
 <body>
     <div class="SideBar">
-        <button class="HomeButton" onclick="showSection('Home')">
-            <img src="../Assets/AccountEdit/bahay.png" style="width: 60px; height: 60px;">Home
-        </button>
+        <button class="HomeButton" onclick="showSection('Home')"><img src="../Assets/AccountEdit/bahay.png">Home</button>
         @if((string)@ViewData["Role"] == "Admin")
         {
             <button class="QuizButton" onclick="showSection('ContentManagement')"><img src="../Assets/AccountEdit/folder 1.png">Content Management</button>
         }
-
-        @if((string)@ViewData["Role"] != "Admin")
-        {
-        <button class="FlashcardsButton" onclick="showSection('Flashcards')"><img src="../Assets/AccountEdit/3.png">Flashcards</button>
-        <button class="QuizButton" onclick="showSection('Quiz')"><img src="../Assets/AccountEdit/utak 1.png">Quiz</button>
-        <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
-        }
-
-
-
-        
-        
-
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
@@ -148,10 +133,10 @@
                 <div class="third-chart-bottom">
                     <div class="box-chart-bottom">
                         <canvas id="myPieChart4"></canvas>
-                        </div>
-                        <p>Professor Ratings</p>
                     </div>
+                    <p>Professor Ratings</p>
                 </div>
+            </div>
         }
         </div>
 
