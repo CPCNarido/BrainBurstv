@@ -64,7 +64,7 @@
 
 .SideBar {
     width: 15%;
-    height: auto; /* Allow the sidebar to adjust based on content height */
+    min-height: 100vh; /* Ensure the sidebar takes at least the full viewport height */
     flex-shrink: 0;
     border: 1px solid #000;
     background: #FFFDC1;
@@ -72,10 +72,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; /* Add gap between buttons */
     padding-top: 50px;
 }
-
 
 .Content {
     width: 85%;
@@ -94,7 +92,7 @@
 
 .HomeButton,.LibraryButton,.FlashcardsButton,.QuizButton,.LogoutButton{
     width: 80%;
-    height: 5%;
+    height: 60px;
     color: #2B550E;
     font-family: "Rum Raisin", sans-serif;
     font-size: 20px;
@@ -672,7 +670,7 @@ button {
 
 .SideBar {
     width: 15%;
-    height: auto; /* Allow the sidebar to adjust based on content height */
+    min-height: 100vh; /* Ensure the sidebar takes at least the full viewport height */
     flex-shrink: 0;
     border: 1px solid #000;
     background: #FFFDC1;
@@ -680,10 +678,13 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; /* Add gap between buttons */
     padding-top: 50px;
 }
 
+
+.SideBar button {
+    margin-bottom: 60px; /* Maintain consistent space between buttons */
+}
 
 .Content {
     width: 85%;
@@ -702,7 +703,7 @@ button {
 
 .HomeButton,.LibraryButton,.FlashcardsButton,.QuizButton,.LogoutButton{
     width: 80%;
-    height: 5%;
+    height: 60px;
     color: #2B550E;
     font-family: "Rum Raisin", sans-serif;
     font-size: 20px;
