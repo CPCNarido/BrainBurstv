@@ -150,7 +150,7 @@
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data">
+                        <form asp-action="UploadProfileImageStudent" method="post" enctype="multipart/form-data" id="uploadProfileForm" onsubmit="event.preventDefault(); uploadProfileImage();">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
                                 @if (User.Identity.IsAuthenticated)
                                 {
@@ -379,10 +379,19 @@
             } else {
                 selectedSection.style.display = 'block';
             }
+            // Update the URL query parameter
+            const url = new URL(window.location);
+            url.searchParams.set('section', section);
+            window.history.pushState({}, '', url);
         }
-    </script>
 
-    <script>
+        // On page load, show the section based on the URL query parameter
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section') || 'Home';
+            showSection(section);
+        });
+
         function takeFlashcard(flashcardId) {
             window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
         }
@@ -420,13 +429,36 @@
                 type: 'POST',
                 data: $('#removeProfileForm').serialize(),
                 success: function () {
-                    location.reload(); // Reload the page to reflect changes
+                    // Reload the page with the AccountSettings section
+                    const url = new URL(window.location);
+                    url.searchParams.set('section', 'AccountSettings');
+                    window.location.href = url.toString();
                 },
                 error: function () {
                     alert('An error occurred while removing the profile image.');
                 }
             });
             hideProfileOptions(event);
+        }
+
+        function uploadProfileImage() {
+            var formData = new FormData($('#uploadProfileForm')[0]);
+            $.ajax({
+                url: '@Url.Action("UploadProfileImageStudent", "Account")',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    // Reload the page with the AccountSettings section
+                    const url = new URL(window.location);
+                    url.searchParams.set('section', 'AccountSettings');
+                    window.location.href = url.toString();
+                },
+                error: function () {
+                    alert('An error occurred while uploading the profile image.');
+                }
+            });
         }
     </script>
 </body>

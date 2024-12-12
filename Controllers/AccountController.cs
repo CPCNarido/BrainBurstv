@@ -491,5 +491,40 @@ public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
             }
             return StatusCode(500, "An error occurred while removing the profile image."); // Return an error response
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadProfileImageStudent(IFormFile profileImage)
+        {
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                // Define the path to save the profile image in wwwroot/profile_images
+                var uploadsFolder = Path.Combine(environment.WebRootPath, "profile_images");
+
+                // Ensure the directory exists
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Save the file with a unique name to avoid conflicts
+                var fileName = $"{User.Identity.Name}_{Path.GetFileName(profileImage.FileName)}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Save the image locally
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await profileImage.CopyToAsync(fileStream);
+                }
+
+                // Update FilePath in the database with the relative path
+                var user = await userManager.GetUserAsync(User);
+                user.FilePath = $"/profile_images/{fileName}";  // Store relative path
+                await userManager.UpdateAsync(user);
+
+                return Ok(); // Return a success response
+            }
+
+            return StatusCode(500, "An error occurred while uploading the profile image."); // Return an error response
+        }
     }
 }
