@@ -61,8 +61,20 @@
 .AccountSettings h1{
     color: #FFFDC1;
     text-align: center;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    -webkit-text-stroke-width: 3px;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-left: 5%;
+}
+
+.account-settings-title {
+    color: #FFFDC1;
+    text-align: center;
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20, 0 0 10px rgba(0, 0, 0, 1);
+    -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #5C4C20;
     font-family: "Rum Raisin", sans-serif;
     font-size: 64px;
@@ -246,11 +258,11 @@
     height: 100%;
 }
 #drop-area {
-    border: 2px dashed #ccc;
+    border: 4px dashed #2B550E;
     border-radius: 20px;
     width: 70%;
     margin-left: 18px;
-    height:130%;
+    height:85%;
     padding: 20px;
     text-align: center;
     flex-direction: column;
@@ -431,4 +443,37 @@
 .content-created{
     margin-top: 2%;
     text-align: center;
+}
+
+#profileOptions {
+    position: absolute;
+    background: #FFFDC1;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#profileOptions button {
+    background: #F5D059;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 16px;
+    color: #2B550E;
+}
+
+#profileOptions button:hover {
+    background: #FBF892;
+}
+
+#profileOptions button.remove-profile {
+    background: #d10c0c;
+    color: #FFFDC1;
 }
