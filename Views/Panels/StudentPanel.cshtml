@@ -180,13 +180,14 @@
                 </div>
 
                 <div class="userdetails-container">
-                    <form asp-action="AccountEditStudent" method="post">
+                    <form asp-action="AccountEditStudent" method="post" id="accountEditForm">
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" />
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" disabled />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
+                                <button type="button" class="changepassword" id="changeButton" onclick="toggleUsernameEdit()">Change Username</button>
+                                <button type="submit" class="changepassword" id="saveButton" style="display: none;">Save Username</button>
                             </div>
                         </div>
                         <div class="Email">
@@ -457,6 +458,52 @@
                     }
                 });
             }
+
+            function toggleUsernameEdit() {
+                var input = document.querySelector('input[name="NewUsername"]');
+                var changeButton = document.getElementById('changeButton');
+                var saveButton = document.getElementById('saveButton');
+
+                if (input.disabled) {
+                    input.disabled = false;
+                    input.value = ''; // Clear the input field
+                    input.focus(); // Automatically focus on the input field
+                    changeButton.style.display = 'none';
+                    saveButton.style.display = 'inline-block';
+                } else {
+                    input.disabled = true;
+                    changeButton.style.display = 'inline-block';
+                    saveButton.style.display = 'none';
+                }
+            }
+
+            document.getElementById('accountEditForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const url = new URL(form.action);
+                url.searchParams.set('section', 'AccountSettings');
+
+                console.log('Submitting form to:', url.toString());
+                console.log('Form data:', formData);
+
+                $.ajax({
+                    url: url.toString(),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('Form submission successful');
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', status, error);
+                        alert('An error occurred while updating the username.');
+                    }
+                });
+            });
         </script>
 </body>
 </html>

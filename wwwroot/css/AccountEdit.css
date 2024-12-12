@@ -64,6 +64,7 @@
     flex-direction: column;
     align-items: center;
     gap: 30px; /* Add gap between buttons */
+    padding-top: 50px;
 }
 
 .Content {
@@ -331,14 +332,14 @@
     width: 200px;
     height: 38px;
     flex-shrink: 0;
-    margin-left: 5%;
+    margin-left: 3%;
     margin-top: 2%;
     border-radius: 10px;
     border: 1px solid #000;
     background: #F5D059;
     color: #2B550E;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 26px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -353,7 +354,7 @@
     border-radius: 10px;
     border: 1px solid #000;
     background: #d10c0c;
-    color: #2B550E;
+    color: #FFFDC1;
     font-family: "Rum Raisin", sans-serif;
     font-size: 26px;
     font-style: normal;
