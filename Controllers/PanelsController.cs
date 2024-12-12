@@ -133,9 +133,12 @@ namespace UsersApp.Controllers
                 ViewData["TotalFlashcardCount"] = totalFlashcardCount;
                 ViewData["ProfessorCount"] = professorCount;
                 ViewData["StudentCount"] = studentCount;
-        
-                var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
-        
+                ViewData["TotalUserCount"] = totalUserCount;
+                ViewData["TotalContents"] = totalContents;
+                ViewData["AverageQuizzesPerMonth"] = averageQuizzesPerMonth;
+                ViewData["AverageFlashcardsPerMonth"] = averageFlashcardsPerMonth;
+                ViewData["FilterPeriod"] = filterPeriod;
+
                 var model = new AccountEditViewModel
                 {
                     NewUsername = user.FullName,
@@ -207,10 +210,7 @@ namespace UsersApp.Controllers
                 ViewData["ProfessorCount"] = professorCount;
                 ViewData["StudentCount"] = studentCount;
         
-                var flashcards = await _context.Flashcards
-                    .Include(f => f.Questions)
-                    .Where(f => f.UserId == userId) // Filter flashcards by UserId
-                    .ToListAsync();
+                var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
         
                 var model = new AccountEditViewModel
                 {
@@ -250,13 +250,12 @@ namespace UsersApp.Controllers
                         JsonFilePath = q.JsonFilePath ?? string.Empty,
                         UserId = q.UserId,
                         HighestScore = q.HighestScore,
-                        GameCode = q.GameCode ?? string.Empty,
-                        Created_by = q.Created_by // Ensure Created_by is included
+                        GameCode = q.GameCode ?? string.Empty
                     })
                     .ToListAsync();
         
-                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.UserId == userId);
-                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.UserId == userId);
+                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
+                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
                 var TotalQuizCount = manualQuizCount + aiQuizCount;
                 ViewData["TotalQuizCount"] = TotalQuizCount;
         
@@ -272,10 +271,7 @@ namespace UsersApp.Controllers
                 ViewData["ProfessorCount"] = professorCount;
                 ViewData["StudentCount"] = studentCount;
         
-                var flashcards = await _context.Flashcards
-                    .Include(f => f.Questions)
-                    .Where(f => f.UserId == userId) // Filter flashcards by UserId
-                    .ToListAsync();
+                var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
         
                 var model = new AccountEditViewModel
                 {
@@ -482,6 +478,36 @@ namespace UsersApp.Controllers
             return View("StudentPanel", model);
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteQuiz(int id)
+        {
+            var quiz = await _context.Quizzes.FindAsync(id);
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            _context.Quizzes.Remove(quiz);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFlashcard(int id)
+        {
+            var flashcard = await _context.Flashcards.FindAsync(id);
+            if (flashcard == null)
+            {
+                return NotFound();
+            }
+
+            _context.Flashcards.Remove(flashcard);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
 
 
