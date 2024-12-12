@@ -1,14 +1,15 @@
-.container{
+.container {
     display: flex;
     flex-direction: row;
-    align-items: none;
+    align-items: stretch; /* Ensure the sidebar and content stretch to fill the container */
     width: 100%;
-    height: 100%;
+    min-height: 150vh; /* Ensure the container takes at least the full viewport height */
+    background: #FFFDC1; /* Ensure the parent container has the same background color */
 }
 
-.SideBar{
+.SideBar {
     width: 15%;
-    height: 100%;
+    height: auto; /* Allow the sidebar to adjust based on content height */
     flex-shrink: 0;
     border: 1px solid #000;
     background: #FFFDC1;
@@ -16,13 +17,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2%;
+    gap: 20px; /* Add gap between buttons */
 }
 
-.Content{
+.Content {
     width: 85%;
-    height: 1424px;
     background: #FFFDC1;
+    flex-grow: 1; /* Allow content to grow and fill the remaining space */
 }
 
 .Home,.Library,.Flashcards,.Quiz{
@@ -49,9 +50,8 @@
     align-items: center;
     gap: 10px; /* Add some space between the image and text */
     text-align: left; /* Ensure text is left-aligned */
+    margin-bottom: 20px; /* Add margin-bottom to create space between buttons */
 }
-
-
 
 
 .HomeButton{
@@ -233,7 +233,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;    
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: px;
     -webkit-text-stroke-color: #5C4C20;
 }
 

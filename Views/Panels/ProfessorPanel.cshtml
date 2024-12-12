@@ -17,6 +17,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="SideBar">
@@ -141,21 +142,38 @@
         </div>
 
         <div class="AccountSettings section" id="AccountSettings" style="display: none;">
-            <h1>Account Settings</h1>
+            <h1 class="account-settings-title">Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
                 <div class="userprofile">
                     <div class="drag-drop-container" id="drag-drop-container">
-                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data">
+                        <form asp-action="UploadProfileImageProfessor" method="post" enctype="multipart/form-data" id="uploadProfileForm" onsubmit="event.preventDefault(); uploadProfileImage();">
                             <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
-                                <p>Drag and drop a picture here or click to upload</p>
-                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)">
-                                <label class="button" for="fileElem">Select a file</label>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    @if (ViewData["FilePath"] != null)
+                                    {
+                                        <img src="@ViewData["FilePath"]" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
+                                    }
+                                    else
+                                    {
+                                        <img src="/profile_images/default.png" alt="Profile Image" id="dprofile" style="cursor: pointer; width: 200px; height: 200px; border-radius: 50%;" onclick="showProfileOptions()">
+                                    }
+                                }
+                                <input type="file" id="fileElem" name="profileImage" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
                             </div>  
                             <button type="submit" class="Upload">Upload Image</button>
                         </form>
                         <div id="gallery"></div>
                     </div>
+                </div>
+                <form asp-action="RemoveProfileImageProfessor" method="post" id="removeProfileForm" style="display: none;">
+                    <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                </form>
+                <div id="profileOptions" class="hidden" onclick="hideProfileOptions(event)">
+                    <button onclick="viewProfile()">View Profile</button>
+                    <button onclick="removeProfile()">Remove Profile</button>
+                    <button onclick="document.getElementById('fileElem').click();">Upload New Profile</button>
                 </div>
 
                 <div class="userdetails-container">
@@ -351,12 +369,84 @@
                 } else {
                     selectedSection.style.display = 'block';
                 }
+                // Update the URL query parameter
+                const url = new URL(window.location);
+                url.searchParams.set('section', section);
+                window.history.pushState({}, '', url);
             }
-        </script>
 
-        <script>
+            // On page load, show the section based on the URL query parameter
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const section = urlParams.get('section') || 'Home';
+                showSection(section);
+            });
+
             function takeFlashcard(flashcardId) {
                 window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
+            }
+
+            function showProfileOptions() {
+                var options = document.getElementById('profileOptions');
+                options.classList.toggle('hidden');
+            }
+
+            function hideProfileOptions(event) {
+                event.stopPropagation();
+                var options = document.getElementById('profileOptions');
+                options.classList.add('hidden');
+            }
+
+            document.addEventListener('click', function(event) {
+                var options = document.getElementById('profileOptions');
+                var profileImage = document.getElementById('dprofile');
+                if (!options.contains(event.target) && event.target !== profileImage) {
+                    options.classList.add('hidden');
+                }
+            });
+
+            function viewProfile() {
+                var imgSrc = document.getElementById('dprofile').src;
+                window.open(imgSrc, '_blank');
+                hideProfileOptions(event);
+            }
+
+            function removeProfile() {
+                $.ajax({
+                    url: '@Url.Action("RemoveProfileImageProfessor", "Account")',
+                    type: 'POST',
+                    data: $('#removeProfileForm').serialize(),
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while removing the profile image.');
+                    }
+                });
+                hideProfileOptions(event);
+            }
+
+            function uploadProfileImage() {
+                var formData = new FormData($('#uploadProfileForm')[0]);
+                $.ajax({
+                    url: '@Url.Action("UploadProfileImageProfessor", "Account")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while uploading the profile image.');
+                    }
+                });
             }
         </script>
         <script>
