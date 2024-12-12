@@ -157,13 +157,13 @@
                         <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
                     </div>
                 }else{
-                    
+                    <div class="nav-container">
+                        <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join</button>
+                        <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
+                        <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
+                    </div>  
                 }
-                <div class="nav-container">
-                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join</button>
-                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
-                    <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
-                </div>
+
             }
         </header>
         <main role="main" class="container">

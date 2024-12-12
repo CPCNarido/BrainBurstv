@@ -254,20 +254,20 @@ namespace UsersApp.Controllers
                     })
                     .ToListAsync();
         
-                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
-                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
-                var TotalQuizCount = manualQuizCount + aiQuizCount;
-                ViewData["TotalQuizCount"] = TotalQuizCount;
+                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual" && q.UserId == userId);
+                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai" && q.UserId == userId);
+                var totalQuizCount = manualQuizCount + aiQuizCount;
+                ViewData["TotalQuizCount"] = totalQuizCount;
         
-                var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
-                var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
-                var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
-                ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
+                var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual" && f.UserId == userId);
+                var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai" && f.UserId == userId);
+                var totalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
+                ViewData["TotalFlashcardCount"] = totalFlashcardCount;
         
                 var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
                 var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
-                var TotalUserCount = professorCount + studentCount;
-                ViewData["TotalUserCount"] = TotalUserCount;
+                var totalUserCount = professorCount + studentCount;
+                ViewData["TotalUserCount"] = totalUserCount;
                 ViewData["ProfessorCount"] = professorCount;
                 ViewData["StudentCount"] = studentCount;
         

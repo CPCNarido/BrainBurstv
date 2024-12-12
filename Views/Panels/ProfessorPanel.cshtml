@@ -42,17 +42,13 @@
                         <div class="l">
                             <div class="number-of-quiz">
                                 <h1>AI Generated Quizzes</h1>
-                                @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                @Model.AiQuizCount
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
                                 <h1>Manual Generated Quizzes</h1>
-                                @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                                @* AI Generated FlashCard: @ViewData["aiFlashcardCount"] *@
-                            </div>
-                            <div class="number-of-flashcards">
-                                @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
+                                @Model.ManualQuizCount
                             </div>
                         </div>
                     </div>
@@ -218,8 +214,8 @@
                     datasets: [{
                         label: 'Quiz Count',
                         data: [
-                            @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                            @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                            @Model.AiQuizCount,
+                            @Model.ManualQuizCount
                         ],
                         backgroundColor: [
                             'rgba(58, 183, 26, 1)',
