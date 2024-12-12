@@ -108,7 +108,7 @@ namespace UsersApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) // Change this line
             {
                 return View(model); // Add this line to return the view if the model state is invalid
             }
@@ -123,22 +123,22 @@ namespace UsersApp.Controllers
                 Created_At = DateTime.Now
             };
 
-                var result = await userManager.CreateAsync(users, model.Password);
+            var result = await userManager.CreateAsync(users, model.Password);
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-
-                    return View(model);
-                }
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
             }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+        }
 
         public async Task<IActionResult> VerifyEmail()
         {

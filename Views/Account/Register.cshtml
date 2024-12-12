@@ -36,7 +36,7 @@
         </div>
         <div class="fill">
             <div class="log"><h1>Signup</h1></div>
-            <form asp-action="Register" method="post" id="registerForm">
+            <form asp-controller="Account" asp-action="Register" method="post" id="registerForm">
                 @Html.AntiForgeryToken()
                 <div class="userinput1">
                     <label asp-for="Name" class="form-label"></label>
