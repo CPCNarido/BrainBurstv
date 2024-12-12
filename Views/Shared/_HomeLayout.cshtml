@@ -10,7 +10,75 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
+    <style>
+/* Keyframe animation for bounce-in effect */
+@@keyframes popupSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@@keyframes popupSlideOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    width: 23.5%;
+    height: fit-content;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 5px;
+    margin-left: 29%;
+    margin-top: -2;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.popup.show {
+    display: block;
+    animation: popupSlideIn 0.5s ease forwards;
+}
+
+.popup.hide {
+    animation: popupSlideOut 0.5s ease forwards;
+}
+
+        .popup button {
+            display: block;
+            margin: 5px 0;
+            padding: 8px 12px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .popup button.logout {
+            background-color: #dc3545;
+        }
+
+    </style>
 </head>
+
 <body>
     <div class="wrapper">
         <header>
@@ -21,75 +89,42 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
-                @if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Admin")
-                {
-                    <a href="@Url.Action("AdminPanel", "Panels")" class="profile-container">
-                        <div class="profile-container">
-                            <div class="UserProfile">
-                                <div>
-                                    @if (ViewData["FilePath"] != null)
-                                    {
-                                        <img src="@ViewData["FilePath"]" class="Profile" alt="User Profile">
-                                    }
-                                    else
-                                    {
-                                        <img src="/profile_images/default.png" class="Profile" alt="User Profile">
-                                    }
-                                </div>
-                                <div class="credentials">
-                                    <div class="nameglobal">@ViewData["Username"]</div>
-                                    <div class="usertypeglobal">@ViewData["Role"]</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                }
-                else if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Professor")
-                {
-                    <a href="@Url.Action("ProfessorPanel", "Panels")" class="profile-container">
-                        <div class="profile-container">
-                            <div class="UserProfile">
-                                <div>
-                                    @if (ViewData["FilePath"] != null)
-                                    {
-                                        <img src="@ViewData["FilePath"]" class="Profile" alt="User Profile">
-                                    }
-                                    else
-                                    {
-                                        <img src="/profile_images/default.png" class="Profile" alt="User Profile">
-                                    }
-                                </div>
-                                <div class="credentials">
-                                    <div class="nameglobal">@ViewData["Username"]</div>
-                                    <div class="usertypeglobal">@ViewData["Role"]</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                }
-                else if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Student")
-                {
-                    <a href="@Url.Action("StudentPanel", "Panels")" class="profile-container">
-                        <div class="profile-container">
-                            <div class="UserProfile">
-                                <div>
-                                    @if (ViewData["FilePath"] != null)
-                                    {
-                                        <img src="@ViewData["FilePath"]" class="Profile" alt="User Profile">
-                                    }
-                                    else
-                                    {
-                                        <img src="/profile_images/default.png" class="Profile" alt="User Profile">
-                                    }
-                                </div>
-                                <div class="credentials">
-                                    <div class="nameglobal">@ViewData["Username"]</div>
-                                    <div class="usertypeglobal">@ViewData["Role"]</div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                }
+            <!-- Profile Container -->
+            <div class="profile-container" id="profileContainer">
+                <div class="UserProfile">
+                    <div>
+                        @if (ViewData["FilePath"] != null)
+                        {
+                            <img src="@ViewData["FilePath"]" class="Profile" alt="User Profile">
+                        }
+                        else
+                        {
+                            <img src="/profile_images/default.png" class="Profile" alt="User Profile">
+                        }
+                    </div>
+                    <div class="credentials">
+                        <div class="nameglobal">@ViewData["Username"]</div>
+                        <div class="usertypeglobal">@ViewData["Role"]</div>
+                    </div>
+                </div>
+
+                <!-- Popup -->
+                <div class="popup" id="profilePopup">
+                    @if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Admin")
+                    {
+                        <button onclick="window.location.href='@Url.Action("AdminPanel", "Panels")'">Go to Admin Panel</button>
+                    }
+                    else if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Professor")
+                    {
+                        <button onclick="window.location.href='@Url.Action("ProfessorPanel", "Panels")'">Go to Professor Panel</button>
+                    }
+                    else if (ViewData["Role"] != null && ViewData["Role"].ToString() == "Student")
+                    {
+                        <button onclick="window.location.href='@Url.Action("StudentPanel", "Panels")'">Go to Student Panel</button>
+                    }
+                    <button class="logout" onclick="window.location.href='@Url.Action("Logout", "Account")'">Logout</button>
+                </div>
+            </div>
             }
             else
             {
@@ -100,13 +135,13 @@
                         <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
                     </div>
                 }else{
-                    <div class="nav-container">
-                        <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join</button>
-                        <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
-                        <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
-                    </div>
+                    
                 }
-
+                <div class="nav-container">
+                    <button class="Join" onclick="location.href='@Url.Action("Join", "Home")'">Join</button>
+                    <button class="Sign" onclick="location.href='@Url.Action("Register", "Account")'">Sign Up</button>
+                    <button class="Login" onclick="location.href='@Url.Action("Login", "Account")'">Login</button>
+                </div>
             }
         </header>
         <main role="main" class="container">
@@ -149,5 +184,24 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const profileContainer = document.getElementById("profileContainer");
+    const profilePopup = document.getElementById("profilePopup");
+
+    profileContainer.addEventListener("click", () => {
+        const rect = profileContainer.getBoundingClientRect();
+        profilePopup.style.top = `${rect.bottom + window.scrollY}px`;
+        profilePopup.style.left = `${rect.left + window.scrollX}px`;
+        profilePopup.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!profileContainer.contains(event.target) && !profilePopup.contains(event.target)) {
+            profilePopup.classList.remove("show");
+        }
+    });
+});
+</script>
 </body>
 </html>
