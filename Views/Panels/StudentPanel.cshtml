@@ -16,6 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -169,6 +170,10 @@
                         <div id="gallery"></div>
                     </div>
                 </div>
+
+                <form asp-action="RemoveProfileImageStudent" method="post" id="removeProfileForm" style="display: none;">
+                    <input type="hidden" name="userId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+                </form>
 
                 <div id="profileOptions" class="hidden" onclick="hideProfileOptions(event)">
                     <button onclick="viewProfile()">View Profile</button>
@@ -410,10 +415,18 @@
         }
 
         function removeProfile() {
-            // Logic to remove profile picture
-            document.getElementById('dprofile').src = '/profile_images/default.png';
+            $.ajax({
+                url: '@Url.Action("RemoveProfileImageStudent", "Account")',
+                type: 'POST',
+                data: $('#removeProfileForm').serialize(),
+                success: function () {
+                    location.reload(); // Reload the page to reflect changes
+                },
+                error: function () {
+                    alert('An error occurred while removing the profile image.');
+                }
+            });
             hideProfileOptions(event);
-            // Optionally, you can add an AJAX call to remove the profile picture from the server
         }
     </script>
 </body>

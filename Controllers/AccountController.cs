@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting; // Add this
 using Microsoft.AspNetCore.Http; // Add this
 using System.IO; // Add this
+using System.Security.Claims; // Add this
 
 namespace UsersApp.Controllers
 {
@@ -365,7 +366,6 @@ public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
 
 
 
-
         [HttpGet]
         public IActionResult VerifyOtp(string username)
         {
@@ -433,6 +433,63 @@ public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
             }
 
             return View("AccountEdit");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProfileImage()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Get the current profile picture path
+            var currentFilePath = user.FilePath;
+
+            // Remove the profile picture from the database
+            user.FilePath = "/profile_images/default.png";
+            var result = await userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return StatusCode(500, "An error occurred while updating the profile picture.");
+            }
+
+            // Delete the current profile picture file from the server if it's not the default one
+            if (!string.IsNullOrEmpty(currentFilePath) && currentFilePath != "/profile_images/default.png")
+            {
+                var filePath = Path.Combine(environment.WebRootPath, currentFilePath.TrimStart('/'));
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+
+            return RedirectToAction("AccountSettings", "Account");
+        }
+
+        public class RemoveProfileImageRequest
+        {
+            public string UserId { get; set; }
+        }
+
+        [HttpPost]
+        public IActionResult RemoveProfileImageStudent(string userId)
+        {
+            if (User.FindFirstValue(ClaimTypes.NameIdentifier) == userId)
+            {
+                // Logic to remove the profile picture from the database
+                var user = _context.Users.Find(userId);
+                if (user != null)
+                {
+                    user.FilePath = "/profile_images/default.png"; // Reset to default profile image
+                    _context.SaveChanges();
+                    return Ok(); // Return a success response
+                }
+            }
+            return StatusCode(500, "An error occurred while removing the profile image."); // Return an error response
         }
     }
 }
