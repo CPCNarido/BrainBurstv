@@ -1,3 +1,49 @@
+.fullname {
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 24px; /* Ensure the font size is applied */
+    font-weight: normal;
+    line-height: normal;
+    margin-left: 5%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    width: 50%;
+    margin-bottom: 10px;
+    padding: 10px; /* Add padding inside the input field */
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid #000; /* Add border only at the bottom */
+    background-color: #FFFDC1; /* Set background color */
+    outline: none; /* Remove default outline */
+    transition: border-bottom-color 0.3s ease, border-bottom-width 0.3s ease; /* Add transition for border color and thickness */
+}
+
+.Newemail {
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 24px; /* Ensure the font size is applied */
+    font-weight: normal;
+    line-height: normal;
+    margin-left: 5%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    width: 50%;
+    margin-bottom: 10px;
+    padding: 10px; /* Add padding inside the input field */
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid #000; /* Add border only at the bottom */
+    background-color: #FFFDC1; /* Set background color */
+    outline: none; /* Remove default outline */
+    transition: border-bottom-color 0.3s ease, border-bottom-width 0.3s ease; /* Add transition for border color and thickness */
+    pointer-events: none; /* Make the input field unclickable */
+}
+
+.fullname:focus, .Newemail:focus {
+    border-bottom-color: #2B550E; /* Change border color on focus */
+    border-bottom-width: 2px; /* Thicken the border on focus */
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -17,7 +63,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px; /* Add gap between buttons */
+    gap: 30px; /* Add gap between buttons */
 }
 
 .Content {
@@ -218,7 +264,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    
+    justify-content: center;    
 }
 .username,.Email{
     width: 100%;
@@ -226,29 +272,14 @@
 
 }
 
-.username h1,.Email h1{
+.username h1, .Email h1{
     color: #2B550E;
     font-family: "Rum Raisin", sans-serif;
     font-size: 28px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;    
-    -webkit-text-stroke-width: px;
-    -webkit-text-stroke-color: #5C4C20;
 }
-
-.fullname,.Newemail{
-    color: #2B550E;
-    font-family: "Rum Raisin", sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    all: unset;
-    margin-left: 5%;
-}
-
-
 
 .drag-drop-container {
     display: flex;
