@@ -1,0 +1,46 @@
+[
+  {
+    "QuestionText": "1:** What do airplanes use to fly?",
+    "AnswerText": "Wings and engines"
+  },
+  {
+    "QuestionText": "2:** What is the name of the place where airplanes take off and land?",
+    "AnswerText": "Airport"
+  },
+  {
+    "QuestionText": "3:**  What is a person who flies an airplane called?",
+    "AnswerText": "Pilot"
+  },
+  {
+    "QuestionText": "4:** What is the long, thin part of an airplane that helps it steer?",
+    "AnswerText": "Tail"
+  },
+  {
+    "QuestionText": "5:** Name one thing that an airplane needs to fly.",
+    "AnswerText": "Fuel"
+  },
+  {
+    "QuestionText": "6:** What is the front part of an airplane called?",
+    "AnswerText": "Nose"
+  },
+  {
+    "QuestionText": "7:** True or False: Airplanes can fly in space.",
+    "AnswerText": "False"
+  },
+  {
+    "QuestionText": "8:** What do airplanes use to see other planes and the ground at night?",
+    "AnswerText": "Lights"
+  },
+  {
+    "QuestionText": "9:** What is a small airplane that is usually used for short flights called?",
+    "AnswerText": "Propeller plane or small plane"
+  },
+  {
+    "QuestionText": "10:** What is a very big airplane used for long flights called?",
+    "AnswerText": "Jet plane or airliner"
+  },
+  {
+    "QuestionText": "11:**  What safety device do passengers wear during a flight?",
+    "AnswerText": "Seatbelt"
+  }
+]

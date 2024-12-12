@@ -30,5 +30,6 @@ namespace UsersApp.ViewModels
         public double? AverageRatingsPerMonth { get; set; }
         public double? AverageUsersPerMonth { get; set; }
         public string? FilterPeriod { get; set; }
+        public string? Created_by { get; set; }
     }
 }
