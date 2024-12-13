@@ -154,3 +154,23 @@
     background-color: #f44336;
     color: white;
 }
+
+.print-button{
+    font-family: rum raisin;
+}
+
+
+@media print{
+    body * {
+        visibility: hidden;
+    }
+    .print-container, .print-container * {
+        visibility: visible;
+        overflow: visible;
+    }
+    .print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
