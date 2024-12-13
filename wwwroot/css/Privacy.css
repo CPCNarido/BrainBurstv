@@ -6,70 +6,81 @@ body {
 
 .privacy-contents {
     width: 100%;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 80px;
+    margin-bottom: 80px;
     height: 100%;
 }
 
 .privacy-title {
     text-align: center;
-    margin-bottom: 100px;
-    font-size: 50px;
+    margin-bottom: 50px;
+    color:#FFFDC1;
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 2px 0px 0px #5C4C20, 
+                 -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 4px 4px 0px #5C4C20, -4px -4px 0px #5C4C20, 
+                 -4px 4px 0px #5C4C20, 4px -4px 0px #5C4C20, 4px 0px 0px #5C4C20, -4px 0px 0px #5C4C20, 0px 4px 0px #5C4C20, 
+                 0px -4px 0px #5C4C20, 0 0 8px rgba(0, 0, 0, 1);
 }
 
 .privacy-title-text {
     font-family: 'Rum Raisin', sans-serif;
-    font-size: 70px;
+    font-size: 40px;
     font-weight: bold;
     width: 900px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
-    background-color: #F5D059;
-    border: 1px solid #000;
+    background-color: #89B752;
+    border: 3px solid #2B550E;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     padding: 10px 20px;
 }
 
 .privacy-text-container {
-    margin-top: 20px;
-    width: 80%;
+    margin-top: 10px;
+    width: 50%;
     border: 3px solid #000;
     border-radius: 20px;
     padding: 2% 5%;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.8;
-    font-size: 1.2em;
-    background-color: #FFFDC1;
+    font-size: 1.4em; /* Increased font size */
+    background-color: #89B752;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    color: #000; /* Changed font color to black */
 }
 
 .privacy-text {
-    font-size: 1em;
+    font-size: 1.2em; /* Increased font size */
     line-height: 1.8;
-    font-size: 24px;
+    color: #000; /* Changed font color to black */
 }
 
 /* Specific Spacing for Each Section Inside privacy-text */
 .privacy-last-updated {
     font-weight: bold;
     margin-bottom: 20px;
-    font-size: 1.2em;
+    font-size: 20px; /* Increased font size */
+    color: #000; /* Changed font color to black */
 }
 
 .privacy-intro, .privacy-list {
     margin-bottom: 20px;
     padding-left: 10px;
+    font-size: 20px; /* Increased font size */
+    color: #000; /* Changed font color to black */
 }
 
 /* Adding spacing between list items */
 .privacy-list {
     margin-bottom: 20px;
+    font-size: 20px; /* Increased font size */
+    color: #000; /* Changed font color to black */
 }
 
 .privacy-list div {
     margin-bottom: 10px; /* Space between each list item */
+    color: #000; /* Changed font color to black */
 }
 
 /* Spacing for each prohibited item (a, b, c...) */
@@ -77,4 +88,14 @@ body {
     display: block;
     margin-left: 15px;
     margin-bottom: 5px;
+    color: #000; /* Changed font color to black */
+}
+
+a.email-link {
+    color: #5C4C20; /* Change this to your desired color */
+    text-decoration: none;
+}
+
+a.email-link:hover {
+    text-decoration: underline;
 }
