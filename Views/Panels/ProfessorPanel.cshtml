@@ -40,7 +40,14 @@
             <div class="quiz-top-chart-container">
                 <div>
                     <div class="quiz-box-pie-chart">
-                        <canvas class="myPieChart1" id="myPieChart1" width="220" height="240"></canvas>
+                        @if (@Model.ManualQuizCount == 0 && @Model.AiQuizCount == 0)
+                        {
+                            <h1>There Are currently no quizzes</h1>
+                        }
+                        else
+                        {
+                            <canvas class="myPieChart1" id="myPieChart1" width="220" height="240"></canvas>
+                        }
                     </div>
                     <p class="quiz-report-note"> AI Generated vs Manually Created</p>
                 </div>
@@ -72,8 +79,15 @@
             <div class="flashcards-top-chart-container">
                 <div>
                     <div class="flashcards-box-pie-chart">
+                    @if ((int)@ViewData["aiFlashcardCount"] == 0 || (int)@ViewData["manualFlashcardCount"] == 0)
+                    {
+                        <h1 style="text-align: center;">There Are currently no flashcards</h1>
+                    }
+                    else
+                    {
                         <canvas class="myPieChart2" id="myPieChart2" width="220" height="240"></canvas>
-                    </div>
+                    }
+                </div>
                     <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
                 </div>
 
