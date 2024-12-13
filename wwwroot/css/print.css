@@ -1,49 +1,17 @@
-@media print {
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
+@media print{
+    body * {
+        visibility: hidden;
     }
-    .SideBar, .print-button, .f-content, .Q-Head, .personal-info, .personal-container, .personal-container1, .personal-container2, .Logout1, header, footer, .filter-button {
-        display: none;
+    .print-button{
+        visibility: hidden;
     }
-    .Content {
+    .print-container, .print-container * {
+        visibility: visible;
+    }
+    .print-container {
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
-        padding: 5px;
-        box-sizing: border-box;
-    }
-    .Content h1, .Content p {
-        text-align: center;
-        margin: 5px 0;
-    }
-    .quiz-top-chart-container, .flashcards-top-chart-container {
-        display: flex;
-        justify-content: space-between;
-        margin: 5px 0;
-        page-break-inside: avoid;
-    }
-    .quiz-box-pie-chart, .flashcards-box-pie-chart {
-        width: 45%;
-        height: auto;
-    }
-    .quiz-box-reports, .flashcards-box-reports {
-        width: 45%;
-        text-align: center;
-    }
-    .quiz-box-reports h1, .flashcards-box-reports h1 {
-        font-size: 0.9em;
-        margin-bottom: 5px;
-    }
-    .quiz-box-reports div, .flashcards-box-reports div {
-        margin-bottom: 5px;
-    }
-    .content-created {
-        text-align: center;
-        font-weight: bold;
-        margin-top: 5px;
-    }
-    .quiz-box-pie-chart, .flashcards-box-pie-chart {
-        width: 350px;
-        height: 300px;
     }
 }

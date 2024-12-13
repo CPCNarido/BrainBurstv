@@ -27,7 +27,9 @@
             <form id="logoutForm" asp-action="Logout" method="post" style="display: none;"></form>
         }
     </div>
+    
     <div class="Content">
+    <div class="print-container">
         <div class="Home section" id="Home" style="display: block;">
         @if ((string)@ViewData["Role"] == "Admin")
         {
@@ -143,14 +145,8 @@
             </div>
         }
         </div>
-
-        <button onclick="printPage()" class="print-button">Print</button>
-
-        <script>
-        function printPage() {
-            window.print();
-        }
-        </script>
+    </div>
+        <button onclick="window.print();" class="print-button">Print</button>
 
         <div asp-validation-summary="All" class="text-danger"></div>
 

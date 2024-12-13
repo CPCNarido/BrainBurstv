@@ -26,6 +26,7 @@
         <button class="QuizButton" onclick="showSection('AccountSettings')"><img src="../Assets/AccountEdit/setings.png" class="ads">Account Settings</button>
     </div>
     <div class="Content">
+        <div class="print-container">
         <div class="Home section" id="Home" style="display: block;">
             <h1 class="quiz-report-titles admin-panel-title"> Quiz Report</h1>
             <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
@@ -97,7 +98,6 @@
                     </div>
                 </div>
             </div>
-            <button onclick="printPage()" class="print-button">Print</button>
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -143,6 +143,10 @@
                 }
             </div>
         </div>
+        </div>
+
+        <button onclick="printPage()" class="print-button">Print</button>
+
 
         <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1>Account Settings</h1>
