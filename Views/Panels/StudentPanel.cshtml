@@ -2,15 +2,15 @@
 @using System.Security.Claims
 
 @{
-    ViewData["Title"] = "Student Panel";
+    ViewData["Title"] = "Admin Panel";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 <html>
 <head>
     <link rel="stylesheet" href="~/css/Global/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,62 +27,76 @@
     </div>
     <div class="Content">
         <div class="Home section" id="Home" style="display: block;">
-            <h1 class="quiz-report-titles"> Quiz Report</h1>
+            <h1 class="quiz-report-titles admin-panel-title"> Quiz Report</h1>
             <p class="quiz-report-description">Overview of Quiz, Manual and AI</p>
+            <div class="filter-dropdown">
+                <select id="filterDropdown"onchange="filterData(this.value)">
+                    <option value="today">Today</option>
+                    <option value="thisweek">This Week</option>
+                    <option value="thisyear">This Year</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
             <div class="quiz-top-chart-container">
                 <div>
                     <div class="quiz-box-pie-chart">
-                        <canvas id="myPieChartq" width="220" height="240"></canvas>
+                        <canvas class="myPieChart1" id="myPieChart1" width="220" height="240"></canvas>
                     </div>
                     <p class="quiz-report-note"> AI Generated vs Manually Created</p>
                 </div>
+
                 <div class="quiz-box-reports">
                     <div class="sp">
                         <div class="l">
                             <div class="number-of-quiz">
-                                <h1>AI Generated Quizzes Taken</h1>
-                                @Model.Quizzes.Count(q => q.Created_by == "Ai" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                <h1>AI Generated Quizzes</h1>
+                                @Model.AiQuizCount
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
-                                <h1>Manual Generated Quizzes Taken</h1>
-                                @Model.Quizzes.Count(q => q.Created_by == "Manual" && q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                <h1>Manual Generated Quizzes</h1>
+                                @Model.ManualQuizCount
                             </div>
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Quiz : @Model.Quizzes.Count(q => q.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        Total Number of Quiz Created: @Model.TotalQuizCount
                     </div>
                 </div>
             </div>
 
             <h1 class="flashcards-report-titles"> Flashcards Report</h1>
             <p class="flashcards-report-description">Overview of Flashcards, Manual and AI</p>
+
             <div class="flashcards-top-chart-container">
                 <div>
                     <div class="flashcards-box-pie-chart">
-                        <canvas id="myPieChartf" width="220" height="240"></canvas>
+                        <canvas class="myPieChart2" id="myPieChart2" width="220" height="240"></canvas>
                     </div>
                     <p class="flashcards-report-note"> AI Generated vs Manually Created</p>
                 </div>
+
                 <div class="flashcards-box-reports">
                     <div class="sp">
                         <div class="l">
                             <div class="number-of-quiz">
                                 <h1>AI Generated Flashcards</h1>
-                                @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                @ViewData["aiFlashcardCount"]
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
                                 <h1>Manual Generated Flashcards</h1>
-                                @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                @ViewData["manualFlashcardCount"]
+                            </div>
+                            <div class="number-of-flashcards">
+                                @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
                             </div>
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Flashcards: @Model.Flashcards.Count(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        Total Number of Flashcards: @ViewData["totalFlashcardCount"]
                     </div>
                 </div>
             </div>
@@ -99,7 +113,7 @@
                 <div class="f-collection">
                     @if (Model.Flashcards != null && Model.Flashcards.Any())
                     {
-                        @foreach (var flashcard in Model.Flashcards)
+                        @foreach (var flashcard in Model.Flashcards.Where(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                         {
                             <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                                 <div class="f-info">
@@ -113,8 +127,6 @@
                                 </div>                  
                             </div>
                         }
-                    }else{
-                        <p>No flashcards available.</p>
                     }
                 </div>
             </div>
@@ -125,24 +137,17 @@
                 <h1>Quizzes</h1>
             </div>
             <div class="quizzes-container">
-                @if (Model.Quizzes != null && Model.Quizzes.Any())
+                @foreach (var quiz in Model.Quizzes)
                 {
-                    @foreach (var quiz in Model.Quizzes)
-                    {
-                        <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                            <h1>@quiz.Topic</h1>
-                            <h2>@quiz.GradeLevel</h2>
-                        </button>
-                    }
-                }
-                else
-                {
-                    <p>No quizzes available.</p>
+                    <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                        <h1>@quiz.Topic</h1>
+                        <h2>@quiz.GradeLevel</h2>
+                    </button>
                 }
             </div>
         </div>
 
-        <div class="AccountSettings section" id="AccountSettings" style="display: none;">
+       <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1 class="account-settings-title">Account Settings</h1>
             <div class="personal-info">Personal Information</div>
             <div class="personal-container">
@@ -208,7 +213,7 @@
                     <p>"Deleting your account will permanently remove all your data and cannot be undone. Please reconsider before proceeding.</p>
                 </div>
                 <div class="button-container">
-                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Changepassword</button>
+                    <button class="changepassword" onclick="location.href='@Url.Action("ChangePassword", "Account")'">Change Password</button>
                 </div>
             </div>
             <div class="personal-container2">
@@ -231,279 +236,205 @@
                 </form>
             </div>
         </div>
-
-        <script>
-            // Pie Chart 1
-            const studentquiz = document.getElementById('myPieChartq').getContext('2d');
-            const studentchart1 = new Chart(studentquiz, {
-                type: 'pie',
-                data: {
-                    labels: ['AI Generated', 'Manual Generated'],
-                    datasets: [{
-                        label: 'Quiz Count',
-                        data: [
-                            @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                            @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                        ],
-                        backgroundColor: [
-                            'rgba(58, 183, 26, 1)',
-                            'rgba(255, 222, 62, 1)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 253, 193, 1)',
-                            'rgba(255, 253, 193, 1)'
-                        ],
-                        borderWidth: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            enabled: true,
-                        }
-                    },
-                }
-            });
-
-            // Pie Chart 2
-            const studentflashcard = document.getElementById('myPieChartf').getContext('2d');
-            const studentchart2 = new Chart(studentflashcard, {
-                type: 'pie',
-                data: {
-                    labels: ['AI Generated', 'Manual Generated'],
-                    datasets: [{
-                        label: 'Flashcards Count',
-                        data: [
-                            @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                            @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                        ],
-                        backgroundColor: [
-                            'rgba(58, 183, 26, 1)',
-                            'rgba(255, 222, 62, 1)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 253, 193, 1)',
-                            'rgba(255, 253, 193, 1)'
-                        ],
-                        borderWidth: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            enabled: true,
-                        }
-                    },
-                }
-            });
-
-            function printPage() {
-                window.print();
-            }
-        </script>
-
-        <script>
-            function handleDragOver(event) {
-                event.preventDefault(); // Prevent default to allow drop
-                event.stopPropagation();
-                document.getElementById('drop-area').classList.add('highlight');
-            }
-
-            function handleDragLeave(event) {
-                event.preventDefault();
-                event.stopPropagation();
-                document.getElementById('drop-area').classList.remove('highlight');
-            }
-
-            function handleDrop(event) {
-                event.preventDefault();
-                event.stopPropagation();
-                document.getElementById('drop-area').classList.remove('highlight');
-
-                const files = event.dataTransfer.files;
-                if (files.length) {
-                    document.getElementById('fileElem').files = files; // Assign the dropped files to the input
-                    handleFiles(files); // Preview the file
-                }
-            }
-
-            function handleFiles(files) {
-                files = [...files];
-                previewFile(files[0]);
-            }
-
-            function previewFile(file) {
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onloadend = function () {
-                    let img = document.createElement('img');
-                    img.src = reader.result;
-                    img.classList.add('uploaded-image');
-                    document.querySelector('.Upload').style.display = 'block';
-
-                    let gallery = document.getElementById('gallery');
-                    gallery.innerHTML = ''; // Clear any existing images
-                    gallery.appendChild(img);
-
-                    // Hide the drop area when an image is previewed
-                    document.getElementById('drop-area').style.display = 'none';
-                };
-            }
-        </script>
-
-        <script>
-            function checkInput() {
-                var input = document.querySelector('input[name="NewUsername"]').value;
-                var button = document.getElementById('saveButton');
-                button.disabled = input.trim() === "";
-            }
-        </script>
-
-        <script>
-            function showSection(section) {
-                var sections = document.querySelectorAll('.section');
-                sections.forEach(function (sec) {
-                    sec.style.display = 'none';
-                });
-                var selectedSection = document.getElementById(section);
-                if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
-                    selectedSection.style.display = 'block';
-                } else {
-                    selectedSection.style.display = 'block';
-                }
-                // Update the URL query parameter
-                const url = new URL(window.location);
-                url.searchParams.set('section', section);
-                window.history.pushState({}, '', url);
-            }
-
-            // On page load, show the section based on the URL query parameter
-            document.addEventListener('DOMContentLoaded', function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                const section = urlParams.get('section') || 'Home';
-                showSection(section);
-            });
-
-            function takeFlashcard(flashcardId) {
-                window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
-            }
-
-            function showProfileOptions() {
-                var options = document.getElementById('profileOptions');
-                options.classList.toggle('hidden');
-            }
-
-            function hideProfileOptions(event) {
-                event.stopPropagation();
-                var options = document.getElementById('profileOptions');
-                options.classList.add('hidden');
-            }
-
-            document.addEventListener('click', function(event) {
-                var options = document.getElementById('profileOptions');
-                var profileImage = document.getElementById('dprofile');
-                if (!options.contains(event.target) && event.target !== profileImage) {
-                    options.classList.add('hidden');
-                }
-            });
-
-            function viewProfile() {
-                var imgSrc = document.getElementById('dprofile').src;
-                window.open(imgSrc, '_blank');
-                hideProfileOptions(event);
-            }
-
-            function removeProfile() {
-                $.ajax({
-                    url: '@Url.Action("RemoveProfileImageStudent", "Account")',
-                    type: 'POST',
-                    data: $('#removeProfileForm').serialize(),
-                    success: function () {
-                        // Reload the page with the AccountSettings section
-                        const url = new URL(window.location);
-                        url.searchParams.set('section', 'AccountSettings');
-                        window.location.href = url.toString();
-                    },
-                    error: function () {
-                        alert('An error occurred while removing the profile image.');
-                    }
-                });
-                hideProfileOptions(event);
-            }
-
-            function uploadProfileImage() {
-                var formData = new FormData($('#uploadProfileForm')[0]);
-                $.ajax({
-                    url: '@Url.Action("UploadProfileImageStudent", "Account")',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function () {
-                        // Reload the page with the AccountSettings section
-                        const url = new URL(window.location);
-                        url.searchParams.set('section', 'AccountSettings');
-                        window.location.href = url.toString();
-                    },
-                    error: function () {
-                        alert('An error occurred while uploading the profile image.');
-                    }
-                });
-            }
-
-            function toggleUsernameEdit() {
-                var input = document.querySelector('input[name="NewUsername"]');
-                var changeButton = document.getElementById('changeButton');
-                var saveButton = document.getElementById('saveButton');
-
-                if (input.disabled) {
-                    input.disabled = false;
-                    input.value = ''; // Clear the input field
-                    input.focus(); // Automatically focus on the input field
-                    changeButton.style.display = 'none';
-                    saveButton.style.display = 'inline-block';
-                } else {
-                    input.disabled = true;
-                    changeButton.style.display = 'inline-block';
-                    saveButton.style.display = 'none';
-                }
-            }
-
-            document.getElementById('accountEditForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const form = event.target;
-                const formData = new FormData(form);
-                const url = new URL(form.action);
-                url.searchParams.set('section', 'AccountSettings');
-
-                console.log('Submitting form to:', url.toString());
-                console.log('Form data:', formData);
-
-                $.ajax({
-                    url: url.toString(),
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        console.log('Form submission successful');
-                        // Reload the page to reflect changes
-                        window.location.reload();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Form submission error:', status, error);
-                        alert('An error occurred while updating the username.');
-                    }
-                });
-            });
-        </script>
+    </div>
 </body>
+
+<script>
+// Pie Chart 1
+const ctx1 = document.getElementById('myPieChart1').getContext('2d');
+const myPieChart1 = new Chart(ctx1, {
+    type: 'pie',
+    data: {
+        labels: ['Ai Generated', 'Manual'],
+        datasets: [{
+            label: 'Generated',
+            data: [@ViewData["AiQuizCount"], @ViewData["ManualQuizCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)',
+                'rgba(255, 253, 193, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            },
+            tooltip: {
+                enabled: true,
+            }
+        },
+    }
+});
+
+const ctx2 = document.getElementById('myPieChart2').getContext('2d');
+const myPieChart2 = new Chart(ctx2, {
+    type: 'pie',
+    data: {
+        labels: ['Ai Generated', 'Manual'],
+        datasets: [{
+            label: 'User Count',
+            data: [@ViewData["AiFlashcardCount"], @ViewData["ManualFlashcardCount"]],
+            backgroundColor: [
+                'rgba(58, 183, 26, 1)',
+                'rgba(255, 222, 62, 1)',
+                'rgba(56, 112, 18, 1)',
+                'rgba(255, 207, 4, 1)'
+            ],
+            borderColor: [
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)',
+                'rgba(159, 219, 93, 1)'
+            ],
+            borderWidth: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    color: 'rgba(43, 85, 14, 1)' // Change legend text color to the specified color
+                }
+            },
+            tooltip: {
+                enabled: true,
+                bodyColor: 'rgba(43, 85, 14, 1)', // Change tooltip text color to the specified color
+                titleColor: 'rgba(43, 85, 14, 1)', // Change tooltip title text color to the specified color
+            }
+        },
+    }
+});
+
+
+
+
+
+// Set the active section based on local storage
+document.addEventListener('DOMContentLoaded', function () {
+    var activeSection = localStorage.getItem('activeSection') || 'Home';
+    showSection(activeSection);
+});
+
+function filterData(period) {
+    window.location.href = `@Url.Action("ProfessorPanel", "Panels")?period=${period}`;
+}
+
+// Set the selected value of the dropdown based on the current filter period
+document.addEventListener('DOMContentLoaded', function () {
+    var filterPeriod = '@ViewData["FilterPeriod"]';
+    if (filterPeriod) {
+        var filterDropdown = document.getElementById('filterDropdown');
+        filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
+    }
+});
+
+
+function deleteQuiz(quizId) {
+    if (confirm('Are you sure you want to delete this quiz?')) {
+        $.ajax({
+            url: '@Url.Action("DeleteQuiz", "Panels")',
+            type: 'POST',
+            data: { id: quizId },
+            success: function(result) {
+                alert('Quiz deleted successfully.');
+                localStorage.setItem('activeSection', 'ContentManagement');
+                // Fade out and remove the quiz element
+                $('#quiz-' + quizId).fadeOut(500, function() {
+                    $(this).remove();
+                });
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while deleting the quiz: ' + error);
+            }
+        });
+    }
+}
+
+
+function deleteFlashcard(flashcardId) {
+    if (confirm('Are you sure you want to delete this flashcard?')) {
+        $.ajax({
+            url: '@Url.Action("DeleteFlashcard", "Panels")',
+            type: 'POST',
+            data: { id: flashcardId },
+            success: function(result) {
+                alert('Flashcard deleted successfully.');
+                localStorage.setItem('activeSection', 'ContentManagement');
+                // Fade out and remove the flashcard element
+                $('#flashcard-' + flashcardId).fadeOut(500, function() {
+                    $(this).remove();
+                });
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while deleting the flashcard: ' + error);
+            }
+        });
+    }
+
+}
+</script>
+<script>
+function showSection(section) {
+    var sections = document.querySelectorAll('.section');
+    sections.forEach(function (sec) {
+        sec.style.display = 'none';
+    });
+    var selectedSection = document.getElementById(section);
+    if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
+        selectedSection.style.display = 'block';
+    } else {
+        selectedSection.style.display = 'block';
+    }
+    localStorage.setItem('activeSection', section);
+
+    // Automatically open the "Quizzes" tab when the Content Management section is shown
+    if (section === 'ContentManagement') {
+        openTab(null, 'Quizzes');
+    }
+}
+
+// Set the active section based on local storage
+document.addEventListener('DOMContentLoaded', function () {
+    var activeSection = localStorage.getItem('activeSection') || 'Home';
+    showSection(activeSection);
+});
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    if (evt) {
+        evt.currentTarget.className += " active";
+    } else {
+        document.querySelector('.tablinks').classList.add('active');
+    }
+}
+</script>
+
+<script>
+function takeFlashcard(flashcardId) {
+    // Redirect to the flashcard study mode URL
+    const url = `/FlashCards/FlashCardStudyMode/${flashcardId}`;
+    window.location.href = url;
+}</script>
 </html>
