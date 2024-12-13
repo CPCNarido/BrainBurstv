@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Verify Email";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    var isLoggedIn = User.Identity.IsAuthenticated;
 }
 
 <link rel="stylesheet" href="/css/VerifyEmail.css" />
@@ -16,7 +17,9 @@
         <div class="fill">
             <div class="account-container">
                 <div class="account-box">
-                    <div class="log1"><h1>Forgot Password</h1></div>
+                    <div class="log1">
+                        <h1>@(isLoggedIn ? "Change Password" : "Forgot Password")</h1>
+                    </div>
                     <form asp-action="VerifyEmail" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="userinput">
@@ -25,9 +28,6 @@
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <input type="submit" value="Verify" class="submit-button" />
-                        <div class="text-center mt-2">
-                            <a asp-controller="Account" asp-action="Login" class="text-decoration-none mt-3 back-button">Back</a>
-                        </div>
                     </form>
                 </div>
             </div>
