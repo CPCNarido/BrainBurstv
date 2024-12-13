@@ -24,7 +24,7 @@
     top: -70px;
     left: 50px;
     z-index: 2; /* Ensure it is in front of the rectangle */
-    margin-bottom: 20px; /* Adjust as needed */
+    margin-bottom: 30px; /* Adjust as needed */
 }
 
 .review-text h1 {
@@ -92,7 +92,7 @@ html, body {
 
 .background-rectangle {
     width: 847px;
-    height: 400px;
+    height: 380px;
     flex-shrink: 0;
     border-radius: 20px;
     border: 1px solid #2B550E;
