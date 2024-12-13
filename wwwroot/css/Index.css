@@ -99,6 +99,7 @@ html,body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #FFFDC1;
 }
 
 .con{
@@ -410,6 +411,7 @@ html,body{
     height: 198px;
     flex-shrink: 0;
     opacity: 0.7;
+    background-color: #FFFDC1;
 }
 
 .image2{
@@ -619,4 +621,5 @@ html,body{
     align-items: flex-start; /* Align items to the top */
     padding: 20px 0;
     height: 360px; /* Adjust height to ensure the image is properly displayed */
+    background-color: #FFFDC1;
 }
