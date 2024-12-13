@@ -395,7 +395,13 @@
     color: #FFFDC1; /* Change to desired hover text color */
 }
 
-.f-head{
+.f-head, .Q-Head{
+    font-family: Rum Raisin;
+    font-size: 32px;
+    color: #FFFDC1;
+    text-shadow: 3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20, 4px 4px 0px #5C4C20, -4px -4px 0px #5C4C20, -4px 4px 0px #5C4C20, 4px -4px 0px #5C4C20, 4px 0px 0px #5C4C20, -4px 0px 0px #5C4C20, 0px 4px 0px #5C4C20, 0px -4px 0px #5C4C20, 0 0 10px rgba(0, 0, 0, 1);
+    margin-bottom: 1.5%;
+    margin-left: 2%; /* Adjusted from default to 2% */
 }
 
 .f-content{
