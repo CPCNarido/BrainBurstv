@@ -193,6 +193,7 @@
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
                                 <button type="button" class="changepassword" id="changeButton" onclick="toggleUsernameEdit()">Change Username</button>
                                 <button type="submit" class="changepassword" id="saveButton" style="display: none;">Save Username</button>
+                                <span id="usernameError" class="usernameError"></span>
                             </div>
                         </div>
                         <div class="Email">
@@ -484,7 +485,19 @@ function previewFile(file) {
 function checkInput() {
     var input = document.querySelector('input[name="NewUsername"]').value;
     var button = document.getElementById('saveButton');
-    button.disabled = input.trim() === "";
+    var errorMessage = document.getElementById('usernameError');
+    if (input.trim() === "") {
+        button.disabled = true;
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Username cannot be empty.';
+    } else if (input.length < 2) {
+        button.disabled = true;
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Username must be at least 2 characters long.';
+    } else {
+        button.disabled = false;
+        errorMessage.style.display = 'none';
+    }
 }
 
 function showProfileOptions() {
