@@ -129,20 +129,28 @@
                     {
                         @foreach (var flashcard in Model.Flashcards.Where(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                         {
-                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                            <div class="flashcard-item" data-title="@flashcard.Title?.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                                 <div class="f-info">
                                     <p>@flashcard.Id</p>
-                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
-                                    <h2>@ViewData["Username"]</h2>
+                                    <h2>
+                                        @flashcard.Title &#8203; &#8203; &#8203; 
+                                        @(flashcard.Questions?.Count ?? 0) Questions
+                                    </h2>
+                                    <h2>@(ViewData["Username"] ?? "Unknown User")</h2>
                                 </div>
                                 <div class="bot">
                                     <div class="divider"></div>
-                                    <div class="f-desc">@flashcard.Description</div>             
-                                </div>                  
+                                    <div class="f-desc">@flashcard.Description</div>
+                                </div>
                             </div>
                         }
                     }
+                    else
+                    {
+                        <h1>There are currently no flashcards</h1>
+                    }
                 </div>
+
             </div>
         </div>
 
