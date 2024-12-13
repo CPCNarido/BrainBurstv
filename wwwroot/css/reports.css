@@ -21,18 +21,19 @@ body {
 
 .print-button {
     background-color: #F5D059;
-    width: 100px;
-    height: 70px;
+    width: 90px;
+    height: 40px;
     font-size: 20px;
     border: 1px solid black;
-    margin-top: 50px;
+    margin-top: 40px;
     border-radius: 10px;
     transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for hover effects */
+    color:#2B550E
 }
 
 .print-button:hover {
-    background-color: #E5C049; /* Change background color on hover */
-    transform: scale(1.05); /* Slightly enlarge the button on hover */
+    background-color: #2B550E; /* Change background color on hover and focus */
+    color: #FFFDC1; /* Change text color on hover and focus */
 }
 
 .report-titles {
@@ -252,4 +253,27 @@ body {
 
 .feedback-report:last-child {
     margin-bottom: 0;
+}
+
+.filter-dropdown {
+    margin-bottom: 20px; /* Add some space below the dropdown */
+    margin-left: 10px;
+}
+
+.filter-dropdown select {
+    padding: 2px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color:#F5D059;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+
+.filter-dropdown select:hover,
+.filter-dropdown select:focus {
+    background-color: #2B550E; /* Change background color on hover and focus */
+    color: #FFFDC1; /* Change text color on hover and focus */
 }
