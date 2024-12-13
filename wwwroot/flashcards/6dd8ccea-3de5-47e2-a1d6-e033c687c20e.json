@@ -1,0 +1,18 @@
+[
+  {
+    "QuestionText": "1:** What is a rocket?",
+    "AnswerText": "A rocket is a vehicle that uses powerful engines to travel through the air and into space."
+  },
+  {
+    "QuestionText": "2:** What pushes a rocket upwards?",
+    "AnswerText": "The powerful thrust from its engines pushes the rocket upwards."
+  },
+  {
+    "QuestionText": "3:** What is fuel used for in a rocket?",
+    "AnswerText": "Fuel provides the energy for the rocket's engines to create thrust."
+  },
+  {
+    "QuestionText": "4:** Name one thing a rocket can carry into space.",
+    "AnswerText": "A rocket can carry satellites, astronauts, or scientific instruments into space."
+  }
+]

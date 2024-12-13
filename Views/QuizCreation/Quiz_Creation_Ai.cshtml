@@ -30,6 +30,12 @@
             <div class="right-container">
                 <form method="post" action="/Api/GenerateContent">
                     <div class="input-container">
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div style="color: red;">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
                         <div class="topic">
                             <div class="gradeobject">Topic</div>
                             <input type="text" id="topic" name="topic" class="topic-container" placeholder="Enter topic..." required />

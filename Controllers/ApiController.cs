@@ -63,7 +63,7 @@ namespace UsersApp.Controllers
                     role = "user",
                     parts = new[]
                     {
-                        new { text = "this is a system instruction" }
+                        new { text = "You are a Quiz Generator, you must not response with the title your response should only be the ff: response 1 if you cant do it, response 2 if the topic was not suitable for the grade level, response 3 if the input was invalid, last is if the input was valid you must follow the format on the input" }
                     }
                 },
                 generationConfig = new
@@ -85,14 +85,30 @@ namespace UsersApp.Controllers
             // Log the response for debugging
             _logger.LogInformation($"AI Response: {responseContent}");
 
+            // Handle different responses based on the system instructions
+            if (responseContent.Contains("response 1"))
+            {
+                TempData["ErrorMessage"] = "AI could not generate the quiz.";
+                return RedirectToAction("Quiz_Creation_Ai", "QuizCreation");
+            }
+            else if (responseContent.Contains("response 2"))
+            {
+                TempData["ErrorMessage"] = "The topic was not suitable for the grade level.";
+                return RedirectToAction("Quiz_Creation_Ai", "QuizCreation");
+            }
+            else if (responseContent.Contains("response 3"))
+            {
+                TempData["ErrorMessage"] = "The input was invalid.";
+                return RedirectToAction("Quiz_Creation_Ai", "QuizCreation");
+            }
             // Parse the response content to extract questions, choices, and answers
             var questions = ParseQuizContent(responseContent, out var choices, out var answers);
 
             // Save the parsed data into a JSON file
             var questionsDict = questions.Select((q, index) => new { q, index })
-                                         .ToDictionary(x => x.index + 1, x => x.q);
+                                        .ToDictionary(x => x.index + 1, x => x.q);
             var choicesDict = choices.Select((c, index) => new { c, index })
-                                     .ToDictionary(x => x.index + 1, x => x.c);
+                                    .ToDictionary(x => x.index + 1, x => x.c);
             var jsonFilePath = SaveQuizToJsonFile(questionsDict, choicesDict);
 
             var gameCode = new Random().Next(100000, 999999).ToString();

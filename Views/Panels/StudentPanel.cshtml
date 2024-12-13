@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Student Panel";
-    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 <html>
 <head>
@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 <body>
     <div class="SideBar">
@@ -88,7 +87,6 @@
                 </div>
             </div>
             <button onclick="printPage()" class="print-button">Print</button>
-
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -122,27 +120,27 @@
             </div>
         </div>
 
-    <div class="Quiz section" id="Quiz" style="display: none;">
-        <div class="Q-Head">
-            <h1>Quizzes</h1>
-        </div>
-        <div class="quizzes-container">
-            @if (Model.Quizzes != null && Model.Quizzes.Any())
-            {
-                @foreach (var quiz in Model.Quizzes)
+        <div class="Quiz section" id="Quiz" style="display: none;">
+            <div class="Q-Head">
+                <h1>Quizzes</h1>
+            </div>
+            <div class="quizzes-container">
+                @if (Model.Quizzes != null && Model.Quizzes.Any())
                 {
-                    <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                        <h1>@quiz.Topic</h1>
-                        <h2>@quiz.GradeLevel</h2>
-                    </button>
+                    @foreach (var quiz in Model.Quizzes)
+                    {
+                        <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
+                            <h1>@quiz.Topic</h1>
+                            <h2>@quiz.GradeLevel</h2>
+                        </button>
+                    }
                 }
-            }
-            else
-            {
-                <p>No quizzes available.</p>
-            }
+                else
+                {
+                    <p>No quizzes available.</p>
+                }
+            </div>
         </div>
-    </div>
 
         <div class="AccountSettings section" id="AccountSettings" style="display: none;">
             <h1 class="account-settings-title">Account Settings</h1>
@@ -182,26 +180,28 @@
                 </div>
 
                 <div class="userdetails-container">
-                    <form asp-action="AccountEditStudent" method="post">
+                    <form asp-action="AccountEditStudent" method="post" id="accountEditForm">
                         <div class="username">
                             <h1>Username</h1>
                             <div class="name">
-                                <!-- Updated input field with proper binding -->
-                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" 
-                                    oninput="checkInput()" autocomplete="off" />
+                                <input asp-for="NewUsername" class="fullname" placeholder="@ViewData["Username"]" oninput="checkInput()" autocomplete="off" disabled />
                                 <span asp-validation-for="NewUsername" class="text-danger"></span>
-
-                                <!-- Save button -->
-                                <button type="submit" class="changepassword" id="saveButton" disabled>Save Username</button>
+                                <button type="button" class="changepassword" id="changeButton" onclick="toggleUsernameEdit()">Change Username</button>
+                                <button type="submit" class="changepassword" id="saveButton" style="display: none;">Save Username</button>
+                            </div>
+                        </div>
+                        <div class="Email">
+                            <h1>Email</h1>
+                            <div class="name">
+                                <input type="text" class="Newemail" value="@User.FindFirstValue(ClaimTypes.Email)" readonly />
                             </div>
                         </div>
                     </form>
                 </div>
-
             </div>
 
             <div class="personal-info">Security and Privacy</div>
-    
+
             <div class="personal-container1">
                 <div class="description">
                     <h1>Change Password</h1>
@@ -232,234 +232,278 @@
             </div>
         </div>
 
-    <script>
-        // Pie Chart 1
-        const studentquiz = document.getElementById('myPieChartq').getContext('2d');
-        const studentchart1 = new Chart(studentquiz, {
-            type: 'pie',
-            data: {
-                labels: ['AI Generated', 'Manual Generated'],
-                datasets: [{
-                    label: 'Quiz Count',
-                    data: [
-                        @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                    ],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltip: {
-                        enabled: true,
-                    }
+        <script>
+            // Pie Chart 1
+            const studentquiz = document.getElementById('myPieChartq').getContext('2d');
+            const studentchart1 = new Chart(studentquiz, {
+                type: 'pie',
+                data: {
+                    labels: ['AI Generated', 'Manual Generated'],
+                    datasets: [{
+                        label: 'Quiz Count',
+                        data: [
+                            @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                            @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        ],
+                        backgroundColor: [
+                            'rgba(58, 183, 26, 1)',
+                            'rgba(255, 222, 62, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 253, 193, 1)',
+                            'rgba(255, 253, 193, 1)'
+                        ],
+                        borderWidth: 8
+                    }]
                 },
-            }
-        });
-
-        // Pie Chart 2
-        const studentflashcard = document.getElementById('myPieChartf').getContext('2d');
-        const studentchart2 = new Chart(studentflashcard, {
-            type: 'pie',
-            data: {
-                labels: ['AI Generated', 'Manual Generated'],
-                datasets: [{
-                    label: 'Flashcards Count',
-                    data: [
-                        @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                    ],
-                    backgroundColor: [
-                        'rgba(58, 183, 26, 1)',
-                        'rgba(255, 222, 62, 1)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 253, 193, 1)',
-                        'rgba(255, 253, 193, 1)'
-                    ],
-                    borderWidth: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            enabled: true,
+                        }
                     },
-                    tooltip: {
-                        enabled: true,
-                    }
-                },
-            }
-        });
-
-        function printPage() {
-            window.print();
-        }
-    </script>
-
-    <script>
-        function handleDragOver(event) {
-            event.preventDefault(); // Prevent default to allow drop
-            event.stopPropagation();
-            document.getElementById('drop-area').classList.add('highlight');
-        }
-
-        function handleDragLeave(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            document.getElementById('drop-area').classList.remove('highlight');
-        }
-
-        function handleDrop(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            document.getElementById('drop-area').classList.remove('highlight');
-
-            const files = event.dataTransfer.files;
-            if (files.length) {
-                document.getElementById('fileElem').files = files; // Assign the dropped files to the input
-                handleFiles(files); // Preview the file
-            }
-        }
-
-        function handleFiles(files) {
-            files = [...files];
-            previewFile(files[0]);
-        }
-
-        function previewFile(file) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = function () {
-                let img = document.createElement('img');
-                img.src = reader.result;
-                img.classList.add('uploaded-image');
-                document.querySelector('.Upload').style.display = 'block';
-
-                let gallery = document.getElementById('gallery');
-                gallery.innerHTML = ''; // Clear any existing images
-                gallery.appendChild(img);
-
-                // Hide the drop area when an image is previewed
-                document.getElementById('drop-area').style.display = 'none';
-            };
-        }
-    </script>
-
-    <script>
-        function checkInput() {
-            var input = document.querySelector('input[name="NewUsername"]').value;
-            var button = document.getElementById('saveButton');
-            button.disabled = input.trim() === "";
-        }
-    </script>
-
-    <script>
-        function showSection(section) {
-            var sections = document.querySelectorAll('.section');
-            sections.forEach(function (sec) {
-                sec.style.display = 'none';
+                }
             });
-            var selectedSection = document.getElementById(section);
-            if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
-                selectedSection.style.display = 'block';
-            } else {
-                selectedSection.style.display = 'block';
+
+            // Pie Chart 2
+            const studentflashcard = document.getElementById('myPieChartf').getContext('2d');
+            const studentchart2 = new Chart(studentflashcard, {
+                type: 'pie',
+                data: {
+                    labels: ['AI Generated', 'Manual Generated'],
+                    datasets: [{
+                        label: 'Flashcards Count',
+                        data: [
+                            @Model.Flashcards.Count(f => f.CreatedBy == "Ai" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                            @Model.Flashcards.Count(f => f.CreatedBy == "Manual" && f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                        ],
+                        backgroundColor: [
+                            'rgba(58, 183, 26, 1)',
+                            'rgba(255, 222, 62, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 253, 193, 1)',
+                            'rgba(255, 253, 193, 1)'
+                        ],
+                        borderWidth: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            enabled: true,
+                        }
+                    },
+                }
+            });
+
+            function printPage() {
+                window.print();
             }
-            // Update the URL query parameter
-            const url = new URL(window.location);
-            url.searchParams.set('section', section);
-            window.history.pushState({}, '', url);
-        }
+        </script>
 
-        // On page load, show the section based on the URL query parameter
-        document.addEventListener('DOMContentLoaded', function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const section = urlParams.get('section') || 'Home';
-            showSection(section);
-        });
+        <script>
+            function handleDragOver(event) {
+                event.preventDefault(); // Prevent default to allow drop
+                event.stopPropagation();
+                document.getElementById('drop-area').classList.add('highlight');
+            }
 
-        function takeFlashcard(flashcardId) {
-            window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
-        }
-    </script>
+            function handleDragLeave(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                document.getElementById('drop-area').classList.remove('highlight');
+            }
 
-    <script>
-        function showProfileOptions() {
-            var options = document.getElementById('profileOptions');
-            options.classList.toggle('hidden');
-        }
+            function handleDrop(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                document.getElementById('drop-area').classList.remove('highlight');
 
-        function hideProfileOptions(event) {
-            event.stopPropagation();
-            var options = document.getElementById('profileOptions');
-            options.classList.add('hidden');
-        }
+                const files = event.dataTransfer.files;
+                if (files.length) {
+                    document.getElementById('fileElem').files = files; // Assign the dropped files to the input
+                    handleFiles(files); // Preview the file
+                }
+            }
 
-        document.addEventListener('click', function(event) {
-            var options = document.getElementById('profileOptions');
-            var profileImage = document.getElementById('dprofile');
-            if (!options.contains(event.target) && event.target !== profileImage) {
+            function handleFiles(files) {
+                files = [...files];
+                previewFile(files[0]);
+            }
+
+            function previewFile(file) {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = function () {
+                    let img = document.createElement('img');
+                    img.src = reader.result;
+                    img.classList.add('uploaded-image');
+                    document.querySelector('.Upload').style.display = 'block';
+
+                    let gallery = document.getElementById('gallery');
+                    gallery.innerHTML = ''; // Clear any existing images
+                    gallery.appendChild(img);
+
+                    // Hide the drop area when an image is previewed
+                    document.getElementById('drop-area').style.display = 'none';
+                };
+            }
+        </script>
+
+        <script>
+            function checkInput() {
+                var input = document.querySelector('input[name="NewUsername"]').value;
+                var button = document.getElementById('saveButton');
+                button.disabled = input.trim() === "";
+            }
+        </script>
+
+        <script>
+            function showSection(section) {
+                var sections = document.querySelectorAll('.section');
+                sections.forEach(function (sec) {
+                    sec.style.display = 'none';
+                });
+                var selectedSection = document.getElementById(section);
+                if (selectedSection.style.display === 'none' || selectedSection.style.display === '') {
+                    selectedSection.style.display = 'block';
+                } else {
+                    selectedSection.style.display = 'block';
+                }
+                // Update the URL query parameter
+                const url = new URL(window.location);
+                url.searchParams.set('section', section);
+                window.history.pushState({}, '', url);
+            }
+
+            // On page load, show the section based on the URL query parameter
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const section = urlParams.get('section') || 'Home';
+                showSection(section);
+            });
+
+            function takeFlashcard(flashcardId) {
+                window.location.href = `/FlashCards/FlashCardStudyMode?id=${flashcardId}`;
+            }
+
+            function showProfileOptions() {
+                var options = document.getElementById('profileOptions');
+                options.classList.toggle('hidden');
+            }
+
+            function hideProfileOptions(event) {
+                event.stopPropagation();
+                var options = document.getElementById('profileOptions');
                 options.classList.add('hidden');
             }
-        });
 
-        function viewProfile() {
-            var imgSrc = document.getElementById('dprofile').src;
-            window.open(imgSrc, '_blank');
-            hideProfileOptions(event);
-        }
-
-        function removeProfile() {
-            $.ajax({
-                url: '@Url.Action("RemoveProfileImageStudent", "Account")',
-                type: 'POST',
-                data: $('#removeProfileForm').serialize(),
-                success: function () {
-                    // Reload the page with the AccountSettings section
-                    const url = new URL(window.location);
-                    url.searchParams.set('section', 'AccountSettings');
-                    window.location.href = url.toString();
-                },
-                error: function () {
-                    alert('An error occurred while removing the profile image.');
+            document.addEventListener('click', function(event) {
+                var options = document.getElementById('profileOptions');
+                var profileImage = document.getElementById('dprofile');
+                if (!options.contains(event.target) && event.target !== profileImage) {
+                    options.classList.add('hidden');
                 }
             });
-            hideProfileOptions(event);
-        }
 
-        function uploadProfileImage() {
-            var formData = new FormData($('#uploadProfileForm')[0]);
-            $.ajax({
-                url: '@Url.Action("UploadProfileImageStudent", "Account")',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function () {
-                    // Reload the page with the AccountSettings section
-                    const url = new URL(window.location);
-                    url.searchParams.set('section', 'AccountSettings');
-                    window.location.href = url.toString();
-                },
-                error: function () {
-                    alert('An error occurred while uploading the profile image.');
+            function viewProfile() {
+                var imgSrc = document.getElementById('dprofile').src;
+                window.open(imgSrc, '_blank');
+                hideProfileOptions(event);
+            }
+
+            function removeProfile() {
+                $.ajax({
+                    url: '@Url.Action("RemoveProfileImageStudent", "Account")',
+                    type: 'POST',
+                    data: $('#removeProfileForm').serialize(),
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while removing the profile image.');
+                    }
+                });
+                hideProfileOptions(event);
+            }
+
+            function uploadProfileImage() {
+                var formData = new FormData($('#uploadProfileForm')[0]);
+                $.ajax({
+                    url: '@Url.Action("UploadProfileImageStudent", "Account")',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function () {
+                        // Reload the page with the AccountSettings section
+                        const url = new URL(window.location);
+                        url.searchParams.set('section', 'AccountSettings');
+                        window.location.href = url.toString();
+                    },
+                    error: function () {
+                        alert('An error occurred while uploading the profile image.');
+                    }
+                });
+            }
+
+            function toggleUsernameEdit() {
+                var input = document.querySelector('input[name="NewUsername"]');
+                var changeButton = document.getElementById('changeButton');
+                var saveButton = document.getElementById('saveButton');
+
+                if (input.disabled) {
+                    input.disabled = false;
+                    input.value = ''; // Clear the input field
+                    input.focus(); // Automatically focus on the input field
+                    changeButton.style.display = 'none';
+                    saveButton.style.display = 'inline-block';
+                } else {
+                    input.disabled = true;
+                    changeButton.style.display = 'inline-block';
+                    saveButton.style.display = 'none';
                 }
+            }
+
+            document.getElementById('accountEditForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const url = new URL(form.action);
+                url.searchParams.set('section', 'AccountSettings');
+
+                console.log('Submitting form to:', url.toString());
+                console.log('Form data:', formData);
+
+                $.ajax({
+                    url: url.toString(),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('Form submission successful');
+                        // Reload the page to reflect changes
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', status, error);
+                        alert('An error occurred while updating the username.');
+                    }
+                });
             });
-        }
-    </script>
+        </script>
 </body>
 </html>

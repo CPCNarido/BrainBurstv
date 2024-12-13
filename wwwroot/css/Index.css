@@ -26,28 +26,13 @@ html,body{
     -webkit-text-stroke-width: 5;
     -webkit-text-stroke-color: #5C4C20;
     font-family: "Rum Raisin", sans-serif;
-    font-size: 60px;
+    font-size: 64px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     margin-top: 10px;
-    text-shadow: 
-        5px 5px 0px #5C4C20,   /* Right Down */
-        -5px -5px 0px #5C4C20,  /* Left Up */
-        -5px 5px 0px #5C4C20,   /* Left Down */
-        5px -5px 0px #5C4C20,   /* Right Up */
-        5px 0px 0px #5C4C20,    /* Right */
-        -5px 0px 0px #5C4C20,   /* Left */
-        0px 5px 0px #5C4C20,    /* Down */
-        0px -5px 0px #5C4C20,   /* Up */
-        6px 6px 0px #5C4C20,    /* Right Down - extra */
-        -6px -6px 0px #5C4C20,  /* Left Up - extra */
-        -6px 6px 0px #5C4C20,   /* Left Down - extra */
-        6px -6px 0px #5C4C20,   /* Right Up - extra */
-        6px 0px 0px #5C4C20,    /* Right - extra */
-        -6px 0px 0px #5C4C20,   /* Left - extra */
-        0px 6px 0px #5C4C20,    /* Down - extra */
-        0px -6px 0px #5C4C20;   /* Up - extra */
+    text-shadow: 3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20, 5px 5px 0px #5C4C20, -5px -5px 0px #5C4C20, -5px 5px 0px #5C4C20, 5px -5px 0px #5C4C20, 5px 0px 0px #5C4C20, -5px 0px 0px #5C4C20, 0px 5px 0px #5C4C20, 0px -5px 0px #5C4C20, 0 0 10px rgba(0, 0, 0, 1);
+
 }
 
 .Hero-text1{
