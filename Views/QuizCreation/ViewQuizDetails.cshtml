@@ -184,10 +184,19 @@
                         <div class="items">
                             <h1>Items</h1>
                             <h2>@Model.Questions.Count/@Model.Questions.Count</h2>
+                            @if (ViewData["Role"].ToString() == "Student")
+                            {
+                                <h1>your Highest Score</h1>
+                                <h2>@Model.HighestScore / @Model.Questions.Count </h2>
+                            }
                         </div>
                         <div class="buttons">
                             <button class="quiz-item" onclick="location.href='@Url.Action("TakeQuiz", "QuizCreation", new { id = Model.QuizId })'"><img src="/Assets/QuizCreation/Practice.png" class="sas">Practice</button>
+                            @if (ViewData["Role"].ToString() == "Admin" || ViewData["Role"].ToString() == "Professor")
+                            {
                             <button type="submit" class="save-quiz"><img src="/Assets/QuizCreation/save.png" class="sas">Save Quiz</button>
+                            }
+
                         </div>
                 </div>
             </div>
@@ -200,13 +209,15 @@
                     <div class="question">
                         <div class="top">
                             <h1>Question @question.Key</h1>
-                            <div class="buttonss">
-                                <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (seconds)" disabled />
-                                <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
-                                <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
-                                <button type="button" class="select-correct-answer"><img src="/Assets/check.png" style="height: 20px; width: 30px;">Select Correct Answer</button>
-                                <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="Delete"></button>
-                            </div>
+                            @if(ViewData["Role"].ToString() == "Admin" || ViewData["Role"].ToString() == "Professor"){
+                                <div class="buttonss">
+                                    <input type="number" class="timer-input" name="Timers[@question.Key]" placeholder="Set timer (seconds)" disabled />
+                                    <button type="button" class="edit-question"><img src="/Assets/QuizCreation/edit.png" alt="Edit">Edit</button>
+                                    <button type="button" class="save-question" style="display:none;"><img src="/Assets/QuizCreation/save.png" alt="Save">Save</button>
+                                    <button type="button" class="select-correct-answer"><img src="/Assets/check.png" style="height: 20px; width: 30px;">Select Correct Answer</button>
+                                    <button type="button" class="delete-question"><img src="/Assets/QuizCreation/delete.png" alt="Delete"></button>
+                                </div>
+                            }
                         </div>
                         <div class="bot">
                             <textarea class="question-text" name="Questions[@question.Key]" disabled>@question.Value</textarea>

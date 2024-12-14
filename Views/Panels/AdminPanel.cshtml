@@ -144,9 +144,11 @@
                 </div>
             </div>
         }
+                <button onclick="window.print();" class="print-button">Print</button>
         </div>
+        
     </div>
-        <button onclick="window.print();" class="print-button">Print</button>
+
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -209,6 +211,22 @@
         </div>
           
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    var filterPeriod = '@ViewData["FilterPeriod"]';
+    console.log('Filter Period:', filterPeriod); // Debugging line to check the value of filterPeriod
+    if (filterPeriod) {
+        var filterDropdown = document.getElementById('filterDropdown');
+        if (filterDropdown) {
+            filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
+            console.log('Dropdown value set to:', filterDropdown.value); // Debugging line to check the value set in the dropdown
+        } else {
+            console.error('Filter dropdown element not found');
+        }
+    } else {
+        console.error('Filter period is not set');
+    }
+});
+
 // Pie Chart 1
 const ctx1 = document.getElementById('myPieChart1').getContext('2d');
 const myPieChart1 = new Chart(ctx1, {
@@ -321,12 +339,6 @@ function filterData(period) {
     window.location.href = `@Url.Action("AdminPanel", "Panels")?period=${period}`;
 }
 
-// Set the selected value of the dropdown based on the current filter period
-document.addEventListener('DOMContentLoaded', function () {
-    var filterPeriod = '@ViewData["FilterPeriod"]';
-    var filterDropdown = document.getElementById('filterDropdown');
-    filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
-});
 
 function deleteQuiz(quizId) {
     if (confirm('Are you sure you want to delete this quiz?')) {

@@ -31,5 +31,7 @@ namespace UsersApp.ViewModels
         public double? AverageUsersPerMonth { get; set; }
         public string? FilterPeriod { get; set; }
         public string? Created_by { get; set; }
+
+        public List<Quiz>? JoinedQuizzes { get; set; } = new List<Quiz>();
     }
 }

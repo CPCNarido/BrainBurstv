@@ -31,6 +31,12 @@
                     <div class="flash-card-items">
                         <input type="number" name="items" placeholder="Enter number of items" min="1" max="50" required />
                     </div>
+                    @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div style="color: red;">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
                     <div class="some-texts-container">
                         <div class="some-texts">
                             Boost your study sessions with BrainBurst’s AI Flashcard Maker. Quickly turn your notes into smart flashcards that enhance learning and retention.

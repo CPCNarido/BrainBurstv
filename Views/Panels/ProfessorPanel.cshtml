@@ -168,7 +168,7 @@
             <div class="flashcards-top-chart-container">
                 <div>
                     <div class="flashcards-box-pie-chart">
-                    @if ((int)@ViewData["aiFlashcardCount"] == 0 & (int)@ViewData["manualFlashcardCount"] == 0)
+                    @if ((int)@ViewData["aiFlashcardCount"] == 0 && (int)@ViewData["manualFlashcardCount"] == 0)
                     {
                         <h1 style="text-align: center;">There Are currently no flashcards Created @ViewData["FilterPeriod"]</h1>
                     }
@@ -203,7 +203,7 @@
                     </div>
                 </div>
             </div>
-            <button onclick="printPage()" class="print-button">Print</button>
+            <button onclick="window.print();" class="print-button">Print</button>
         </div>
 
         <div asp-validation-summary="All" class="text-danger"></div>

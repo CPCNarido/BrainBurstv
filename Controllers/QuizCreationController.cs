@@ -6,6 +6,7 @@ using UsersApp.Models;
 using UsersApp.ViewModels;
 using System.Text.Json;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -19,11 +20,14 @@ namespace UsersApp.Controllers
         private readonly AppDbContext _context;
         private const int PageSize = 8; // 2 rows * 6 items per row
         private readonly ILogger<QuizCreationController> _logger;
+        private readonly UserManager<Users> _userManager;
 
-        public QuizCreationController(ILogger<QuizCreationController> logger, AppDbContext context)
+
+        public QuizCreationController(ILogger<QuizCreationController> logger, AppDbContext context, UserManager<Users> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> GetQuizScores(int quizId)
@@ -44,7 +48,14 @@ namespace UsersApp.Controllers
         }
 
         public async Task<IActionResult> Quiz_Creation_Ai(int page = 1)
+        
         {
+
+                var user = await _userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
             const int PageSize = 12; // Or set this value as appropriate for your needs
             
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
@@ -102,6 +113,11 @@ namespace UsersApp.Controllers
 
 public async Task<IActionResult> ViewQuizDetails(int id)
 {
+    var user = await _userManager.GetUserAsync(User);
+    _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+    ViewData["FilePath"] = user.FilePath;
+    ViewData["Username"] = user.FullName;
+    ViewData["Role"] = user.Role;
     var quiz = await _context.Quizzes.FindAsync(id);
     if (quiz == null)
     {
@@ -109,7 +125,16 @@ public async Task<IActionResult> ViewQuizDetails(int id)
         return NotFound();
     }
 
+    // Retrieve the user's highest score for the quiz
+    var highestScore = await _context.ScoreRecords
+        .Where(sr => sr.UserId == user.Id && sr.QuizId == id)
+        .OrderByDescending(sr => sr.Score)
+        .Select(sr => sr.Score)
+        .FirstOrDefaultAsync();
+
     QuizDetailsViewModel quizDetails;
+
+
 
     if (string.IsNullOrEmpty(quiz.JsonFilePath))
     {
@@ -121,7 +146,8 @@ public async Task<IActionResult> ViewQuizDetails(int id)
             Choices = new Dictionary<int, List<string>>(),
             Timer = new Dictionary<int, int>(),
             CorrectAnswers = new Dictionary<int, int>(),
-            GameCode = int.Parse(quiz.GameCode)
+            GameCode = int.Parse(quiz.GameCode),
+            HighestScore = highestScore // Add the highest score to the view model
         };
     }
     else
@@ -193,8 +219,9 @@ public async Task<IActionResult> ViewQuizDetails(int id)
         }
     }
 
-    // Assign the GameCode
+    // Assign the GameCode and HighestScore
     quizDetails.GameCode = int.Parse(quiz.GameCode);
+    quizDetails.HighestScore = highestScore;
 
     return View(quizDetails);
 }
@@ -312,6 +339,11 @@ public async Task<IActionResult> SubmitScore([FromBody] ScoreSubmissionModel mod
 
 public async Task<IActionResult> TakeQuiz(int id)
 {
+                    var user = await _userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
     var quiz = await _context.Quizzes.FindAsync(id);
     if (quiz == null)
     {
@@ -363,6 +395,13 @@ public async Task<IActionResult> TakeQuiz(int id)
         
 public async Task<IActionResult> Quiz_Creation_Manual()
 {
+    if (User.Identity.IsAuthenticated){
+                    var user = await _userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+    }
     return View();
 }
 
