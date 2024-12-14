@@ -1,0 +1,35 @@
+@model UsersApp.ViewModels.QuizScoresViewModel
+
+@{
+    ViewData["Title"] = "Quiz Scores";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<h1>Scores for @Model.Topic</h1>
+
+@if (Model.Scores != null && Model.Scores.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Score</th>
+                <th>Submission Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var score in Model.Scores)
+            {
+                <tr>
+                    <td>@score.UserName</td>
+                    <td>@score.Score</td>
+                    <td>@score.SubmissionDate.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No one has taken this quiz yet.</p>
+}

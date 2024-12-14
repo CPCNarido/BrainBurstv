@@ -172,6 +172,7 @@
                             <div class="buttons-container">
                                 <button class="view-btn" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
                                 <button class="delete-btn" onclick="deleteQuiz(@quiz.QuizId)">Delete</button>
+                                <button class="scores-btn" onclick="location.href='@Url.Action("ViewQuizScore", "QuizCreation", new { id = quiz.QuizId })'">View Scores</button>
                             </div>
                         </div>
                     }
