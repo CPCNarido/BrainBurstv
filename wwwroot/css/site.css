@@ -55,8 +55,8 @@ body {
     border: 5px solid #2B550E; /* Thicken the borders */
 }
 
-/* Styles for h1 */
-h1 {
+
+.h1 {
     color: #FFFDC1;
     text-align: center;
     text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20, 0 0 10px rgba(0, 0, 0, 1);
