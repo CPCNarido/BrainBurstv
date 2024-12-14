@@ -12,6 +12,26 @@
 </head>
 <body>
     <div class="container1">
+                    <button onclick="history.back()" class="back-button"><</button>
+            <style>
+                .back-button{
+                    width: 50px;
+                    height: 50px;
+                    position: absolute;
+                    top: 120px;
+                    left: 20px;
+                    border: 1px solid black;
+                    border-radius: 20px;
+                    background-color: #F5D059;
+                    align-items: center;
+                    font-weight: 1000;
+                    cursor: pointer;
+                }
+                .back-button :hover{
+                    opacity: 0.1;
+
+                }
+            </style>
         <!-- Main Form for Saving Flashcards -->
         <form id="flashcard-form" method="post" action="/FlashCards/SaveFlashcard" enctype="multipart/form-data">
             <div class="title">

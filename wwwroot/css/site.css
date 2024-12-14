@@ -8,6 +8,34 @@ html {
   }
 }
 
+.printbutton{
+  border: 2px solid darkgreen;
+  font-size: 20px;
+  font-family: rum raisin;
+  border-radius: 10px;
+  margin-left: 100px;
+  padding: 20px;
+  background-color: white;
+  cursor: pointer;
+}
+@media print{
+  body *{
+      visibility: hidden;
+  }
+   .printvis h1, table *, table{
+    visibility: visible;
+    align-items: center;
+  }
+  .printvis, h1{
+    scale: 0.9;
+    top: 0;
+    left: 0;
+  }
+  .printvis{
+    margin-top: -190px;
+  }
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }

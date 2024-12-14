@@ -29,6 +29,26 @@
 </head>
 <body>
     <div class="container1">
+                    <button onclick="history.back()" class="back-button"><</button>
+            <style>
+                .back-button{
+                    width: 50px;
+                    height: 50px;
+                    position: absolute;
+                    top: 130px;
+                    left: 20px;
+                    border: 1px solid black;
+                    border-radius: 20px;
+                    background-color: #F5D059;
+                    align-items: center;
+                    font-weight: 1000;
+                    cursor: pointer;
+                }
+                .back-button :hover{
+                    opacity: 0.1;
+
+                }
+            </style>
         <div class="quiz-maker-container">
             <form method="post" action="/QuizCreation/CreateManualQuiz">
                 <div class="title">

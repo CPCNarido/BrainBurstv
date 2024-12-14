@@ -14,6 +14,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .filter-dropdown {
+    margin-bottom: 20px; /* Add some space below the dropdown */
+    margin-left: 10px;
+}
+
+.filter-dropdown select {
+    padding: 2px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color:#F5D059;
+    color: #2B550E;
+    font-family: "Rum Raisin", sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+
+.filter-dropdown select:hover,
+.filter-dropdown select:focus {
+    background-color: #2B550E; /* Change background color on hover and focus */
+    color: #FFFDC1; /* Change text color on hover and focus */
+}
+    </style>
 </head>
 <body>
     <div class="SideBar">
@@ -36,8 +60,8 @@
             <h1 class="report-titles">Overall Content Report</h1>
             <p class="report-description">Overview of Quizzes and FlashCards created on Brain Burst</p>
             
-            <div class="filter-container">
-                <select id="filterDropdown" class="filter-dropdown" onchange="filterData(this.value)">
+            <div class="filter-dropdown">
+                <select id="filterDropdown" onchange="filterData(this.value)">
                     <option value="all">All</option>
                     <option value="today">Today</option>
                     <option value="thismonth">This Month</option>
@@ -48,7 +72,7 @@
             <div class="top-chart-container">
                 <div>
                     <div class="box-pie-chart">
-                        <canvas id="myPieChart1" width="220" height="240"></canvas>
+                            <canvas id="myPieChart1" width="220" height="240"></canvas>
                     </div>
                     <p class="report-note">Quizzes and Flashcards Count</p>
                 </div>
@@ -110,6 +134,7 @@
                         </div>
                     </div>
                     <div class="right-right-box-report">
+
                         <canvas id="myPieChart2"></canvas>
                         <p class="role-description">Users by role</p>
                     </div>
@@ -164,17 +189,22 @@
                     <h1>Quizzes</h1>
                 </div>
                 <div class="quizzes-container">
-                    @foreach (var quiz in Model.Quizzes)
+                    @if (Model.Quizzes != null && Model.Quizzes.Any())
                     {
-                        <div id="quiz-@quiz.QuizId" class="flashcard-item">
-                            <h1>@quiz.Topic</h1>
-                            <h2>@quiz.GradeLevel</h2>
-                            <div class="buttons-container">
-                                <button class="view-btn" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
-                                <button class="delete-btn" onclick="deleteQuiz(@quiz.QuizId)">Delete</button>
-                                <button class="scores-btn" onclick="location.href='@Url.Action("ViewQuizScore", "QuizCreation", new { id = quiz.QuizId })'">View Scores</button>
+                        @foreach (var quiz in Model.Quizzes)
+                        {
+                            <div id="quiz-@quiz.QuizId" class="flashcard-item">
+                                <h1>@quiz.Topic</h1>
+                                <h2>@quiz.GradeLevel</h2>
+                                <div class="buttons-container">
+                                    <button class="view-btn" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
+                                    <button class="delete-btn" onclick="deleteQuiz(@quiz.QuizId)">Delete</button>
+                                    <button class="scores-btn" onclick="location.href='@Url.Action("ViewQuizScore", "QuizCreation", new { id = quiz.QuizId })'">View Scores</button>
+                                </div>
                             </div>
-                        </div>
+                        }
+                    }else{
+                        <h1 style="display: flex; justify-content: center;">No quizzes available</h1>
                     }
                 </div>
             </div>
@@ -205,6 +235,10 @@
                                 </div>
                             </div>
                         }
+                    }else{
+                        <div style="grid-row: 2; display: grid; justify-content: center; align-items: center;">
+                            <h1>No flashcards available</h1>
+                        </div>
                     }
                 </div>
             </div>

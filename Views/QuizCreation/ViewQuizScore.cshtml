@@ -7,9 +7,33 @@
 
 <!-- Link to the CSS file -->
 <link rel="stylesheet" href="~/wwwroot/css/site.css" />
+<style>
+</style>
+<div class="printvis">
+                <button onclick="history.back()" class="back-button"><</button>
+            <style>
+                .back-button{
+                    width: 50px;
+                    height: 50px;
+                    position: absolute;
+                    top: 130px;
+                    left: 20px;
+                    border: 1px solid black;
+                    border-radius: 20px;
+                    background-color: #F5D059;
+                    align-items: center;
+                    font-weight: 1000;
+                    cursor: pointer;
+                }
+                .back-button :hover{
+                    opacity: 0.1;
 
+                }
+            </style>
 <h1 class="quiz-topic-title">Scores for @Model.Topic</h1>
 
+@if (Model.Scores != null && Model.Scores.Any())
+    {
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -19,8 +43,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.Scores != null && Model.Scores.Any())
-        {
+
             @foreach (var score in Model.Scores)
             {
                 <tr>
@@ -29,17 +52,15 @@
                     <td>@score.SubmissionDate.ToString("g")</td>
                 </tr>
             }
+
+    </tbody>
+</table>
+
+<button onclick="window.print()" class="printbutton" style="margin-bottom: 2%;">Print</button>
         }
         else
         {
-            @for (int i = 0; i < 4; i++)
-            {
-                <tr>
-                    <td>User @i</td>
-                    <td>Score @i</td>
-                    <td>@DateTime.Now.ToString("g")</td>
-                </tr>
-            }
+            <h1 style="display: flex; justify-content: center;"> No one has taken taken this quiz yet.</h1>
         }
-    </tbody>
-</table>
+</div>
+

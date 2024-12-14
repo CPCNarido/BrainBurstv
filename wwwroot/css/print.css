@@ -3,7 +3,7 @@
         visibility: hidden;
     }
     .print-button{
-        visibility: hidden;
+        display: none;
     }
     .print-container, .print-container * {
         visibility: visible;
