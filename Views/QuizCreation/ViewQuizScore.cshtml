@@ -5,19 +5,22 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
+<!-- Link to the CSS file -->
+<link rel="stylesheet" href="~/wwwroot/css/site.css" />
+
 <h1>Scores for @Model.Topic</h1>
 
-@if (Model.Scores != null && Model.Scores.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Score</th>
-                <th>Submission Date</th>
-            </tr>
-        </thead>
-        <tbody>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Score</th>
+            <th>Submission Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Scores != null && Model.Scores.Any())
+        {
             @foreach (var score in Model.Scores)
             {
                 <tr>
@@ -26,10 +29,17 @@
                     <td>@score.SubmissionDate.ToString("g")</td>
                 </tr>
             }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No one has taken this quiz yet.</p>
-}
+        }
+        else
+        {
+            @for (int i = 0; i < 4; i++)
+            {
+                <tr>
+                    <td>User @i</td>
+                    <td>Score @i</td>
+                    <td>@DateTime.Now.ToString("g")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
