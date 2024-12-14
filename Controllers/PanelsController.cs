@@ -6,6 +6,7 @@ using UsersApp.ViewModels;
 using UsersApp.Data;
 using Microsoft.AspNetCore.Hosting;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace UsersApp.Controllers
 {
@@ -167,66 +168,6 @@ namespace UsersApp.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public async Task<IActionResult> StudentPanel()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                var user = await userManager.GetUserAsync(User);
-                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
-                ViewData["FilePath"] = user.FilePath;
-                ViewData["Username"] = user.FullName;
-                ViewData["Role"] = user.Role;
-        
-                var userId = user.Id; // Retrieve the user ID from the logged-in user
-                var quizzes = await _context.Quizzes
-                    .Where(q => q.UserId == userId) // Filter quizzes by UserId
-                    .Select(q => new Quiz
-                    {
-                        QuizId = q.QuizId,
-                        GradeLevel = q.GradeLevel ?? string.Empty,
-                        Topic = q.Topic ?? string.Empty,
-                        CorrectAnswers = q.CorrectAnswers ?? string.Empty,
-                        JsonFilePath = q.JsonFilePath ?? string.Empty,
-                        UserId = q.UserId,
-                        HighestScore = q.HighestScore,
-                        GameCode = q.GameCode ?? string.Empty
-                    })
-                    .ToListAsync();
-        
-                var manualQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Manual");
-                var aiQuizCount = await _context.Quizzes.CountAsync(q => q.Created_by == "Ai");
-                var TotalQuizCount = manualQuizCount + aiQuizCount;
-                ViewData["TotalQuizCount"] = TotalQuizCount;
-        
-                var manualFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Manual");
-                var aiFlashcardCount = await _context.Flashcards.CountAsync(f => f.CreatedBy == "Ai");
-                var TotalFlashcardCount = manualFlashcardCount + aiFlashcardCount;
-                ViewData["TotalFlashcardCount"] = TotalFlashcardCount;
-        
-                var professorCount = await userManager.Users.CountAsync(u => u.Role == "Professor");
-                var studentCount = await userManager.Users.CountAsync(u => u.Role == "Student");
-                var TotalUserCount = professorCount + studentCount;
-                ViewData["TotalUserCount"] = TotalUserCount;
-                ViewData["ProfessorCount"] = professorCount;
-                ViewData["StudentCount"] = studentCount;
-        
-                var flashcards = await _context.Flashcards.Include(f => f.Questions).ToListAsync();
-        
-                var model = new AccountEditViewModel
-                {
-                    NewUsername = user.FullName,
-                    ManualQuizCount = manualQuizCount,
-                    AiQuizCount = aiQuizCount,
-                    Flashcards = flashcards, // Populate the Flashcards property
-                    Quizzes = quizzes // Populate the Quizzes property
-                };
-        
-                return View(model);
-            }
-        
-            return RedirectToAction("Login", "Account");
-        }
-
 
         public async Task<IActionResult> ProfessorPanel(string period = "all")
         {
@@ -322,6 +263,116 @@ namespace UsersApp.Controllers
 
             return View(model);
         }
+
+
+        public async Task<IActionResult> StudentPanel(string period = "all")
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    _logger.LogError("User not found");
+                    return RedirectToAction("Login", "Account");
+                }
+
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+
+                // Filter logic
+                DateTime startDate = DateTime.MinValue;
+                string filterPeriod = "All";
+
+                switch (period.ToLower())
+                {
+                    case "today":
+                        startDate = DateTime.Today;
+                        filterPeriod = "Today";
+                        break;
+                    case "thisweek":
+                        startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        filterPeriod = "This Week";
+                        break;
+                    case "thismonth":
+                        startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                        filterPeriod = "This Month";
+                        break;
+                    case "thisyear":
+                        startDate = new DateTime(DateTime.Today.Year, 1, 1);
+                        filterPeriod = "This Year";
+                        break;
+                }
+
+                ViewData["FilterPeriod"] = filterPeriod;
+
+                // Fetch quizzes based on the highest score date
+                var quizzesQuery = _context.Quizzes
+                    .Include(q => q.ScoreRecords)
+                    .Where(q => q.ScoreRecords.Any(r => r.UserId == user.Id && r.Score == q.ScoreRecords.Where(sr => sr.UserId == user.Id).Max(sr => sr.Score)));
+
+                // Apply date filter
+                if (startDate != DateTime.MinValue)
+                {
+                    quizzesQuery = quizzesQuery.Where(q => q.ScoreRecords.Any(r => r.UserId == user.Id && r.SubmissionDate >= startDate));
+                }
+
+                var joinedQuizzes = await quizzesQuery.ToListAsync();
+
+                // Quiz counts
+                var manualQuizCount = joinedQuizzes.Count(q => q.Created_by == "Manual");
+                var aiQuizCount = joinedQuizzes.Count(q => q.Created_by == "Ai");
+                var totalQuizCount = joinedQuizzes.Count;
+
+                ViewData["ManualQuizCount"] = manualQuizCount;
+                ViewData["AiQuizCount"] = aiQuizCount;
+                ViewData["TotalQuizCount"] = totalQuizCount;
+
+                // Fetch flashcards created by the user
+                var flashcardsQuery = _context.Flashcards
+                    .Where(f => f.UserId == user.Id);
+
+                // Apply date filter to flashcards
+                if (startDate != DateTime.MinValue)
+                {
+                    flashcardsQuery = flashcardsQuery.Where(f => f.CreatedAt >= startDate);
+                }
+
+                var createdFlashcards = await flashcardsQuery.ToListAsync();
+
+                // Flashcard counts
+                var manualFlashcardCount = createdFlashcards.Count(f => f.CreatedBy == "Manual");
+                var aiFlashcardCount = createdFlashcards.Count(f => f.CreatedBy == "Ai");
+                var totalFlashcardCount = createdFlashcards.Count;
+
+                ViewData["ManualFlashcardCount"] = manualFlashcardCount;
+                ViewData["AiFlashcardCount"] = aiFlashcardCount;
+                ViewData["TotalFlashcardCount"] = totalFlashcardCount;
+
+                // Prepare ViewModel
+                var model = new AccountEditViewModel
+                {
+                    NewUsername = user.FullName,
+                    JoinedQuizzes = joinedQuizzes,
+                    FilterPeriod = filterPeriod,
+                    ManualQuizCount = manualQuizCount,
+                    AiQuizCount = aiQuizCount,
+                    TotalQuizCount = totalQuizCount,
+                    Flashcards = createdFlashcards,
+                    manualFlashcardCount = manualFlashcardCount,
+                    aiFlashcardCount = aiFlashcardCount,
+                    TotalFlashcardCount = totalFlashcardCount
+                };
+
+                return View(model);
+            }
+
+            return RedirectToAction("Login", "Account");
+        }
+
+
 
 
 

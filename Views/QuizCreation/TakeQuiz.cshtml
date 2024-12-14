@@ -14,31 +14,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         #popup-message {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    font-size: 18px;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-size: 18px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
 
-#popup-message.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
+        #popup-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
 
-#popup-message.hidden {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.8);
-}
+        #popup-message.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
 
         .scores-table {
             width: 100%;
@@ -89,9 +89,11 @@
             let currentQuestionIndex = 0;
             let timer;
             let score = 0;
+            let quizCompleted = false; // Flag to indicate if the quiz is completed
 
             function showQuestion(index) {
                 if (index >= Object.keys(questions).length) {
+                    quizCompleted = true; // Set the flag to true when the quiz is completed
                     $('#quiz-container').html(`
                         <strong>Quiz Completed! Your score: ${score}/${Object.keys(questions).length}</strong>
                         <button id="retake-quiz" class="btn">Retake Quiz</button>
@@ -125,9 +127,16 @@
             }
 
             function startTimer(seconds) {
+                if (quizCompleted) return; // Do not start the timer if the quiz is completed
+
                 clearInterval(timer);
                 let timeLeft = seconds;
                 timer = setInterval(() => {
+                    if (quizCompleted) {
+                        clearInterval(timer); // Stop the timer if the quiz is completed
+                        return;
+                    }
+
                     timeLeft--;
                     $('#timer').text(`Time left: ${timeLeft} secs`);
                     
@@ -163,11 +172,13 @@
                 }, duration);
             }
 
-
             // Handle choice selection
             $(document).on('click', '.choice', function() {
                 let selectedChoiceIndex = $(this).data('index');
                 console.log(`Selected choice index: ${selectedChoiceIndex}`);
+
+                // Disable all choice buttons
+                $('.choice').prop('disabled', true);
 
                 // Check if the selected choice is correct
                 let correctChoiceIndex = correctAnswers[currentQuestionIndex + 1];
@@ -181,6 +192,8 @@
                 // Move to the next question after a short delay
                 setTimeout(() => {
                     showQuestion(++currentQuestionIndex);
+                    // Re-enable choice buttons for the next question
+                    $('.choice').prop('disabled', false);
                 }, 1000);
             });
 
@@ -247,6 +260,63 @@
                 `;
                 $('#quiz-container').append(scoresHtml);
             }
+
+            // Anti-cheating function
+            let tabChangeCount = 0;
+            let hidden, visibilityChange; 
+
+            if (typeof document.hidden !== "undefined") {
+                hidden = "hidden";
+                visibilityChange = "visibilitychange";
+            } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden";
+                visibilityChange = "msvisibilitychange";
+            } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden";
+                visibilityChange = "webkitvisibilitychange";
+            }
+
+            function playBeep() {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
+                oscillator.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
+            }
+
+            function playBeep2() {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 600 Hz is the frequency of the beep
+                oscillator.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.1); // Beep duration is 0.1 second
+            }
+
+            function playBeep3() {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 600 Hz is the frequency of the beep
+                oscillator.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
+            }
+
+            function handleVisibilityChange() {
+                if (!quizCompleted && document[hidden]) { // Check if the quiz is not completed
+                    tabChangeCount++;
+                    playBeep();
+                    if (tabChangeCount >= 3) {
+                        location.reload();
+                    }
+                }
+            }
+
+            document.addEventListener(visibilityChange, handleVisibilityChange, false);
         });
     </script>
 </head>
@@ -264,61 +334,5 @@
     window.onload = function() {
         alert('There is an anti-cheat on this webpage. Minimizing or changing tabs 3 times will refresh the page.');
     };
-
-    let tabChangeCount = 0;
-    let hidden, visibilityChange; 
-
-    if (typeof document.hidden !== "undefined") {
-        hidden = "hidden";
-        visibilityChange = "visibilitychange";
-    } else if (typeof document.msHidden !== "undefined") {
-        hidden = "msHidden";
-        visibilityChange = "msvisibilitychange";
-    } else if (typeof document.webkitHidden !== "undefined") {
-        hidden = "webkitHidden";
-        visibilityChange = "webkitvisibilitychange";
-    }
-
-    function playBeep() {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz is the frequency of the beep
-        oscillator.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
-    }
-
-    function playBeep2() {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
-        oscillator.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + .1); // Beep duration is 1 second
-    }
-
-    function playBeep3() {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime); // 440 Hz is the frequency of the beep
-        oscillator.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 1); // Beep duration is 1 second
-    }
-
-    function handleVisibilityChange() {
-        if (document[hidden]) {
-            tabChangeCount++;
-            playBeep();
-            if (tabChangeCount >= 3) {
-                location.reload();
-            }
-        }
-    }
-
-    document.addEventListener(visibilityChange, handleVisibilityChange, false);
 </script>
 </html>

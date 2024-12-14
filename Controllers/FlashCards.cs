@@ -18,6 +18,7 @@ namespace UsersApp.Controllers
         private readonly UserManager<Users> userManager;
         private readonly ILogger<FlashCards> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
+        
 
         public FlashCards(AppDbContext context, UserManager<Users> userManager, ILogger<FlashCards> logger, IHttpClientFactory httpClientFactory)
         {
@@ -74,7 +75,7 @@ public async Task<IActionResult> GenerateFlashcard([FromForm] string topic, [Fro
             role = "user",
             parts = new[]
             {
-                new { text = "this is a system instruction" }
+                        new { text = "You are a Flashcard Generator, you must not response with the title your response should only be the ff: response 1 if you cant do it, response 3 if the input was invalid(The topic was not valid this is the very important part, dont let random scrabble or letters get into you), last is if the input was valid you must follow the format on the input" }
             }
         },
         generationConfig = new
@@ -95,6 +96,18 @@ public async Task<IActionResult> GenerateFlashcard([FromForm] string topic, [Fro
 
     // Log the response for debugging
     _logger.LogInformation($"AI Response: {responseContent}");
+
+                // Handle different responses based on the system instructions
+            if (responseContent.Contains("response 1"))
+            {
+                TempData["ErrorMessage"] = "AI could not generate the flashcard.";
+                return RedirectToAction("flash_card_maker_ai", "FlashCards");
+            }
+            else if (responseContent.Contains("response 3"))
+            {
+                TempData["ErrorMessage"] = "The input was invalid.";
+                return RedirectToAction("flash_card_maker_ai", "FlashCards");
+            }
 
     // Parse the response content to extract questions and answers
     var questions = ParseFlashcardContent(responseContent);
@@ -137,7 +150,12 @@ public async Task<IActionResult> GenerateFlashcard([FromForm] string topic, [Fro
 }
 
 public async Task<IActionResult> FlashCardStudyMode(int id)
-{
+{                
+    var user = await userManager.GetUserAsync(User);
+    _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+    ViewData["FilePath"] = user.FilePath;
+    ViewData["Username"] = user.FullName;
+    ViewData["Role"] = user.Role;
     var flashcard = await _context.Flashcards
         .FirstOrDefaultAsync(f => f.Id == id);
 
