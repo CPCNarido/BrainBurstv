@@ -79,7 +79,7 @@
             <div class="flashcards-top-chart-container">
                 <div>
                     <div class="flashcards-box-pie-chart">
-                    @if ((int)@ViewData["aiFlashcardCount"] == 0 || (int)@ViewData["manualFlashcardCount"] == 0)
+                    @if ((int)@ViewData["aiFlashcardCount"] == 0 && (int)@ViewData["manualFlashcardCount"] == 0)
                     {
                         <h1 style="text-align: center;">There Are currently no flashcards</h1>
                     }
