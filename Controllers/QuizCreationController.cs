@@ -48,7 +48,14 @@ namespace UsersApp.Controllers
         }
 
         public async Task<IActionResult> Quiz_Creation_Ai(int page = 1)
+        
         {
+
+                var user = await _userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
             const int PageSize = 12; // Or set this value as appropriate for your needs
             
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
@@ -388,6 +395,13 @@ public async Task<IActionResult> TakeQuiz(int id)
         
 public async Task<IActionResult> Quiz_Creation_Manual()
 {
+    if (User.Identity.IsAuthenticated){
+                    var user = await _userManager.GetUserAsync(User);
+                _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+                ViewData["FilePath"] = user.FilePath;
+                ViewData["Username"] = user.FullName;
+                ViewData["Role"] = user.Role;
+    }
     return View();
 }
 
