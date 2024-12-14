@@ -12,5 +12,7 @@ namespace UsersApp.ViewModels
         public int GameCode { get; set; } // Add GameCode property
         public string Topic { get; set; }
         public string GradeLevel { get; set; }
+        public int? HighestScore  { get; set; }
+    
     }
 }

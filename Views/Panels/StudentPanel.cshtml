@@ -11,12 +11,109 @@
     <link rel="stylesheet" href="~/css/AccountEdit.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StudentDashboard.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/AdminPanel.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/print.css" media="print" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+        .flashcard-item {
+    position: relative;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: box-shadow 0.3s;
+}
+
+.flashcard-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
+.buttons-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.flashcard-item:hover .buttons-container {
+    opacity: 1;
+}
+
+.view-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.f-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.flashcard-item {
+    position: relative;
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.flashcard-item:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+
+.flashcard-item:hover .buttons-container {
+    opacity: 1;
+}
+
+.view-btn, .delete-btn {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+    .flashcard-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    </style>
 </head>
 <body>
     <div class="SideBar">
@@ -46,22 +143,24 @@
                 </div>
 
                 <div class="quiz-box-reports">
+                    <h1 style="text-align: center;">Joined Quizzes</h1>
                     <div class="sp">
+
                         <div class="l">
                             <div class="number-of-quiz">
                                 <h1>AI Generated Quizzes</h1>
-                                @Model.AiQuizCount
+                                @ViewData["AiQuizCount"]
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
                                 <h1>Manual Generated Quizzes</h1>
-                                @Model.ManualQuizCount
+                                @ViewData["ManualQuizCount"]
                             </div>
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Quiz Created: @Model.TotalQuizCount
+                        Total Number of Quiz Joined: @ViewData["TotalQuizCount"]
                     </div>
                 </div>
             </div>
@@ -82,13 +181,13 @@
                         <div class="l">
                             <div class="number-of-quiz">
                                 <h1>AI Generated Flashcards</h1>
-                                @ViewData["aiFlashcardCount"]
+                                @(ViewData["aiFlashcardCount"] ?? 0)
                             </div>
                         </div>
                         <div class="r">
                             <div class="number-of-quiz">
                                 <h1>Manual Generated Flashcards</h1>
-                                @ViewData["manualFlashcardCount"]
+                                @(ViewData["manualFlashcardCount"] ?? 0)
                             </div>
                             <div class="number-of-flashcards">
                                 @* Manually Created FlashCard: @ViewData["manualFlashcardCount"] *@
@@ -96,7 +195,7 @@
                         </div>
                     </div>
                     <div class="content-created">
-                        Total Number of Flashcards: @ViewData["totalFlashcardCount"]
+                        Total Number of Flashcards: @(ViewData["totalFlashcardCount"] ?? 0)
                     </div>
                 </div>
             </div>
@@ -115,18 +214,26 @@
                     {
                         @foreach (var flashcard in Model.Flashcards.Where(f => f.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
                         {
-                            <div class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
+                            <div id="flashcard-@flashcard.Id" class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                                 <div class="f-info">
                                     <p>@flashcard.Id</p>
-                                    <h2>@flashcard.Title &#8203; &#8203; &#8203; @flashcard.Questions.Count Questions</h2>
+                                    <h2 class="flashcard-title">@flashcard.Title</h2>
                                     <h2>@ViewData["Username"]</h2>
                                 </div>
                                 <div class="bot">
                                     <div class="divider"></div>
-                                    <div class="f-desc">@flashcard.Description</div>             
-                                </div>                  
+                                    <div class="f-desc">@flashcard.Description</div>
+                                </div>
+                                <div class="buttons-container">
+                                    <button class="view-btn" onclick="event.stopPropagation(); location.href='@Url.Action("FlashCardStudyMode", "FlashCards", new { id = flashcard.Id })'">View</button>
+                                    <button class="delete-btn" onclick="event.stopPropagation(); deleteFlashcard(@flashcard.Id)">Delete</button>
+                                </div>
                             </div>
                         }
+                    }
+                    else
+                    {
+                        <h1 style="grid-column: 1 / -1; text-align: center;">There Are currently no flashcards Created @ViewData["FilterPeriod"]</h1>
                     }
                 </div>
             </div>
@@ -137,13 +244,24 @@
                 <h1>Quizzes</h1>
             </div>
             <div class="quizzes-container">
-                @foreach (var quiz in Model.Quizzes)
+                @if (Model.JoinedQuizzes != null && Model.JoinedQuizzes.Any())
                 {
-                    <button class="flashcard-item" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">
-                        <h1>@quiz.Topic</h1>
-                        <h2>@quiz.GradeLevel</h2>
-                    </button>
+                    @foreach (var quiz in Model.JoinedQuizzes)
+                    {
+                        <div id="quiz-@quiz.QuizId" class="flashcard-item">
+                            <h1>@quiz.Topic</h1>
+                            <h2>@quiz.GradeLevel</h2>
+                            <div class="buttons-container">
+                                <button class="view-btn" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
+                            </div>
+                        </div>
+                    }
                 }
+                else
+                {
+                    <h1>There Are currently no Quizzes Created @ViewData["FilterPeriod"]</h1>
+                }
+
             </div>
         </div>
 
@@ -241,6 +359,25 @@
 </body>
 
 <script>
+
+// Set the selected value of the dropdown based on the current filter period
+
+document.addEventListener('DOMContentLoaded', function () {
+    var filterPeriod = '@ViewData["FilterPeriod"]';
+    console.log('Filter Period:', filterPeriod); // Debugging line to check the value of filterPeriod
+    if (filterPeriod) {
+        var filterDropdown = document.getElementById('filterDropdown');
+        if (filterDropdown) {
+            filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
+            console.log('Dropdown value set to:', filterDropdown.value); // Debugging line to check the value set in the dropdown
+        } else {
+            console.error('Filter dropdown element not found');
+        }
+    } else {
+        console.error('Filter period is not set');
+    }
+});
+
 // Pie Chart 1
 const ctx1 = document.getElementById('myPieChart1').getContext('2d');
 const myPieChart1 = new Chart(ctx1, {
@@ -330,35 +467,28 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function filterData(period) {
-    window.location.href = `@Url.Action("ProfessorPanel", "Panels")?period=${period}`;
+    window.location.href = `@Url.Action("StudentPanel", "Panels")?period=${period}`;
 }
 
-// Set the selected value of the dropdown based on the current filter period
-document.addEventListener('DOMContentLoaded', function () {
-    var filterPeriod = '@ViewData["FilterPeriod"]';
-    if (filterPeriod) {
-        var filterDropdown = document.getElementById('filterDropdown');
-        filterDropdown.value = filterPeriod.toLowerCase().replace(" ", "");
-    }
-});
 
 
-function deleteQuiz(quizId) {
-    if (confirm('Are you sure you want to delete this quiz?')) {
+
+
+function deleteFlashcard(flashcardId) {
+    if (confirm('Are you sure you want to delete this flashcard?')) {
         $.ajax({
-            url: '@Url.Action("DeleteQuiz", "Panels")',
+            url: '@Url.Action("DeleteFlashcard", "AdminPanel")',
             type: 'POST',
-            data: { id: quizId },
+            data: { id: flashcardId },
             success: function(result) {
-                alert('Quiz deleted successfully.');
-                localStorage.setItem('activeSection', 'ContentManagement');
-                // Fade out and remove the quiz element
-                $('#quiz-' + quizId).fadeOut(500, function() {
+                alert('Flashcard deleted successfully.');
+                // Fade out and remove the flashcard element
+                $('#flashcard-' + flashcardId).fadeOut(500, function() {
                     $(this).remove();
                 });
             },
             error: function(xhr, status, error) {
-                alert('An error occurred while deleting the quiz: ' + error);
+                alert('An error occurred while deleting the flashcard: ' + error);
             }
         });
     }
@@ -437,8 +567,8 @@ function takeFlashcard(flashcardId) {
     // Redirect to the flashcard study mode URL
     const url = `/FlashCards/FlashCardStudyMode/${flashcardId}`;
     window.location.href = url;
-}
-
+}</script>
+<script>
 function handleDragOver(event) {
     event.preventDefault(); // Prevent default to allow drop
     event.stopPropagation();
