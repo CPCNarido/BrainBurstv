@@ -221,7 +221,7 @@
                     <div id="flashcard-@flashcard.Id" class="flashcard-item" data-title="@flashcard.Title.ToLower()" onclick="takeFlashcard(@flashcard.Id)">
                         <div class="f-info">
                             <p>@flashcard.Id</p>
-                            <h2>@flashcard.Title &#8203; &#8203; &#8203; @(flashcard.Questions?.Count ?? 0) Questions</h2>
+                            <h2>@flashcard.Title</h2>
                             <h2>@ViewData["Username"]</h2>
                         </div>
                         <div class="bot">
@@ -231,6 +231,8 @@
                         <div class="buttons-container">
                             <button class="view-btn" onclick="event.stopPropagation(); location.href='@Url.Action("FlashCardStudyMode", "FlashCards", new { id = flashcard.Id })'">View</button>
                             <button class="delete-btn" onclick="event.stopPropagation(); deleteFlashcard(@flashcard.Id)">Delete</button>
+                            
+
                         </div>
                     </div>
                 }
@@ -257,6 +259,7 @@
                         <div class="buttons-container">
                             <button class="view-btn" onclick="location.href='@Url.Action("ViewQuizDetails", "QuizCreation", new { id = quiz.QuizId })'">View</button>
                             <button class="delete-btn" onclick="deleteQuiz(@quiz.QuizId)">Delete</button>
+                            <button class="scores-btn" onclick="location.href='@Url.Action("ViewQuizScore", "QuizCreation", new { id = quiz.QuizId })'">View Scores</button>
                         </div>
                     </div>
                 }

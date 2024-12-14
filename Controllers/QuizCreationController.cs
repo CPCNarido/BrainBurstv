@@ -405,6 +405,38 @@ public async Task<IActionResult> Quiz_Creation_Manual()
     return View();
 }
 
+        public async Task<IActionResult> ViewQuizScore(int id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            _logger.LogInformation($"User found: {user.UserName}, FilePath: {user.FilePath}");
+            ViewData["FilePath"] = user.FilePath;
+            ViewData["Username"] = user.FullName;
+            ViewData["Role"] = user.Role;
+            var quiz = await _context.Quizzes
+                .Include(q => q.ScoreRecords)
+                .ThenInclude(sr => sr.User)
+                .FirstOrDefaultAsync(q => q.QuizId == id);
+
+            if (quiz == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new QuizScoresViewModel
+            {
+                QuizId = quiz.QuizId,
+                Topic = quiz.Topic,
+                Scores = quiz.ScoreRecords.Select(sr => new ScoreRecordViewModel
+                {
+                    UserName = sr.User.FullName,
+                    Score = sr.Score,
+                    SubmissionDate = sr.SubmissionDate
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
 [HttpPost]
 public async Task<IActionResult> CreateManualQuiz(string topic, string gradeLevel, string description)
 {
