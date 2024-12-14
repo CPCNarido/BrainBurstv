@@ -380,7 +380,7 @@ public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
             if (ModelState.IsValid)
             {
                 var storedOtp = HttpContext.Session.GetString("OtpCode");
-                _logger.LogInformation("Model state is valid. Provided OTP: {Otp}, Expected OTP: {ExpectedOtp}", model.Otp, storedOtp);
+                _logger.LogInformation("Stored OTP: {StoredOtp}", storedOtp);
 
                 if (model.Otp == storedOtp)
                 {
@@ -389,15 +389,22 @@ public async Task<IActionResult> AccountEdit(AccountEditViewModel model)
                 }
                 else
                 {
-                    _logger.LogWarning("OTP is incorrect.");
+                    _logger.LogWarning("OTP is incorrect. Provided OTP: {ProvidedOtp}, Expected OTP: {ExpectedOtp}", model.Otp, storedOtp);
                     ModelState.AddModelError("", "OTP is incorrect.");
                 }
             }
             else
             {
                 _logger.LogWarning("Model state is invalid.");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    _logger.LogWarning("Model state error: {ErrorMessage}", error.ErrorMessage);
+                }
+                ModelState.AddModelError("", "Model state is invalid.");
             }
 
+            // Temporary error message for debugging
+            ModelState.AddModelError("", "Failed to redirect to ChangePassword.");
             return View(model);
         }
 

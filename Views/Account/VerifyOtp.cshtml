@@ -24,6 +24,7 @@
                             <input asp-for="Otp" class="email-form" placeholder="Enter OTP" />
                             <span asp-validation-for="Otp" class="text-danger"></span>
                         </div>
+                        <input type="hidden" asp-for="Username" />
                         <input type="submit" value="Verify" class="submit-button" />
                     </form>
                 </div>
