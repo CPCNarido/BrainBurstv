@@ -20,3 +20,53 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* View Quiz Score Table Styles */
+.table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px auto; /* Center the table */
+    font-size: 22px; /* Increase font size */
+    text-align: left;
+    height: auto; /* Add this line */
+    margin-bottom: 20%;
+    font-family: "Rum Raisin", sans-serif; /* Use Rum Raisin font */
+    border-radius: 10px; /* Round the edges */
+    overflow: hidden; /* Ensure rounded corners are visible */
+}
+
+.table th, .table td {
+    padding: 16px 19px; /* Adjust padding */
+    border: 2px solid #ddd; /* Thicken the borders */
+    color: #000; /* Make text black */
+}
+
+.table th {
+    background-color: #8DD63E;
+    font-size: 24px; /* Increase font size */
+    color: #000; /* Make text black */
+}
+
+.table tr:nth-child(even) {
+    background-color: #FFFDC1;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 5px solid #2B550E; /* Thicken the borders */
+}
+
+/* Styles for h1 */
+h1 {
+    color: #FFFDC1;
+    text-align: center;
+    text-shadow: 2px 2px 0px #5C4C20, -2px -2px 0px #5C4C20, -2px 2px 0px #5C4C20, 2px -2px 0px #5C4C20, 2px 0px 0px #5C4C20, -2px 0px 0px #5C4C20, 0px 2px 0px #5C4C20, 0px -2px 0px #5C4C20, 3px 3px 0px #5C4C20, -3px -3px 0px #5C4C20, -3px 3px 0px #5C4C20, 3px -3px 0px #5C4C20, 3px 0px 0px #5C4C20, -3px 0px 0px #5C4C20, 0px 3px 0px #5C4C20, 0px -3px 0px #5C4C20, 0 0 10px rgba(0, 0, 0, 1);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #5C4C20;
+    font-family: "Rum Raisin", sans-serif;
+    font-size: 76px; /* Increase font size */
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-left: 5%;
+}
