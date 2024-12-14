@@ -120,6 +120,16 @@
                 });
             });
 
+            // Adjust timer for all questions
+            $('#adjust-timer-all').click(function () {
+                var newTimer = prompt("Enter the new timer value for all questions (in seconds):");
+                if (newTimer !== null && !isNaN(newTimer) && newTimer > 0) {
+                    $('.timer-input').val(newTimer);
+                } else {
+                    alert("Please enter a valid number.");
+                }
+            });
+
             // Handle form submission via AJAX
             $('form').submit(function (event) {
                 event.preventDefault();
@@ -216,6 +226,7 @@
                             {
                                 <button class="save-quiz" onclick="location.href='@Url.Action("ViewQuizScore", "QuizCreation", new { id = Model.QuizId })'">View Scores</button>
                                 <button type="submit" class="save-quiz"><img src="/Assets/QuizCreation/save.png" class="sas">Save Quiz</button>
+                                <button type="button" id="adjust-timer-all" class="save-quiz" >General Timer</button>
                             }
 
                         </div>
